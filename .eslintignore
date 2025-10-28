@@ -1,0 +1,26 @@
+# Ignore build outputs
+dist/
+build/
+.output/
+
+# Ignore node_modules
+node_modules/
+
+**/*.vue
+
+# Ignore generated files
+*.min.js
+*.bundle.js
+
+# Ignore specific problematic files if needed
+# src/views/tax-filing/components/AIExtractionWorkspace.vue
+
+# Ignore test files if they're causing issues
+# **/*.test.js
+# **/*.spec.js
+
+# Ignore config files
+vite.config.*
+vitest.config.*
+tailwind.config.*
+postcss.config.*

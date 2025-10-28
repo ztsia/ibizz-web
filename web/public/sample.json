@@ -1,0 +1,1600 @@
+{
+  "success": true,
+  "message": "Excel financial data extracted successfully with dynamic section grouping",
+  "timestamp": "2025-08-18T06:08:08.642Z",
+  "data": {
+    "fileName": "Management Accounts.xlsx",
+    "fileSize": 29653,
+    "totalSheets": 3,
+    "processedSheets": 2,
+    "excludedSheets": 1,
+    "extractedItems": 63,
+    "sheetData": {
+      "Trading P&L": {
+        "sheetName": "Trading P&L",
+        "sections": {
+          "Revenue": {
+            "sectionName": "Revenue",
+            "sectionOrder": 1,
+            "items": [
+              {
+                "id": "1",
+                "description": "SALES",
+                "amount": 27471217.79,
+                "sheet_source": "Trading P&L",
+                "section": "Revenue",
+                "section_order": 1,
+                "item_order": 1,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "2",
+                "description": "RETURNS INWARDS",
+                "amount": 1272.41,
+                "sheet_source": "Trading P&L",
+                "section": "Revenue",
+                "section_order": 1,
+                "item_order": 2,
+                "adjustment_type": "less",
+                "editable": true
+              }
+            ],
+            "totalAmount": 27472490.2,
+            "itemCount": 2
+          },
+          "Cost of Goods Sold": {
+            "sectionName": "Cost of Goods Sold",
+            "sectionOrder": 2,
+            "items": [
+              {
+                "id": "4",
+                "description": "OPENING STOCK - FINISHED GOODS",
+                "amount": 2850760.57,
+                "sheet_source": "Trading P&L",
+                "section": "Cost of Goods Sold",
+                "section_order": 2,
+                "item_order": 2,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "5",
+                "description": "MANUFACTURING COST B / F",
+                "amount": 20618565.82,
+                "sheet_source": "Trading P&L",
+                "section": "Cost of Goods Sold",
+                "section_order": 2,
+                "item_order": 3,
+                "adjustment_type": "add",
+                "editable": true
+              },
+              {
+                "id": "6",
+                "description": "CLOSING STOCK - FINISHED GOODS",
+                "amount": 2437660.47,
+                "sheet_source": "Trading P&L",
+                "section": "Cost of Goods Sold",
+                "section_order": 2,
+                "item_order": 4,
+                "adjustment_type": "less",
+                "editable": true
+              }
+            ],
+            "totalAmount": 25906986.86,
+            "itemCount": 3
+          },
+          "Profit": {
+            "sectionName": "Profit",
+            "sectionOrder": 3,
+            "items": [
+              {
+                "id": "7",
+                "description": "GROSS PROFIT",
+                "amount": 6438279.46,
+                "sheet_source": "Trading P&L",
+                "section": "Profit",
+                "section_order": 3,
+                "item_order": 1,
+                "adjustment_type": "normal",
+                "editable": true
+              }
+            ],
+            "totalAmount": 6438279.46,
+            "itemCount": 1
+          },
+          "Other Income": {
+            "sectionName": "Other Income",
+            "sectionOrder": 4,
+            "items": [
+              {
+                "id": "8",
+                "description": "UNREASLIED GAIN/LOSS OF FOREIGN EXCHANGE",
+                "amount": -31246.49,
+                "sheet_source": "Trading P&L",
+                "section": "Other Income",
+                "section_order": 4,
+                "item_order": 1,
+                "adjustment_type": "add",
+                "editable": true
+              },
+              {
+                "id": "9",
+                "description": "FIXED DEPOSIT INTEREST INCOME",
+                "amount": 20058.84,
+                "sheet_source": "Trading P&L",
+                "section": "Other Income",
+                "section_order": 4,
+                "item_order": 2,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "10",
+                "description": "DIVIDEND RECEIVED",
+                "amount": 5732.92,
+                "sheet_source": "Trading P&L",
+                "section": "Other Income",
+                "section_order": 4,
+                "item_order": 3,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "11",
+                "description": "INSURANCE CLAIM",
+                "amount": 23401.05,
+                "sheet_source": "Trading P&L",
+                "section": "Other Income",
+                "section_order": 4,
+                "item_order": 4,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "12",
+                "description": "SALE OF SCRAP",
+                "amount": 455707.63,
+                "sheet_source": "Trading P&L",
+                "section": "Other Income",
+                "section_order": 4,
+                "item_order": 5,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "13",
+                "description": "MISC INCOME",
+                "amount": 37939.25,
+                "sheet_source": "Trading P&L",
+                "section": "Other Income",
+                "section_order": 4,
+                "item_order": 6,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "14",
+                "description": "GAIN ON DISPOSAL OF FIXED ASSETS",
+                "amount": 8150,
+                "sheet_source": "Trading P&L",
+                "section": "Other Income",
+                "section_order": 4,
+                "item_order": 7,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "15",
+                "description": "LOSS ON DISPOSAL OF FIXED ASSETS",
+                "amount": 0,
+                "sheet_source": "Trading P&L",
+                "section": "Other Income",
+                "section_order": 4,
+                "item_order": 8,
+                "adjustment_type": "less",
+                "editable": true
+              }
+            ],
+            "totalAmount": 519743.2,
+            "itemCount": 8
+          },
+          "Expenses": {
+            "sectionName": "Expenses",
+            "sectionOrder": 5,
+            "items": [
+              {
+                "id": "17",
+                "description": "AUDIT FEE",
+                "amount": 41500,
+                "sheet_source": "Trading P&L",
+                "section": "Expenses",
+                "section_order": 5,
+                "item_order": 2,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "18",
+                "description": "AGENT COMMISSION FEE",
+                "amount": 101197.54,
+                "sheet_source": "Trading P&L",
+                "section": "Expenses",
+                "section_order": 5,
+                "item_order": 3,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "19",
+                "description": "BANK CHARGES",
+                "amount": 53917.65,
+                "sheet_source": "Trading P&L",
+                "section": "Expenses",
+                "section_order": 5,
+                "item_order": 4,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "20",
+                "description": "BANK OVERDRAFT INTEREST",
+                "amount": 490714.3,
+                "sheet_source": "Trading P&L",
+                "section": "Expenses",
+                "section_order": 5,
+                "item_order": 5,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "21",
+                "description": "BANKER ACCEPTANCE INTEREST",
+                "amount": 75956.91,
+                "sheet_source": "Trading P&L",
+                "section": "Expenses",
+                "section_order": 5,
+                "item_order": 6,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "22",
+                "description": "BANK LETTER OF CREDIT INTEREST",
+                "amount": 3998.14,
+                "sheet_source": "Trading P&L",
+                "section": "Expenses",
+                "section_order": 5,
+                "item_order": 7,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "23",
+                "description": "BONUS",
+                "amount": 156160,
+                "sheet_source": "Trading P&L",
+                "section": "Expenses",
+                "section_order": 5,
+                "item_order": 8,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "24",
+                "description": "CLEANING EXPENSES",
+                "amount": 9684.75,
+                "sheet_source": "Trading P&L",
+                "section": "Expenses",
+                "section_order": 5,
+                "item_order": 9,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "25",
+                "description": "COURIER SERVICES",
+                "amount": 4123.14,
+                "sheet_source": "Trading P&L",
+                "section": "Expenses",
+                "section_order": 5,
+                "item_order": 10,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "26",
+                "description": "CONSULTATION FEE",
+                "amount": 10300,
+                "sheet_source": "Trading P&L",
+                "section": "Expenses",
+                "section_order": 5,
+                "item_order": 11,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "27",
+                "description": "DIR'S REMUNERATION-SIM",
+                "amount": 578832.8,
+                "sheet_source": "Trading P&L",
+                "section": "Expenses",
+                "section_order": 5,
+                "item_order": 12,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "28",
+                "description": "DIR'S REMUNERATION-LIM",
+                "amount": 129723.4,
+                "sheet_source": "Trading P&L",
+                "section": "Expenses",
+                "section_order": 5,
+                "item_order": 13,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "29",
+                "description": "DIR'S REMUNERATION-CHAN",
+                "amount": 104800,
+                "sheet_source": "Trading P&L",
+                "section": "Expenses",
+                "section_order": 5,
+                "item_order": 14,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "30",
+                "description": "DIVIDEN PAID",
+                "amount": 0,
+                "sheet_source": "Trading P&L",
+                "section": "Expenses",
+                "section_order": 5,
+                "item_order": 15,
+                "adjustment_type": "less",
+                "editable": true
+              },
+              {
+                "id": "31",
+                "description": "DONATION & SUBSCRIPTION",
+                "amount": 450,
+                "sheet_source": "Trading P&L",
+                "section": "Expenses",
+                "section_order": 5,
+                "item_order": 16,
+                "adjustment_type": "normal",
+                "editable": true
+              }
+            ],
+            "totalAmount": 1761358.63,
+            "itemCount": 15
+          }
+        },
+        "totalItems": 29
+      },
+      "Balance Sheet": {
+        "sheetName": "Balance Sheet",
+        "sections": {
+          "FIXED ASSETS": {
+            "sectionName": "FIXED ASSETS",
+            "sectionOrder": 1,
+            "items": [
+              {
+                "id": "1",
+                "description": "Freehold Land & Building",
+                "amount": 22840766.65,
+                "sheet_source": "Balance Sheet",
+                "section": "FIXED ASSETS",
+                "section_order": 1,
+                "item_order": 1,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "2",
+                "description": "Leasehold Land",
+                "amount": 1279032.28,
+                "sheet_source": "Balance Sheet",
+                "section": "FIXED ASSETS",
+                "section_order": 1,
+                "item_order": 2,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "3",
+                "description": "Freehold Land & Building - House",
+                "amount": 2198293.28,
+                "sheet_source": "Balance Sheet",
+                "section": "FIXED ASSETS",
+                "section_order": 1,
+                "item_order": 3,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "4",
+                "description": "Plant,Machinery ,Factory Renovation, Factory Equipment, Electrical & Fitting",
+                "amount": 8006898.310000002,
+                "sheet_source": "Balance Sheet",
+                "section": "FIXED ASSETS",
+                "section_order": 1,
+                "item_order": 4,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "5",
+                "description": "Office / House Renovation, Office Equipment, Furniture & Fitting",
+                "amount": 464950.8700000008,
+                "sheet_source": "Balance Sheet",
+                "section": "FIXED ASSETS",
+                "section_order": 1,
+                "item_order": 5,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "6",
+                "description": "Motor Vehicles",
+                "amount": 595582.5699999987,
+                "sheet_source": "Balance Sheet",
+                "section": "FIXED ASSETS",
+                "section_order": 1,
+                "item_order": 6,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "7",
+                "description": "Die & Mould",
+                "amount": 1298794.8999999994,
+                "sheet_source": "Balance Sheet",
+                "section": "FIXED ASSETS",
+                "section_order": 1,
+                "item_order": 7,
+                "adjustment_type": "normal",
+                "editable": true
+              }
+            ],
+            "totalAmount": 36684318.86,
+            "itemCount": 7
+          },
+          "INVESTMENT": {
+            "sectionName": "INVESTMENT",
+            "sectionOrder": 2,
+            "items": [
+              {
+                "id": "8",
+                "description": "INVESTMENT",
+                "amount": 35000,
+                "sheet_source": "Balance Sheet",
+                "section": "INVESTMENT",
+                "section_order": 2,
+                "item_order": 1,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "9",
+                "description": "INVESTMENT - S&Y NET MARKETING AND TRADING S/B.",
+                "amount": 130000,
+                "sheet_source": "Balance Sheet",
+                "section": "INVESTMENT",
+                "section_order": 2,
+                "item_order": 2,
+                "adjustment_type": "normal",
+                "editable": true
+              }
+            ],
+            "totalAmount": 165000,
+            "itemCount": 2
+          },
+          "CURRENT ASSETS": {
+            "sectionName": "CURRENT ASSETS",
+            "sectionOrder": 3,
+            "items": [
+              {
+                "id": "10",
+                "description": "Stocks -  Raw Materials",
+                "amount": 2689135.61,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT ASSETS",
+                "section_order": 3,
+                "item_order": 1,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "11",
+                "description": "Stocks -  Engineering",
+                "amount": 161076.38,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT ASSETS",
+                "section_order": 3,
+                "item_order": 2,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "12",
+                "description": "Stocks -  W.I.P",
+                "amount": 1295420.51,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT ASSETS",
+                "section_order": 3,
+                "item_order": 3,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "13",
+                "description": "Stocks -  F.G",
+                "amount": 2437660.47,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT ASSETS",
+                "section_order": 3,
+                "item_order": 4,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "14",
+                "description": "Trade debtors",
+                "amount": 6302284.060000002,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT ASSETS",
+                "section_order": 3,
+                "item_order": 5,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "15",
+                "description": "Sundry debtors",
+                "amount": 844281.8099999998,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT ASSETS",
+                "section_order": 3,
+                "item_order": 6,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "16",
+                "description": "Deposit & prepayment &Prepaid Insurance & Prepaid Levy",
+                "amount": 782566.5599999998,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT ASSETS",
+                "section_order": 3,
+                "item_order": 7,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "17",
+                "description": "Fixed deposit with licensed bank",
+                "amount": 1.8553691916167736e-10,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT ASSETS",
+                "section_order": 3,
+                "item_order": 8,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "18",
+                "description": "Cash and bank balance",
+                "amount": 1418.7499999999563,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT ASSETS",
+                "section_order": 3,
+                "item_order": 9,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "19",
+                "description": "Amount Owing By - S&Y Realty Sdn. Bhd.",
+                "amount": 1400000,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT ASSETS",
+                "section_order": 3,
+                "item_order": 10,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "20",
+                "description": "Amount Owing By - Mr. Li ( China )",
+                "amount": 60000,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT ASSETS",
+                "section_order": 3,
+                "item_order": 11,
+                "adjustment_type": "normal",
+                "editable": true
+              }
+            ],
+            "totalAmount": 15973844.150000004,
+            "itemCount": 11
+          },
+          "CURRENT LIABILITIES": {
+            "sectionName": "CURRENT LIABILITIES",
+            "sectionOrder": 4,
+            "items": [
+              {
+                "id": "21",
+                "description": "Trade creditors control",
+                "amount": 1928904.6800000004,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT LIABILITIES",
+                "section_order": 4,
+                "item_order": 1,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "22",
+                "description": "Bill payable - PBB (2)",
+                "amount": 1830000,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT LIABILITIES",
+                "section_order": 4,
+                "item_order": 2,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "23",
+                "description": "HP creditors control",
+                "amount": 3169555.07,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT LIABILITIES",
+                "section_order": 4,
+                "item_order": 3,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "24",
+                "description": "HP interest suspenses",
+                "amount": 2876878.5799999996,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT LIABILITIES",
+                "section_order": 4,
+                "item_order": 4,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "25",
+                "description": "Sundry creditors control",
+                "amount": 113002.80999999995,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT LIABILITIES",
+                "section_order": 4,
+                "item_order": 5,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "26",
+                "description": "Sales Tax",
+                "amount": 3596.69999999996,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT LIABILITIES",
+                "section_order": 4,
+                "item_order": 6,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "27",
+                "description": "Accruals",
+                "amount": 969000.87,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT LIABILITIES",
+                "section_order": 4,
+                "item_order": 7,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "28",
+                "description": "Amount owing to directors - Mr. Sim",
+                "amount": 111011.03000000014,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT LIABILITIES",
+                "section_order": 4,
+                "item_order": 8,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "29",
+                "description": "Amount owing to directors - Mr. Chan",
+                "amount": 15700,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT LIABILITIES",
+                "section_order": 4,
+                "item_order": 9,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "30",
+                "description": "Amount owing to directors - Mdm Lim",
+                "amount": 138979.78000000014,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT LIABILITIES",
+                "section_order": 4,
+                "item_order": 10,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "31",
+                "description": "Bank Overdraft",
+                "amount": 4747266.690000001,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT LIABILITIES",
+                "section_order": 4,
+                "item_order": 11,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "32",
+                "description": "Term Loan - BBB",
+                "amount": 1584907,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT LIABILITIES",
+                "section_order": 4,
+                "item_order": 12,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "33",
+                "description": "Term Loan - PBB",
+                "amount": 8398321.329999998,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT LIABILITIES",
+                "section_order": 4,
+                "item_order": 13,
+                "adjustment_type": "normal",
+                "editable": true
+              },
+              {
+                "id": "34",
+                "description": "Levy Suspense",
+                "amount": 159255,
+                "sheet_source": "Balance Sheet",
+                "section": "CURRENT LIABILITIES",
+                "section_order": 4,
+                "item_order": 14,
+                "adjustment_type": "normal",
+                "editable": true
+              }
+            ],
+            "totalAmount": 26046379.54,
+            "itemCount": 14
+          }
+        },
+        "totalItems": 34
+      }
+    },
+    "data": [
+      {
+        "id": "1",
+        "description": "SALES",
+        "amount": 27471217.79,
+        "sheet_source": "Trading P&L",
+        "section": "Revenue",
+        "section_order": 1,
+        "item_order": 1,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "2",
+        "description": "RETURNS INWARDS",
+        "amount": 1272.41,
+        "sheet_source": "Trading P&L",
+        "section": "Revenue",
+        "section_order": 1,
+        "item_order": 2,
+        "adjustment_type": "less",
+        "editable": true
+      },
+      {
+        "id": "4",
+        "description": "OPENING STOCK - FINISHED GOODS",
+        "amount": 2850760.57,
+        "sheet_source": "Trading P&L",
+        "section": "Cost of Goods Sold",
+        "section_order": 2,
+        "item_order": 2,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "5",
+        "description": "MANUFACTURING COST B / F",
+        "amount": 20618565.82,
+        "sheet_source": "Trading P&L",
+        "section": "Cost of Goods Sold",
+        "section_order": 2,
+        "item_order": 3,
+        "adjustment_type": "add",
+        "editable": true
+      },
+      {
+        "id": "6",
+        "description": "CLOSING STOCK - FINISHED GOODS",
+        "amount": 2437660.47,
+        "sheet_source": "Trading P&L",
+        "section": "Cost of Goods Sold",
+        "section_order": 2,
+        "item_order": 4,
+        "adjustment_type": "less",
+        "editable": true
+      },
+      {
+        "id": "7",
+        "description": "GROSS PROFIT",
+        "amount": 6438279.46,
+        "sheet_source": "Trading P&L",
+        "section": "Profit",
+        "section_order": 3,
+        "item_order": 1,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "8",
+        "description": "UNREASLIED GAIN/LOSS OF FOREIGN EXCHANGE",
+        "amount": -31246.49,
+        "sheet_source": "Trading P&L",
+        "section": "Other Income",
+        "section_order": 4,
+        "item_order": 1,
+        "adjustment_type": "add",
+        "editable": true
+      },
+      {
+        "id": "9",
+        "description": "FIXED DEPOSIT INTEREST INCOME",
+        "amount": 20058.84,
+        "sheet_source": "Trading P&L",
+        "section": "Other Income",
+        "section_order": 4,
+        "item_order": 2,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "10",
+        "description": "DIVIDEND RECEIVED",
+        "amount": 5732.92,
+        "sheet_source": "Trading P&L",
+        "section": "Other Income",
+        "section_order": 4,
+        "item_order": 3,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "11",
+        "description": "INSURANCE CLAIM",
+        "amount": 23401.05,
+        "sheet_source": "Trading P&L",
+        "section": "Other Income",
+        "section_order": 4,
+        "item_order": 4,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "12",
+        "description": "SALE OF SCRAP",
+        "amount": 455707.63,
+        "sheet_source": "Trading P&L",
+        "section": "Other Income",
+        "section_order": 4,
+        "item_order": 5,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "13",
+        "description": "MISC INCOME",
+        "amount": 37939.25,
+        "sheet_source": "Trading P&L",
+        "section": "Other Income",
+        "section_order": 4,
+        "item_order": 6,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "14",
+        "description": "GAIN ON DISPOSAL OF FIXED ASSETS",
+        "amount": 8150,
+        "sheet_source": "Trading P&L",
+        "section": "Other Income",
+        "section_order": 4,
+        "item_order": 7,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "15",
+        "description": "LOSS ON DISPOSAL OF FIXED ASSETS",
+        "amount": 0,
+        "sheet_source": "Trading P&L",
+        "section": "Other Income",
+        "section_order": 4,
+        "item_order": 8,
+        "adjustment_type": "less",
+        "editable": true
+      },
+      {
+        "id": "17",
+        "description": "AUDIT FEE",
+        "amount": 41500,
+        "sheet_source": "Trading P&L",
+        "section": "Expenses",
+        "section_order": 5,
+        "item_order": 2,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "18",
+        "description": "AGENT COMMISSION FEE",
+        "amount": 101197.54,
+        "sheet_source": "Trading P&L",
+        "section": "Expenses",
+        "section_order": 5,
+        "item_order": 3,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "19",
+        "description": "BANK CHARGES",
+        "amount": 53917.65,
+        "sheet_source": "Trading P&L",
+        "section": "Expenses",
+        "section_order": 5,
+        "item_order": 4,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "20",
+        "description": "BANK OVERDRAFT INTEREST",
+        "amount": 490714.3,
+        "sheet_source": "Trading P&L",
+        "section": "Expenses",
+        "section_order": 5,
+        "item_order": 5,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "21",
+        "description": "BANKER ACCEPTANCE INTEREST",
+        "amount": 75956.91,
+        "sheet_source": "Trading P&L",
+        "section": "Expenses",
+        "section_order": 5,
+        "item_order": 6,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "22",
+        "description": "BANK LETTER OF CREDIT INTEREST",
+        "amount": 3998.14,
+        "sheet_source": "Trading P&L",
+        "section": "Expenses",
+        "section_order": 5,
+        "item_order": 7,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "23",
+        "description": "BONUS",
+        "amount": 156160,
+        "sheet_source": "Trading P&L",
+        "section": "Expenses",
+        "section_order": 5,
+        "item_order": 8,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "24",
+        "description": "CLEANING EXPENSES",
+        "amount": 9684.75,
+        "sheet_source": "Trading P&L",
+        "section": "Expenses",
+        "section_order": 5,
+        "item_order": 9,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "25",
+        "description": "COURIER SERVICES",
+        "amount": 4123.14,
+        "sheet_source": "Trading P&L",
+        "section": "Expenses",
+        "section_order": 5,
+        "item_order": 10,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "26",
+        "description": "CONSULTATION FEE",
+        "amount": 10300,
+        "sheet_source": "Trading P&L",
+        "section": "Expenses",
+        "section_order": 5,
+        "item_order": 11,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "27",
+        "description": "DIR'S REMUNERATION-SIM",
+        "amount": 578832.8,
+        "sheet_source": "Trading P&L",
+        "section": "Expenses",
+        "section_order": 5,
+        "item_order": 12,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "28",
+        "description": "DIR'S REMUNERATION-LIM",
+        "amount": 129723.4,
+        "sheet_source": "Trading P&L",
+        "section": "Expenses",
+        "section_order": 5,
+        "item_order": 13,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "29",
+        "description": "DIR'S REMUNERATION-CHAN",
+        "amount": 104800,
+        "sheet_source": "Trading P&L",
+        "section": "Expenses",
+        "section_order": 5,
+        "item_order": 14,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "30",
+        "description": "DIVIDEN PAID",
+        "amount": 0,
+        "sheet_source": "Trading P&L",
+        "section": "Expenses",
+        "section_order": 5,
+        "item_order": 15,
+        "adjustment_type": "less",
+        "editable": true
+      },
+      {
+        "id": "31",
+        "description": "DONATION & SUBSCRIPTION",
+        "amount": 450,
+        "sheet_source": "Trading P&L",
+        "section": "Expenses",
+        "section_order": 5,
+        "item_order": 16,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "1",
+        "description": "Freehold Land & Building",
+        "amount": 22840766.65,
+        "sheet_source": "Balance Sheet",
+        "section": "FIXED ASSETS",
+        "section_order": 1,
+        "item_order": 1,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "2",
+        "description": "Leasehold Land",
+        "amount": 1279032.28,
+        "sheet_source": "Balance Sheet",
+        "section": "FIXED ASSETS",
+        "section_order": 1,
+        "item_order": 2,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "3",
+        "description": "Freehold Land & Building - House",
+        "amount": 2198293.28,
+        "sheet_source": "Balance Sheet",
+        "section": "FIXED ASSETS",
+        "section_order": 1,
+        "item_order": 3,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "4",
+        "description": "Plant,Machinery ,Factory Renovation, Factory Equipment, Electrical & Fitting",
+        "amount": 8006898.310000002,
+        "sheet_source": "Balance Sheet",
+        "section": "FIXED ASSETS",
+        "section_order": 1,
+        "item_order": 4,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "5",
+        "description": "Office / House Renovation, Office Equipment, Furniture & Fitting",
+        "amount": 464950.8700000008,
+        "sheet_source": "Balance Sheet",
+        "section": "FIXED ASSETS",
+        "section_order": 1,
+        "item_order": 5,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "6",
+        "description": "Motor Vehicles",
+        "amount": 595582.5699999987,
+        "sheet_source": "Balance Sheet",
+        "section": "FIXED ASSETS",
+        "section_order": 1,
+        "item_order": 6,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "7",
+        "description": "Die & Mould",
+        "amount": 1298794.8999999994,
+        "sheet_source": "Balance Sheet",
+        "section": "FIXED ASSETS",
+        "section_order": 1,
+        "item_order": 7,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "8",
+        "description": "INVESTMENT",
+        "amount": 35000,
+        "sheet_source": "Balance Sheet",
+        "section": "INVESTMENT",
+        "section_order": 2,
+        "item_order": 1,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "9",
+        "description": "INVESTMENT - S&Y NET MARKETING AND TRADING S/B.",
+        "amount": 130000,
+        "sheet_source": "Balance Sheet",
+        "section": "INVESTMENT",
+        "section_order": 2,
+        "item_order": 2,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "10",
+        "description": "Stocks -  Raw Materials",
+        "amount": 2689135.61,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT ASSETS",
+        "section_order": 3,
+        "item_order": 1,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "11",
+        "description": "Stocks -  Engineering",
+        "amount": 161076.38,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT ASSETS",
+        "section_order": 3,
+        "item_order": 2,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "12",
+        "description": "Stocks -  W.I.P",
+        "amount": 1295420.51,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT ASSETS",
+        "section_order": 3,
+        "item_order": 3,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "13",
+        "description": "Stocks -  F.G",
+        "amount": 2437660.47,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT ASSETS",
+        "section_order": 3,
+        "item_order": 4,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "14",
+        "description": "Trade debtors",
+        "amount": 6302284.060000002,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT ASSETS",
+        "section_order": 3,
+        "item_order": 5,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "15",
+        "description": "Sundry debtors",
+        "amount": 844281.8099999998,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT ASSETS",
+        "section_order": 3,
+        "item_order": 6,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "16",
+        "description": "Deposit & prepayment &Prepaid Insurance & Prepaid Levy",
+        "amount": 782566.5599999998,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT ASSETS",
+        "section_order": 3,
+        "item_order": 7,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "17",
+        "description": "Fixed deposit with licensed bank",
+        "amount": 1.8553691916167736e-10,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT ASSETS",
+        "section_order": 3,
+        "item_order": 8,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "18",
+        "description": "Cash and bank balance",
+        "amount": 1418.7499999999563,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT ASSETS",
+        "section_order": 3,
+        "item_order": 9,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "19",
+        "description": "Amount Owing By - S&Y Realty Sdn. Bhd.",
+        "amount": 1400000,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT ASSETS",
+        "section_order": 3,
+        "item_order": 10,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "20",
+        "description": "Amount Owing By - Mr. Li ( China )",
+        "amount": 60000,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT ASSETS",
+        "section_order": 3,
+        "item_order": 11,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "21",
+        "description": "Trade creditors control",
+        "amount": 1928904.6800000004,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT LIABILITIES",
+        "section_order": 4,
+        "item_order": 1,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "22",
+        "description": "Bill payable - PBB (2)",
+        "amount": 1830000,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT LIABILITIES",
+        "section_order": 4,
+        "item_order": 2,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "23",
+        "description": "HP creditors control",
+        "amount": 3169555.07,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT LIABILITIES",
+        "section_order": 4,
+        "item_order": 3,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "24",
+        "description": "HP interest suspenses",
+        "amount": 2876878.5799999996,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT LIABILITIES",
+        "section_order": 4,
+        "item_order": 4,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "25",
+        "description": "Sundry creditors control",
+        "amount": 113002.80999999995,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT LIABILITIES",
+        "section_order": 4,
+        "item_order": 5,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "26",
+        "description": "Sales Tax",
+        "amount": 3596.69999999996,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT LIABILITIES",
+        "section_order": 4,
+        "item_order": 6,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "27",
+        "description": "Accruals",
+        "amount": 969000.87,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT LIABILITIES",
+        "section_order": 4,
+        "item_order": 7,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "28",
+        "description": "Amount owing to directors - Mr. Sim",
+        "amount": 111011.03000000014,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT LIABILITIES",
+        "section_order": 4,
+        "item_order": 8,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "29",
+        "description": "Amount owing to directors - Mr. Chan",
+        "amount": 15700,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT LIABILITIES",
+        "section_order": 4,
+        "item_order": 9,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "30",
+        "description": "Amount owing to directors - Mdm Lim",
+        "amount": 138979.78000000014,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT LIABILITIES",
+        "section_order": 4,
+        "item_order": 10,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "31",
+        "description": "Bank Overdraft",
+        "amount": 4747266.690000001,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT LIABILITIES",
+        "section_order": 4,
+        "item_order": 11,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "32",
+        "description": "Term Loan - BBB",
+        "amount": 1584907,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT LIABILITIES",
+        "section_order": 4,
+        "item_order": 12,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "33",
+        "description": "Term Loan - PBB",
+        "amount": 8398321.329999998,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT LIABILITIES",
+        "section_order": 4,
+        "item_order": 13,
+        "adjustment_type": "normal",
+        "editable": true
+      },
+      {
+        "id": "34",
+        "description": "Levy Suspense",
+        "amount": 159255,
+        "sheet_source": "Balance Sheet",
+        "section": "CURRENT LIABILITIES",
+        "section_order": 4,
+        "item_order": 14,
+        "adjustment_type": "normal",
+        "editable": true
+      }
+    ],
+    "sheetClassifications": [
+      {
+        "sheetName": "Manufacturing Account",
+        "category": "Manufacturing Account",
+        "confidence": 95,
+        "description": "This sheet provides a detailed account of the manufacturing costs for the year ended 31st Dec 2024. It includes information on raw material costs.",
+        "suggestedUse": "This data can be used to calculate the cost of goods sold, which is necessary for determining gross profit on the income statement for tax purposes.",
+        "dataQuality": "good",
+        "hasHeaders": true,
+        "reasoning": "The sheet name and the headers in the data suggest that this is a Manufacturing Account. The data appears to be organized and relevant to the category.",
+        "cellCount": 2002,
+        "sheetIndex": 0
+      },
+      {
+        "sheetName": "Trading P&L",
+        "category": "Profit & Loss",
+        "confidence": 95,
+        "description": "This sheet provides a detailed account of the company's trading and profit & loss for the month ended 31st Dec 2024. It includes information on sales.",
+        "suggestedUse": "This data can be used to calculate net profit or loss, which is necessary for income tax calculation.",
+        "dataQuality": "good",
+        "hasHeaders": true,
+        "reasoning": "The sheet name and the headers in the data suggest that this is a Profit & Loss account. The data appears to be organized and relevant to the category.",
+        "cellCount": 2368,
+        "sheetIndex": 1
+      },
+      {
+        "sheetName": "Balance Sheet",
+        "category": "Balance Sheet",
+        "confidence": 95,
+        "description": "This sheet provides a snapshot of the company's financial position as at 31st Dec 2024. It includes information on assets, liabilities, and equity.",
+        "suggestedUse": "This data can be used to assess the company's financial health and is necessary for corporate tax filing.",
+        "dataQuality": "good",
+        "hasHeaders": true,
+        "reasoning": "The sheet name and the headers in the data suggest that this is a Balance Sheet. The data appears to be organized and relevant to the category.",
+        "cellCount": 952,
+        "sheetIndex": 2
+      }
+    ],
+    "enhancedSheetAnalysis": {
+      "processedSheets": [
+        {
+          "sheetName": "Manufacturing Account",
+          "originalCategory": "Manufacturing Account",
+          "enhancedType": "Manufacturing Account",
+          "confidence": 95,
+          "included": false,
+          "reasoning": "The sheet name and the headers in the data suggest that this is a Manufacturing Account. The data appears to be organized and relevant to the category."
+        },
+        {
+          "sheetName": "Trading P&L",
+          "originalCategory": "Profit & Loss",
+          "enhancedType": "Profit & Loss",
+          "confidence": 95,
+          "included": true,
+          "reasoning": "The sheet name and the headers in the data suggest that this is a Profit & Loss account. The data appears to be organized and relevant to the category."
+        },
+        {
+          "sheetName": "Balance Sheet",
+          "originalCategory": "Balance Sheet",
+          "enhancedType": "Balance Sheet",
+          "confidence": 95,
+          "included": true,
+          "reasoning": "The sheet name and the headers in the data suggest that this is a Balance Sheet. The data appears to be organized and relevant to the category."
+        }
+      ],
+      "includedSheets": [
+        {
+          "name": "Trading P&L",
+          "type": "Profit & Loss"
+        },
+        {
+          "name": "Balance Sheet",
+          "type": "Balance Sheet"
+        }
+      ],
+      "excludedSheets": [
+        {
+          "name": "Manufacturing Account",
+          "type": "Manufacturing Account",
+          "reason": "Not P&L or Balance Sheet"
+        }
+      ],
+      "filteringEnabled": true
+    },
+    "summary": {
+      "totalItems": 63,
+      "sections": [
+        "Revenue",
+        "Cost of Goods Sold",
+        "Profit",
+        "Other Income",
+        "Expenses",
+        "FIXED ASSETS",
+        "INVESTMENT",
+        "CURRENT ASSETS",
+        "CURRENT LIABILITIES"
+      ],
+      "sectionDistribution": {
+        "Revenue": 2,
+        "Cost of Goods Sold": 3,
+        "Profit": 1,
+        "Other Income": 8,
+        "Expenses": 15,
+        "FIXED ASSETS": 7,
+        "INVESTMENT": 2,
+        "CURRENT ASSETS": 11,
+        "CURRENT LIABILITIES": 14
+      },
+      "adjustmentTypes": ["normal", "less", "add"],
+      "sheetSources": ["Trading P&L", "Balance Sheet"],
+      "processingTime": 72985
+    },
+    "timestamp": "2025-08-18T06:08:08.642Z"
+  }
+}

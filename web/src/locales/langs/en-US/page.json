@@ -1,0 +1,42 @@
+{
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "codeLogin": "Code Login",
+    "qrcodeLogin": "Qr Code Login",
+    "forgetPassword": "Forget Password",
+    "sendingCode": "SMS Code is sending...",
+    "codeSentTo": "Code has been sent to {0}"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "analytics": "Analytics",
+    "workspace": "Workspace"
+  },
+  "tpDoc": {
+    "title": "TP Doc",
+    "list": "TP Doc List",
+    "create": "Create TP Doc",
+    "edit": "Edit TP Doc",
+    "view": "View TP Doc",
+    "delete": "Delete TP Doc",
+    "export": "Export",
+    "import": "Import",
+    "search": "Search TP Doc",
+    "filter": "Filter",
+    "status": "Status",
+    "draft": "Draft",
+    "submitted": "Submitted",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "client": "Client",
+    "fy": "FY",
+    "tpType": "TP Type",
+    "team": "Team",
+    "progress": "Progress",
+    "deadline": "Deadline",
+    "lastUpdated": "Last Updated",
+    "actions": "Actions",
+    "operation": "Operation"
+  }
+}

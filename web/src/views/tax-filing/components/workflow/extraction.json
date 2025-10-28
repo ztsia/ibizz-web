@@ -1,0 +1,816 @@
+{
+  "extracted_data": {
+    "_metadata": {
+      "processing_type": "per_sheet_schema_detection",
+      "total_sheets": 3,
+      "sheet_schemas": {
+        "Manufacturing Account": {
+          "detected_type": "MANUFACTURING_ACCOUNT",
+          "confidence": 0.95,
+          "reasoning": "The sheet contains the title 'MANUFACTURING ACCOUNT' and includes detailed sections on raw materials, direct labor, factory overheads, and production costs, which are characteristic of a manufacturing account schema."
+        },
+        "Trading P&L": {
+          "detected_type": "PROFIT_AND_LOSS",
+          "confidence": 0.95,
+          "reasoning": "The sheet contains clear indicators of a Profit & Loss statement, including sections for sales, cost of goods sold, gross profit, other income, administrative expenses, and net profit. The presence of specific terms such as 'TRADING AND PROFIT & LOSS ACCOUNT', 'GROSS PROFIT', 'ADMIN EXPENSES', and 'NET PROFIT' strongly supports this classification."
+        },
+        "Balance Sheet": {
+          "detected_type": "BALANCE_SHEET",
+          "confidence": 0.95,
+          "reasoning": "The sheet contains the title 'BALANCE SHEET' and includes sections for fixed assets, investments, current assets, current liabilities, and equity, which are characteristic of a balance sheet structure."
+        }
+      },
+      "timestamp": "2025-08-06T13:49:56.029296"
+    },
+    "Manufacturing Account": {
+      "schema_type": "MANUFACTURING_ACCOUNT",
+      "confidence": 0.95,
+      "data": {
+        "manufacturing_account": {
+          "document_type": "manufacturing_account",
+          "schema_applied": "manufacturing_schema_v1.0",
+          "schema_structure": {
+            "raw_materials": {
+              "schema_type": "FIXED_SCHEMA",
+              "opening_stock": {
+                "value": 3249218.64,
+                "currency": "RM"
+              },
+              "purchases": {
+                "value": 11801826.3,
+                "currency": "RM"
+              },
+              "returns_outwards": {
+                "value": 0,
+                "currency": "RM"
+              },
+              "closing_stock": {
+                "value": 2689135.61,
+                "currency": "RM"
+              },
+              "consumed": {
+                "value": 12361909.33,
+                "currency": "RM",
+                "calculated": true
+              }
+            },
+            "direct_labor": {
+              "schema_type": "VARIABLE_SCHEMA",
+              "total_items": 7,
+              "common_fields": {
+                "bonus": {
+                  "value": 202210,
+                  "currency": "RM"
+                },
+                "casual_wages": {
+                  "value": 1870463.69,
+                  "currency": "RM"
+                },
+                "epf": {
+                  "value": 114506,
+                  "currency": "RM"
+                },
+                "socso": {
+                  "value": 24027.65,
+                  "currency": "RM"
+                },
+                "eis": {
+                  "value": 1478.2,
+                  "currency": "RM"
+                },
+                "sub_contract_wages": {
+                  "value": 533108.84,
+                  "currency": "RM"
+                },
+                "wages_and_salaries": {
+                  "value": 1168052.41,
+                  "currency": "RM"
+                }
+              },
+              "total_direct_labor": {
+                "value": 3913846.79,
+                "currency": "RM",
+                "calculated": true
+              }
+            },
+            "factory_overheads": {
+              "schema_type": "DYNAMIC_SCHEMA",
+              "total_items": 15,
+              "categories": {
+                "container_expenses": {
+                  "value": 0,
+                  "currency": "RM"
+                },
+                "custom_duty": {
+                  "value": 329.5,
+                  "currency": "RM"
+                },
+                "cylinder_rental": {
+                  "value": 1232,
+                  "currency": "RM"
+                },
+                "depreciation_plant_machinery": {
+                  "value": 1123637.84,
+                  "currency": "RM"
+                },
+                "depreciation_factory_equipment": {
+                  "value": 14298.25,
+                  "currency": "RM"
+                },
+                "depreciation_electrical_fitting": {
+                  "value": 0,
+                  "currency": "RM"
+                },
+                "depreciation_die_mould": {
+                  "value": 249513.32,
+                  "currency": "RM"
+                },
+                "die_maintenance_repairs": {
+                  "value": 392530.08,
+                  "currency": "RM"
+                },
+                "factory_expenses": {
+                  "value": 362433.52,
+                  "currency": "RM"
+                },
+                "gas": {
+                  "value": 58179,
+                  "currency": "RM"
+                },
+                "hardware_expenses": {
+                  "value": 54949.57,
+                  "currency": "RM"
+                },
+                "loose_tools": {
+                  "value": 491274.19,
+                  "currency": "RM"
+                },
+                "oil_lubricant": {
+                  "value": 97716.9,
+                  "currency": "RM"
+                },
+                "hire_forklift": {
+                  "value": 0,
+                  "currency": "RM"
+                },
+                "packing_material": {
+                  "value": 92215.07,
+                  "currency": "RM"
+                },
+                "rent_factory": {
+                  "value": 17000,
+                  "currency": "RM"
+                },
+                "rent_vehicle": {
+                  "value": 86142,
+                  "currency": "RM"
+                },
+                "upkeep_machinery": {
+                  "value": 345570.87,
+                  "currency": "RM"
+                },
+                "water_electricity_factory": {
+                  "value": 886938.82,
+                  "currency": "RM"
+                }
+              },
+              "total_factory_overheads": {
+                "value": 4273960.93,
+                "currency": "RM",
+                "calculated": true
+              }
+            },
+            "wip_adjustment": {
+              "schema_type": "FIXED_SCHEMA",
+              "opening_wip": {
+                "value": 1128134.88,
+                "currency": "RM"
+              },
+              "closing_wip": {
+                "value": 1295420.51,
+                "currency": "RM"
+              },
+              "adjustment": {
+                "value": -167285.63,
+                "currency": "RM",
+                "calculated": true
+              }
+            },
+            "production_cost": {
+              "schema_type": "FIXED_SCHEMA",
+              "total_production_cost": {
+                "value": 20618565.82,
+                "currency": "RM",
+                "calculated": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "Trading P&L": {
+      "schema_type": "PROFIT_AND_LOSS",
+      "confidence": 0.95,
+      "data": {
+        "profit_loss_account": {
+          "document_type": "profit_loss_account",
+          "schema_applied": "pl_schema_v1.0",
+          "sales_section": {
+            "schema_type": "FIXED_SCHEMA",
+            "gross_sales": {
+              "value": 27471217.79,
+              "currency": "RM"
+            },
+            "returns_inwards": {
+              "value": 1272.41,
+              "currency": "RM"
+            },
+            "net_sales": {
+              "value": 27469945.38,
+              "currency": "RM",
+              "calculated": true
+            }
+          },
+          "cost_of_goods_sold": {
+            "schema_type": "SEMI_FIXED_SCHEMA",
+            "opening_stock_fg": {
+              "value": 2850760.57,
+              "currency": "RM"
+            },
+            "manufacturing_cost_bf": {
+              "value": 20618565.82,
+              "currency": "RM",
+              "source": "manufacturing_account"
+            },
+            "closing_stock_fg": {
+              "value": 2437660.47,
+              "currency": "RM"
+            },
+            "total_cogs": {
+              "value": 21031665.92,
+              "currency": "RM",
+              "calculated": true
+            }
+          },
+          "gross_profit": {
+            "value": 6438279.46,
+            "currency": "RM"
+          },
+          "other_income": {
+            "schema_type": "DYNAMIC_SCHEMA",
+            "income_sources": [
+              {
+                "description": "Unrealised Gain/Loss of Foreign Exchange",
+                "value": -31246.49,
+                "currency": "RM"
+              },
+              {
+                "description": "Fixed Deposit Interest Income",
+                "value": 20058.84,
+                "currency": "RM"
+              },
+              {
+                "description": "Dividend Received",
+                "value": 5732.92,
+                "currency": "RM"
+              },
+              {
+                "description": "Insurance Claim",
+                "value": 23401.05,
+                "currency": "RM"
+              },
+              {
+                "description": "Sale of Scrap",
+                "value": 455707.63,
+                "currency": "RM"
+              },
+              {
+                "description": "Misc Income",
+                "value": 37939.25,
+                "currency": "RM"
+              },
+              {
+                "description": "Gain on Disposal of Fixed Assets",
+                "value": 8150,
+                "currency": "RM"
+              }
+            ],
+            "total_other_income": {
+              "value": 6958022.66,
+              "currency": "RM",
+              "calculated": true
+            }
+          },
+          "administrative_expenses": {
+            "schema_type": "HIGHLY_DYNAMIC_SCHEMA",
+            "total_items": 119,
+            "categories": {
+              "audit_fees": {
+                "item_count": 1,
+                "items": [
+                  {
+                    "field": "audit_fee",
+                    "value": 41500,
+                    "currency": "RM"
+                  }
+                ],
+                "subtotal": {
+                  "value": 41500,
+                  "currency": "RM"
+                }
+              },
+              "bank_charges": {
+                "item_count": 1,
+                "items": [
+                  {
+                    "field": "bank_charges",
+                    "value": 53917.65,
+                    "currency": "RM"
+                  }
+                ],
+                "subtotal": {
+                  "value": 53917.65,
+                  "currency": "RM"
+                }
+              },
+              "depreciation": {
+                "item_count": 8,
+                "items": [
+                  {
+                    "field": "depr_building",
+                    "value": 299233.35,
+                    "currency": "RM"
+                  },
+                  {
+                    "field": "depr_leasehold_land",
+                    "value": 20967.72,
+                    "currency": "RM"
+                  },
+                  {
+                    "field": "depr_building_house",
+                    "value": 29706.72,
+                    "currency": "RM"
+                  },
+                  {
+                    "field": "depr_renovation_factory",
+                    "value": 218505.16,
+                    "currency": "RM"
+                  },
+                  {
+                    "field": "depr_renovation_office",
+                    "value": 5668.2,
+                    "currency": "RM"
+                  },
+                  {
+                    "field": "depr_renovation_house",
+                    "value": 1989.96,
+                    "currency": "RM"
+                  },
+                  {
+                    "field": "depr_office_equipment",
+                    "value": 54367.05,
+                    "currency": "RM"
+                  },
+                  {
+                    "field": "depr_furniture_fittings",
+                    "value": 7219.88,
+                    "currency": "RM"
+                  },
+                  {
+                    "field": "depr_motor_vehicle",
+                    "value": 197223.53,
+                    "currency": "RM"
+                  }
+                ],
+                "subtotal": {
+                  "value": 834881.57,
+                  "currency": "RM"
+                }
+              },
+              "staff_costs": {
+                "item_count": 3,
+                "items": [
+                  {
+                    "field": "dir_remuneration_sim",
+                    "value": 578832.8,
+                    "currency": "RM"
+                  },
+                  {
+                    "field": "dir_remuneration_lim",
+                    "value": 129723.4,
+                    "currency": "RM"
+                  },
+                  {
+                    "field": "dir_remuneration_chan",
+                    "value": 104800,
+                    "currency": "RM"
+                  }
+                ],
+                "subtotal": {
+                  "value": 813356.2,
+                  "currency": "RM"
+                }
+              },
+              "general_admin": {
+                "item_count": 10,
+                "items": [
+                  {
+                    "field": "cleaning_expenses",
+                    "value": 9684.75,
+                    "currency": "RM"
+                  },
+                  {
+                    "field": "consultation_fee",
+                    "value": 10300,
+                    "currency": "RM"
+                  },
+                  {
+                    "field": "epf_admin",
+                    "value": 144684,
+                    "currency": "RM"
+                  },
+                  {
+                    "field": "socso_admin",
+                    "value": 13016.25,
+                    "currency": "RM"
+                  },
+                  {
+                    "field": "insurance",
+                    "value": 195996.97,
+                    "currency": "RM"
+                  },
+                  {
+                    "field": "telephone_charges",
+                    "value": 41923.78,
+                    "currency": "RM"
+                  },
+                  {
+                    "field": "traveling_expenses",
+                    "value": 77065.46,
+                    "currency": "RM"
+                  },
+                  {
+                    "field": "water_electricity_house",
+                    "value": 11164.15,
+                    "currency": "RM"
+                  },
+                  {
+                    "field": "gifts",
+                    "value": 13223.11,
+                    "currency": "RM"
+                  },
+                  {
+                    "field": "general_expenses",
+                    "value": 55408.53,
+                    "currency": "RM"
+                  }
+                ],
+                "subtotal": {
+                  "value": 55408.53,
+                  "currency": "RM"
+                }
+              }
+            },
+            "grand_total": {
+              "value": 957885.58,
+              "currency": "RM",
+              "calculated": true
+            }
+          },
+          "taxation_section": {
+            "schema_type": "FIXED_SCHEMA",
+            "profit_before_tax": {
+              "value": 6000137.08,
+              "currency": "RM"
+            },
+            "taxation": {
+              "value": 957885.58,
+              "currency": "RM"
+            },
+            "net_profit": {
+              "value": 5042251.5,
+              "currency": "RM",
+              "calculated": true
+            }
+          }
+        }
+      }
+    },
+    "Balance Sheet": {
+      "schema_type": "BALANCE_SHEET",
+      "confidence": 0.95,
+      "data": {
+        "balance_sheet": {
+          "document_type": "balance_sheet",
+          "schema_applied": "balance_sheet_schema_v1.0",
+          "fixed_assets": {
+            "schema_type": "STRUCTURED_SCHEMA",
+            "column_headers": [
+              "cost",
+              "accumulated_depreciation",
+              "net_book_value"
+            ],
+            "categories": {
+              "land_and_buildings": {
+                "items": [
+                  {
+                    "description": "Freehold Land & Building",
+                    "cost": 23140000,
+                    "accumulated_depreciation": 299233.35,
+                    "net_book_value": 22840766.65,
+                    "currency": "RM"
+                  },
+                  {
+                    "description": "Leasehold Land",
+                    "cost": 1300000,
+                    "accumulated_depreciation": 20967.72,
+                    "net_book_value": 1279032.28,
+                    "currency": "RM"
+                  },
+                  {
+                    "description": "Freehold Land & Building - House",
+                    "cost": 2228000,
+                    "accumulated_depreciation": 29706.72,
+                    "net_book_value": 2198293.28,
+                    "currency": "RM"
+                  }
+                ]
+              },
+              "plant_and_machinery": {
+                "items": [
+                  {
+                    "description": "Plant, Machinery, Factory Renovation, Factory Equipment, Electrical & Fitting",
+                    "cost": 24137189.08,
+                    "accumulated_depreciation": 16130290.77,
+                    "net_book_value": 8006898.31,
+                    "currency": "RM"
+                  }
+                ]
+              },
+              "office_equipment": {
+                "items": [
+                  {
+                    "description": "Office / House Renovation, Office Equipment, Furniture & Fitting",
+                    "cost": 1738360.14,
+                    "accumulated_depreciation": 1273409.27,
+                    "net_book_value": 464950.87,
+                    "currency": "RM"
+                  }
+                ]
+              },
+              "motor_vehicles": {
+                "items": [
+                  {
+                    "description": "Motor Vehicles",
+                    "cost": 2256196.35,
+                    "accumulated_depreciation": 1660613.78,
+                    "net_book_value": 595582.57,
+                    "currency": "RM"
+                  }
+                ]
+              },
+              "die_and_mould": {
+                "items": [
+                  {
+                    "description": "Die & Mould",
+                    "cost": 2960375.9,
+                    "accumulated_depreciation": 1661581.0,
+                    "net_book_value": 1298794.9,
+                    "currency": "RM"
+                  }
+                ]
+              }
+            },
+            "total_fixed_assets": {
+              "cost": 57760121.47,
+              "accumulated_depreciation": 21075802.61,
+              "net_book_value": 36684318.86,
+              "currency": "RM"
+            }
+          },
+          "investments": {
+            "schema_type": "VARIABLE_SCHEMA",
+            "items": [
+              {
+                "description": "Investment",
+                "amount": 35000,
+                "currency": "RM"
+              },
+              {
+                "description": "Investment - S&Y NET Marketing and Trading S/B.",
+                "amount": 130000,
+                "currency": "RM"
+              },
+              {
+                "description": "Short-term Money Market Investment",
+                "amount": 0,
+                "currency": "RM"
+              }
+            ]
+          },
+          "current_assets": {
+            "schema_type": "SEMI_DYNAMIC_SCHEMA",
+            "stock": {
+              "raw_materials": 2689135.61,
+              "engineering": 161076.38,
+              "wip": 1295420.51,
+              "finished_goods": 2437660.47,
+              "total_stock": 6583292.97,
+              "currency": "RM"
+            },
+            "debtors": {
+              "trade_debtors": 6302284.06,
+              "sundry_debtors": 844281.81,
+              "amount_owing_subsidiary": 0,
+              "amount_owing_s_y_realty": 1400000,
+              "amount_owing_mr_li": 60000,
+              "total_debtors": 8606565.87,
+              "currency": "RM"
+            },
+            "cash_and_equivalents": {
+              "fixed_deposit": 0,
+              "cash_bank": 1418.75,
+              "total_cash": 1418.75,
+              "currency": "RM"
+            },
+            "total_current_assets": 15973844.15
+          },
+          "current_liabilities": {
+            "schema_type": "DYNAMIC_SCHEMA",
+            "items": [
+              {
+                "description": "Trade creditors control",
+                "amount": 1928904.68,
+                "currency": "RM"
+              },
+              {
+                "description": "Bill payable - PBB (1)",
+                "amount": 0,
+                "currency": "RM"
+              },
+              {
+                "description": "Bill payable - PBB (2)",
+                "amount": 1830000,
+                "currency": "RM"
+              },
+              {
+                "description": "Bill payable - CIMB",
+                "amount": 0,
+                "currency": "RM"
+              },
+              {
+                "description": "Bill payable - PBB (JSS)",
+                "amount": 0,
+                "currency": "RM"
+              },
+              {
+                "description": "Revolving Credit",
+                "amount": 0,
+                "currency": "RM"
+              },
+              {
+                "description": "HP creditors control",
+                "amount": 3169555.07,
+                "currency": "RM"
+              },
+              {
+                "description": "HP interest suspenses",
+                "amount": 292676.49,
+                "currency": "RM"
+              },
+              {
+                "description": "Sundry creditors control",
+                "amount": 113002.81,
+                "currency": "RM"
+              },
+              {
+                "description": "Others creditors control",
+                "amount": 0,
+                "currency": "RM"
+              },
+              {
+                "description": "Sales Tax",
+                "amount": 3596.7,
+                "currency": "RM"
+              },
+              {
+                "description": "Accruals",
+                "amount": 969000.87,
+                "currency": "RM"
+              },
+              {
+                "description": "Rental Accruals",
+                "amount": 0,
+                "currency": "RM"
+              },
+              {
+                "description": "Sundry Advance",
+                "amount": 0,
+                "currency": "RM"
+              },
+              {
+                "description": "Amount owing to directors - Mr. Sim",
+                "amount": 111011.03,
+                "currency": "RM"
+              },
+              {
+                "description": "Amount owing to directors - Mr. Chan",
+                "amount": 15700,
+                "currency": "RM"
+              },
+              {
+                "description": "Amount owing to directors - Mdm Lim",
+                "amount": 12268.75,
+                "currency": "RM"
+              },
+              {
+                "description": "Bank Overdraft",
+                "amount": 4747266.69,
+                "currency": "RM"
+              },
+              {
+                "description": "Term Loan - MIDF",
+                "amount": 0,
+                "currency": "RM"
+              },
+              {
+                "description": "Term Loan - BBB",
+                "amount": 1584907,
+                "currency": "RM"
+              },
+              {
+                "description": "Term Loan - PBB",
+                "amount": 8398321.33,
+                "currency": "RM"
+              },
+              {
+                "description": "Provision For Taxation",
+                "amount": -1087857.01,
+                "currency": "RM"
+              }
+            ],
+            "total_current_liabilities": 21662256.43
+          },
+          "working_capital": {
+            "amount": -5688412.28,
+            "currency": "RM"
+          },
+          "net_assets_employed": {
+            "amount": 31160906.58,
+            "currency": "RM"
+          },
+          "equity": {
+            "schema_type": "STRUCTURED_SCHEMA",
+            "components": {
+              "share_capital": {
+                "amount": 1000000,
+                "currency": "RM"
+              },
+              "reserves": {
+                "retained_earning": {
+                  "amount": 21628108.99,
+                  "currency": "RM"
+                },
+                "net_profit_loss": {
+                  "amount": 957885.58,
+                  "currency": "RM"
+                },
+                "dividend_paid": {
+                  "amount": -6500000,
+                  "currency": "RM"
+                },
+                "revaluation_capital_reserve": {
+                  "amount": 11594912.01,
+                  "currency": "RM"
+                },
+                "total_reserves": {
+                  "amount": 27680906.58,
+                  "currency": "RM"
+                }
+              },
+              "deferred_taxation": {
+                "amount": 2480000,
+                "currency": "RM"
+              }
+            },
+            "total_equity": {
+              "amount": 31160906.58,
+              "currency": "RM"
+            }
+          }
+        }
+      }
+    },
+    "type": "",
+    "sheets": "",
+    "schema_types": ""
+  },
+  "file_info": {
+    "filename": "Management Accounts.xlsx",
+    "size": 29679,
+    "processing_time": 91.927847
+  },
+  "processing_time": 91.927847,
+  "status": "success",
+  "schema_detection": null
+}

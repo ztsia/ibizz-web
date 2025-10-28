@@ -1,0 +1,42 @@
+{
+  "auth": {
+    "login": "登录",
+    "register": "注册",
+    "codeLogin": "手机登录",
+    "qrcodeLogin": "二维码登录",
+    "forgetPassword": "忘记密码",
+    "sendingCode": "验证码发送中...",
+    "codeSentTo": "验证码已发送至 {0}"
+  },
+  "dashboard": {
+    "title": "仪表盘",
+    "analytics": "分析页",
+    "workspace": "工作台"
+  },
+  "tpDoc": {
+    "title": "TP文档",
+    "list": "TP文档列表",
+    "create": "创建TP文档",
+    "edit": "编辑TP文档",
+    "view": "查看TP文档",
+    "delete": "删除TP文档",
+    "export": "导出",
+    "import": "导入",
+    "search": "搜索TP文档",
+    "filter": "筛选",
+    "status": "状态",
+    "draft": "草稿",
+    "submitted": "已提交",
+    "approved": "已批准",
+    "rejected": "已拒绝",
+    "client": "客户",
+    "fy": "财年",
+    "tpType": "TP类型",
+    "team": "团队",
+    "progress": "进度",
+    "deadline": "截止日期",
+    "lastUpdated": "最后更新",
+    "actions": "操作",
+    "operation": "操作"
+  }
+}

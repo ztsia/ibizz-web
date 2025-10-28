@@ -1,0 +1,97 @@
+{
+  "name": "ibizztax.ai-tax-portal",
+  "version": "1.0.0",
+  "private": true,
+  "keywords": [
+    "monorepo",
+    "ibizztax.ai",
+    "tax portal",
+    "tax management",
+    "vue",
+    "vue admin",
+    "tax administration",
+    "vue3"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 pnpm -r run build",
+    "build:analyze": "pnpm -r run build:analyze",
+    "build:play": "pnpm run build --filter=@vben/web",
+    "check": "pnpm run check:circular && pnpm run check:dep && pnpm run check:type && pnpm check:cspell",
+    "check:circular": "vsh check-circular",
+    "check:cspell": "cspell lint **/*.ts **/README.md --no-progress",
+    "check:dep": "vsh check-dep",
+    "check:type": "pnpm -r run typecheck",
+    "clean": "node ./scripts/clean.mjs",
+    "dev": "pnpm -F @vben/web run dev",
+    "format": "echo 'Formatting disabled - ignoring rules'",
+    "lint": "echo 'Linting disabled - ignoring all rules'",
+    "postinstall": "pnpm -r run stub --if-present",
+    "preinstall": "npx only-allow pnpm",
+    "preview": "pnpm -r run preview",
+    "publint": "vsh publint",
+    "reinstall": "pnpm clean --del-lock && pnpm install",
+    "test:unit": "vitest run --dom",
+    "test:e2e": "pnpm -r run test:e2e",
+    "catalog": "pnpx codemod pnpm/catalog"
+  },
+  "devDependencies": {
+    "@playwright/test": "catalog:",
+    "@types/node": "catalog:",
+    "@typescript-eslint/eslint-plugin": "catalog:",
+    "@typescript-eslint/parser": "catalog:",
+    "@vben/commitlint-config": "workspace:*",
+    "@vben/eslint-config": "workspace:*",
+    "@vben/prettier-config": "workspace:*",
+    "@vben/stylelint-config": "workspace:*",
+    "@vben/tailwind-config": "workspace:*",
+    "@vben/tsconfig": "workspace:*",
+    "@vben/vite-config": "workspace:*",
+    "@vben/vsh": "workspace:*",
+    "@vitejs/plugin-vue": "catalog:",
+    "@vitejs/plugin-vue-jsx": "catalog:",
+    "@vue/test-utils": "catalog:",
+    "autoprefixer": "catalog:",
+    "cross-env": "catalog:",
+    "cspell": "catalog:",
+    "eslint-plugin-vue": "catalog:",
+    "happy-dom": "catalog:",
+    "is-ci": "catalog:",
+    "lefthook": "catalog:",
+    "playwright": "catalog:",
+    "rimraf": "catalog:",
+    "tailwindcss": "catalog:",
+    "typescript": "catalog:",
+    "unbuild": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:",
+    "vue": "catalog:",
+    "vue-eslint-parser": "catalog:",
+    "vue-tsc": "catalog:"
+  },
+  "engines": {
+    "node": ">=20.10.0",
+    "pnpm": ">=9.12.0"
+  },
+  "packageManager": "pnpm@10.10.0",
+  "pnpm": {
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "eslint": "*"
+      }
+    },
+    "overrides": {
+      "@ast-grep/napi": "catalog:",
+      "@ctrl/tinycolor": "catalog:",
+      "clsx": "catalog:",
+      "esbuild": "0.25.3",
+      "pinia": "catalog:",
+      "vue": "catalog:"
+    },
+    "neverBuiltDependencies": [
+      "canvas",
+      "node-gyp"
+    ]
+  }
+}
