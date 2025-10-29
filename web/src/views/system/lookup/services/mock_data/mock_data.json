@@ -1,0 +1,932 @@
+[
+  {
+    "table_name": "lookup_asset_type",
+    "rows": [
+      {
+        "id": 1,
+        "code": "AC",
+        "asset_name": "AIR CONDITIONER"
+      },
+      {
+        "id": 2,
+        "code": "BG",
+        "asset_name": "BUILDING"
+      },
+      {
+        "id": 3,
+        "code": "CE",
+        "asset_name": "CAPITAL EXPENDITURE EXPENSED OFF TO P&L"
+      },
+      {
+        "id": 4,
+        "code": "DM",
+        "asset_name": "DIE AND MOULD"
+      },
+      {
+        "id": 5,
+        "code": "EF",
+        "asset_name": "ELECTRICAL FITTINGS"
+      },
+      {
+        "id": 6,
+        "code": "EQ",
+        "asset_name": "EQUIPMENT"
+      },
+      {
+        "id": 7,
+        "code": "FF",
+        "asset_name": "FURNITURE & FITTINGS"
+      },
+      {
+        "id": 8,
+        "code": "FLB",
+        "asset_name": "FREEHOLD LAND AND BUILDING"
+      },
+      {
+        "id": 9,
+        "code": "FR",
+        "asset_name": "FACTORY RENOVATION"
+      },
+      {
+        "id": 10,
+        "code": "LL",
+        "asset_name": "LEASEHOLD LAND"
+      },
+      {
+        "id": 11,
+        "code": "MV",
+        "asset_name": "MOTOR VEHICLE"
+      },
+      {
+        "id": 12,
+        "code": "OE",
+        "asset_name": "OFFICE EQUIPMENT"
+      },
+      {
+        "id": 13,
+        "code": "OHR",
+        "asset_name": "OFFICE AND HOUSE RENOVATION"
+      },
+      {
+        "id": 14,
+        "code": "OR",
+        "asset_name": "OTHERS"
+      },
+      {
+        "id": 15,
+        "code": "PC",
+        "asset_name": "COMPUTER"
+      }
+    ]
+  },
+  {
+    "table_name": "lookup_bank_code",
+    "rows": [
+      {
+        "id": 1,
+        "code": "BK101",
+        "bank_name": "AFFIN BANK BERHAD"
+      },
+      {
+        "id": 2,
+        "code": "BK133",
+        "bank_name": "AFFIN ISLAMIC BANK BERHAD"
+      },
+      {
+        "id": 3,
+        "code": "BK121",
+        "bank_name": "AGRO BANK"
+      },
+      {
+        "id": 4,
+        "code": "BK102",
+        "bank_name": "ALLIANCE BANK MALAYSIA BERHAD"
+      },
+      {
+        "id": 5,
+        "code": "BK134",
+        "bank_name": "ALLIANCE ISLAMIC BANK BERHAD"
+      },
+      {
+        "id": 6,
+        "code": "BK126",
+        "bank_name": "AL RAJHI BANKING & INVESTMENT CORPORATION (MALAYSIA) BERHAD"
+      },
+      {
+        "id": 7,
+        "code": "BK103",
+        "bank_name": "AMBANK (M) BERHAD"
+      },
+      {
+        "id": 8,
+        "code": "BK135",
+        "bank_name": "AM ISLAMIC BANK BERHAD"
+      },
+      {
+        "id": 9,
+        "code": "BK148",
+        "bank_name": "BANGKOK BANK BERHAD"
+      },
+      {
+        "id": 10,
+        "code": "BK105",
+        "bank_name": "BANK ISLAM MALAYSIA BERHAD"
+      },
+      {
+        "id": 11,
+        "code": "BK106",
+        "bank_name": "BANK KERJASAMA RAKYAT"
+      },
+      {
+        "id": 12,
+        "code": "BK104",
+        "bank_name": "BANK MUAMALAT MALAYSIA BERHAD"
+      },
+      {
+        "id": 13,
+        "code": "BK120",
+        "bank_name": "BANK OF AMERICA MALAYSIA BERHAD"
+      },
+      {
+        "id": 14,
+        "code": "BK152",
+        "bank_name": "BANK OF CHINA (MALAYSIA) BERHAD"
+      },
+      {
+        "id": 15,
+        "code": "BK116",
+        "bank_name": "BANK SIMPANAN NASIONAL"
+      }
+    ]
+  },
+  {
+    "table_name": "lookup_country_code",
+    "rows": [
+      {
+        "id": 1,
+        "code": "ABW",
+        "country_name": "Aruba"
+      },
+      {
+        "id": 2,
+        "code": "AFG",
+        "country_name": "Afghanistan"
+      },
+      {
+        "id": 3,
+        "code": "AGO",
+        "country_name": "Angola"
+      },
+      {
+        "id": 4,
+        "code": "AIA",
+        "country_name": "Anguilla"
+      },
+      {
+        "id": 5,
+        "code": "ALA",
+        "country_name": "Aland Islands"
+      },
+      {
+        "id": 6,
+        "code": "ALB",
+        "country_name": "Albania"
+      },
+      {
+        "id": 7,
+        "code": "AND",
+        "country_name": "Andorra"
+      },
+      {
+        "id": 8,
+        "code": "ARE",
+        "country_name": "United Arab Emirates"
+      },
+      {
+        "id": 9,
+        "code": "ARG",
+        "country_name": "Argentina"
+      },
+      {
+        "id": 10,
+        "code": "ARM",
+        "country_name": "Armenia"
+      },
+      {
+        "id": 11,
+        "code": "ASM",
+        "country_name": "American Samoa"
+      },
+      {
+        "id": 12,
+        "code": "ATA",
+        "country_name": "Antarctica"
+      },
+      {
+        "id": 13,
+        "code": "ATF",
+        "country_name": "French Southern Territories"
+      },
+      {
+        "id": 14,
+        "code": "ATG",
+        "country_name": "Antigua and Barbuda"
+      },
+      {
+        "id": 15,
+        "code": "AUS",
+        "country_name": "Australia"
+      }
+    ]
+  },
+  {
+    "table_name": "lookup_currency_code",
+    "rows": [
+      {
+        "id": 1,
+        "code": "AUD",
+        "currency_name": "Australian Dollar"
+      },
+      {
+        "id": 2,
+        "code": "BND",
+        "currency_name": "Brunei Dollar"
+      },
+      {
+        "id": 3,
+        "code": "CAD",
+        "currency_name": "Canadian Dollar"
+      },
+      {
+        "id": 4,
+        "code": "KHR",
+        "currency_name": "Cambodian Riel"
+      },
+      {
+        "id": 5,
+        "code": "CNY",
+        "currency_name": "Chinese Renminbi"
+      },
+      {
+        "id": 6,
+        "code": "EUR",
+        "currency_name": "Euro"
+      },
+      {
+        "id": 7,
+        "code": "TWD",
+        "currency_name": "Taiwanese New Dollar"
+      },
+      {
+        "id": 8,
+        "code": "THB",
+        "currency_name": "Thai Baht"
+      },
+      {
+        "id": 9,
+        "code": "GBP",
+        "currency_name": "U.K. Pound"
+      },
+      {
+        "id": 10,
+        "code": "USD",
+        "currency_name": "U.S. Dollar"
+      },
+      {
+        "id": 11,
+        "code": "VND",
+        "currency_name": "Vietnamese Dong"
+      },
+      {
+        "id": 12,
+        "code": "SDR",
+        "currency_name": "IMF Special Drawing Right"
+      },
+      {
+        "id": 13,
+        "code": "HKD",
+        "currency_name": "Hong Kong Dollar"
+      },
+      {
+        "id": 14,
+        "code": "NZD",
+        "currency_name": "New Zealand Dollar"
+      },
+      {
+        "id": 15,
+        "code": "IDR",
+        "currency_name": "Indonesian Rupiah"
+      }
+    ]
+  },
+  {
+    "table_name": "lookup_groups",
+    "rows": [
+      {
+        "id": "4612b065-85d7-49bb-938c-e95f58d78d14",
+        "slug": "exchange-rate",
+        "title": "Exchange Rate",
+        "code_regex": "^[A-Za-z0-9]+$",
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-24T09:02:51.811863+00:00",
+        "category_id": "financial-banking",
+        "code_format": "Alphanumeric",
+        "columns_schema": [
+          {
+            "key": "code",
+            "type": "text",
+            "label": "Code",
+            "required": true
+          },
+          {
+            "key": "pair",
+            "type": "text",
+            "label": "Currency Pair"
+          },
+          {
+            "key": "rate_provider",
+            "type": "text",
+            "label": "Provider"
+          }
+        ],
+        "short_description": "Reference exchange rate entries (pairs or rate providers)."
+      },
+      {
+        "id": "7cd1b3a9-699d-4c3e-b7e6-c85ca8e886e0",
+        "slug": "alr",
+        "title": "ALR",
+        "code_regex": "^[0-9]+$",
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-24T09:02:51.811863+00:00",
+        "category_id": "financial-banking",
+        "code_format": "Numeric",
+        "columns_schema": [
+          {
+            "key": "code",
+            "type": "number",
+            "label": "Code",
+            "required": true
+          },
+          {
+            "key": "label",
+            "type": "text",
+            "label": "Description"
+          }
+        ],
+        "short_description": "Automated loan repayment (ALR) related lookup values."
+      },
+      {
+        "id": "66e743b0-5d15-4634-8bc1-cad4009f4cdc",
+        "slug": "audit-firm",
+        "title": "Audit Firm",
+        "code_regex": "^[0-9]+$",
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-24T09:03:24.951816+00:00",
+        "category_id": "business-and-regulatory",
+        "code_format": "Numeric",
+        "columns_schema": [
+          {
+            "key": "code",
+            "type": "number",
+            "label": "Code",
+            "required": true
+          },
+          {
+            "key": "label",
+            "type": "text",
+            "label": "Firm Name"
+          }
+        ],
+        "short_description": "Registered audit firms used in filings and records."
+      },
+      {
+        "id": "cd5faea2-07eb-4464-8497-72f162092bff",
+        "slug": "business-code",
+        "title": "Business Code",
+        "code_regex": "^[A-Za-z0-9]+$",
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-24T09:03:24.951816+00:00",
+        "category_id": "business-and-regulatory",
+        "code_format": "Alphanumeric",
+        "columns_schema": [
+          {
+            "key": "code",
+            "type": "text",
+            "label": "Code",
+            "required": true
+          },
+          {
+            "key": "label",
+            "type": "text",
+            "label": "Description"
+          }
+        ],
+        "short_description": "Business classification codes used for reporting."
+      },
+      {
+        "id": "ed0032eb-93a9-4815-a7a4-d34cf73d7c0d",
+        "slug": "tax-agent",
+        "title": "Tax Agent",
+        "code_regex": "^[0-9]+$",
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-24T09:03:24.951816+00:00",
+        "category_id": "business-and-regulatory",
+        "code_format": "Numeric",
+        "columns_schema": [
+          {
+            "key": "code",
+            "type": "number",
+            "label": "Code",
+            "required": true
+          },
+          {
+            "key": "label",
+            "type": "text",
+            "label": "Agent Name"
+          }
+        ],
+        "short_description": "Authorized tax agents and representatives."
+      },
+      {
+        "id": "d42976e6-02d5-473b-9e18-6fb91465c56a",
+        "slug": "property-type",
+        "title": "Property Type",
+        "code_regex": "^[0-9]+$",
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-24T09:03:24.951816+00:00",
+        "category_id": "assets-and-properties",
+        "code_format": "Numeric",
+        "columns_schema": [
+          {
+            "key": "code",
+            "type": "number",
+            "label": "Code",
+            "required": true
+          },
+          {
+            "key": "label",
+            "type": "text",
+            "label": "Property Type"
+          }
+        ],
+        "short_description": "Property categories used in asset registers."
+      },
+      {
+        "id": "b9ff2617-c9cb-4837-85a4-2efae31edba2",
+        "slug": "msic-code",
+        "title": "MSIC Code",
+        "code_regex": "^[0-9]{5}$",
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-27T00:56:38.131795+00:00",
+        "category_id": "business-and-regulatory",
+        "code_format": "Numeric",
+        "columns_schema": [
+          {
+            "key": "code",
+            "type": "text",
+            "label": "MSIC Code"
+          },
+          {
+            "key": "description",
+            "type": "text",
+            "label": "Description"
+          },
+          {
+            "key": "section",
+            "type": "text",
+            "label": "Section"
+          },
+          {
+            "key": "category",
+            "type": "text",
+            "label": "Category"
+          },
+          {
+            "key": "sub_category",
+            "type": "text",
+            "label": "Sub Category"
+          }
+        ],
+        "short_description": "Malaysian Standard Industrial Classification codes."
+      },
+      {
+        "id": "984f3f5c-7cce-43b9-8281-1e32e0f9c620",
+        "slug": "asset-type",
+        "title": "Asset Type",
+        "code_regex": "^[A-Z]{2,3}$",
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-27T00:52:19.419304+00:00",
+        "category_id": "assets-and-properties",
+        "code_format": "Alphabetic",
+        "columns_schema": [
+          {
+            "key": "code",
+            "type": "text",
+            "label": "Code"
+          },
+          {
+            "key": "asset_name",
+            "type": "text",
+            "label": "Asset Name"
+          }
+        ],
+        "short_description": "Types of assets used for classification."
+      },
+      {
+        "id": "9ee423e2-b6ad-4486-a55c-c4c9a80d5d27",
+        "slug": "headers",
+        "title": "Headers",
+        "code_regex": null,
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-27T00:54:55.1704+00:00",
+        "category_id": "income-statement-headers",
+        "code_format": null,
+        "columns_schema": [
+          {
+            "key": "value",
+            "type": "text",
+            "label": "Value"
+          }
+        ],
+        "short_description": "Income statement header rows used to structure reports."
+      },
+      {
+        "id": "d2bfa2b8-3c7f-458b-9cf9-735c63b28887",
+        "slug": "bank-code",
+        "title": "Bank Code",
+        "code_regex": "^BK[0-9]{3}$",
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-27T00:53:01.457271+00:00",
+        "category_id": "financial-banking",
+        "code_format": "Alphanumeric",
+        "columns_schema": [
+          {
+            "key": "code",
+            "type": "text",
+            "label": "Code"
+          },
+          {
+            "key": "bank_name",
+            "type": "text",
+            "label": "Bank Name"
+          }
+        ],
+        "short_description": "Standard bank identification codes used in payments and bank lists."
+      },
+      {
+        "id": "070fdd1a-3edb-477b-94b1-a51db81c6376",
+        "slug": "country-code",
+        "title": "Country Code",
+        "code_regex": "^[A-Z]{3}$",
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-27T00:54:06.790454+00:00",
+        "category_id": "geographic-and-location",
+        "code_format": "Alphabetic",
+        "columns_schema": [
+          {
+            "key": "code",
+            "type": "text",
+            "label": "Code"
+          },
+          {
+            "key": "country_name",
+            "type": "text",
+            "label": "Country Name"
+          }
+        ],
+        "short_description": "ISO 3166-1 alpha-2/alpha-3 country codes."
+      },
+      {
+        "id": "6cf3d4af-8621-4f28-8312-b895170a122b",
+        "slug": "state-code",
+        "title": "State Code",
+        "code_regex": null,
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-27T00:57:07.241201+00:00",
+        "category_id": "geographic-and-location",
+        "code_format": null,
+        "columns_schema": [
+          {
+            "key": "value",
+            "type": "text",
+            "label": "Value"
+          }
+        ],
+        "short_description": "ISO-like codes for states or provinces."
+      },
+      {
+        "id": "07581307-2c3f-4f4a-97b1-517e8e46b3dd",
+        "slug": "currency-code",
+        "title": "Currency Code",
+        "code_regex": "^[A-Z]{3}$",
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-27T00:54:40.168539+00:00",
+        "category_id": "financial-banking",
+        "code_format": "Alphabetic",
+        "columns_schema": [
+          {
+            "key": "code",
+            "type": "text",
+            "label": "Code"
+          },
+          {
+            "key": "currency_name",
+            "type": "text",
+            "label": "Currency Name"
+          }
+        ],
+        "short_description": "ISO 4217 three-letter currency codes."
+      },
+      {
+        "id": "468d5e14-9ef4-4564-9e48-fa84bbff6ce0",
+        "slug": "type-of-interest-income",
+        "title": "Type of Interest Income",
+        "code_regex": null,
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-27T00:55:48.885385+00:00",
+        "category_id": "income-and-interest",
+        "code_format": null,
+        "columns_schema": [
+          {
+            "key": "value",
+            "type": "text",
+            "label": "Value"
+          }
+        ],
+        "short_description": "Lookup of interest income types for reporting."
+      }
+    ]
+  },
+  {
+    "table_name": "lookup_headers",
+    "rows": [
+      {
+        "id": 1,
+        "value": "Revenue"
+      },
+      {
+        "id": 2,
+        "value": "Cost of Sale"
+      },
+      {
+        "id": 3,
+        "value": "Gross Profit"
+      },
+      {
+        "id": 4,
+        "value": "Other Income"
+      },
+      {
+        "id": 5,
+        "value": "Operating Expenses"
+      },
+      {
+        "id": 6,
+        "value": "Profit before tax"
+      },
+      {
+        "id": 7,
+        "value": "Net Profit for the Year"
+      }
+    ]
+  },
+  {
+    "table_name": "lookup_msic_code",
+    "rows": [
+      {
+        "id": 1,
+        "code": "01111",
+        "section": "A AGRICULTURE, FORESTRY AND FISHING",
+        "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
+        "description": "Growing of maize",
+        "sub_category": "Growing of non perennial crops"
+      },
+      {
+        "id": 2,
+        "code": "01112",
+        "section": "A AGRICULTURE, FORESTRY AND FISHING",
+        "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
+        "description": "Growing of leguminous crops",
+        "sub_category": "Growing of non perennial crops"
+      },
+      {
+        "id": 3,
+        "code": "01113",
+        "section": "A AGRICULTURE, FORESTRY AND FISHING",
+        "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
+        "description": "Growing of oil seeds",
+        "sub_category": "Growing of non perennial crops"
+      },
+      {
+        "id": 4,
+        "code": "01119",
+        "section": "A AGRICULTURE, FORESTRY AND FISHING",
+        "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
+        "description": "Growing of other cereals n.e.c",
+        "sub_category": "Growing of non perennial crops"
+      },
+      {
+        "id": 5,
+        "code": "01120",
+        "section": "A AGRICULTURE, FORESTRY AND FISHING",
+        "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
+        "description": "Growing of paddy",
+        "sub_category": "Growing of non perennial crops"
+      },
+      {
+        "id": 6,
+        "code": "01131",
+        "section": "A AGRICULTURE, FORESTRY AND FISHING",
+        "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
+        "description": "Growing of leafy or stem vegetables",
+        "sub_category": "Growing of non perennial crops"
+      },
+      {
+        "id": 7,
+        "code": "01132",
+        "section": "A AGRICULTURE, FORESTRY AND FISHING",
+        "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
+        "description": "Growing of fruits bearing vegetables",
+        "sub_category": "Growing of non perennial crops"
+      },
+      {
+        "id": 8,
+        "code": "01133",
+        "section": "A AGRICULTURE, FORESTRY AND FISHING",
+        "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
+        "description": "Growing of melons",
+        "sub_category": "Growing of non perennial crops"
+      },
+      {
+        "id": 9,
+        "code": "01134",
+        "section": "A AGRICULTURE, FORESTRY AND FISHING",
+        "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
+        "description": "Growing of mushrooms and truffles",
+        "sub_category": "Growing of non perennial crops"
+      },
+      {
+        "id": 10,
+        "code": "01135",
+        "section": "A AGRICULTURE, FORESTRY AND FISHING",
+        "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
+        "description": "Growing of vegetables seeds, except beet seeds",
+        "sub_category": "Growing of non perennial crops"
+      },
+      {
+        "id": 11,
+        "code": "01136",
+        "section": "A AGRICULTURE, FORESTRY AND FISHING",
+        "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
+        "description": "Growing of other vegetables",
+        "sub_category": "Growing of non perennial crops"
+      },
+      {
+        "id": 12,
+        "code": "01137",
+        "section": "A AGRICULTURE, FORESTRY AND FISHING",
+        "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
+        "description": "Growing of sugar beet",
+        "sub_category": "Growing of non perennial crops"
+      },
+      {
+        "id": 13,
+        "code": "01138",
+        "section": "A AGRICULTURE, FORESTRY AND FISHING",
+        "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
+        "description": "Growing of roots, tubers, bulb or tuberous vegetables",
+        "sub_category": "Growing of non perennial crops"
+      },
+      {
+        "id": 14,
+        "code": "01140",
+        "section": "A AGRICULTURE, FORESTRY AND FISHING",
+        "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
+        "description": "Growing of sugar cane",
+        "sub_category": "Growing of non perennial crops"
+      },
+      {
+        "id": 15,
+        "code": "01150",
+        "section": "A AGRICULTURE, FORESTRY AND FISHING",
+        "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
+        "description": "Growing of tobacco",
+        "sub_category": "Growing of non perennial crops"
+      }
+    ]
+  },
+  {
+    "table_name": "lookup_state_code",
+    "rows": [
+      {
+        "id": 1,
+        "value": "JOHOR"
+      },
+      {
+        "id": 2,
+        "value": "KEDAH"
+      },
+      {
+        "id": 3,
+        "value": "KELANTAN"
+      },
+      {
+        "id": 4,
+        "value": "MELAKA"
+      },
+      {
+        "id": 5,
+        "value": "NEGERI SEMBILAN"
+      },
+      {
+        "id": 6,
+        "value": "PAHANG"
+      },
+      {
+        "id": 7,
+        "value": "PERAK"
+      },
+      {
+        "id": 8,
+        "value": "PERLIS"
+      },
+      {
+        "id": 9,
+        "value": "PULAU PINANG"
+      },
+      {
+        "id": 10,
+        "value": "SABAH"
+      },
+      {
+        "id": 11,
+        "value": "SARAWAK"
+      },
+      {
+        "id": 12,
+        "value": "SELANGOR"
+      },
+      {
+        "id": 13,
+        "value": "TERENGGANU"
+      },
+      {
+        "id": 14,
+        "value": "WILAYAH PERSEKUTUAN KUALA LUMPUR"
+      },
+      {
+        "id": 15,
+        "value": "WILAYAH PERSEKUTUAN LABUAN"
+      }
+    ]
+  },
+  {
+    "table_name": "lookup_type_of_interest_income",
+    "rows": [
+      {
+        "id": 1,
+        "value": "DIRECTOR"
+      },
+      {
+        "id": 2,
+        "value": "FIXED DEPOSIT"
+      },
+      {
+        "id": 3,
+        "value": "LOAN STOCK"
+      },
+      {
+        "id": 4,
+        "value": "OTHER INTEREST INCOM NOT S33(2)"
+      },
+      {
+        "id": 5,
+        "value": "OTHERS"
+      },
+      {
+        "id": 6,
+        "value": "PROPERTY"
+      },
+      {
+        "id": 7,
+        "value": "RELATED COMPANY"
+      },
+      {
+        "id": 8,
+        "value": "TAX EXEMPT/SINGLE-TIER"
+      },
+      {
+        "id": 9,
+        "value": "INVESTMENT"
+      },
+      {
+        "id": 10,
+        "value": "TAXABLE INVESTMENT"
+      },
+      {
+        "id": 11,
+        "value": "THIRD PARTY"
+      }
+    ]
+  }
+]
