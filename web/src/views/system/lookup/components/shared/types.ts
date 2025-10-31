@@ -1,16 +1,16 @@
 import type { Component } from 'vue';
 
 /**
- * Shared types for lookup/settings UI components.
+ * Shared types for lookup UI components.
  *
  * This file defines lightweight TypeScript interfaces used by the shared
  * components in `components/shared/*`. No runtime code is emitted from this
  * file — it exists purely for developer ergonomics and static typing.
  */
 /**
- * SettingsCategory represents a single lookup/settings category card.
+ * LookupCategory represents a single lookup category card.
  */
-export interface SettingsCategory {
+export interface LookupCategory {
   /** Unique identifier (kebab-case slug) */
   id: string;
   /** Display title (1-48 chars) */
@@ -39,7 +39,7 @@ export interface CardGridCols {
   xl?: number;
 }
 
-export interface SettingsCardProps {
+export interface LookupCardProps {
   title: string;
   description?: string;
   icon?: string | Component;
@@ -55,7 +55,7 @@ export interface SettingsCardProps {
 }
 
 export interface CardGridProps {
-  items: SettingsCategory[];
+  items: LookupCategory[];
   cols?: CardGridCols;
   dense?: boolean;
 }

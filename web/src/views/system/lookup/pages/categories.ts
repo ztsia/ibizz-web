@@ -1,4 +1,4 @@
-import type { SettingsCategory } from '../components';
+import type { LookupCategory } from '../components';
 import {
   MdiAccount,
   MdiBank,
@@ -9,7 +9,7 @@ import {
   MdiFileDocument,
 } from '@vben/icons';
 
-export const categories: SettingsCategory[] = [
+export const categories: LookupCategory[] = [
   {
     id: 'profile',
     title: 'Profile',

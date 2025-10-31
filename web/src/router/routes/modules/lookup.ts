@@ -19,20 +19,21 @@ export function humanizeSlug(slug?: string): string {
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: '/settings',
-    meta: { title: 'Settings' },
+    redirect: '/lookup',
+    meta: { title: 'Lookup', hideInTab: true },
   },
   {
-    path: '/settings',
-    name: 'Settings',
-    component: () => import('#/views/system/lookup/pages/SettingsPage.vue'),
-    meta: { title: 'Settings' },
+    path: '/lookup',
+    name: 'Lookup',
+    component: () => import('#/views/system/lookup/pages/LookupMenu.vue'),
+    meta: { title: 'Lookup', icon: 'lucide:search',
+    },
   },
   {
-    path: '/settings/:category/:group?',
-    name: 'SettingsCategory',
+    path: '/lookup/:category/:group?',
+    name: 'LookupCategory',
     component: () => import('#/views/system/lookup/pages/CategoryPage.vue'),
-    meta: { title: 'Settings Category' },
+    meta: { title: 'Lookup Category', hideInTab: true },
     beforeEnter: (
       to: RouteLocationNormalized,
       _from: RouteLocationNormalized,
@@ -40,16 +41,16 @@ const routes: RouteRecordRaw[] = [
     ) => {
       // Special case: profile category uses blank page
       if (to.params.category === 'profile') {
-        return next({ name: 'SettingsProfile' });
+        return next({ name: 'LookupProfile' });
       }
       next();
     },
   },
   {
-    path: '/settings/profile',
-    name: 'SettingsProfile',
+    path: '/lookup/profile',
+    name: 'LookupProfile',
     component: () => import('#/views/system/lookup/pages/ProfilePage.vue'),
-    meta: { title: 'Settings Profile' },
+    meta: { title: 'Lookup Profile', hideInTab: true },
   },
 ];
 

@@ -15,9 +15,9 @@
 
 <script lang="ts" setup>
 import { defineProps } from 'vue';
-import type { SettingsCategory } from '../shared/types';
+import type { LookupCategory } from '../shared/types';
 
 defineProps<{
-  items: SettingsCategory[];
+  items: LookupCategory[];
 }>();
 </script>

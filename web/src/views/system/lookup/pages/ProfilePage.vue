@@ -1,6 +1,6 @@
 <template>
   <div class="p-8">
-    <h1>Profile Settings</h1>
+    <h1>Profile</h1>
     <p>This is a placeholder profile page.</p>
   </div>
 </template>

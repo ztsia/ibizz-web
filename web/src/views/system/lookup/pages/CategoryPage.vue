@@ -1,8 +1,8 @@
 <template>
   <div class="p-4">
-    <!-- CategoryPage template: main container for lookup category settings -->
+    <!-- CategoryPage template: main container for lookup category -->
     <div class="mb-4 flex items-center justify-between">
-      <!-- Header: title, description, and top-right Settings button -->
+      <!-- Header: title, description, and top-right Lookup button -->
       <div>
         <h1 class="text-xl font-semibold" data-test="category-title">
           {{ displayTitle }}
@@ -11,7 +11,7 @@
           {{ categoryObj?.description || '' }}
         </p>
       </div>
-      <Button variant="outline" @click="openSettings">Settings</Button>
+      <Button variant="outline" @click="openLookup">Lookup</Button>
     </div>
 
     <Card>
@@ -242,7 +242,7 @@ async function loadGroups() {
       activeTab.value = groups.value.length > 0 ? groups.value[0]!.slug : '';
       if (activeTab.value) {
         router.replace({
-          name: 'SettingsCategory',
+          name: 'LookupCategory',
           params: { category: normalizeCategory(), group: activeTab.value },
         });
       }
@@ -320,7 +320,7 @@ watch(activeTab, (newVal) => {
   hideSegmented();
   if (!newVal) return;
   router.push({
-    name: 'SettingsCategory',
+    name: 'LookupCategory',
     params: { category: normalizeCategory(), group: newVal },
   });
 });
@@ -335,7 +335,7 @@ onMounted(() => {
 });
 
 function updateDocumentTitle() {
-  const categoryLabel = displayTitle.value || category.value || 'Settings';
+  const categoryLabel = displayTitle.value || category.value || 'Lookup';
   const groupLabel = activeGroup.value
     ? activeGroup.value.title || activeGroup.value.slug
     : null;
@@ -361,8 +361,8 @@ function normalizeCategory(): string {
   return String(v ?? '');
 }
 
-function openSettings() {
-  router.push({ name: 'Settings' });
+function openLookup() {
+  router.push({ name: 'Lookup' });
 }
 
 function openAddGroup() {
@@ -468,8 +468,7 @@ async function handleEditGroupPayload(payload: any) {
     if (refreshedById?.slug) {
       activeTab.value = refreshedById.slug;
       router.replace({
-        name: 'SettingsCategory',
-        params: { category: normalizeCategory(), group: refreshedById.slug },
+name: 'LookupCategory',
       });
     } else if (updated?.slug) {
       activeTab.value = updated.slug;
