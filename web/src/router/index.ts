@@ -34,4 +34,15 @@ const resetRoutes = () => resetStaticRoutes(router, routes);
 // 创建路由守卫
 createRouterGuard(router);
 
+// Expose router to window in development for easier debugging in the browser console.
+// This is intentionally only for DEV so it won't leak in production bundles.
+if (import.meta.env.DEV) {
+  try {
+    // @ts-ignore
+    window.router = router;
+  } catch {
+    // ignore in non-browser environments
+  }
+}
+
 export { resetRoutes, router };

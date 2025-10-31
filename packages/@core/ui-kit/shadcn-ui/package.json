@@ -48,7 +48,7 @@
     "class-variance-authority": "catalog:",
     "lucide-vue-next": "catalog:",
     "radix-vue": "catalog:",
-    "vee-validate": "catalog:",
+    "vee-validate": "4.15.1",
     "vue": "catalog:"
   }
 }

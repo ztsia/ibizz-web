@@ -68,7 +68,8 @@
     "vitest": "catalog:",
     "vue": "catalog:",
     "vue-eslint-parser": "catalog:",
-    "vue-tsc": "catalog:"
+    "vue-tsc": "catalog:",
+    "vee-validate": "4.15.1"
   },
   "engines": {
     "node": ">=20.10.0",

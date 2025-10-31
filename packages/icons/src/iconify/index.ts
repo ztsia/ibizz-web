@@ -32,3 +32,16 @@ export const LucideBot = createIconifyIcon('lucide:bot');
 export const LucideBotMessageSquare = createIconifyIcon(
   'lucide:bot-message-square',
 );
+
+// Lookup Category icons
+export const MdiAccount = createIconifyIcon('mdi:account');
+export const MdiBank = createIconifyIcon('mdi:bank');
+export const MdiBriefcase = createIconifyIcon('mdi:briefcase');
+export const MdiMapMarker = createIconifyIcon('mdi:map-marker');
+export const MdiHome = createIconifyIcon('mdi:home');
+export const MdiCurrencyUsd = createIconifyIcon('mdi:currency-usd');
+export const MdiFileDocument = createIconifyIcon('mdi:file-document');
+
+// Lookup Table Action icons
+export const Pencil = createIconifyIcon('lucide:pencil');
+export const Trash = createIconifyIcon('lucide:trash');

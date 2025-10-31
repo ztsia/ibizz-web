@@ -74,6 +74,11 @@ async function bootstrap(namespace: string) {
     }
   });
 
+  // enable devtools in development
+  if (import.meta.env.DEV) {
+    (app.config as any).devtools = true;
+  }
+
   app.mount('#app');
 }
 

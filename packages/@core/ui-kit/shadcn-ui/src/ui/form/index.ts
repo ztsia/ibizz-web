@@ -8,4 +8,5 @@ export {
   Form,
   Field as FormField,
   FieldArray as FormFieldArray,
+  useForm,
 } from 'vee-validate';
