@@ -20,20 +20,19 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     redirect: '/lookup',
-    meta: { title: 'Lookup', hideInTab: true },
+    meta: { title: 'Lookup', hideInTab: true, hideInMenu: true},
   },
   {
     path: '/lookup',
     name: 'Lookup',
     component: () => import('#/views/system/lookup/pages/LookupMenu.vue'),
-    meta: { title: 'Lookup', icon: 'lucide:search',
-    },
+    meta: { title: 'Lookup', icon: 'lucide:folder-search' },
   },
   {
     path: '/lookup/:category/:group?',
     name: 'LookupCategory',
     component: () => import('#/views/system/lookup/pages/CategoryPage.vue'),
-    meta: { title: 'Lookup Category', hideInTab: true },
+    meta: { title: 'Lookup Category', hideInTab: true, hideInMenu: true },
     beforeEnter: (
       to: RouteLocationNormalized,
       _from: RouteLocationNormalized,
@@ -50,7 +49,7 @@ const routes: RouteRecordRaw[] = [
     path: '/lookup/profile',
     name: 'LookupProfile',
     component: () => import('#/views/system/lookup/pages/ProfilePage.vue'),
-    meta: { title: 'Lookup Profile', hideInTab: true },
+    meta: { title: 'Lookup Profile', hideInTab: true, hideInMenu: true },
   },
 ];
 

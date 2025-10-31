@@ -1,5 +1,5 @@
 <template>
-  <Teleport to="#__vben_main_content">
+  <Teleport to="body">
     <!-- Overlay -->
     <div
       v-if="visible"
@@ -347,12 +347,13 @@ const { handleSubmit, setValues, values, setFieldError } = form;
 
 function populateFromInitial(init: any) {
   if (!init) return;
+  const rawInit = toRaw(init);
   const initialValues = {
-    title: init.title || '',
-    short_description: init.short_description || '',
-    code_format: init.code_format || 'Alphanumeric',
-    columns_schema: Array.isArray(init.columns_schema)
-      ? structuredClone(init.columns_schema)
+    title: rawInit.title || '',
+    short_description: rawInit.short_description || '',
+    code_format: rawInit.code_format || 'Alphanumeric',
+    columns_schema: Array.isArray(rawInit.columns_schema)
+      ? structuredClone(rawInit.columns_schema)
       : structuredClone(defaultColumns),
   };
   setValues(initialValues);

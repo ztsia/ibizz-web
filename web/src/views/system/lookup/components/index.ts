@@ -12,4 +12,5 @@ export { default as AddGroupModal } from './lookup_group/AddGroupModal.vue';
 export { default as GroupActions } from './lookup_group/GroupActions.vue';
 export { default as LookupItemForm } from './lookup_group/LookupItemForm.vue';
 export { default as LookupTable } from './lookup_group/LookupTable.vue';
+export { default as SegmentedOverlay } from './lookup_group/SegmentedOverlay.vue';
 export { default as ColumnChips } from './lookup_group/ColumnChips.vue';

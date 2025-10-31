@@ -11,7 +11,7 @@
           {{ categoryObj?.description || '' }}
         </p>
       </div>
-      <Button variant="outline" @click="openLookup">Lookup</Button>
+      <Button variant="outline" @click="openLookup">Lookup Menu</Button>
     </div>
 
     <Card>
@@ -70,7 +70,7 @@
             </Button>
           </div>
           <div v-else-if="groups.length === 0">No groups in this category.</div>
-          <span class="hidden">{{ activeGroupTitle }}</span>
+          
         </div>
       </CardContent>
     </Card>
@@ -81,7 +81,7 @@
         :group="activeGroup"
         :group-id="activeGroup.slug"
         :columns="activeGroupColumns"
-        :items="[]"
+        :items="items"
       />
     </div>
     <!-- End lookup table -->
@@ -96,45 +96,17 @@
       @cancel="showDeleteGroupModal = false"
     />
 
-    <!-- segmented overlay dropdown (positioned) -->
-    <div
-      v-if="showSegmented && segmentedPos"
-      ref="segmentedOverlayRef"
-      class="fixed z-[1200]"
-      :style="{ top: segmentedPos.top + 'px', left: segmentedPos.left + 'px' }"
-    >
-      <Card class="flex items-center gap-2 p-2">
-        <Button
-          variant="outline"
-          size="sm"
-          data-test="edit-group-btn"
-          @click="openEditGroup"
-        >
-          Edit
-        </Button>
-        <Button
-          variant="destructive"
-          size="sm"
-          data-test="delete-group-btn"
-          @click="openDeleteGroup"
-        >
-          Delete
-        </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          class="h-8 w-8"
-          aria-label="Close segmented menu"
-          title="Close"
-          @click="hideSegmented"
-        >
-          ✕
-        </Button>
-      </Card>
-    </div>
+    
 
     <!-- Add/Edit Group modal (AddGroupModal component) -->
-    <Teleport to="#__vben_main_content">
+    <Teleport to="body">
+      <SegmentedOverlay
+        :show="showSegmented"
+        :position="segmentedPos"
+        @edit="openEditGroup"
+        @delete="openDeleteGroup"
+        @close="showSegmented = false"
+      />
       <AddGroupModal
         :modelValue="showAddGroup"
         @update:modelValue="showAddGroup = $event"
@@ -164,7 +136,7 @@ import {
   listItems,
   ensureTableForGroup,
 } from '../services';
-import { AddGroupModal, LookupTable, DeleteConfirm } from '../components';
+import { AddGroupModal, LookupTable, DeleteConfirm, SegmentedOverlay } from '../components';
 import { categories } from './categories';
 import {
   Button,
@@ -196,14 +168,14 @@ const loading = ref(false);
 const error = ref<any>(null);
 const activeTab = ref<string>((route.params.group as string) || '');
 const showSegmented = ref<boolean>(false);
-const canEditColumns = ref<boolean>(true);
-const showDeleteGroupModal = ref<boolean>(false);
 const segmentedPos = ref<{ top: number; left: number; width?: number } | null>(
   null,
 );
-const segmentedOverlayRef = ref<HTMLElement | null>(null);
+const showDeleteGroupModal = ref(false);
+const canEditColumns = ref(false);
 
-let _segmentedClickHandler: any = null;
+
+
 
 const categoryObj = computed(() =>
   categories.find((c) => c.id === category.value),
@@ -228,9 +200,24 @@ const activeGroup = computed<LookupGroup | null>(
     null,
 );
 
-const activeGroupTitle = computed(() =>
-  activeGroup.value ? (activeGroup.value.title || '').toUpperCase() : '',
-);
+
+
+const items = ref<any[]>([]);
+
+async function loadItems() {
+  if (!activeGroup.value) return;
+  try {
+    const res = await listItems(activeGroup.value.slug);
+    items.value = Array.isArray(res) ? res : [];
+  } catch (error_) {
+    console.error('Failed to load items for group', activeGroup.value.slug, error_);
+    items.value = [];
+  }
+}
+
+watch(activeGroup, () => {
+  loadItems();
+});
 
 async function loadGroups() {
   loading.value = true;
@@ -262,7 +249,7 @@ async function loadGroups() {
   }
 }
 
-async function onTabDblClick(g: any, ev: any) {
+async function onTabDblClick(g: any, ev: MouseEvent) {
   if (!g || g.slug !== activeTab.value) return;
 
   try {
@@ -273,7 +260,9 @@ async function onTabDblClick(g: any, ev: any) {
   }
 
   try {
-    const rect = ev?.currentTarget?.getBoundingClientRect();
+    const target = ev.target as HTMLElement;
+    const triggerEl = target.closest('[data-test="group-tab"]');
+    const rect = triggerEl?.getBoundingClientRect();
     segmentedPos.value = rect
       ? {
           top: rect.bottom + window.scrollY + 6,
@@ -287,27 +276,9 @@ async function onTabDblClick(g: any, ev: any) {
   showSegmented.value = true;
 }
 
-function hideSegmented() {
-  showSegmented.value = false;
-  segmentedPos.value = null;
-}
 
-function attachSegmentedClickAway() {
-  if (_segmentedClickHandler) return;
-  _segmentedClickHandler = (ev: any) => {
-    const el = segmentedOverlayRef.value;
-    if (el && !el.contains(ev.target)) {
-      hideSegmented();
-    }
-  };
-  document.addEventListener('mousedown', _segmentedClickHandler, true);
-}
 
-function detachSegmentedClickAway() {
-  if (!_segmentedClickHandler) return;
-  document.removeEventListener('mousedown', _segmentedClickHandler, true);
-  _segmentedClickHandler = null;
-}
+
 
 watch(
   () => route.params.category,
@@ -317,7 +288,6 @@ watch(
 );
 
 watch(activeTab, (newVal) => {
-  hideSegmented();
   if (!newVal) return;
   router.push({
     name: 'LookupCategory',
@@ -325,10 +295,7 @@ watch(activeTab, (newVal) => {
   });
 });
 
-watch(showSegmented, (val) => {
-  if (val) attachSegmentedClickAway();
-  else detachSegmentedClickAway();
-});
+
 
 onMounted(() => {
   loadGroups();
@@ -351,9 +318,7 @@ watch(
   { immediate: true },
 );
 
-onBeforeUnmount(() => {
-  detachSegmentedClickAway();
-});
+
 
 function normalizeCategory(): string {
   const v = route.params.category as unknown;
@@ -376,13 +341,11 @@ function openEditGroup() {
   isEditingGroup.value = true;
   editInitial.value = activeGroup.value;
   showAddGroup.value = true;
-  hideSegmented();
 }
 
 function openDeleteGroup() {
   if (!activeGroup.value) return;
   showDeleteGroupModal.value = true;
-  hideSegmented();
 }
 
 async function confirmDeleteGroup() {
@@ -449,7 +412,7 @@ async function handleAddGroupPayload(payload: any) {
 
 async function handleEditGroupPayload(payload: any) {
   if (!activeGroup.value) return;
-  const originalGroupId = activeGroup.value.id;
+
   const updates: any = {
     title: payload.title,
     short_description: payload.short_description,
@@ -459,35 +422,35 @@ async function handleEditGroupPayload(payload: any) {
     updates.code_format = payload.code_format || null;
     updates.code_regex = payload.code_regex || null;
   }
+
   try {
     let updated: any = await updateGroup(activeGroup.value.id, updates);
     if (Array.isArray(updated)) updated = updated[0] || null;
-    await loadGroups();
-    const refreshedById =
-      groups.value.find((g) => g.id === originalGroupId) || null;
-    if (refreshedById?.slug) {
-      activeTab.value = refreshedById.slug;
-      router.replace({
-name: 'LookupCategory',
-      });
-    } else if (updated?.slug) {
+
+    if (updated && updated.id) {
+      const index = groups.value.findIndex((g) => g.id === updated.id);
+      if (index !== -1) {
+        groups.value.splice(index, 1, updated);
+      }
+
       activeTab.value = updated.slug;
+
       router.replace({
-        name: 'SettingsCategory',
+        name: 'LookupCategory',
         params: { category: normalizeCategory(), group: updated.slug },
       });
-    }
-    if (
-      canEditColumns.value &&
-      (updates.columns_schema || updates.code_format)
-    ) {
-      const targetSlug =
-        refreshedById?.slug || updated?.slug || activeTab.value;
-      const refreshed = groups.value.find((g) => g.slug === targetSlug) || null;
-      if (refreshed) await ensureTableForGroup(refreshed);
+
+      if (
+        canEditColumns.value &&
+        (updates.columns_schema || updates.code_format)
+      ) {
+        await ensureTableForGroup(updated);
+      }
+    } else {
+      await loadGroups();
     }
   } catch (error_) {
-    console.error('Failed to update group', error_);
+    console.error('An error occurred during the update process:', error_);
   } finally {
     isEditingGroup.value = false;
     editInitial.value = null;

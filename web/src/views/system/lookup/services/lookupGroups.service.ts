@@ -111,16 +111,7 @@ export async function updateGroup(id: string, updates: any) {
       .replaceAll(/_+/g, '_')
       .replaceAll(/^_+|_+$/g, '');
 
-  let newSlug = existing.slug;
-  if (updates && typeof updates.slug === 'string' && updates.slug.length > 0) {
-    newSlug = deriveSafe(updates.slug);
-  } else if (
-    updates &&
-    typeof updates.title === 'string' &&
-    updates.title.length > 0
-  ) {
-    newSlug = deriveSafe(updates.title);
-  }
+  const newSlug = existing.slug;
 
   const oldSlug = existing.slug;
   const oldTable = `lookup_${deriveSafe(oldSlug)}`;
