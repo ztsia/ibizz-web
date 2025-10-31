@@ -20,7 +20,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     redirect: '/lookup',
-    meta: { title: 'Lookup', hideInTab: true, hideInMenu: true},
+    meta: { title: 'Lookup', hideInTab: true, hideInMenu: true },
   },
   {
     path: '/lookup',

@@ -70,7 +70,6 @@
             </Button>
           </div>
           <div v-else-if="groups.length === 0">No groups in this category.</div>
-          
         </div>
       </CardContent>
     </Card>
@@ -95,8 +94,6 @@
       @confirm="confirmDeleteGroup"
       @cancel="showDeleteGroupModal = false"
     />
-
-    
 
     <!-- Add/Edit Group modal (AddGroupModal component) -->
     <Teleport to="body">
@@ -126,7 +123,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import {
   listGroups,
@@ -136,7 +133,12 @@ import {
   listItems,
   ensureTableForGroup,
 } from '../services';
-import { AddGroupModal, LookupTable, DeleteConfirm, SegmentedOverlay } from '../components';
+import {
+  AddGroupModal,
+  LookupTable,
+  DeleteConfirm,
+  SegmentedOverlay,
+} from '../components';
 import { categories } from './categories';
 import {
   Button,
@@ -174,9 +176,6 @@ const segmentedPos = ref<{ top: number; left: number; width?: number } | null>(
 const showDeleteGroupModal = ref(false);
 const canEditColumns = ref(false);
 
-
-
-
 const categoryObj = computed(() =>
   categories.find((c) => c.id === category.value),
 );
@@ -200,8 +199,6 @@ const activeGroup = computed<LookupGroup | null>(
     null,
 );
 
-
-
 const items = ref<any[]>([]);
 
 async function loadItems() {
@@ -210,7 +207,11 @@ async function loadItems() {
     const res = await listItems(activeGroup.value.slug);
     items.value = Array.isArray(res) ? res : [];
   } catch (error_) {
-    console.error('Failed to load items for group', activeGroup.value.slug, error_);
+    console.error(
+      'Failed to load items for group',
+      activeGroup.value.slug,
+      error_,
+    );
     items.value = [];
   }
 }
@@ -276,10 +277,6 @@ async function onTabDblClick(g: any, ev: MouseEvent) {
   showSegmented.value = true;
 }
 
-
-
-
-
 watch(
   () => route.params.category,
   () => {
@@ -294,8 +291,6 @@ watch(activeTab, (newVal) => {
     params: { category: normalizeCategory(), group: newVal },
   });
 });
-
-
 
 onMounted(() => {
   loadGroups();
@@ -317,8 +312,6 @@ watch(
   },
   { immediate: true },
 );
-
-
 
 function normalizeCategory(): string {
   const v = route.params.category as unknown;
