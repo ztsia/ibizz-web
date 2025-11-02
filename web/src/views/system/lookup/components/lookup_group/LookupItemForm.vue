@@ -219,8 +219,8 @@ async function loadSuggestedCode() {
     if (suggested) {
       form.value.columns.code = suggested;
     }
-  } catch (e) {
-    console.error('loadSuggestedCode: error during suggestion', e);
+  } catch (error) {
+    console.error('loadSuggestedCode: error during suggestion', error);
     // fallthrough
   }
 }

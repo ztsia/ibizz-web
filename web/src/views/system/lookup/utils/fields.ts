@@ -69,7 +69,12 @@ export function getFieldLabel(
             example = null;
           }
         } else if (gf) {
-          const generatedRegex = generateCodeRegex(gf, group.alpha_count, group.num_count, group.single_count);
+          const generatedRegex = generateCodeRegex(
+            gf,
+            group.alpha_count,
+            group.num_count,
+            group.single_count,
+          );
           if (generatedRegex) {
             try {
               example = generateExampleCode(generatedRegex);
@@ -94,16 +99,14 @@ export function getFieldLabel(
         } catch {
           example = null;
         }
-      } else if (gf) {
-          if (generatedRegex) {
-            try {
-              example = generateExampleCode(generatedRegex);
-            } catch {
-              example = null;
-            }
-          }
+      } else if (gf && generatedRegex) {
+        try {
+          example = generateExampleCode(generatedRegex);
+        } catch {
+          example = null;
         }
-        return example
+      }
+      return example
         ? `${base} (${friendly}) — Example: ${example}`
         : `${base} (${friendly})`;
     }
@@ -125,7 +128,12 @@ export function getFieldLabel(
         if (ex) return `${base} (text) — Example: ${ex}`;
       } catch {}
     } else if (gf2) {
-      const generatedRegex = generateCodeRegex(gf2, group.alpha_count, group.num_count, group.single_count);
+      const generatedRegex = generateCodeRegex(
+        gf2,
+        group.alpha_count,
+        group.num_count,
+        group.single_count,
+      );
       console.log('getFieldLabel: generatedRegex (fallback)', generatedRegex);
       if (generatedRegex) {
         try {
