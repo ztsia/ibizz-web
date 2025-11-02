@@ -1,46 +1,60 @@
 // Preset code format patterns
-const PRESETS: Record<string, string> = {
-  ALPHA_2: '^[A-Z]{2}$',
-  NUMERIC: String.raw`^\d+$`,
-};
 
 export function isCodeUnique(existing: string[], code: string): boolean {
   return !existing.includes(code);
 }
 
 export function suggestNextCode(
-  format: string,
+  pattern: string,
   existing: string[],
 ): string | null {
-  const pattern = PRESETS[format] || format;
   try {
-    const regex = new RegExp(pattern);
-    if (isAlphaFormat(pattern)) return suggestAlphaCode(pattern, existing);
-    if (isNumericFormat(pattern)) return suggestNumericCode(pattern, existing);
-    if (isMixedFormat(pattern)) return suggestMixedCode(pattern, existing);
+    // Alphanumeric with counts: ^[A-Za-z]{a}[0-9]{n}$
+    const mixedMatch = pattern.match(/^\^\[A-Za-z\]\{(\d+)\}\[0-9\]\{(\d+)\}\$$/);
+    if (mixedMatch) {
+      const alphaLength = Number.parseInt(mixedMatch[1], 10);
+      const numLength = Number.parseInt(mixedMatch[2], 10);
+      return suggestMixedCode(alphaLength, numLength, existing);
+    }
+
+    // Numeric: ^[0-9]{c}$
+    const numericMatch = pattern.match(/^\^\[0-9\]\{(\d+)\}\$$/);
+    if (numericMatch) {
+      const fixedLength = Number.parseInt(numericMatch[1], 10);
+      return suggestNumericCode(fixedLength, existing);
+    }
+
+    // Alphabetic: ^[A-Za-z]{c}$
+    const alphaMatch = pattern.match(/^\^\[[a-zA-Z-]+\]\{(\d+)\}\$$/);
+    if (alphaMatch) {
+      const length = Number.parseInt(alphaMatch[1], 10);
+      return suggestAlphaCode(length, existing);
+    }
+
+    // Custom Alphanumeric: e.g., ^PREFIX[0-9]{N}$
+    let cleanedPattern = pattern.startsWith('^') ? pattern.substring(1) : pattern;
+    cleanedPattern = cleanedPattern.endsWith('$') ? cleanedPattern.slice(0, -1) : cleanedPattern;
+    const customMixedMatch = cleanedPattern.match(/(.*?)\[0-9\]\{(\d+)\}/);
+    if (customMixedMatch) {
+      const prefix = customMixedMatch[1];
+      const numLength = Number(customMixedMatch[2]);
+      return suggestCustomMixedCode(prefix, numLength, existing);
+    }
+
+    // Generic Alphanumeric: ^[A-Za-z0-9]+$
+    if (pattern === '^[A-Za-z0-9]+$') {
+      // No simple suggestion for generic alphanumeric
+      return null;
+    }
+
     return null;
   } catch {
     return null;
   }
 }
 
-function isAlphaFormat(pattern: string): boolean {
-  return /^\^\[A-Z\]\{\d+\}\$$/.test(pattern);
-}
 
-function isNumericFormat(pattern: string): boolean {
-  return /^\^\\d(?:\{\d+\}|\+)\$$/.test(pattern);
-}
-
-function isMixedFormat(pattern: string): boolean {
-  return /\[A-Z\].*\\d/.test(pattern);
-}
-
-function suggestAlphaCode(pattern: string, existing: string[]): string | null {
-  const regex = new RegExp(pattern);
-  const lengthMatch = pattern.match(/\{\d+\}/);
-  if (!lengthMatch || !lengthMatch[1]) return null;
-  const length = Number.parseInt(lengthMatch[1], 10);
+function suggestAlphaCode(length: number, existing: string[]): string | null {
   if (existing.length === 0) return 'A'.repeat(length);
   const sorted = [...existing].sort();
   const maxCode = sorted[sorted.length - 1];
@@ -56,24 +70,38 @@ function incrementAlpha(code: string): string | null {
   for (let i = chars.length - 1; i >= 0 && carry; i--) {
     const ch = chars[i];
     if (ch === undefined) return null;
-    if (ch === 'Z') {
-      chars[i] = 'A';
+
+    let startChar: string, endChar: string;
+    if (ch >= 'A' && ch <= 'Z') {
+      startChar = 'A';
+      endChar = 'Z';
+    } else if (ch >= 'a' && ch <= 'z') {
+      startChar = 'a';
+      endChar = 'z';
+    } else {
+      // Not a purely alphabetic character, cannot increment
+      return null;
+    }
+
+    if (ch === endChar) {
+      chars[i] = startChar;
     } else {
       chars[i] = String.fromCodePoint(ch.codePointAt(0)! + 1);
       carry = false;
     }
   }
-  if (carry) return null;
+  if (carry) {
+    // This signifies a full rollover, e.g., 'ZZ' -> 'AA'.
+    // In a fixed-length system, there's no "next" code in sequence.
+    return null;
+  }
   return chars.join('');
 }
 
 function suggestNumericCode(
-  pattern: string,
+  fixedLength: number | null,
   existing: string[],
 ): string | null {
-  const lengthMatch = pattern.match(/\{\d+\}/);
-  const fixedLength =
-    lengthMatch && lengthMatch[1] ? Number.parseInt(lengthMatch[1], 10) : null;
   // lenient handling: strip non-digits from existing entries so values like
   // "AB01" become "01" and are considered when inferring next numeric code.
   if (existing.length === 0) {
@@ -93,32 +121,28 @@ function suggestNumericCode(
     observedMaxLen = Math.max(observedMaxLen, d.length);
   }
   const padLength = fixedLength ?? (observedMaxLen > 0 ? observedMaxLen : null);
-  if (padLength) return nextNum.toString().padStart(padLength, '0');
+  if (padLength) {
+    const nextCode = nextNum.toString().padStart(padLength, '0');
+    if (nextCode.length > padLength) {
+      return null; // Numeric space exhausted
+    }
+    return nextCode;
+  }
   return nextNum.toString();
 }
 
-function suggestMixedCode(pattern: string, existing: string[]): string | null {
-  if (existing.length === 0) return generateFirstMixedCode(pattern);
+function suggestMixedCode(alphaLength: number, numLength: number, existing: string[]): string | null {
+  if (existing.length === 0) {
+    const alpha = 'A'.repeat(alphaLength);
+    const numeric = '1'.padStart(numLength, '0');
+    return `${alpha}${numeric}`;
+  }
   const sorted = [...existing].sort();
   const maxCode = sorted[sorted.length - 1];
   if (!maxCode) return null;
   return incrementMixedCode(maxCode);
 }
 
-function generateFirstMixedCode(pattern: string): string | null {
-  const alphaMatch = pattern.match(/\[A-Z\]\{(\d+)\}/);
-  const alphaLength =
-    alphaMatch && alphaMatch[1] ? Number.parseInt(alphaMatch[1], 10) : 2;
-  const numMatch = pattern.match(/\\d\{(\d+)\}/);
-  const numLength =
-    numMatch && numMatch[1] ? Number.parseInt(numMatch[1], 10) : 2;
-  const separatorMatch = pattern.match(/\[A-Z\]\{\d+\}(.*)\\d\{\d+\}/);
-  const separator =
-    separatorMatch && separatorMatch[1] ? separatorMatch[1] : '';
-  const alpha = 'A'.repeat(alphaLength);
-  const numeric = '0'.repeat(numLength);
-  return `${alpha}${separator}${numeric}`;
-}
 
 function incrementMixedCode(code: string): string | null {
   const numMatch = code.match(/\d+$/);
@@ -128,7 +152,75 @@ function incrementMixedCode(code: string): string | null {
   const numValue = Number.parseInt(numPart, 10);
   const nextNum = numValue + 1;
   const nextStr = nextNum.toString().padStart(numPart.length, '0');
+  if (nextStr.length > numPart.length) {
+    return null; // Numeric part overflow
+  }
   return prefix + nextStr;
+}
+
+function suggestCustomMixedCode(
+  prefix: string,
+  numLength: number,
+  existing: string[],
+): string | null {
+  const matchingExisting = existing.filter((code) =>
+    code.startsWith(prefix),
+  );
+
+  if (matchingExisting.length === 0) {
+    return prefix + '1'.padStart(numLength, '0');
+  }
+
+  const numbers = matchingExisting.map((code) =>
+    Number.parseInt(code.substring(prefix.length), 10),
+  );
+  const maxNum = Math.max(...numbers);
+  const nextNum = maxNum + 1;
+
+  return prefix + nextNum.toString().padStart(numLength, '0');
+}
+
+export function generateExampleCode(regexStr: string | null): string | null {
+  if (!regexStr) return null;
+
+  // Alphanumeric with counts: ^[A-Za-z]{a}[0-9]{n}$
+  const mixedMatch = regexStr.match(/^\^\[A-Za-z\]\{(\d+)\}\[0-9\]\{(\d+)\}\$$/);
+  if (mixedMatch) {
+    const alphaCount = Number(mixedMatch[1]);
+    const numCount = Number(mixedMatch[2]);
+    return 'A'.repeat(alphaCount) + '0'.repeat(numCount);
+  }
+
+  // Numeric: ^[0-9]{c}$
+  const numericMatch = regexStr.match(/^\^\[0-9\]\{(\d+)\}\$$/);
+  if (numericMatch) {
+    const count = Number(numericMatch[1]);
+    return '0'.repeat(count);
+  }
+
+  // Alphabetic: ^[A-Za-z]{c}$
+  const alphaMatch = regexStr.match(/^\^\[[a-zA-Z-]+\]\{(\d+)\}\$$/);
+  if (alphaMatch) {
+    const count = Number(alphaMatch[1]);
+    return 'A'.repeat(count);
+  }
+
+  // Generic Alphanumeric: ^[A-Za-z0-9]+$
+  if (regexStr === '^[A-Za-z0-9]+$') {
+    return 'A0';
+  }
+  // Try to generate example for custom patterns
+  let cleanedRegex = regexStr.startsWith('^') ? regexStr.substring(1) : regexStr;
+  cleanedRegex = cleanedRegex.endsWith('$') ? cleanedRegex.slice(0, -1) : cleanedRegex;
+  cleanedRegex = cleanedRegex.replace(/\[0-9\]\{(\d+)\}/g, (_, count) => '0'.repeat(Number(count)));
+  cleanedRegex = cleanedRegex.replace(/\[A-Za-z\]\{(\d+)\}/g, (_, count) => 'A'.repeat(Number(count)));
+  cleanedRegex = cleanedRegex.replace(/\[A-Za-z0-9\]\{(\d+)\}/g, (_, count) => 'A0'.repeat(Math.ceil(Number(count) / 2)).slice(0, Number(count)));
+  // If after replacements, it's not just a character class, return it as is (e.g., 'BK')
+  if (!cleanedRegex.match(/^\\[.*\\]\{\d+\\}$/)) {
+    return cleanedRegex;
+  }
+
+  return null;
 }
 
 /**
@@ -165,31 +257,3 @@ export function generateCodeRegex(
   return null;
 }
 
-/**
- * Produce a simple example string that matches the provided regex pattern.
- *
- * Behaviour:
- * - Strips ^/$ anchors and attempts to expand simple token patterns such as
- *   `[A-Za-z]{N}` and `[0-9]{N}` into a representative example string.
- * - Falls back to `null` when the pattern cannot be processed.
- */
-export function exampleFromRegex(regexStr: string | null): string | null {
-  if (!regexStr) return null;
-  try {
-    let ex = String(regexStr).replaceAll(/^\^|\$$/g, '');
-    // common escaped and unescaped forms
-    ex = ex.replaceAll(/\\\[A-Za-z\\\]\{(\d+)\}/g, (_, n) =>
-      'A'.repeat(Number(n)),
-    );
-    ex = ex.replaceAll(/\\\[0-9\\\]\{(\d+)\}/g, (_, n) =>
-      '0'.repeat(Number(n)),
-    );
-    ex = ex.replaceAll(/\[A-Za-z\]\{(\d+)\}/g, (_, n) => 'A'.repeat(Number(n)));
-    ex = ex.replaceAll(/\[0-9\]\{(\d+)\}/g, (_, n) => '0'.repeat(Number(n)));
-    // fallback replacements for character classes
-    ex = ex.replaceAll(/\[.*?\]/g, 'A').replaceAll(/\{\d+\}/g, '');
-    return ex;
-  } catch {
-    return null;
-  }
-}

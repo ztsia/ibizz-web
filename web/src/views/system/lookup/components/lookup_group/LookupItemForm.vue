@@ -86,9 +86,9 @@
 import { ref, watch, toRaw, computed } from 'vue';
 import { useForm } from 'vee-validate';
 import {
-  exampleFromRegex,
   suggestNextCode,
   generateCodeRegex,
+  generateExampleCode,
   getFieldType,
   getFieldLabel,
 } from '../../utils';
@@ -111,7 +111,13 @@ const props = defineProps<{
   columns?: any[];
   initial?: any;
   groupId?: string | null;
-  group?: any | null;
+  group?: {
+    code_format?: string;
+    code_regex?: string;
+    alpha_count?: number;
+    num_count?: number;
+    single_count?: number;
+  } | null;
 }>();
 
 const emit = defineEmits<{
@@ -170,6 +176,7 @@ async function loadDbColumns() {
 }
 
 async function loadSuggestedCode() {
+  console.log('loadSuggestedCode: props.group', props.group);
   if (props.initial && props.initial.id) return;
   const codeCol = columns.value.find((c: any) => c.name === 'code');
   if (!codeCol) return;
@@ -198,18 +205,22 @@ async function loadSuggestedCode() {
   const existing = (items || [])
     .map((it: any) => String(it?.columns?.code || ''))
     .filter(Boolean);
+  console.log('loadSuggestedCode: existing codes', existing);
   const patternOrFormat =
     regexStr ||
-    generateCodeRegex(fmt, undefined, undefined, undefined) ||
+    generateCodeRegex(fmt, grp.alpha_count, grp.num_count, grp.single_count) ||
     fmt ||
     '';
+  console.log('loadSuggestedCode: patternOrFormat', patternOrFormat);
 
   try {
     const suggested = suggestNextCode(patternOrFormat, existing);
+    console.log('loadSuggestedCode: suggested code', suggested);
     if (suggested) {
       form.value.columns.code = suggested;
     }
-  } catch {
+  } catch (e) {
+    console.error('loadSuggestedCode: error during suggestion', e);
     // fallthrough
   }
 }
@@ -251,7 +262,7 @@ const onSave = handleSubmit(async (_values: Record<string, any>) => {
       if (!re.test(String(form.value.columns.code))) {
         setFieldError(
           'code',
-          `Code must match pattern (e.g. ${exampleFromRegex(props.group.code_regex) || 'invalid'})`,
+          `Code must match pattern (e.g. ${generateExampleCode(props.group.code_regex) || 'invalid'})`,
         );
         return;
       }

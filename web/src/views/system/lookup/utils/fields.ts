@@ -1,4 +1,4 @@
-import { exampleFromRegex } from './code';
+import { generateExampleCode, generateCodeRegex } from './code';
 
 export function getFieldType(col: any, group: any | null): 'text' | 'number' {
   if (
@@ -64,11 +64,20 @@ export function getFieldLabel(
         let example: string | null = null;
         if (gr) {
           try {
-            example = exampleFromRegex(gr);
+            example = generateExampleCode(gr);
           } catch {
             example = null;
           }
-        } else if (gf === 'alphabetic') example = 'ABC';
+        } else if (gf) {
+          const generatedRegex = generateCodeRegex(gf, group.alpha_count, group.num_count, group.single_count);
+          if (generatedRegex) {
+            try {
+              example = generateExampleCode(generatedRegex);
+            } catch {
+              example = null;
+            }
+          }
+        }
         return example
           ? `${base} (${friendly}) — Example: ${example}`
           : `${base} (${friendly})`;
@@ -79,16 +88,22 @@ export function getFieldLabel(
       const gf = group.code_format || null;
       const gr = group.code_regex || null;
       let example: string | null = null;
-      if (gf && String(gf).toLowerCase() === 'numeric') example = '1';
-      else if (gr) {
+      if (gr) {
         try {
-          example = exampleFromRegex(gr);
+          example = generateExampleCode(gr);
         } catch {
           example = null;
         }
-      } else if (gf && String(gf).toLowerCase() === 'alphabetic')
-        example = 'ABC';
-      return example
+      } else if (gf) {
+          if (generatedRegex) {
+            try {
+              example = generateExampleCode(generatedRegex);
+            } catch {
+              example = null;
+            }
+          }
+        }
+        return example
         ? `${base} (${friendly}) — Example: ${example}`
         : `${base} (${friendly})`;
     }
@@ -106,12 +121,19 @@ export function getFieldLabel(
     const gr2 = group.code_regex || null;
     if (gr2) {
       try {
-        const ex = exampleFromRegex(gr2);
+        const ex = generateExampleCode(gr2);
         if (ex) return `${base} (text) — Example: ${ex}`;
       } catch {}
+    } else if (gf2) {
+      const generatedRegex = generateCodeRegex(gf2, group.alpha_count, group.num_count, group.single_count);
+      console.log('getFieldLabel: generatedRegex (fallback)', generatedRegex);
+      if (generatedRegex) {
+        try {
+          const ex = generateExampleCode(generatedRegex);
+          if (ex) return `${base} (text) — Example: ${ex}`;
+        } catch {}
+      }
     }
-    if (gf2 && String(gf2).toLowerCase() === 'alphabetic')
-      return `${base} (text) — Example: ABC`;
   }
   return `${base} (text)`;
 }

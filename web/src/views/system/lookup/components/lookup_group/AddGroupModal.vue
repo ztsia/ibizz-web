@@ -265,7 +265,7 @@
 
 <script lang="ts" setup>
 import { ref, watch, toRaw, computed } from 'vue';
-import { slugify, generateCodeRegex } from '../../utils';
+import { slugify, generateCodeRegex, generateExampleCode } from '../../utils';
 import { ColumnChips } from '..';
 
 import {
@@ -408,15 +408,13 @@ watch(codeEnabled, (v) => {
 
 const exampleCode = computed(() => {
   const fmt = values.code_format;
-  if (fmt === 'Alphanumeric') {
-    const a = Math.max(0, Number(alphaCount.value) || 0);
-    const n = Math.max(0, Number(numCount.value) || 0);
-    return 'A'.repeat(a) + '0'.repeat(n);
-  }
-  const count = Number(singleCount.value) || 0;
-  if (fmt === 'Numeric') return '0'.repeat(count);
-  if (fmt === 'Alphabetic') return 'A'.repeat(count);
-  return '';
+  const generatedRegex = generateCodeRegex(
+    fmt,
+    alphaCount.value,
+    numCount.value,
+    singleCount.value,
+  );
+  return generatedRegex ? generateExampleCode(generatedRegex) : null;
 });
 
 watch(
@@ -498,6 +496,11 @@ const submitLogic: SubmissionHandler = async (formValues, _actions) => {
         singleCount.value,
       )
     : null;
+  if (codeEnabled.value) {
+    payload.alpha_count = alphaCount.value;
+    payload.num_count = numCount.value;
+    payload.single_count = singleCount.value;
+  }
   emit('save', payload);
   visible.value = false;
 };

@@ -25,7 +25,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/lookup',
     name: 'Lookup',
-    component: () => import('#/views/system/lookup/pages/LookupMenu.vue'),
+    component: () => import('#/views/system/lookup/pages').then(m => m.LookupMenu),
     meta: { title: 'Lookup', icon: 'lucide:folder-search' },
   },
   {
