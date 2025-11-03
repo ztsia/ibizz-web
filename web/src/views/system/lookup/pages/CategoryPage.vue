@@ -25,7 +25,7 @@
                 :value="g.slug"
                 class="group-tab"
                 data-test="group-tab"
-                @dblclick="onTabDblClick(g, $event)"
+                @contextmenu.prevent="onTabContextMenu(g, $event)"
               >
                 <div class="text-left">
                   <span class="font-medium">{{ g.title }}</span>
@@ -251,7 +251,7 @@ async function loadGroups() {
   }
 }
 
-async function onTabDblClick(g: any, ev: MouseEvent) {
+async function onTabContextMenu(g: any, ev: MouseEvent) {
   if (!g || g.slug !== activeTab.value) return;
 
   try {
@@ -335,11 +335,13 @@ function openEditGroup() {
   isEditingGroup.value = true;
   editInitial.value = activeGroup.value;
   showAddGroup.value = true;
+  showSegmented.value = false;
 }
 
 function openDeleteGroup() {
   if (!activeGroup.value) return;
   showDeleteGroupModal.value = true;
+  showSegmented.value = false;
 }
 
 async function confirmDeleteGroup() {

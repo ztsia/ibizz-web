@@ -33,7 +33,7 @@ const routes: RouteRecordRaw[] = [
       title: 'Lookup',
       hideInTab: true,
       hideInMenu: true,
-      activeMenu: 'Lookup',
+      activePath: '/lookup',
     },
   },
   {
@@ -44,7 +44,7 @@ const routes: RouteRecordRaw[] = [
       title: 'Lookup',
       hideInTab: true,
       hideInMenu: true,
-      activeMenu: 'Lookup',
+      activePath: '/lookup',
     },
   },
   {
