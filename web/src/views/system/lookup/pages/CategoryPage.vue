@@ -125,7 +125,6 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
 import {
   listGroups,
   createGroup,
@@ -151,9 +150,13 @@ import {
   TabsTrigger,
 } from '@vben-core/shadcn-ui';
 
-const route = useRoute();
-const router = useRouter();
-const category = computed(() => normalizeCategory());
+const props = defineProps<{
+  category: string;
+}>();
+
+const emit = defineEmits<{
+  (e: 'back'): void;
+}>();
 
 interface LookupGroup {
   id: string;
@@ -169,7 +172,7 @@ interface LookupGroup {
 const groups = ref<LookupGroup[]>([]);
 const loading = ref(false);
 const error = ref<any>(null);
-const activeTab = ref<string>((route.params.group as string) || '');
+const activeTab = ref('');
 const showSegmented = ref<boolean>(false);
 const segmentedPos = ref<{ top: number; left: number; width?: number } | null>(
   null,
@@ -178,11 +181,11 @@ const showDeleteGroupModal = ref(false);
 const canEditColumns = ref(false);
 
 const categoryObj = computed(() =>
-  categories.find((c) => c.id === category.value),
+  categories.find((c) => c.id === props.category),
 );
 
 const displayTitle = computed(() =>
-  categoryObj.value ? categoryObj.value.title : category.value || '',
+  categoryObj.value ? categoryObj.value.title : props.category || '',
 );
 
 // Add Group modal state
@@ -225,19 +228,17 @@ async function loadGroups() {
   loading.value = true;
   error.value = null;
   try {
-    const res = await listGroups(normalizeCategory());
+    const res = await listGroups(props.category);
     groups.value = Array.isArray(res) ? res : [];
-    if (!route.params.group) {
-      activeTab.value = groups.value.length > 0 ? groups.value[0]!.slug : '';
-      if (activeTab.value) {
-        router.replace({
-          name: 'LookupCategoryGroup',
-          params: { category: normalizeCategory(), group: activeTab.value },
-        });
-      }
+    if (groups.value.length > 0) {
+      activeTab.value = groups.value[0]!.slug;
     }
   } catch (error_: any) {
-    console.error('Failed to load groups for category', category.value, error_);
+    console.error(
+      'Failed to load groups for category',
+      props.category,
+      error_,
+    );
     const raw =
       (error_ && (error_.message || error_.statusText || String(error_))) ||
       'Unknown error';
@@ -279,26 +280,18 @@ async function onTabContextMenu(g: any, ev: MouseEvent) {
 }
 
 watch(
-  () => route.params.category,
+  () => props.category,
   () => {
     loadGroups();
   },
 );
-
-watch(activeTab, (newVal) => {
-  if (!newVal) return;
-  router.push({
-    name: 'LookupCategoryGroup',
-    params: { category: normalizeCategory(), group: newVal },
-  });
-});
 
 onMounted(() => {
   loadGroups();
 });
 
 function updateDocumentTitle() {
-  const categoryLabel = displayTitle.value || category.value || 'Lookup';
+  const categoryLabel = displayTitle.value || props.category || 'Lookup';
   const groupLabel = activeGroup.value
     ? activeGroup.value.title || activeGroup.value.slug
     : null;
@@ -314,14 +307,8 @@ watch(
   { immediate: true },
 );
 
-function normalizeCategory(): string {
-  const v = route.params.category as unknown;
-  if (Array.isArray(v)) return String(v[0] || '');
-  return String(v ?? '');
-}
-
 function openLookup() {
-  router.push({ name: 'Lookup' });
+  emit('back');
 }
 
 function openAddGroup() {
@@ -373,7 +360,7 @@ async function handleAddGroupPayload(payload: any) {
   activeTab.value = pendingGroup.slug;
   try {
     let created = await createGroup({
-      category_id: normalizeCategory(),
+      category_id: props.category,
       slug: payload.slug || payload.title.toLowerCase().replaceAll(/\s+/g, '-'),
       title: payload.title,
       short_description: payload.short_description,
@@ -430,11 +417,6 @@ async function handleEditGroupPayload(payload: any) {
       }
 
       activeTab.value = updated.slug;
-
-      router.replace({
-        name: 'LookupCategoryGroup',
-        params: { category: normalizeCategory(), group: updated.slug },
-      });
 
       if (
         canEditColumns.value &&

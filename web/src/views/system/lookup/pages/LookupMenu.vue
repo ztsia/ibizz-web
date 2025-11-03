@@ -30,7 +30,6 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 import { CardGrid, LookupCard } from '../components';
 import { categories } from './categories';
 
@@ -41,15 +40,16 @@ try {
   /* ignore */
 }
 
-const router = useRouter();
+const emit = defineEmits<{
+  (e: 'select', payload: any): void;
+}>();
+
 const snackbarVisible = ref(false);
 const snackbarMessage = ref('');
 
 function handleSelect(payload: any) {
-  if (payload && payload.id && router && typeof router.push === 'function') {
-    router
-      .push({ name: 'LookupCategory', params: { category: payload.id } })
-      .catch(() => {});
+  if (payload && payload.id) {
+    emit('select', payload);
     return;
   }
   // fallback: show snackbar with selection info
