@@ -1,0 +1,1 @@
+INSERT INTO "public"."lookup_type_of_interest_income" ("id", "value") VALUES ('1', 'DIRECTOR'), ('2', 'FIXED DEPOSIT'), ('3', 'LOAN STOCK'), ('4', 'OTHER INTEREST INCOM NOT S33(2)'), ('5', 'OTHERS'), ('6', 'PROPERTY'), ('7', 'RELATED COMPANY'), ('8', 'TAX EXEMPT/SINGLE-TIER'), ('9', 'INVESTMENT'), ('10', 'TAXABLE INVESTMENT'), ('11', 'THIRD PARTY');

@@ -1,11 +1,23 @@
+/**
+ * @file Mock implementation for lookup group services.
+ * @summary This file provides an in-memory mock of the backend services for managing lookup groups.
+ * It is intended for frontend development and testing purposes.
+ * The comments below describe the expected behavior of the real backend API that will replace this mock.
+ * The original implementation used Supabase with a `lookup_groups` table and several RPC functions.
+ */
+
 import { db, delay, genId } from './mock_db';
 
 /**
- * List lookup groups.
- * Inputs:
- *  - categoryId: when provided, only groups with matching `category_id` are returned.
- * Outputs: Promise<Array<any>> - shallow copy of matching group objects.
- * Behavior: returns all groups when `categoryId` is falsy. Uses in-memory `lookup_groups` table.
+ * List lookup groups for a specific category.
+ * @param {string} categoryId - The ID/slug of the category to filter by.
+ * @returns {Promise<Array<any>>} A promise that resolves to an array of group objects.
+ *
+ * @backend_implementation
+ * This function should query the `lookup_groups` table.
+ * It should filter the results where `category_id` matches the provided `categoryId`.
+ * The results should be ordered alphabetically by `title` (`order=title.asc`).
+ * Original Supabase/PostgREST URL: `/rest/v1/lookup_groups?category_id=eq.{categoryId}&order=title.asc`
  */
 export async function listGroups(categoryId: string) {
   await delay();
@@ -15,12 +27,15 @@ export async function listGroups(categoryId: string) {
 }
 
 /**
- * Get a single lookup group by category and slug.
- * Inputs:
- *  - categoryId: id of the category the group belongs to
- *  - slug: group slug to match
- * Outputs: Promise<object|null> - the matched group object, or null if not found.
- * Behavior: Exact match on both `category_id` and `slug` (stringified for robustness).
+ * Get a single lookup group by its category and slug.
+ * @param {string} categoryId - The ID of the category the group belongs to.
+ * @param {string} slug - The unique slug of the group.
+ * @returns {Promise<object|null>} A promise that resolves to the matched group object, or null if not found.
+ *
+ * @backend_implementation
+ * This function should query the `lookup_groups` table for a single record.
+ * It needs to filter by both `category_id` and `slug` for a unique match.
+ * Original Supabase/PostgREST URL: `/rest/v1/lookup_groups?category_id=eq.{categoryId}&slug=eq.{slug}`
  */
 export async function getGroup(categoryId: string, slug: string) {
   await delay();
@@ -35,10 +50,17 @@ export async function getGroup(categoryId: string, slug: string) {
 }
 
 /**
- * Create a new lookup group.
- * Inputs: group object (may omit `id`)
- * Outputs: Promise<object> - the newly created row (with `id` assigned if missing).
- * Behavior: shallow-copies provided object, assigns an id when absent, appends to `lookup_groups`.
+ * Create a new lookup group and its associated data table.
+ * @param {any} group - The group data to create.
+ * @returns {Promise<object>} A promise that resolves to the newly created group object.
+ *
+ * @backend_implementation
+ * This function should insert a new row into the `lookup_groups` table.
+ * After creating the group record, it must also provision a new data table for the group's items.
+ * The table name is typically derived from the group's slug (e.g., `lookup_my_group`).
+ * The schema for this new table is defined by the `columns_schema` property of the group.
+ * The original implementation used a Supabase RPC function `create_lookup_group` to handle both the insert and the table creation in a single transaction.
+ * The API should return the full representation of the newly created group.
  */
 export async function createGroup(group: any) {
   await delay();
@@ -62,13 +84,7 @@ export async function createGroup(group: any) {
 }
 
 /**
- * Create an in-memory lookup table representation for the provided slug.
- * - Sanitizes the slug into a safe table name: `lookup_<slug_safe>`
- * - Ensures `db[tableName]` exists (an array of rows)
- * - Stores the provided columns schema & code_format in
- *   `db.lookup_table_schemas[tableName]` for consumers to inspect.
- *
- * This is intentionally best-effort and idempotent.
+ * (Internal mock helper) Create an in-memory lookup table representation for the provided slug.
  */
 function ensureLookupTableForGroup(slug: string) {
   const raw = String(slug ?? '');
@@ -89,11 +105,15 @@ function ensureLookupTableForGroup(slug: string) {
 
 /**
  * Update an existing lookup group.
- * Inputs:
- *  - id: id of the group to update
- *  - updates: partial object with fields to replace/merge
- * Outputs: Promise<object|null> - updated row, or null if the id was not found.
- * Behavior: merges existing row with updates (shallow) and replaces it in-place.
+ * @param {string} id - The UUID of the group to update.
+ * @param {any} updates - An object containing the fields to update.
+ * @returns {Promise<object|null>} A promise that resolves to the updated group object, or null if not found.
+ *
+ * @backend_implementation
+ * This function should update a record in the `lookup_groups` table identified by its `id`.
+ * If the `columns_schema` is being changed, the backend should first verify that the associated data table is empty.
+ * The original implementation used a Supabase RPC function `update_lookup_group` to handle these checks and updates.
+ * The RPC function took parameters like `p_group_id`, `p_title`, `p_columns`, etc.
  */
 export async function updateGroup(id: string, updates: any) {
   await delay();
@@ -183,10 +203,14 @@ export async function updateGroup(id: string, updates: any) {
 }
 
 /**
- * Delete a lookup group by id.
- * Inputs: id string
- * Outputs: Promise<object|null> - removed row if found, otherwise null.
- * Behavior: mutates the in-memory `lookup_groups` table by splicing out the item.
+ * Delete a lookup group and its associated data table.
+ * @param {string} id - The UUID of the group to delete.
+ * @returns {Promise<object|null>} A promise that resolves to the removed group object, or null if not found.
+ *
+ * @backend_implementation
+ * This function should delete a record from the `lookup_groups` table.
+ * It must also drop the associated data table (e.g., `lookup_my_group`).
+ * The original implementation used a Supabase RPC function `delete_lookup_group` which accepted `p_group_id` and a boolean `p_drop_table` to handle this atomically.
  */
 export async function deleteGroup(id: string) {
   await delay();
