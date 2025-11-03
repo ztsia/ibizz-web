@@ -1,8 +1,4 @@
-import type {
-  RouteRecordRaw,
-  RouteLocationNormalized,
-  NavigationGuardNext,
-} from 'vue-router';
+import type { RouteRecordRaw } from 'vue-router';
 
 // Helper: convert slugs like "some-slug_name" -> "Some Slug Name"
 export function humanizeSlug(slug?: string): string {
@@ -55,7 +51,11 @@ const routes: RouteRecordRaw[] = [
     path: '/profile',
     name: 'LookupProfile',
     component: () => import('#/views/system/lookup/pages/ProfilePage.vue'),
-    meta: { title: 'Lookup Profile', hideInMenu: true, hideInTab: true },
+    meta: {
+      title: 'Lookup Profile',
+      hideInMenu: true,
+      hideInTab: true,
+    },
   },
 ];
 
