@@ -30,27 +30,32 @@ const routes: RouteRecordRaw[] = [
     meta: { title: 'Lookup', icon: 'lucide:folder-search' },
   },
   {
-    path: '/lookup/:category/:group?',
+    path: '/lookup/:category',
     name: 'LookupCategory',
     component: () => import('#/views/system/lookup/pages/CategoryPage.vue'),
-    meta: { title: 'Lookup Category', hideInTab: true, hideInMenu: true },
-    beforeEnter: (
-      to: RouteLocationNormalized,
-      _from: RouteLocationNormalized,
-      next: NavigationGuardNext,
-    ) => {
-      // Special case: profile category uses blank page
-      if (to.params.category === 'profile') {
-        return next({ name: 'LookupProfile' });
-      }
-      next();
+    meta: {
+      title: 'Lookup',
+      hideInTab: true,
+      hideInMenu: true,
+      activeMenu: 'Lookup',
     },
   },
   {
-    path: '/lookup/profile',
+    path: '/lookup/:category/:group',
+    name: 'LookupCategoryGroup',
+    component: () => import('#/views/system/lookup/pages/CategoryPage.vue'),
+    meta: {
+      title: 'Lookup',
+      hideInTab: true,
+      hideInMenu: true,
+      activeMenu: 'Lookup',
+    },
+  },
+  {
+    path: '/profile',
     name: 'LookupProfile',
     component: () => import('#/views/system/lookup/pages/ProfilePage.vue'),
-    meta: { title: 'Lookup Profile', hideInTab: true, hideInMenu: true },
+    meta: { title: 'Lookup Profile', hideInMenu: true, hideInTab: true },
   },
 ];
 

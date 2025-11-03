@@ -81,6 +81,7 @@
         :group-id="activeGroup.slug"
         :columns="activeGroupColumns"
         :items="items"
+        has-pager
       />
     </div>
     <!-- End lookup table -->
@@ -230,7 +231,7 @@ async function loadGroups() {
       activeTab.value = groups.value.length > 0 ? groups.value[0]!.slug : '';
       if (activeTab.value) {
         router.replace({
-          name: 'LookupCategory',
+          name: 'LookupCategoryGroup',
           params: { category: normalizeCategory(), group: activeTab.value },
         });
       }
@@ -287,7 +288,7 @@ watch(
 watch(activeTab, (newVal) => {
   if (!newVal) return;
   router.push({
-    name: 'LookupCategory',
+    name: 'LookupCategoryGroup',
     params: { category: normalizeCategory(), group: newVal },
   });
 });
@@ -429,7 +430,7 @@ async function handleEditGroupPayload(payload: any) {
       activeTab.value = updated.slug;
 
       router.replace({
-        name: 'LookupCategory',
+        name: 'LookupCategoryGroup',
         params: { category: normalizeCategory(), group: updated.slug },
       });
 

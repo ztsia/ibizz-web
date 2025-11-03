@@ -1,29 +1,31 @@
 <template>
   <div>
     <div class="flex items-center justify-between gap-4">
-      <div
-        v-if="hasMore || page > 1 || (searchQuery && searchQuery.length > 0)"
-        class="relative flex-1"
-      >
-        <Input
-          v-model="searchQuery"
-          type="search"
-          placeholder="Search code, name or description..."
-          data-test="search"
-          class="w-full pr-8"
-          @input="onSearchChange"
-        />
-        <!-- clear button appears when there's a query -->
-        <Button
-          v-if="searchQuery && searchQuery.length > 0"
-          variant="ghost"
-          size="icon"
-          class="absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2"
-          data-test="search-clear"
-          @click="clearSearch"
+      <div class="flex-1">
+        <div
+          v-if="hasMore || page > 1 || (searchQuery && searchQuery.length > 0)"
+          class="relative"
         >
-          <X class="h-4 w-4" />
-        </Button>
+          <Input
+            v-model="searchQuery"
+            type="search"
+            placeholder="Search code, name or description..."
+            data-test="search"
+            class="w-full pr-8"
+            @input="onSearchChange"
+          />
+          <!-- clear button appears when there's a query -->
+          <Button
+            v-if="searchQuery && searchQuery.length > 0"
+            variant="ghost"
+            size="icon"
+            class="absolute right-1 top-1/2 h-7 w-7 -translate-y-1/2"
+            data-test="search-clear"
+            @click="clearSearch"
+          >
+            <X class="h-4 w-4" />
+          </Button>
+        </div>
       </div>
       <Button data-test="add-item" @click="openAdd"> Add Item </Button>
     </div>
@@ -71,7 +73,7 @@
 
     <div
       v-if="hasPager && (hasMore || page > 1)"
-      class="mt-4 flex flex-wrap items-center justify-end gap-2 text-sm"
+      class="mt-4 flex flex-wrap items-center justify-start gap-2 text-sm"
     >
       <Button
         variant="outline"
@@ -628,3 +630,13 @@ async function jumpToLast() {
   }
 }
 </script>
+
+<style>
+/* Hide native search input clear button */
+input[type='search']::-webkit-search-decoration,
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-results-button,
+input[type='search']::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+}
+</style>
