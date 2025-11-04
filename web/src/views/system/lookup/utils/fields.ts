@@ -1,6 +1,9 @@
 import { generateExampleCode, generateCodeRegex } from './code';
 
-export function getFieldType(col: any, group: any | null): 'text' | 'number' {
+export function getFieldType(
+  col: any,
+  group: any | null,
+): 'text' | 'number' | 'month' | 'year' | 'double' | 'int' | 'string' {
   if (
     (col.name === 'code' || col.key === 'code') &&
     group &&
@@ -8,10 +11,16 @@ export function getFieldType(col: any, group: any | null): 'text' | 'number' {
   ) {
     const gf = String(group.code_format).toLowerCase();
     if (gf === 'numeric') return 'number';
-    return 'text';
+    return 'string';
   }
-  if (col.type === 'number' || col.type === 'integer') return 'number';
-  return 'text';
+  const ty = String(col.type || '').toLowerCase();
+  if (ty === 'int') return 'int';
+  if (ty === 'double') return 'double';
+  if (ty === 'month') return 'month';
+  if (ty === 'year') return 'year';
+  if (ty === 'string') return 'string';
+  if (ty === 'number' || ty === 'integer') return 'number';
+  return 'string';
 }
 
 export function getFieldLabel(
@@ -34,32 +43,32 @@ export function getFieldLabel(
       t === 'serial' ||
       t === 'bigserial'
     )
-      return 'number';
+      return 'int';
     if (
       t === 'numeric' ||
       t === 'decimal' ||
       t === 'double precision' ||
       t === 'real'
     )
-      return 'number';
+      return 'double';
     if (
       t.includes('char') ||
       t === 'text' ||
       t === 'character varying' ||
       t === 'varchar'
     )
-      return 'text';
+      return 'string';
     if (t === 'json' || t === 'jsonb') return 'json';
     if (t.includes('time') || t === 'timestamp' || t === 'date') return 'date';
     if (t === 'boolean' || t === 'bool') return 'boolean';
-    return 'text';
+    return 'string';
   };
 
   if (dbType) {
     if ((col.name === 'code' || col.key === 'code') && group) {
       const gf = (group.code_format || '').toLowerCase();
       if (gf === 'alphanumeric' || gf === 'alphabetic') {
-        const friendly = 'text';
+        const friendly = 'string';
         const gr = group.code_regex || null;
         let example: string | null = null;
         if (gr) {
@@ -88,7 +97,7 @@ export function getFieldLabel(
           : `${base} (${friendly})`;
       }
     }
-    const friendly = mapDb(dbType) || 'text';
+    const friendly = mapDb(dbType) || 'string';
     if ((col.name === 'code' || col.key === 'code') && group) {
       const gf = group.code_format || null;
       const gr = group.code_regex || null;
@@ -99,11 +108,19 @@ export function getFieldLabel(
         } catch {
           example = null;
         }
-      } else if (gf && generatedRegex) {
-        try {
-          example = generateExampleCode(generatedRegex);
-        } catch {
-          example = null;
+      } else if (gf) {
+        const generatedRegex = generateCodeRegex(
+          gf,
+          group.alpha_count,
+          group.num_count,
+          group.single_count,
+        );
+        if (generatedRegex) {
+          try {
+            example = generateExampleCode(generatedRegex);
+          } catch {
+            example = null;
+          }
         }
       }
       return example
@@ -114,7 +131,10 @@ export function getFieldLabel(
   }
 
   const ty = String(col.type || '').toLowerCase();
-  if (ty === 'number' || ty === 'integer') return `${base} (number)`;
+  if (ty === 'int') return `${base} (integer)`;
+  if (ty === 'double') return `${base} (double, 4 decimals)`;
+  if (ty === 'month') return `${base} (month, 1-12)`;
+  if (ty === 'year') return `${base} (year, 4 digits)`;
   if (ty === 'json') return `${base} (json)`;
   if (ty === 'date' || ty === 'datetime' || ty === 'timestamp')
     return `${base} (date)`;
@@ -125,7 +145,7 @@ export function getFieldLabel(
     if (gr2) {
       try {
         const ex = generateExampleCode(gr2);
-        if (ex) return `${base} (text) — Example: ${ex}`;
+        if (ex) return `${base} (string) — Example: ${ex}`; // Changed from text to string
       } catch {}
     } else if (gf2) {
       const generatedRegex = generateCodeRegex(
@@ -138,10 +158,11 @@ export function getFieldLabel(
       if (generatedRegex) {
         try {
           const ex = generateExampleCode(generatedRegex);
-          if (ex) return `${base} (text) — Example: ${ex}`;
+          if (ex) return `${base} (string) — Example: ${ex}`; // Changed from text to string
         } catch {}
       }
     }
   }
-  return `${base} (text)`;
+  if (ty === 'string') return `${base} (string)`;
+  return `${base} (${ty})`; // Fallback for custom types (slugs)
 }

@@ -90,7 +90,6 @@ import {
   suggestNextCode,
   generateCodeRegex,
   generateExampleCode,
-  getFieldType,
   getFieldLabel,
 } from '../../utils';
 import {
@@ -233,16 +232,28 @@ const modeTitle = computed(() =>
 );
 
 function fieldComponent(col: any) {
-  if (col.type === 'text' && col.multiline) {
+  const ty = String(col.type || '').toLowerCase();
+  if (ty === 'text' && col.multiline) {
     return Textarea;
   }
-  if (col.type !== 'text' && col.type !== 'number') {
-    return LookupSelect;
+  if (
+    ty === 'int' ||
+    ty === 'double' ||
+    ty === 'month' ||
+    ty === 'year' ||
+    ty === 'string'
+  ) {
+    return Input;
   }
-  return Input;
+  // Assume any other type is a lookup slug
+  return LookupSelect;
 }
 function fieldType(col: any) {
-  return getFieldType(col, props.group);
+  const ty = String(col.type || '').toLowerCase();
+  if (ty === 'int' || ty === 'double' || ty === 'month' || ty === 'year') {
+    return 'number';
+  }
+  return 'text'; // Default for string, text, and lookup slugs
 }
 function fieldLabel(col: any) {
   return getFieldLabel(col, props.group, dbColumns.value);

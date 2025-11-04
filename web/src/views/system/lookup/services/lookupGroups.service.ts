@@ -22,7 +22,7 @@ import { db, delay, genId } from './mock_db';
 export async function listGroups(categoryId: string) {
   await delay();
   const tbl = db.lookup_groups || [];
-  if (!categoryId) return [...tbl];
+  if (!categoryId) return [...tbl]; // If no categoryId, return all groups
   return tbl.filter((g: any) => String(g.category_id) === String(categoryId));
 }
 

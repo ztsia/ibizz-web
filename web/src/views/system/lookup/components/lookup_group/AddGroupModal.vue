@@ -24,7 +24,7 @@
         </p>
       </div>
       <Form @submit="onSave">
-        <div class="grid max-h-[70vh] gap-4 overflow-y-auto py-4 pr-4">
+        <div class="grid max-h-[70vh] gap-4 overflow-y-auto p-4">
           <FormField name="title">
             <FormItem class="mb-4">
               <FormLabel>Title</FormLabel>
@@ -33,6 +33,7 @@
                   name="title"
                   :modelValue="values.title"
                   @update:modelValue="(v) => setValues({ title: v })"
+                  :class="{ 'border-destructive': errors.title }"
                   data-test="addgroup-title"
                 />
               </FormControl>
@@ -87,14 +88,11 @@
                       @update:modelValue="
                         (val) => setValues({ code_format: val })
                       "
-                      name="code_format"
                     >
-                      <FormControl>
-                        <SelectTrigger data-test="addgroup-codeformat">
-                          <SelectValue placeholder="Select a format" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
+                      <SelectTrigger data-test="addgroup-codeformat">
+                        <SelectValue placeholder="Select a format" />
+                      </SelectTrigger>
+                      <SelectContent class="z-50">
                         <SelectItem
                           v-for="item in codePresets"
                           :key="item"
@@ -106,7 +104,6 @@
                     </Select>
                   </FormItem>
                 </FormField>
-
                 <div class="relative w-[220px]">
                   <div
                     class="grid gap-2"
@@ -253,6 +250,7 @@
                         name="new_col_label"
                         v-model="newCol.label"
                         placeholder="Column name"
+                        :class="{ 'border-destructive': isNewColLabelInvalid }"
                         data-test="new-column-name"
                       />
                     </FormControl>
@@ -261,30 +259,61 @@
                 <FormField name="new_col_type">
                   <FormItem>
                     <FormLabel class="sr-only">New Column Type</FormLabel>
-                    <Select v-model="newCol.type" name="new_col_type">
-                      <FormControl>
-                        <SelectTrigger
-                          class="w-[140px]"
+                    <DropdownMenu>
+                      <DropdownMenuTrigger as-child>
+                        <Button
+                          variant="outline"
+                          class="w-[140px] justify-between"
+                          :class="{ 'border-destructive': isNewColTypeInvalid }"
                           data-test="new-column-type"
                         >
-                          <SelectValue placeholder="Select a format" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem
-                          v-for="item in columnTypes"
-                          :key="item"
-                          :value="item"
+                          {{ newCol.type ? newCol.type : 'Select a type' }}
+                          <IconifyIcon
+                            name="lucide:chevron-down"
+                            class="h-4 w-4 opacity-50"
+                          />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent class="z-50 w-[140px]">
+                        <template
+                          v-for="item in dynamicColumnTypes"
+                          :key="item.label"
                         >
-                          {{ item }}
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
+                          <DropdownMenuGroup
+                            v-if="item.submenu && item.submenu.length > 0"
+                          >
+                            <DropdownMenuSub>
+                              <DropdownMenuSubTrigger>
+                                {{ item.label }}
+                              </DropdownMenuSubTrigger>
+                              <DropdownMenuSubContent class="z-50">
+                                <DropdownMenuItem
+                                  v-for="subItem in item.submenu"
+                                  :key="subItem.value"
+                                  :disabled="subItem.disabled"
+                                  @click="newCol.type = subItem.value"
+                                >
+                                  {{ subItem.label }}
+                                </DropdownMenuItem>
+                              </DropdownMenuSubContent>
+                            </DropdownMenuSub>
+                          </DropdownMenuGroup>
+                          <DropdownMenuItem
+                            v-else
+                            :value="item.value"
+                            :disabled="item.disabled"
+                            @click="newCol.type = item.value"
+                          >
+                            {{ item.label }}
+                          </DropdownMenuItem>
+                        </template>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </FormItem>
                 </FormField>
                 <Button
                   type="button"
-                  variant="ghost"
+                  variant="secondary"
                   size="sm"
                   data-test="add-column-btn"
                   @click="addColumnFromInput"
@@ -315,10 +344,11 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, toRaw, computed } from 'vue';
+import { ref, watch, toRaw, computed, onMounted } from 'vue';
 import { slugify, generateCodeRegex, generateExampleCode } from '../../utils';
 import { ColumnChips } from '..';
-import { IconArrowLeftRight } from '@vben/icons';
+import { IconArrowLeftRight, X } from '@vben/icons';
+import { listGroups } from '../../services/lookupGroups.service';
 
 import {
   Button,
@@ -332,12 +362,20 @@ import {
   FormMessage,
   useForm,
   Input,
+  Textarea,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-  Textarea,
 } from '@vben-core/shadcn-ui';
 
 const props = defineProps<{
@@ -373,7 +411,7 @@ interface LookupColumn {
 const defaultColumns: LookupColumn[] = [
   { key: 'code', label: 'Code', type: 'number' },
 
-  { key: 'label', label: 'Label', type: 'text' },
+  { key: 'label', label: 'Label', type: 'string' },
 ];
 
 const form = useForm({
@@ -394,8 +432,18 @@ const form = useForm({
 
     columns_schema: LookupColumn[];
   },
+  validationSchema: {
+    title: (value: string) => {
+      if (!value?.trim()) return 'Title is required';
+      return true;
+    },
+  },
+  validateOnBlur: true,
+  validateOnChange: false,
+  validateOnInput: false,
+  validateOnModelUpdate: false,
 });
-const { handleSubmit, setValues, values, setFieldError } = form;
+const { handleSubmit, setValues, values, errors, resetForm } = form;
 
 function populateFromInitial(init: any) {
   if (!init) return;
@@ -416,7 +464,74 @@ function populateFromInitial(init: any) {
 }
 
 const codePresets = ['Alphanumeric', 'Numeric', 'Alphabetic'];
-const columnTypes = ['text', 'number', 'date'];
+
+interface ColumnTypeOption {
+  label: string;
+  value?: string;
+  submenu?: ColumnTypeOption[];
+}
+
+const baseColumnTypes: ColumnTypeOption[] = [
+  { label: 'String', value: 'string' },
+  {
+    label: 'Number',
+    submenu: [
+      { label: 'Integer', value: 'int' },
+      { label: 'Float', value: 'double' },
+    ],
+  },
+  {
+    label: 'Date',
+    submenu: [
+      { label: 'Month', value: 'month' },
+      { label: 'Year', value: 'year' },
+    ],
+  },
+  {
+    label: 'Others',
+    submenu: [{ label: 'Loading...', value: 'loading', disabled: true }], // This will be populated dynamically
+  },
+];
+
+const dynamicColumnTypes = ref<ColumnTypeOption[]>([]);
+
+async function fetchAndPopulateLookupGroups() {
+  console.log('fetchAndPopulateLookupGroups called');
+  try {
+    const groups = await listGroups(); // Call listGroups without categoryId
+    console.log('listGroups response:', groups); // Log the groups directly
+    const othersOption = baseColumnTypes.find((opt) => opt.label === 'Others');
+    console.log('othersOption:', othersOption);
+    if (othersOption && othersOption.submenu) {
+      othersOption.submenu =
+        groups.length > 0
+          ? groups.map((group: any) => ({
+              label: group.title,
+              value: group.slug,
+            }))
+          : [
+              {
+                label: 'No lookup groups found',
+                value: 'no-groups',
+                disabled: true,
+              },
+            ];
+    }
+    dynamicColumnTypes.value = [...baseColumnTypes];
+    console.log('dynamicColumnTypes after update:', dynamicColumnTypes.value);
+  } catch (error) {
+    console.error('Error fetching lookup groups:', error);
+    dynamicColumnTypes.value = [...baseColumnTypes]; // Fallback
+    console.log(
+      'dynamicColumnTypes after error fallback:',
+      dynamicColumnTypes.value,
+    );
+  }
+}
+
+onMounted(() => {
+  fetchAndPopulateLookupGroups();
+});
 
 const alphaCount = ref<number>(2);
 const numCount = ref<number>(2);
@@ -424,8 +539,8 @@ const singleCount = ref<number>(3);
 
 const codeEnabled = ref<boolean>(true);
 
-const effectiveAllowEditColumns = computed(() =>
-  props.mode === 'add' ? true : !!props.allowEditColumns,
+const effectiveAllowEditColumns = computed(
+  () => props.mode === 'add' || props.allowEditColumns,
 );
 
 function addVisibleCodeColumn() {
@@ -492,35 +607,54 @@ watch(
   (val) => {
     if (!val) return;
     if (props.mode === 'add') {
-      setValues({
-        title: '',
-        short_description: '',
-        code_format: 'Alphanumeric',
-        columns_schema: structuredClone(defaultColumns),
-      });
+      resetForm();
       alphaCount.value = 2;
       numCount.value = 2;
       singleCount.value = 3;
       alphanumericOrder.value = 'alpha-first';
       codeEnabled.value = true;
+      newCol.value.label = '';
+      newCol.value.type = '';
     }
   },
   { immediate: true },
 );
 
-const newCol = ref({ label: '', type: 'text' });
+const newCol = ref({ label: '', type: '' });
+const isNewColLabelInvalid = ref(false);
+const isNewColTypeInvalid = ref(false);
+
+watch(
+  () => newCol.value.label,
+  (val) => {
+    if (val) isNewColLabelInvalid.value = false;
+  },
+);
+watch(
+  () => newCol.value.type,
+  (val) => {
+    if (val) isNewColTypeInvalid.value = false;
+  },
+);
 
 function addColumnFromInput() {
-  if (!newCol.value.label) return;
+  isNewColLabelInvalid.value = !newCol.value.label;
+  isNewColTypeInvalid.value = !newCol.value.type;
+  if (isNewColLabelInvalid.value || isNewColTypeInvalid.value) {
+    return;
+  }
+
   const currentCols = [...(values.columns_schema || [])];
   currentCols.push({
     key: slugify(newCol.value.label) || `col${currentCols.length + 1}`,
     label: newCol.value.label,
-    type: newCol.value.type || 'text',
+    type: newCol.value.type,
   });
   setValues({ columns_schema: currentCols });
   newCol.value.label = '';
-  newCol.value.type = 'text';
+  newCol.value.type = '';
+  isNewColLabelInvalid.value = false;
+  isNewColTypeInvalid.value = false;
 }
 
 function removeColumn(idx: number) {
@@ -537,11 +671,6 @@ function onClose() {
 }
 
 const submitLogic: SubmissionHandler = async (formValues, _actions) => {
-  if (!formValues.title) {
-    setFieldError('title', 'Title is required');
-    return;
-  }
-
   const payload = toRaw(formValues);
   payload.slug = slugify(payload.title);
   payload.code_format = codeEnabled.value ? payload.code_format : null;
