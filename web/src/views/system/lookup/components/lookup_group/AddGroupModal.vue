@@ -10,7 +10,7 @@
     <!-- Modal Content -->
     <div
       v-if="visible"
-      class="z-popup bg-background fixed left-1/2 top-1/2 max-h-[90vh] w-full -translate-x-1/2 -translate-y-1/2 overflow-y-auto p-6 shadow-lg outline-none sm:max-w-[600px] sm:rounded-xl"
+      class="z-popup bg-background fixed left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 p-6 shadow-lg outline-none sm:max-w-[600px] sm:rounded-xl"
       role="dialog"
       aria-modal="true"
     >
@@ -24,7 +24,7 @@
         </p>
       </div>
       <Form @submit="onSave">
-        <div class="grid gap-4 py-4">
+        <div class="grid max-h-[70vh] gap-4 overflow-y-auto py-4 pr-4">
           <FormField name="title">
             <FormItem class="mb-4">
               <FormLabel>Title</FormLabel>
@@ -107,35 +107,100 @@
                   </FormItem>
                 </FormField>
 
-                <div class="w-[220px]">
-                  <div class="grid grid-cols-2 gap-2">
+                <div class="relative w-[220px]">
+                  <div
+                    class="grid gap-2"
+                    :class="{
+                      'grid-cols-[1fr_auto_1fr]':
+                        values.code_format === 'Alphanumeric',
+                      'grid-cols-2': values.code_format !== 'Alphanumeric',
+                    }"
+                  >
                     <template v-if="values.code_format === 'Alphanumeric'">
-                      <FormField name="alpha_count">
-                        <FormItem>
-                          <FormLabel>Alpha</FormLabel>
-                          <FormControl>
-                            <Input
-                              name="alpha_count"
-                              type="number"
-                              v-model.number="alphaCount"
-                              data-test="alpha-count"
-                            />
-                          </FormControl>
-                        </FormItem>
-                      </FormField>
-                      <FormField name="num_count">
-                        <FormItem>
-                          <FormLabel>Numeric</FormLabel>
-                          <FormControl>
-                            <Input
-                              name="num_count"
-                              type="number"
-                              v-model.number="numCount"
-                              data-test="num-count"
-                            />
-                          </FormControl>
-                        </FormItem>
-                      </FormField>
+                      <template v-if="alphanumericOrder === 'alpha-first'">
+                        <FormField name="alpha_count">
+                          <FormItem>
+                            <FormLabel>Alpha</FormLabel>
+                            <FormControl>
+                              <Input
+                                name="alpha_count"
+                                type="number"
+                                v-model.number="alphaCount"
+                                data-test="alpha-count"
+                              />
+                            </FormControl>
+                          </FormItem>
+                        </FormField>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          class="self-end"
+                          @click="
+                            alphanumericOrder =
+                              alphanumericOrder !== 'numeric-first'
+                                ? 'numeric-first'
+                                : 'alpha-first'
+                          "
+                        >
+                          <IconArrowLeftRight class="h-4 w-4" />
+                        </Button>
+                        <FormField name="num_count">
+                          <FormItem>
+                            <FormLabel>Numeric</FormLabel>
+                            <FormControl>
+                              <Input
+                                name="num_count"
+                                type="number"
+                                v-model.number="numCount"
+                                data-test="num-count"
+                              />
+                            </FormControl>
+                          </FormItem>
+                        </FormField>
+                      </template>
+                      <template v-else>
+                        <FormField name="num_count">
+                          <FormItem>
+                            <FormLabel>Numeric</FormLabel>
+                            <FormControl>
+                              <Input
+                                name="num_count"
+                                type="number"
+                                v-model.number="numCount"
+                                data-test="num-count"
+                              />
+                            </FormControl>
+                          </FormItem>
+                        </FormField>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          class="self-end"
+                          @click="
+                            alphanumericOrder =
+                              alphanumericOrder !== 'numeric-first'
+                                ? 'numeric-first'
+                                : 'alpha-first'
+                          "
+                        >
+                          <IconArrowLeftRight class="h-4 w-4" />
+                        </Button>
+                        <FormField name="alpha_count">
+                          <FormItem>
+                            <FormLabel>Alpha</FormLabel>
+                            <FormControl>
+                              <Input
+                                name="alpha_count"
+                                type="number"
+                                v-model.number="alphaCount"
+                                data-test="alpha-count"
+                              />
+                            </FormControl>
+                          </FormItem>
+                        </FormField>
+                      </template>
                     </template>
                     <template v-else>
                       <FormField name="single_count">
@@ -243,21 +308,7 @@
         class="data-[state=open]:bg-accent data-[state=open]:text-muted-foreground hover:bg-accent hover:text-accent-foreground text-foreground/80 flex-center absolute right-3 top-3 h-6 w-6 rounded-full px-1 text-lg opacity-70 transition-opacity hover:opacity-100 focus:outline-none disabled:pointer-events-none"
         @click="onClose"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-x-icon lucide-x h-4 w-4"
-        >
-          <path d="M18 6 6 18"></path>
-          <path d="m6 6 12 12"></path>
-        </svg>
+        <X class="h-4 w-4" />
       </button>
     </div>
   </Teleport>
@@ -267,6 +318,7 @@
 import { ref, watch, toRaw, computed } from 'vue';
 import { slugify, generateCodeRegex, generateExampleCode } from '../../utils';
 import { ColumnChips } from '..';
+import { IconArrowLeftRight } from '@vben/icons';
 
 import {
   Button,
@@ -357,6 +409,7 @@ function populateFromInitial(init: any) {
       : structuredClone(defaultColumns),
   };
   setValues(initialValues);
+  alphanumericOrder.value = rawInit.alphanumeric_order || 'alpha-first';
   codeEnabled.value = (initialValues.columns_schema || []).some(
     (c: any) => (c.key || c.name) === 'code' && !c.hidden,
   );
@@ -406,6 +459,8 @@ watch(codeEnabled, (v) => {
   else removeVisibleCodeColumn();
 });
 
+const alphanumericOrder = ref<'alpha-first' | 'numeric-first'>('alpha-first');
+
 const exampleCode = computed(() => {
   const fmt = values.code_format;
   const generatedRegex = generateCodeRegex(
@@ -413,6 +468,7 @@ const exampleCode = computed(() => {
     alphaCount.value,
     numCount.value,
     singleCount.value,
+    alphanumericOrder.value,
   );
   return generatedRegex ? generateExampleCode(generatedRegex) : null;
 });
@@ -445,6 +501,7 @@ watch(
       alphaCount.value = 2;
       numCount.value = 2;
       singleCount.value = 3;
+      alphanumericOrder.value = 'alpha-first';
       codeEnabled.value = true;
     }
   },
@@ -494,12 +551,14 @@ const submitLogic: SubmissionHandler = async (formValues, _actions) => {
         alphaCount.value,
         numCount.value,
         singleCount.value,
+        alphanumericOrder.value,
       )
     : null;
   if (codeEnabled.value) {
     payload.alpha_count = alphaCount.value;
     payload.num_count = numCount.value;
     payload.single_count = singleCount.value;
+    payload.alphanumeric_order = alphanumericOrder.value;
   }
   emit('save', payload);
   visible.value = false;

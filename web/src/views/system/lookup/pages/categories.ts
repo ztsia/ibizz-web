@@ -1,56 +1,70 @@
 import type { LookupCategory } from '../components';
 import {
-  MdiAccount,
   MdiBank,
   MdiBriefcase,
   MdiMapMarker,
   MdiHome,
   MdiCurrencyUsd,
   MdiFileDocument,
+  LucideFileSpreadsheet,
+  LucideClipboardCheck,
 } from '@vben/icons';
 
 export const categories: LookupCategory[] = [
   {
-    id: 'profile',
-    title: 'Profile',
-    description: 'Manage your personal information and preferences',
-    icon: MdiAccount,
-  },
-  {
     id: 'financial-banking',
     title: 'Financial and Banking',
-    description: 'Configure financial accounts and banking details',
+    description:
+      'Manage the directory of banks, account types, and payment methods.',
     icon: MdiBank,
   },
   {
     id: 'business-and-regulatory',
     title: 'Business and Regulatory',
-    description: 'Business settings and regulatory compliance',
+    description:
+      'Manage business entities, registration IDs, and regulatory codes.',
     icon: MdiBriefcase,
   },
   {
     id: 'geographic-and-location',
     title: 'Geographic and Location',
-    description: 'Location-based settings and preferences',
+    description:
+      'Manage the list of countries, states, regions, and office locations.',
     icon: MdiMapMarker,
   },
   {
     id: 'assets-and-properties',
     title: 'Assets and Properties',
-    description: 'Manage your assets and property information',
+    description: 'Define and manage categories and types for company assets.',
     icon: MdiHome,
   },
   {
     id: 'income-and-interest',
     title: 'Income and Interest',
-    description: 'Income sources and interest settings',
+    description:
+      'Manage definitions for income sources, revenue types, and interest rates.',
     icon: MdiCurrencyUsd,
   },
   {
     id: 'income-statement-headers',
     title: 'Income Statement',
-    description: 'Configure income statement preferences',
+    description:
+      'Manage the account headers and groupings for financial statements.',
     icon: MdiFileDocument,
+  },
+  {
+    id: 'tax-agent',
+    title: 'Tax Agent',
+    description:
+      'Manage the directory of tax agents and their contact details.',
+    icon: LucideFileSpreadsheet,
+  },
+  {
+    id: 'audit-firm',
+    title: 'Audit Firm',
+    description:
+      'Manage the directory of audit firms and their contact details.',
+    icon: LucideClipboardCheck,
   },
 ];
 

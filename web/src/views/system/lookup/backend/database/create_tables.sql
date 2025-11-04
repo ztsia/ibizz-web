@@ -105,3 +105,65 @@ CREATE TABLE public.lookup_type_of_interest_income (
     id TEXT PRIMARY KEY,
     value TEXT
 );
+
+-- This script defines the table for the 'Audit Firms' lookup group.
+-- It is intended for a PostgreSQL database.
+
+--
+-- Table structure for `lookup_audit_firms`
+--
+DROP TABLE IF EXISTS lookup_audit_firms CASCADE;
+CREATE TABLE public.lookup_audit_firms (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    code TEXT,
+    business_registration_no TEXT,
+    name TEXT,
+    license TEXT,
+    address_1 TEXT,
+    address_2 TEXT,
+    address_3 TEXT,
+    postcode TEXT,
+    town_city TEXT,
+    state TEXT,
+    country TEXT,
+    email TEXT,
+    tel_no TEXT,
+    fax_no TEXT,
+    mobile_no TEXT,
+    income_tax_no TEXT,
+    created_at TIMESTAMPTZ DEFAULT now(),
+    updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+COMMENT ON TABLE public.lookup_audit_firms IS 'Stores a directory of audit firms and their contact details.';
+
+-- This script defines the table for the 'Tax Agents' lookup group.
+-- It is intended for a PostgreSQL database.
+
+--
+-- Table structure for `lookup_tax_agents`
+--
+DROP TABLE IF EXISTS lookup_tax_agents CASCADE;
+CREATE TABLE public.lookup_tax_agents (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    tax_agent_name TEXT,
+    tax_agent_no TEXT,
+    tax_agent_nric TEXT,
+    "position" TEXT,
+    company_name TEXT,
+    business_registration_no TEXT,
+    address_1 TEXT,
+    address_2 TEXT,
+    address_3 TEXT,
+    postcode TEXT,
+    town_city TEXT,
+    state TEXT,
+    country TEXT,
+    email TEXT,
+    tel_no TEXT,
+    tin TEXT,
+    created_at TIMESTAMPTZ DEFAULT now(),
+    updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+COMMENT ON TABLE public.lookup_tax_agents IS 'Stores a directory of tax agents and their contact details.';

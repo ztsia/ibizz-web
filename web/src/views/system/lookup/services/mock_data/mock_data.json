@@ -324,37 +324,51 @@
     "rows": [
       {
         "id": "4612b065-85d7-49bb-938c-e95f58d78d14",
-        "slug": "exchange-rate",
-        "title": "Exchange Rate",
-        "code_regex": "^[A-Za-z0-9]+$",
+        "slug": "foreign-exchange-rate",
+        "title": "Foreign Exchange Rate",
+        "code_regex": null,
         "created_at": "2025-10-24T09:02:51.811863+00:00",
         "updated_at": "2025-10-24T09:02:51.811863+00:00",
         "category_id": "financial-banking",
-        "code_format": "Alphanumeric",
+        "code_format": null,
         "columns_schema": [
           {
-            "key": "code",
-            "type": "text",
-            "label": "Code",
+            "key": "year",
+            "type": "integer",
+            "label": "Year",
             "required": true
           },
           {
-            "key": "pair",
+            "key": "month",
             "type": "text",
-            "label": "Currency Pair"
+            "label": "Month",
+            "required": true
           },
           {
-            "key": "rate_provider",
+            "key": "currency_name",
             "type": "text",
-            "label": "Provider"
+            "label": "Currency Name",
+            "required": true
+          },
+          {
+            "key": "currency_code",
+            "type": "text",
+            "label": "Currency Code",
+            "required": true
+          },
+          {
+            "key": "conversion_rate",
+            "type": "double",
+            "label": "Conversion Rate",
+            "required": true
           }
         ],
         "short_description": "Reference exchange rate entries (pairs or rate providers)."
       },
       {
         "id": "7cd1b3a9-699d-4c3e-b7e6-c85ca8e886e0",
-        "slug": "alr",
-        "title": "ALR",
+        "slug": "average-lending-rate",
+        "title": "Average Lending Rate",
         "code_regex": "^[0-9]+$",
         "created_at": "2025-10-24T09:02:51.811863+00:00",
         "updated_at": "2025-10-24T09:02:51.811863+00:00",
@@ -362,42 +376,25 @@
         "code_format": "Numeric",
         "columns_schema": [
           {
-            "key": "code",
-            "type": "number",
-            "label": "Code",
+            "key": "year",
+            "type": "integer",
+            "label": "Year",
             "required": true
           },
           {
-            "key": "label",
-            "type": "text",
-            "label": "Description"
-          }
-        ],
-        "short_description": "Automated loan repayment (ALR) related lookup values."
-      },
-      {
-        "id": "66e743b0-5d15-4634-8bc1-cad4009f4cdc",
-        "slug": "audit-firm",
-        "title": "Audit Firm",
-        "code_regex": "^[0-9]+$",
-        "created_at": "2025-10-24T09:02:51.811863+00:00",
-        "updated_at": "2025-10-24T09:03:24.951816+00:00",
-        "category_id": "business-and-regulatory",
-        "code_format": "Numeric",
-        "columns_schema": [
-          {
-            "key": "code",
-            "type": "number",
-            "label": "Code",
+            "key": "month",
+            "type": "integer",
+            "label": "Month",
             "required": true
           },
           {
-            "key": "label",
-            "type": "text",
-            "label": "Firm Name"
+            "key": "average_lending_rate",
+            "type": "double",
+            "label": "Average Lending Rate",
+            "required": true
           }
         ],
-        "short_description": "Registered audit firms used in filings and records."
+        "short_description": "Average Lending Rate (ALR) related lookup values."
       },
       {
         "id": "cd5faea2-07eb-4464-8497-72f162092bff",
@@ -422,30 +419,6 @@
           }
         ],
         "short_description": "Business classification codes used for reporting."
-      },
-      {
-        "id": "ed0032eb-93a9-4815-a7a4-d34cf73d7c0d",
-        "slug": "tax-agent",
-        "title": "Tax Agent",
-        "code_regex": "^[0-9]+$",
-        "created_at": "2025-10-24T09:02:51.811863+00:00",
-        "updated_at": "2025-10-24T09:03:24.951816+00:00",
-        "category_id": "business-and-regulatory",
-        "code_format": "Numeric",
-        "columns_schema": [
-          {
-            "key": "code",
-            "type": "number",
-            "label": "Code",
-            "required": true
-          },
-          {
-            "key": "label",
-            "type": "text",
-            "label": "Agent Name"
-          }
-        ],
-        "short_description": "Authorized tax agents and representatives."
       },
       {
         "id": "d42976e6-02d5-473b-9e18-6fb91465c56a",
@@ -654,8 +627,202 @@
           }
         ],
         "short_description": "Lookup of interest income types for reporting."
+      },
+      {
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "slug": "tax-agents",
+        "title": "Tax Agents",
+        "code_regex": null,
+        "created_at": "2025-11-03T00:00:00.000000+00:00",
+        "updated_at": "2025-11-03T00:00:00.000000+00:00",
+        "category_id": "tax-agent",
+        "code_format": null,
+        "columns_schema": [
+          {
+            "key": "tax_agent_name",
+            "type": "text",
+            "label": "Tax Agent Name"
+          },
+          {
+            "key": "tax_agent_no",
+            "type": "text",
+            "label": "Tax Agent No."
+          },
+          {
+            "key": "tax_agent_nric",
+            "type": "text",
+            "label": "Tax Agent NRIC"
+          },
+          {
+            "key": "position",
+            "type": "select",
+            "label": "Position"
+          },
+          {
+            "key": "company_name",
+            "type": "text",
+            "label": "Company Name"
+          },
+          {
+            "key": "business_registration_no",
+            "type": "text",
+            "label": "Business Registration No."
+          },
+          {
+            "key": "address_1",
+            "type": "text",
+            "label": "Address 1"
+          },
+          {
+            "key": "address_2",
+            "type": "text",
+            "label": "Address 2"
+          },
+          {
+            "key": "address_3",
+            "type": "text",
+            "label": "Address 3"
+          },
+          {
+            "key": "postcode",
+            "type": "text",
+            "label": "Postcode"
+          },
+          {
+            "key": "town_city",
+            "type": "text",
+            "label": "Town/City"
+          },
+          {
+            "key": "state",
+            "type": "state-code",
+            "label": "State"
+          },
+          {
+            "key": "country",
+            "type": "country-code",
+            "label": "Country"
+          },
+          {
+            "key": "email",
+            "type": "text",
+            "label": "Email"
+          },
+          {
+            "key": "tel_no",
+            "type": "text",
+            "label": "Tel No."
+          },
+          {
+            "key": "tin",
+            "type": "text",
+            "label": "TIN"
+          }
+        ],
+        "short_description": "A list of authorized tax agents."
+      },
+      {
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef1",
+        "slug": "audit-firms",
+        "title": "Audit Firms",
+        "code_regex": null,
+        "created_at": "2025-11-03T00:00:00.000000+00:00",
+        "updated_at": "2025-11-03T00:00:00.000000+00:00",
+        "category_id": "audit-firm",
+        "code_format": null,
+        "columns_schema": [
+          {
+            "key": "code",
+            "type": "text",
+            "label": "Code"
+          },
+          {
+            "key": "business_registration_no",
+            "type": "text",
+            "label": "Business Registration No."
+          },
+          {
+            "key": "name",
+            "type": "text",
+            "label": "Name"
+          },
+          {
+            "key": "license",
+            "type": "text",
+            "label": "License"
+          },
+          {
+            "key": "address_1",
+            "type": "text",
+            "label": "Address 1"
+          },
+          {
+            "key": "address_2",
+            "type": "text",
+            "label": "Address 2"
+          },
+          {
+            "key": "address_3",
+            "type": "text",
+            "label": "Address 3"
+          },
+          {
+            "key": "postcode",
+            "type": "text",
+            "label": "Postcode"
+          },
+          {
+            "key": "town_city",
+            "type": "text",
+            "label": "Town/City"
+          },
+          {
+            "key": "state",
+            "type": "state-code",
+            "label": "State"
+          },
+          {
+            "key": "country",
+            "type": "country-code",
+            "label": "Country"
+          },
+          {
+            "key": "email",
+            "type": "text",
+            "label": "Email"
+          },
+          {
+            "key": "tel_no",
+            "type": "text",
+            "label": "Tel No."
+          },
+          {
+            "key": "fax_no",
+            "type": "text",
+            "label": "Fax No."
+          },
+          {
+            "key": "mobile_no",
+            "type": "text",
+            "label": "Mobile No."
+          },
+          {
+            "key": "income_tax_no",
+            "type": "text",
+            "label": "Income Tax No."
+          }
+        ],
+        "short_description": "A list of registered audit firms."
       }
     ]
+  },
+  {
+    "table_name": "lookup_tax_agents",
+    "rows": []
+  },
+  {
+    "table_name": "lookup_audit_firms",
+    "rows": []
   },
   {
     "table_name": "lookup_headers",

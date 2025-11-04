@@ -41,7 +41,12 @@ export const MdiMapMarker = createIconifyIcon('mdi:map-marker');
 export const MdiHome = createIconifyIcon('mdi:home');
 export const MdiCurrencyUsd = createIconifyIcon('mdi:currency-usd');
 export const MdiFileDocument = createIconifyIcon('mdi:file-document');
+export const LucideFileSpreadsheet = createIconifyIcon(
+  'lucide:file-spreadsheet',
+);
+export const LucideClipboardCheck = createIconifyIcon('lucide:clipboard-check');
 
 // Lookup Table Action icons
 export const Pencil = createIconifyIcon('lucide:pencil');
 export const Trash = createIconifyIcon('lucide:trash');
+export const IconArrowLeftRight = createIconifyIcon('lucide:arrow-left-right');

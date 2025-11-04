@@ -1,0 +1,107 @@
+<template>
+  <Select v-model="model">
+    <SelectTrigger>
+      <SelectValue placeholder="Select an option" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectGroup>
+        <SelectItem
+          v-for="item in items"
+          :key="item.id"
+          :value="item.columns[valueKey]"
+        >
+          {{ item.columns[displayKey] }}
+        </SelectItem>
+      </SelectGroup>
+    </SelectContent>
+  </Select>
+</template>
+
+<script lang="ts" setup>
+import { ref, onMounted, computed } from 'vue';
+import * as lookupService from '../../services';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@vben-core/shadcn-ui';
+
+const props = defineProps<{
+  modelValue: any;
+  lookupSlug: string;
+}>();
+
+const emit = defineEmits(['update:modelValue']);
+
+const items = ref<any[]>([]);
+const displayKey = ref('value');
+const valueKey = ref('value');
+
+const model = computed({
+  get: () => props.modelValue,
+  set: (val) => emit('update:modelValue', val),
+});
+
+onMounted(async () => {
+  if (!props.lookupSlug) return;
+  console.log(`[LookupSelect] Initializing for slug: "${props.lookupSlug}"`);
+
+  try {
+    const result = await lookupService.listItems(props.lookupSlug, {
+      perPage: 1000,
+    });
+    const fetchedItems = Array.isArray(result) ? result : result?.items || [];
+
+    if (fetchedItems.length > 0) {
+      const firstItemColumns = fetchedItems[0].columns || {};
+      const keys = Object.keys(firstItemColumns);
+      console.log(`[LookupSelect] Available columns:`, keys);
+
+      const rankedKeywords = [
+        'name',
+        'title',
+        'label',
+        'display',
+        'description',
+        'desc',
+        'value',
+      ];
+      let descriptiveKey = '';
+
+      for (const keyword of rankedKeywords) {
+        const foundKey = keys.find((key) =>
+          key.toLowerCase().includes(keyword),
+        );
+        if (foundKey) {
+          descriptiveKey = foundKey;
+          break; // Stop at the first, highest-ranked match
+        }
+      }
+
+      if (!descriptiveKey) {
+        descriptiveKey = keys[0] || 'id'; // Fallback
+      }
+
+      console.log(
+        `[LookupSelect] Selected descriptive key: "${descriptiveKey}"`,
+      );
+
+      displayKey.value = descriptiveKey;
+      valueKey.value = descriptiveKey; // Set both to the same key
+
+      console.log(
+        `[LookupSelect] Display Key: "${displayKey.value}", Value Key: "${valueKey.value}"`,
+      );
+    }
+    items.value = fetchedItems;
+  } catch (error) {
+    console.error(
+      `[LookupSelect] Failed to load items for lookup slug "${props.lookupSlug}":`,
+      error,
+    );
+  }
+});
+</script>

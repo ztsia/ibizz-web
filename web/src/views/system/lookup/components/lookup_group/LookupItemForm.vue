@@ -23,7 +23,7 @@
         </p>
       </div>
       <form @submit.prevent="onSave">
-        <div class="grid gap-4 py-4">
+        <div class="grid max-h-[70vh] gap-4 overflow-y-auto py-4 pr-4">
           <div
             v-if="duplicateError"
             class="mb-4 rounded border border-red-200 bg-red-50 p-3 text-sm text-red-700"
@@ -42,6 +42,7 @@
                   :type="fieldType(col)"
                   :rows="col.type === 'text' && col.multiline ? 3 : undefined"
                   :required="col.required"
+                  :lookup-slug="col.type"
                   data-test="item-field"
                 />
               </FormControl>
@@ -105,6 +106,8 @@ import {
   Input,
   Textarea,
 } from '@vben-core/shadcn-ui';
+
+import LookupSelect from './LookupSelect.vue';
 
 const props = defineProps<{
   modelValue?: boolean;
@@ -230,7 +233,13 @@ const modeTitle = computed(() =>
 );
 
 function fieldComponent(col: any) {
-  return col.type === 'text' && col.multiline ? Textarea : Input;
+  if (col.type === 'text' && col.multiline) {
+    return Textarea;
+  }
+  if (col.type !== 'text' && col.type !== 'number') {
+    return LookupSelect;
+  }
+  return Input;
 }
 function fieldType(col: any) {
   return getFieldType(col, props.group);
