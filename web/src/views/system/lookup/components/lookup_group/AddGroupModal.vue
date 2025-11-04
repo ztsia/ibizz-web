@@ -409,7 +409,7 @@ interface LookupColumn {
 }
 
 const defaultColumns: LookupColumn[] = [
-  { key: 'code', label: 'Code', type: 'number' },
+  { key: 'code', label: 'Code', type: 'number', required: true },
 
   { key: 'label', label: 'Label', type: 'string' },
 ];
@@ -549,6 +549,7 @@ function addVisibleCodeColumn() {
   if (existing) {
     existing.hidden = false;
     existing.type = existing.type || 'number';
+    existing.required = true; // Added this line
     setValues({ columns_schema: cols });
     return;
   }
@@ -689,6 +690,11 @@ const submitLogic: SubmissionHandler = async (formValues, _actions) => {
     payload.single_count = singleCount.value;
     payload.alphanumeric_order = alphanumericOrder.value;
   }
+  // Apply single column required rule
+  if (payload.columns_schema && payload.columns_schema.length === 1) {
+    payload.columns_schema[0].required = true;
+  }
+
   emit('save', payload);
   visible.value = false;
 };

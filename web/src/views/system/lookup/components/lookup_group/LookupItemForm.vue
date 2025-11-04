@@ -40,9 +40,9 @@
                   :id="col.name"
                   v-model="form.columns[col.name]"
                   :type="fieldType(col)"
-                  :rows="col.type === 'text' && col.multiline ? 3 : undefined"
+                  :rows="String(col.type || '').toLowerCase() === 'text' && col.multiline ? 3 : undefined"
                   :required="col.required"
-                  :lookup-slug="col.type"
+                  v-bind="fieldAttributes(col)"
                   data-test="item-field"
                 />
               </FormControl>
@@ -91,6 +91,7 @@ import {
   generateCodeRegex,
   generateExampleCode,
   getFieldLabel,
+  getFieldType as getColumnFieldType,
 } from '../../utils';
 import {
   Button,
@@ -143,8 +144,24 @@ const form = ref<{ columns: Record<string, any> }>({ columns: {} });
 const columns = computed(() => props.columns || []);
 
 function resetFormFromProps() {
+  const isEdit = !!props.initial?.id;
   form.value.columns = Object.fromEntries(
-    columns.value.map((c) => [c.name, props.initial?.columns?.[c.name] ?? '']),
+    columns.value.map((c) => {
+      let value;
+      if (isEdit) {
+        value = props.initial?.columns?.[c.name] ?? '';
+      } else {
+        const ty = getColumnFieldType(c, props.group);
+        if (ty === 'month') {
+          value = new Date().getMonth() + 1;
+        } else if (ty === 'year') {
+          value = new Date().getFullYear();
+        } else {
+          value = '';
+        }
+      }
+      return [c.name, value];
+    }),
   );
   setValues({ ...form.value.columns });
 }
@@ -231,30 +248,85 @@ const modeTitle = computed(() =>
   props.initial && props.initial.id ? 'Edit Item' : 'Add Item',
 );
 
+function isLookup(col: any) {
+  const ty = getColumnFieldType(col, props.group);
+  return !['int', 'double', 'month', 'year', 'string', 'number', 'text'].includes(
+    ty,
+  );
+}
+
 function fieldComponent(col: any) {
-  const ty = String(col.type || '').toLowerCase();
-  if (ty === 'text' && col.multiline) {
+  if (isLookup(col)) {
+    return LookupSelect;
+  }
+  if (String(col.type || '').toLowerCase() === 'text' && col.multiline) {
     return Textarea;
   }
-  if (
-    ty === 'int' ||
-    ty === 'double' ||
-    ty === 'month' ||
-    ty === 'year' ||
-    ty === 'string'
-  ) {
-    return Input;
-  }
-  // Assume any other type is a lookup slug
-  return LookupSelect;
+  return Input;
 }
+
 function fieldType(col: any) {
-  const ty = String(col.type || '').toLowerCase();
-  if (ty === 'int' || ty === 'double' || ty === 'month' || ty === 'year') {
+  const ty = getColumnFieldType(col, props.group);
+  if (['int', 'double', 'month', 'year', 'number'].includes(ty)) {
     return 'number';
   }
-  return 'text'; // Default for string, text, and lookup slugs
+  return 'text';
 }
+
+function fieldAttributes(col: any) {
+  const ty = getColumnFieldType(col, props.group);
+  const attrs: Record<string, any> = {};
+  if (isLookup(col)) {
+    attrs['lookup-slug'] = ty;
+  } else {
+    if (ty === 'double') {
+      attrs.step = '0.0001';
+      attrs.onInput = (e: Event) => {
+        const target = e.target as HTMLInputElement;
+        let value = target.value;
+        if (value.includes('.')) {
+            const parts = value.split('.');
+            if (parts[1] && parts[1].length > 4) {
+                parts[1] = parts[1].slice(0, 4);
+                target.value = parts.join('.');
+            }
+        }
+      };
+    }
+    if (ty === 'int') {
+        attrs.step = 1;
+        attrs.onKeydown = (e: KeyboardEvent) => {
+            if (['.', ','].includes(e.key)) {
+                e.preventDefault();
+            }
+        };
+    }
+    if (ty === 'month') {
+      attrs.min = 1;
+      attrs.max = 12;
+      attrs.step = 1;
+      attrs.onInput = (e: Event) => {
+        const target = e.target as HTMLInputElement;
+        if (target.value.length > 2) {
+            target.value = target.value.slice(0, 2);
+        }
+      };
+    }
+    if (ty === 'year') {
+      attrs.min = 1000;
+      attrs.max = 9999;
+      attrs.step = 1;
+      attrs.onInput = (e: Event) => {
+        const target = e.target as HTMLInputElement;
+        if (target.value.length > 4) {
+            target.value = target.value.slice(0, 4);
+        }
+      };
+    }
+  }
+  return attrs;
+}
+
 function fieldLabel(col: any) {
   return getFieldLabel(col, props.group, dbColumns.value);
 }
