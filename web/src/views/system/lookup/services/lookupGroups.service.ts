@@ -173,9 +173,8 @@ export async function updateGroup(id: string, updates: any) {
       updates && updates.code_format !== undefined
         ? updates.code_format
         : existing.code_format,
-    // Only set code_regex when caller explicitly requests it via set_code_regex flag
     code_regex:
-      updates && updates.set_code_regex
+      updates && updates.code_regex !== undefined
         ? updates.code_regex
         : existing.code_regex,
     updated_at: new Date().toISOString(),

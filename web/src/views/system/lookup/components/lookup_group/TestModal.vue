@@ -65,8 +65,6 @@
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted } from 'vue'; // Import Teleport
 
-console.log('TestModal: Component setup started');
-
 const props = defineProps<{
   modelValue?: boolean;
 }>();
@@ -78,30 +76,19 @@ const emit = defineEmits<{
 
 const visible = computed({
   get: () => {
-    console.log(
-      `TestModal: visible getter called. Current modelValue: ${props.modelValue}`,
-    );
     return props.modelValue;
   },
   set: (value) => {
-    console.log(`TestModal: visible setter called with: ${value}`);
     emit('update:modelValue', value);
   },
 });
 
-onMounted(() => {
-  console.log(`TestModal: Mounted. Initial visible state: ${visible.value}`);
-});
+onMounted(() => {});
 
 onUnmounted(() => {
-  console.log('TestModal: Unmounted.');
 });
 
 function onClose() {
-  console.log('TestModal: onClose called. Attempting to close modal.');
-  emit('close');
   visible.value = false;
 }
-
-console.log('TestModal: Component setup finished');
 </script>

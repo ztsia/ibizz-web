@@ -50,3 +50,4 @@ export const LucideClipboardCheck = createIconifyIcon('lucide:clipboard-check');
 export const Pencil = createIconifyIcon('lucide:pencil');
 export const Trash = createIconifyIcon('lucide:trash');
 export const IconArrowLeftRight = createIconifyIcon('lucide:arrow-left-right');
+export const IconArrowDown = createIconifyIcon('lucide:chevron-down');

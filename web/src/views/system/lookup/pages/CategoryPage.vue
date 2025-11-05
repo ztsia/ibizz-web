@@ -234,11 +234,7 @@ async function loadGroups() {
       activeTab.value = groups.value[0]!.slug;
     }
   } catch (error_: any) {
-    console.error(
-      'Failed to load groups for category',
-      props.category,
-      error_,
-    );
+    console.error('Failed to load groups for category', props.category, error_);
     const raw =
       (error_ && (error_.message || error_.statusText || String(error_))) ||
       'Unknown error';
@@ -413,7 +409,15 @@ async function handleEditGroupPayload(payload: any) {
     if (updated && updated.id) {
       const index = groups.value.findIndex((g) => g.id === updated.id);
       if (index !== -1) {
-        groups.value.splice(index, 1, updated);
+        // The `updated` object from the API might be incomplete.
+        // To ensure the UI has the full, correct data for reactivity,
+        // we merge the original group data with the new payload from the form.
+        const completeUpdatedGroup = {
+          ...groups.value[index],
+          ...payload,
+          ...updated,
+        };
+        groups.value.splice(index, 1, completeUpdatedGroup);
       }
 
       activeTab.value = updated.slug;

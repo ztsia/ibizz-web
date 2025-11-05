@@ -46,9 +46,6 @@ const model = computed({
 });
 
 onMounted(async () => {
-  if (!props.lookupSlug) return;
-  console.log(`[LookupSelect] Initializing for slug: "${props.lookupSlug}"`);
-
   try {
     const result = await lookupService.listItems(props.lookupSlug, {
       perPage: 1000,
@@ -56,9 +53,7 @@ onMounted(async () => {
     const fetchedItems = Array.isArray(result) ? result : result?.items || [];
 
     if (fetchedItems.length > 0) {
-      const firstItemColumns = fetchedItems[0].columns || {};
-      const keys = Object.keys(firstItemColumns);
-      console.log(`[LookupSelect] Available columns:`, keys);
+      const keys = Object.keys(fetchedItems[0].columns || {});
 
       const rankedKeywords = [
         'name',
@@ -85,16 +80,8 @@ onMounted(async () => {
         descriptiveKey = keys[0] || 'id'; // Fallback
       }
 
-      console.log(
-        `[LookupSelect] Selected descriptive key: "${descriptiveKey}"`,
-      );
-
       displayKey.value = descriptiveKey;
       valueKey.value = descriptiveKey; // Set both to the same key
-
-      console.log(
-        `[LookupSelect] Display Key: "${displayKey.value}", Value Key: "${valueKey.value}"`,
-      );
     }
     items.value = fetchedItems;
   } catch (error) {

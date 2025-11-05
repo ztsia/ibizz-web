@@ -1,4 +1,4 @@
-import { generateExampleCode, generateCodeRegex } from './code';
+import { generateExampleCode } from './code';
 
 export function getFieldType(
   col: any,
@@ -33,6 +33,26 @@ export function getFieldLabel(
   const base = col.label || col.name;
   const ty = String(col.type || '').toLowerCase();
 
+  // Handle code column with example
+  if ((col.name === 'code' || col.key === 'code') && group) {
+    const gr = group.code_regex || null;
+    let displayType = 'string';
+    let exampleText: string | null = null;
+
+    if (gr) {
+      exampleText = generateExampleCode(gr);
+      // Simple inference for the label's display type.
+      // If the regex doesn't contain letters, we can assume it's numeric.
+      if (!gr.includes('a-z') && !gr.includes('A-Z')) {
+        displayType = 'number';
+      }
+    }
+
+    return exampleText
+      ? `${base} (Example: ${exampleText})`
+      : `${base} (${displayType})`;
+  }
+
   // Prioritize col.type from schema
   if (ty === 'int') return `${base} (integer)`;
   if (ty === 'double') return `${base} (float)`;
@@ -40,43 +60,15 @@ export function getFieldLabel(
   if (ty === 'year') return `${base} (year, 4 digits)`;
   if (ty === 'string') return `${base} (string)`;
   if (ty === 'json') return `${base} (json)`;
-  if (ty === 'date' || ty === 'datetime' || ty === 'timestamp') return `${base} (date)`;
+  if (ty === 'date' || ty === 'datetime' || ty === 'timestamp')
+    return `${base} (date)`;
   if (ty === 'boolean' || ty === 'bool') return `${base} (boolean)`;
 
-  // Handle code column with example
-  if ((col.name === 'code' || col.key === 'code') && group) {
-    const gf = group.code_format || null;
-    const gr = group.code_regex || null;
-    let example: string | null = null;
-    if (gr) {
-      try {
-        example = generateExampleCode(gr);
-      } catch {
-        /* ignore */
-      }
-    } else if (gf) {
-      const generatedRegex = generateCodeRegex(
-        gf,
-        group.alpha_count,
-        group.num_count,
-        group.single_count,
-      );
-      if (generatedRegex) {
-        try {
-          example = generateExampleCode(generatedRegex);
-        } catch {
-          /* ignore */
-        }
-      }
-    }
-    const friendly = gf === 'numeric' ? 'number' : 'string';
-    return example
-      ? `${base} (${friendly}) — Example: ${example}`
-      : `${base} (${friendly})`;
-  }
-
   // Fallback for slugs
-  if (ty && !['int', 'double', 'month', 'year', 'string', 'number', 'text'].includes(ty)) {
+  if (
+    ty &&
+    !['int', 'double', 'month', 'year', 'string', 'number', 'text'].includes(ty)
+  ) {
     return `${base} (${ty})`;
   }
 
@@ -111,7 +103,8 @@ export function getFieldLabel(
       )
         return 'string';
       if (t === 'json' || t === 'jsonb') return 'json';
-      if (t.includes('time') || t === 'timestamp' || t === 'date') return 'date';
+      if (t.includes('time') || t === 'timestamp' || t === 'date')
+        return 'date';
       if (t === 'boolean' || t === 'bool') return 'boolean';
       return 'string';
     };

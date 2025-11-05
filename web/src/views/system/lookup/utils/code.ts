@@ -9,6 +9,9 @@ export function suggestNextCode(
   existing: string[],
 ): string | null {
   try {
+    if (pattern === '^.{0,9}$') {
+      return null; // No suggestion for free text
+    }
     // Alphanumeric with counts: ^[A-Za-z]{a}[0-9]{n}$ or ^[0-9]{n}[A-Za-z]{a}$
     const mixedMatch = pattern.match(
       /^\^(\[A-Za-z\]\{(\d+)\})(\[0-9\]\{(\d+)\})\$$/,
@@ -219,6 +222,9 @@ function suggestCustomMixedCode(
 
 export function generateExampleCode(regexStr: string | null): string | null {
   if (!regexStr) return null;
+  if (regexStr === '^.{0,9}$') {
+    return 'Less than 9 characters'; // Example for free text
+  }
 
   // Alphanumeric with counts: ^[A-Za-z]{a}[0-9]{n}$ or ^[0-9]{n}[A-Za-z]{a}$
   const mixedMatch = regexStr.match(
@@ -244,6 +250,13 @@ export function generateExampleCode(regexStr: string | null): string | null {
   if (numericMatch) {
     const count = Number(numericMatch[1]);
     return '0'.repeat(count);
+  }
+
+  // Alphabetic with range: ^[A-Za-z]{min,max}$
+  const alphaRangeMatch = regexStr.match(/^\^\[[a-z-]+\]\{(\d+),(\d+)\}\$$/i);
+  if (alphaRangeMatch) {
+    const maxCount = Number(alphaRangeMatch[2]); // Use the max count for the example
+    return 'A'.repeat(maxCount);
   }
 
   // Alphabetic: ^[A-Za-z]{c}$
@@ -299,6 +312,9 @@ export function generateCodeRegex(
   alphanumericOrder?: 'alpha-first' | 'numeric-first',
 ): string | null {
   if (!fmt) return null;
+  if (fmt === 'Free Text') {
+    return '^.{0,9}$'; // Restrict length to 9, allowing empty string
+  }
   if (fmt === 'Alphanumeric') {
     const a = Math.max(0, Number(alphaCount || 0) || 0);
     const n = Math.max(0, Number(numCount || 0) || 0);
@@ -307,6 +323,10 @@ export function generateCodeRegex(
         return `^[0-9]{${n}}[A-Za-z]{${a}}$`;
       }
       return `^[A-Za-z]{${a}}[0-9]{${n}}$`;
+    } else if (a > 0) {
+      return `^[A-Za-z]{${a}}$`;
+    } else if (n > 0) {
+      return `^[0-9]{${n}}$`;
     }
     return '^[A-Za-z0-9]+$';
   }

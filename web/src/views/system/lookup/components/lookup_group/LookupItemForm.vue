@@ -33,14 +33,19 @@
           </div>
           <FormField v-for="col in columns" :key="col.name" :name="col.name">
             <FormItem class="mb-4">
-              <FormLabel :for="col.name">{{ fieldLabel(col) }}</FormLabel>
+              <FormLabel :for="col.name">{{ fieldLabels[col.name] }}</FormLabel>
               <FormControl>
                 <component
                   :is="fieldComponent(col)"
                   :id="col.name"
                   v-model="form.columns[col.name]"
                   :type="fieldType(col)"
-                  :rows="String(col.type || '').toLowerCase() === 'text' && col.multiline ? 3 : undefined"
+                  :rows="
+                    String(col.type || '').toLowerCase() === 'text' &&
+                    col.multiline
+                      ? 3
+                      : undefined
+                  "
                   :required="col.required"
                   v-bind="fieldAttributes(col)"
                   data-test="item-field"
@@ -90,9 +95,11 @@ import {
   suggestNextCode,
   generateCodeRegex,
   generateExampleCode,
+} from '../../utils/code';
+import {
   getFieldLabel,
   getFieldType as getColumnFieldType,
-} from '../../utils';
+} from '../../utils/fields';
 import {
   Button,
   // DialogFooter, // Removed
@@ -195,7 +202,6 @@ async function loadDbColumns() {
 }
 
 async function loadSuggestedCode() {
-  console.log('loadSuggestedCode: props.group', props.group);
   if (props.initial && props.initial.id) return;
   const codeCol = columns.value.find((c: any) => c.name === 'code');
   if (!codeCol) return;
@@ -206,6 +212,17 @@ async function loadSuggestedCode() {
 
   const fmt = grp.code_format || null;
   const regexStr = grp.code_regex || null;
+
+  const patternOrFormat =
+    regexStr ||
+    generateCodeRegex(fmt, grp.alpha_count, grp.num_count, grp.single_count) ||
+    fmt ||
+    '';
+
+  if (fmt === 'Free Text') {
+    // For Free Text, we don't suggest next code, but show the example
+    return; // Return after setting example for Free Text
+  }
 
   async function fetchItemsForScan() {
     try {
@@ -224,17 +241,9 @@ async function loadSuggestedCode() {
   const existing = (items || [])
     .map((it: any) => String(it?.columns?.code || ''))
     .filter(Boolean);
-  console.log('loadSuggestedCode: existing codes', existing);
-  const patternOrFormat =
-    regexStr ||
-    generateCodeRegex(fmt, grp.alpha_count, grp.num_count, grp.single_count) ||
-    fmt ||
-    '';
-  console.log('loadSuggestedCode: patternOrFormat', patternOrFormat);
 
   try {
     const suggested = suggestNextCode(patternOrFormat, existing);
-    console.log('loadSuggestedCode: suggested code', suggested);
     if (suggested) {
       form.value.columns.code = suggested;
     }
@@ -250,9 +259,15 @@ const modeTitle = computed(() =>
 
 function isLookup(col: any) {
   const ty = getColumnFieldType(col, props.group);
-  return !['int', 'double', 'month', 'year', 'string', 'number', 'text'].includes(
-    ty,
-  );
+  return ![
+    'int',
+    'double',
+    'month',
+    'year',
+    'string',
+    'number',
+    'text',
+  ].includes(ty);
 }
 
 function fieldComponent(col: any) {
@@ -283,23 +298,23 @@ function fieldAttributes(col: any) {
       attrs.step = '0.0001';
       attrs.onInput = (e: Event) => {
         const target = e.target as HTMLInputElement;
-        let value = target.value;
+        const value = target.value;
         if (value.includes('.')) {
-            const parts = value.split('.');
-            if (parts[1] && parts[1].length > 4) {
-                parts[1] = parts[1].slice(0, 4);
-                target.value = parts.join('.');
-            }
+          const parts = value.split('.');
+          if (parts[1] && parts[1].length > 4) {
+            parts[1] = parts[1].slice(0, 4);
+            target.value = parts.join('.');
+          }
         }
       };
     }
     if (ty === 'int') {
-        attrs.step = 1;
-        attrs.onKeydown = (e: KeyboardEvent) => {
-            if (['.', ','].includes(e.key)) {
-                e.preventDefault();
-            }
-        };
+      attrs.step = 1;
+      attrs.onKeydown = (e: KeyboardEvent) => {
+        if (['.', ','].includes(e.key)) {
+          e.preventDefault();
+        }
+      };
     }
     if (ty === 'month') {
       attrs.min = 1;
@@ -308,7 +323,7 @@ function fieldAttributes(col: any) {
       attrs.onInput = (e: Event) => {
         const target = e.target as HTMLInputElement;
         if (target.value.length > 2) {
-            target.value = target.value.slice(0, 2);
+          target.value = target.value.slice(0, 2);
         }
       };
     }
@@ -319,7 +334,7 @@ function fieldAttributes(col: any) {
       attrs.onInput = (e: Event) => {
         const target = e.target as HTMLInputElement;
         if (target.value.length > 4) {
-            target.value = target.value.slice(0, 4);
+          target.value = target.value.slice(0, 4);
         }
       };
     }
@@ -327,9 +342,13 @@ function fieldAttributes(col: any) {
   return attrs;
 }
 
-function fieldLabel(col: any) {
-  return getFieldLabel(col, props.group, dbColumns.value);
-}
+const fieldLabels = computed(() => {
+  const result: Record<string, string> = {};
+  for (const col of columns.value) {
+    result[col.name] = getFieldLabel(col, props.group, dbColumns.value);
+  }
+  return result;
+});
 
 const onSave = handleSubmit(async (_values: Record<string, any>) => {
   duplicateError.value = '';
@@ -352,9 +371,10 @@ const onSave = handleSubmit(async (_values: Record<string, any>) => {
     try {
       const re = new RegExp(props.group.code_regex);
       if (!re.test(String(form.value.columns.code))) {
+        const example = generateExampleCode(props.group.code_regex) || 'invalid';
         setFieldError(
           'code',
-          `Code must match pattern (e.g. ${generateExampleCode(props.group.code_regex) || 'invalid'})`,
+          `Code must match pattern (e.g. ${example})`,
         );
         return;
       }

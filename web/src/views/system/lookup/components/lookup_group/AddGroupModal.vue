@@ -112,6 +112,7 @@
                         values.code_format === 'Alphanumeric',
                       'grid-cols-2': values.code_format !== 'Alphanumeric',
                     }"
+                    v-if="values.code_format !== 'Free Text'"
                   >
                     <template v-if="values.code_format === 'Alphanumeric'">
                       <template v-if="alphanumericOrder === 'alpha-first'">
@@ -268,10 +269,7 @@
                           data-test="new-column-type"
                         >
                           {{ newCol.type ? newCol.type : 'Select a type' }}
-                          <IconifyIcon
-                            name="lucide:chevron-down"
-                            class="h-4 w-4 opacity-50"
-                          />
+                          <IconArrowDown class="h-4 w-4 opacity-50" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent class="z-50 w-[140px]">
@@ -347,7 +345,7 @@
 import { ref, watch, toRaw, computed, onMounted } from 'vue';
 import { slugify, generateCodeRegex, generateExampleCode } from '../../utils';
 import { ColumnChips } from '..';
-import { IconArrowLeftRight, X } from '@vben/icons';
+import { IconArrowLeftRight, X, IconArrowDown } from '@vben/icons';
 import { listGroups } from '../../services/lookupGroups.service';
 
 import {
@@ -458,12 +456,15 @@ function populateFromInitial(init: any) {
   };
   setValues(initialValues);
   alphanumericOrder.value = rawInit.alphanumeric_order || 'alpha-first';
+  alphaCount.value = rawInit.alpha_count || 2;
+  numCount.value = rawInit.num_count || 2;
+  singleCount.value = rawInit.single_count || 3;
   codeEnabled.value = (initialValues.columns_schema || []).some(
     (c: any) => (c.key || c.name) === 'code' && !c.hidden,
   );
 }
 
-const codePresets = ['Alphanumeric', 'Numeric', 'Alphabetic'];
+const codePresets = ['Alphanumeric', 'Numeric', 'Alphabetic', 'Free Text'];
 
 interface ColumnTypeOption {
   label: string;
@@ -496,12 +497,9 @@ const baseColumnTypes: ColumnTypeOption[] = [
 const dynamicColumnTypes = ref<ColumnTypeOption[]>([]);
 
 async function fetchAndPopulateLookupGroups() {
-  console.log('fetchAndPopulateLookupGroups called');
   try {
     const groups = await listGroups(); // Call listGroups without categoryId
-    console.log('listGroups response:', groups); // Log the groups directly
     const othersOption = baseColumnTypes.find((opt) => opt.label === 'Others');
-    console.log('othersOption:', othersOption);
     if (othersOption && othersOption.submenu) {
       othersOption.submenu =
         groups.length > 0
@@ -518,14 +516,9 @@ async function fetchAndPopulateLookupGroups() {
             ];
     }
     dynamicColumnTypes.value = [...baseColumnTypes];
-    console.log('dynamicColumnTypes after update:', dynamicColumnTypes.value);
   } catch (error) {
     console.error('Error fetching lookup groups:', error);
     dynamicColumnTypes.value = [...baseColumnTypes]; // Fallback
-    console.log(
-      'dynamicColumnTypes after error fallback:',
-      dynamicColumnTypes.value,
-    );
   }
 }
 
