@@ -173,7 +173,7 @@
 <script lang="ts" setup>
 import { ref, computed, watch, onMounted, getCurrentInstance } from 'vue';
 import { LookupItemForm, DeleteConfirm, GroupActions } from '..';
-import * as lookupService from '../../services';
+import * as lookupService from '../../../services';
 import { notifySuccess, notifyError } from '../../utils';
 import { Button, Input } from '@vben-core/shadcn-ui';
 import { X } from '@vben/icons';

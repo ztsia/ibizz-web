@@ -38,7 +38,7 @@
           },
           {
             "key": "conversion_rate",
-            "type": "float",
+            "type": "double",
             "label": "Conversion Rate",
             "required": true
           }
@@ -69,7 +69,7 @@
           },
           {
             "key": "average_lending_rate",
-            "type": "float",
+            "type": "double",
             "label": "Average Lending Rate",
             "required": true
           }
@@ -498,7 +498,7 @@
         "id": "a2b3c4d5-e6f7-8901-2345-67890abcdef2",
         "slug": "position",
         "title": "Position",
-        "code_regex": "^[0-9]+$",
+        "code_regex": "^[0-9]{2}$",
         "created_at": "2025-11-04T00:00:00.000000+00:00",
         "updated_at": "2025-11-04T00:00:00.000000+00:00",
         "category_id": "business-and-regulatory",
@@ -1163,15 +1163,189 @@
     ]
   },
   {
-    "table_name": "lookup_average-lending-rate",
+    "table_name": "lookup_bank_code",
+    "rows": [
+      {
+        "id": 1,
+        "code": "BK101",
+        "bank_name": "AFFIN BANK BERHAD"
+      },
+      {
+        "id": 2,
+        "code": "BK133",
+        "bank_name": "AFFIN ISLAMIC BANK BERHAD"
+      },
+      {
+        "id": 3,
+        "code": "BK121",
+        "bank_name": "AGRO BANK"
+      },
+      {
+        "id": 4,
+        "code": "BK102",
+        "bank_name": "ALLIANCE BANK MALAYSIA BERHAD"
+      },
+      {
+        "id": 5,
+        "code": "BK134",
+        "bank_name": "ALLIANCE ISLAMIC BANK BERHAD"
+      },
+      {
+        "id": 6,
+        "code": "BK126",
+        "bank_name": "AL RAJHI BANKING & INVESTMENT CORPORATION (MALAYSIA) BERHAD"
+      },
+      {
+        "id": 7,
+        "code": "BK103",
+        "bank_name": "AMBANK (M) BERHAD"
+      },
+      {
+        "id": 8,
+        "code": "BK135",
+        "bank_name": "AM ISLAMIC BANK BERHAD"
+      },
+      {
+        "id": 9,
+        "code": "BK148",
+        "bank_name": "BANGKOK BANK BERHAD"
+      },
+      {
+        "id": 10,
+        "code": "BK105",
+        "bank_name": "BANK ISLAM MALAYSIA BERHAD"
+      },
+      {
+        "id": 11,
+        "code": "BK106",
+        "bank_name": "BANK KERJASAMA RAKYAT"
+      },
+      {
+        "id": 12,
+        "code": "BK104",
+        "bank_name": "BANK MUAMALAT MALAYSIA BERHAD"
+      },
+      {
+        "id": 13,
+        "code": "BK120",
+        "bank_name": "BANK OF AMERICA MALAYSIA BERHAD"
+      },
+      {
+        "id": 14,
+        "code": "BK152",
+        "bank_name": "BANK OF CHINA (MALAYSIA) BERHAD"
+      },
+      {
+        "id": 15,
+        "code": "BK116",
+        "bank_name": "BANK SIMPANAN NASIONAL"
+      }
+    ]
+  },
+  {
+    "table_name": "lookup_asset_type",
+    "rows": [
+      {
+        "id": 1,
+        "code": "AC",
+        "asset_name": "AIR CONDITIONER"
+      },
+      {
+        "id": 2,
+        "code": "BG",
+        "asset_name": "BUILDING"
+      },
+      {
+        "id": 3,
+        "code": "CE",
+        "asset_name": "CAPITAL EXPENDITURE EXPENSED OFF TO P&L"
+      },
+      {
+        "id": 4,
+        "code": "DM",
+        "asset_name": "DIE AND MOULD"
+      },
+      {
+        "id": 5,
+        "code": "EF",
+        "asset_name": "ELECTRICAL FITTINGS"
+      },
+      {
+        "id": 6,
+        "code": "EQ",
+        "asset_name": "EQUIPMENT"
+      },
+      {
+        "id": 7,
+        "code": "FF",
+        "asset_name": "FURNITURE & FITTINGS"
+      },
+      {
+        "id": 8,
+        "code": "FLB",
+        "asset_name": "FREEHOLD LAND AND BUILDING"
+      },
+      {
+        "id": 9,
+        "code": "FR",
+        "asset_name": "FACTORY RENOVATION"
+      },
+      {
+        "id": 10,
+        "code": "LL",
+        "asset_name": "LEASEHOLD LAND"
+      },
+      {
+        "id": 11,
+        "code": "MV",
+        "asset_name": "MOTOR VEHICLE"
+      },
+      {
+        "id": 12,
+        "code": "OE",
+        "asset_name": "OFFICE EQUIPMENT"
+      },
+      {
+        "id": 13,
+        "code": "OHR",
+        "asset_name": "OFFICE AND HOUSE RENOVATION"
+      },
+      {
+        "id": 14,
+        "code": "OR",
+        "asset_name": "OTHERS"
+      },
+      {
+        "id": 15,
+        "code": "PC",
+        "asset_name": "COMPUTER"
+      },
+      {
+        "id": 16,
+        "code": "PM",
+        "asset_name": "PLANT & MACHINERY"
+      },
+      {
+        "id": 17,
+        "code": "SG",
+        "asset_name": "SIGNBOARD"
+      }
+    ]
+  },
+  {
+    "table_name": "lookup_foreign_exchange_rate",
     "rows": []
   },
   {
-    "table_name": "lookup_audit-firms",
+    "table_name": "lookup_average_lending_rate",
     "rows": []
   },
   {
-    "table_name": "lookup_tax-agents",
+    "table_name": "lookup_audit_firms",
+    "rows": []
+  },
+  {
+    "table_name": "lookup_tax_agents",
     "rows": []
   }
 ]

@@ -65,7 +65,7 @@
       </form>
       <button
         type="button"
-        class="data-[state=open]:bg-accent data-[state=open]:text-muted-foreground hover:bg-accent hover:text-accent-foreground text-foreground/80 flex-center absolute right-3 top-3 h-6 w-6 rounded-full px-1 text-lg opacity-70 transition-opacity hover:opacity-100 focus:outline-none disabled:pointer-events-none"
+        class="data-[state=open]:bg-accent data-[state=open]:text-muted-foreground hover:bg-accent hover:text-accent-foreground text-foreground flex-center absolute right-3 top-3 h-6 w-6 rounded-full px-1 text-lg opacity-70 opacity-80 transition-opacity hover:opacity-100 focus:outline-none disabled:pointer-events-none"
         @click="onClose"
       >
         <svg
@@ -95,11 +95,9 @@ import {
   suggestNextCode,
   generateCodeRegex,
   generateExampleCode,
-} from '../../utils/code';
-import {
   getFieldLabel,
   getFieldType as getColumnFieldType,
-} from '../../utils/fields';
+} from '../../utils/';
 import {
   Button,
   // DialogFooter, // Removed
@@ -187,17 +185,12 @@ watch(
 );
 
 async function loadDbColumns() {
-  dbColumns.value = {};
-  try {
-    const svc = await import('../../services');
-    const tbl = await svc.getTableColumns(props.groupId || null);
-    if (Array.isArray(tbl)) {
-      tbl.forEach((r: any) => {
-        if (r && r.column_name) dbColumns.value[r.column_name] = r.data_type;
-      });
-    }
-  } catch {
-    // ignore
+  const svc = await import('../../../services');
+  const tbl = await svc.getTableColumns(props.groupId || null);
+  if (Array.isArray(tbl)) {
+    tbl.forEach((r: any) => {
+      if (r && r.column_name) dbColumns.value[r.column_name] = r.data_type;
+    });
   }
 }
 
@@ -226,7 +219,7 @@ async function loadSuggestedCode() {
 
   async function fetchItemsForScan() {
     try {
-      const svc = await import('../../services');
+      const svc = await import('../../../services');
       const res = await svc.listItems(props.groupId || null, {
         page: 1,
         perPage: 1000,
@@ -383,7 +376,7 @@ const onSave = handleSubmit(async (_values: Record<string, any>) => {
 
   if (form.value.columns.code) {
     try {
-      const svc = await import('../../services');
+      const svc = await import('../../../services');
       const found = await svc.findItemsByCode(
         props.groupId || null,
         form.value.columns.code,

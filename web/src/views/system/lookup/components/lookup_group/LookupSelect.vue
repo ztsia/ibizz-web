@@ -19,7 +19,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, computed } from 'vue';
-import * as lookupService from '../../services';
+import * as lookupService from '../../../services';
 import {
   Select,
   SelectContent,

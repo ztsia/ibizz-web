@@ -132,7 +132,7 @@ import {
   deleteGroup,
   listItems,
   ensureTableForGroup,
-} from '../services';
+} from '../../services';
 import {
   AddGroupModal,
   LookupTable,
