@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "value": "Revenue"
+  },
+  {
+    "id": 2,
+    "value": "Cost of Sale"
+  },
+  {
+    "id": 3,
+    "value": "Gross Profit"
+  },
+  {
+    "id": 4,
+    "value": "Other Income"
+  },
+  {
+    "id": 5,
+    "value": "Operating Expenses"
+  },
+  {
+    "id": 6,
+    "value": "Profit before tax"
+  },
+  {
+    "id": 7,
+    "value": "Net Profit for the Year"
+  }
+]

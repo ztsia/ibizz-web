@@ -1,0 +1,137 @@
+[
+  {
+    "id": 1,
+    "code": "AUD",
+    "currency_name": "Australian Dollar"
+  },
+  {
+    "id": 2,
+    "code": "BND",
+    "currency_name": "Brunei Dollar"
+  },
+  {
+    "id": 3,
+    "code": "CAD",
+    "currency_name": "Canadian Dollar"
+  },
+  {
+    "id": 4,
+    "code": "KHR",
+    "currency_name": "Cambodian Riel"
+  },
+  {
+    "id": 5,
+    "code": "CNY",
+    "currency_name": "Chinese Renminbi"
+  },
+  {
+    "id": 6,
+    "code": "EUR",
+    "currency_name": "Euro"
+  },
+  {
+    "id": 7,
+    "code": "TWD",
+    "currency_name": "Taiwanese New Dollar"
+  },
+  {
+    "id": 8,
+    "code": "THB",
+    "currency_name": "Thai Baht"
+  },
+  {
+    "id": 9,
+    "code": "GBP",
+    "currency_name": "U.K. Pound"
+  },
+  {
+    "id": 10,
+    "code": "USD",
+    "currency_name": "U.S. Dollar"
+  },
+  {
+    "id": 11,
+    "code": "VND",
+    "currency_name": "Vietnamese Dong"
+  },
+  {
+    "id": 12,
+    "code": "SDR",
+    "currency_name": "IMF Special Drawing Right"
+  },
+  {
+    "id": 13,
+    "code": "HKD",
+    "currency_name": "Hong Kong Dollar"
+  },
+  {
+    "id": 14,
+    "code": "NZD",
+    "currency_name": "New Zealand Dollar"
+  },
+  {
+    "id": 15,
+    "code": "IDR",
+    "currency_name": "Indonesian Rupiah"
+  },
+  {
+    "id": 16,
+    "code": "MMK",
+    "currency_name": "Myanmar Kyat"
+  },
+  {
+    "id": 17,
+    "code": "JPY",
+    "currency_name": "Japanese Yen"
+  },
+  {
+    "id": 18,
+    "code": "INR",
+    "currency_name": "Indian Rupee"
+  },
+  {
+    "id": 19,
+    "code": "KRW",
+    "currency_name": "Korean Won"
+  },
+  {
+    "id": 20,
+    "code": "AED",
+    "currency_name": "United Arab Emirates Dirham"
+  },
+  {
+    "id": 21,
+    "code": "PHP",
+    "currency_name": "Phillippine Peso"
+  },
+  {
+    "id": 22,
+    "code": "PKR",
+    "currency_name": "Pakistan Rupee"
+  },
+  {
+    "id": 23,
+    "code": "SAR",
+    "currency_name": "Saudi Arabian Riyal"
+  },
+  {
+    "id": 24,
+    "code": "NPR",
+    "currency_name": "Nepalese Rupee"
+  },
+  {
+    "id": 25,
+    "code": "SGD",
+    "currency_name": "Singapore Dollar"
+  },
+  {
+    "id": 26,
+    "code": "EGP",
+    "currency_name": "Egyptian Pound"
+  },
+  {
+    "id": 27,
+    "code": "CHF",
+    "currency_name": "Swiss Franc"
+  }
+]

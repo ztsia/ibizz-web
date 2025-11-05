@@ -371,11 +371,9 @@ const onSave = handleSubmit(async (_values: Record<string, any>) => {
     try {
       const re = new RegExp(props.group.code_regex);
       if (!re.test(String(form.value.columns.code))) {
-        const example = generateExampleCode(props.group.code_regex) || 'invalid';
-        setFieldError(
-          'code',
-          `Code must match pattern (e.g. ${example})`,
-        );
+        const example =
+          generateExampleCode(props.group.code_regex) || 'invalid';
+        setFieldError('code', `Code must match pattern (e.g. ${example})`);
         return;
       }
     } catch {

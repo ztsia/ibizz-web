@@ -1,165 +1,605 @@
 [
   {
-    "table_name": "lookup_asset_type",
+    "table_name": "lookup_groups",
     "rows": [
       {
-        "id": 1,
-        "code": "AC",
-        "asset_name": "AIR CONDITIONER"
+        "id": "4612b065-85d7-49bb-938c-e95f58d78d14",
+        "slug": "foreign-exchange-rate",
+        "title": "Foreign Exchange Rate",
+        "code_regex": null,
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-24T09:02:51.811863+00:00",
+        "category_id": "financial-banking",
+        "code_format": null,
+        "columns_schema": [
+          {
+            "key": "year",
+            "type": "year",
+            "label": "Year",
+            "required": true
+          },
+          {
+            "key": "month",
+            "type": "month",
+            "label": "Month",
+            "required": true
+          },
+          {
+            "key": "currency_name",
+            "type": "string",
+            "label": "Currency Name",
+            "required": true
+          },
+          {
+            "key": "currency_code",
+            "type": "string",
+            "label": "Currency Code",
+            "required": true
+          },
+          {
+            "key": "conversion_rate",
+            "type": "float",
+            "label": "Conversion Rate",
+            "required": true
+          }
+        ],
+        "short_description": "Reference exchange rate entries (pairs or rate providers)."
       },
       {
-        "id": 2,
-        "code": "BG",
-        "asset_name": "BUILDING"
+        "id": "7cd1b3a9-699d-4c3e-b7e6-c85ca8e886e0",
+        "slug": "average-lending-rate",
+        "title": "Average Lending Rate",
+        "code_regex": "^[0-9]+$",
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-24T09:02:51.811863+00:00",
+        "category_id": "financial-banking",
+        "code_format": "Numeric",
+        "columns_schema": [
+          {
+            "key": "year",
+            "type": "year",
+            "label": "Year",
+            "required": true
+          },
+          {
+            "key": "month",
+            "type": "month",
+            "label": "Month",
+            "required": true
+          },
+          {
+            "key": "average_lending_rate",
+            "type": "float",
+            "label": "Average Lending Rate",
+            "required": true
+          }
+        ],
+        "short_description": "Average Lending Rate (ALR) related lookup values."
       },
       {
-        "id": 3,
-        "code": "CE",
-        "asset_name": "CAPITAL EXPENDITURE EXPENSED OFF TO P&L"
+        "id": "cd5faea2-07eb-4464-8497-72f162092bff",
+        "slug": "business-code",
+        "title": "Business Code",
+        "code_regex": "^[A-Za-z0-9]+$",
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-24T09:03:24.951816+00:00",
+        "category_id": "business-and-regulatory",
+        "code_format": "Alphanumeric",
+        "columns_schema": [
+          {
+            "key": "code",
+            "type": "string",
+            "label": "Code",
+            "required": true
+          },
+          {
+            "key": "label",
+            "type": "string",
+            "label": "Description"
+          }
+        ],
+        "short_description": "Business classification codes used for reporting."
       },
       {
-        "id": 4,
-        "code": "DM",
-        "asset_name": "DIE AND MOULD"
+        "id": "d42976e6-02d5-473b-9e18-6fb91465c56a",
+        "slug": "property-type",
+        "title": "Property Type",
+        "code_regex": "^.{0,9}$",
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-24T09:03:24.951816+00:00",
+        "category_id": "assets-and-properties",
+        "code_format": "Free Text",
+        "columns_schema": [
+          {
+            "key": "code",
+            "type": "int",
+            "label": "Code",
+            "required": true
+          },
+          {
+            "key": "label",
+            "type": "string",
+            "label": "Property Type"
+          }
+        ],
+        "short_description": "Property categories used in asset registers."
       },
       {
-        "id": 5,
-        "code": "EF",
-        "asset_name": "ELECTRICAL FITTINGS"
+        "id": "b9ff2617-c9cb-4837-85a4-2efae31edba2",
+        "slug": "msic-code",
+        "title": "MSIC Code",
+        "code_regex": "^[0-9]{5}$",
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-27T00:56:38.131795+00:00",
+        "category_id": "business-and-regulatory",
+        "code_format": "Numeric",
+        "columns_schema": [
+          {
+            "key": "code",
+            "type": "string",
+            "label": "MSIC Code"
+          },
+          {
+            "key": "description",
+            "type": "string",
+            "label": "Description"
+          },
+          {
+            "key": "section",
+            "type": "string",
+            "label": "Section"
+          },
+          {
+            "key": "category",
+            "type": "string",
+            "label": "Category"
+          },
+          {
+            "key": "sub_category",
+            "type": "string",
+            "label": "Sub Category"
+          }
+        ],
+        "short_description": "Malaysian Standard Industrial Classification codes."
       },
       {
-        "id": 6,
-        "code": "EQ",
-        "asset_name": "EQUIPMENT"
+        "id": "984f3f5c-7cce-43b9-8281-1e32e0f9c620",
+        "slug": "asset-type",
+        "title": "Asset Type",
+        "code_regex": "^[A-Z]{2,3}$",
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-27T00:52:19.419304+00:00",
+        "category_id": "assets-and-properties",
+        "code_format": "Alphabetic",
+        "columns_schema": [
+          {
+            "key": "code",
+            "type": "string",
+            "label": "Code"
+          },
+          {
+            "key": "asset_name",
+            "type": "string",
+            "label": "Asset Name"
+          }
+        ],
+        "short_description": "Types of assets used for classification."
       },
       {
-        "id": 7,
-        "code": "FF",
-        "asset_name": "FURNITURE & FITTINGS"
+        "id": "9ee423e2-b6ad-4486-a55c-c4c9a80d5d27",
+        "slug": "headers",
+        "title": "Headers",
+        "code_regex": null,
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-27T00:54:55.1704+00:00",
+        "category_id": "income-statement-headers",
+        "code_format": null,
+        "columns_schema": [
+          {
+            "key": "value",
+            "type": "string",
+            "label": "Value"
+          }
+        ],
+        "short_description": "Income statement header rows used to structure reports."
       },
       {
-        "id": 8,
-        "code": "FLB",
-        "asset_name": "FREEHOLD LAND AND BUILDING"
+        "id": "d2bfa2b8-3c7f-458b-9cf9-735c63b28887",
+        "slug": "bank-code",
+        "title": "Bank Code",
+        "code_regex": "^BK[0-9]{3}$",
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-27T00:53:01.457271+00:00",
+        "category_id": "financial-banking",
+        "code_format": "Alphanumeric",
+        "columns_schema": [
+          {
+            "key": "code",
+            "type": "string",
+            "label": "Code"
+          },
+          {
+            "key": "bank_name",
+            "type": "string",
+            "label": "Bank Name"
+          }
+        ],
+        "short_description": "Standard bank identification codes used in payments and bank lists."
       },
       {
-        "id": 9,
-        "code": "FR",
-        "asset_name": "FACTORY RENOVATION"
+        "id": "070fdd1a-3edb-477b-94b1-a51db81c6376",
+        "slug": "country-code",
+        "title": "Country Code",
+        "code_regex": "^[A-Z]{3}$",
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-27T00:54:06.790454+00:00",
+        "category_id": "geographic-and-location",
+        "code_format": "Alphabetic",
+        "columns_schema": [
+          {
+            "key": "code",
+            "type": "string",
+            "label": "Code"
+          },
+          {
+            "key": "country_name",
+            "type": "string",
+            "label": "Country Name"
+          }
+        ],
+        "short_description": "ISO 3166-1 alpha-2/alpha-3 country codes."
       },
       {
-        "id": 10,
-        "code": "LL",
-        "asset_name": "LEASEHOLD LAND"
+        "id": "6cf3d4af-8621-4f28-8312-b895170a122b",
+        "slug": "state-code",
+        "title": "State Code",
+        "code_regex": null,
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-27T00:57:07.241201+00:00",
+        "category_id": "geographic-and-location",
+        "code_format": null,
+        "columns_schema": [
+          {
+            "key": "value",
+            "type": "string",
+            "label": "Value"
+          }
+        ],
+        "short_description": "ISO-like codes for states or provinces."
       },
       {
-        "id": 11,
-        "code": "MV",
-        "asset_name": "MOTOR VEHICLE"
+        "id": "07581307-2c3f-4f4a-97b1-517e8e46b3dd",
+        "slug": "currency-code",
+        "title": "Currency Code",
+        "code_regex": "^[A-Z]{3}$",
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-27T00:54:40.168539+00:00",
+        "category_id": "financial-banking",
+        "code_format": "Alphabetic",
+        "columns_schema": [
+          {
+            "key": "code",
+            "type": "string",
+            "label": "Code"
+          },
+          {
+            "key": "currency_name",
+            "type": "string",
+            "label": "Currency Name"
+          }
+        ],
+        "short_description": "ISO 4217 three-letter currency codes."
       },
       {
-        "id": 12,
-        "code": "OE",
-        "asset_name": "OFFICE EQUIPMENT"
+        "id": "468d5e14-9ef4-4564-9e48-fa84bbff6ce0",
+        "slug": "type-of-interest-income",
+        "title": "Type of Interest Income",
+        "code_regex": null,
+        "created_at": "2025-10-24T09:02:51.811863+00:00",
+        "updated_at": "2025-10-27T00:55:48.885385+00:00",
+        "category_id": "income-and-interest",
+        "code_format": null,
+        "columns_schema": [
+          {
+            "key": "value",
+            "type": "string",
+            "label": "Value"
+          }
+        ],
+        "short_description": "Lookup of interest income types for reporting."
       },
       {
-        "id": 13,
-        "code": "OHR",
-        "asset_name": "OFFICE AND HOUSE RENOVATION"
+        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
+        "slug": "tax-agents",
+        "title": "Tax Agents",
+        "code_regex": null,
+        "created_at": "2025-11-03T00:00:00.000000+00:00",
+        "updated_at": "2025-11-03T00:00:00.000000+00:00",
+        "category_id": "tax-agent",
+        "code_format": null,
+        "columns_schema": [
+          {
+            "key": "tax_agent_name",
+            "type": "string",
+            "label": "Tax Agent Name"
+          },
+          {
+            "key": "tax_agent_no",
+            "type": "string",
+            "label": "Tax Agent No."
+          },
+          {
+            "key": "tax_agent_nric",
+            "type": "string",
+            "label": "Tax Agent NRIC"
+          },
+          {
+            "key": "position",
+            "type": "select",
+            "label": "Position"
+          },
+          {
+            "key": "company_name",
+            "type": "string",
+            "label": "Company Name"
+          },
+          {
+            "key": "business_registration_no",
+            "type": "string",
+            "label": "Business Registration No."
+          },
+          {
+            "key": "address_1",
+            "type": "string",
+            "label": "Address 1"
+          },
+          {
+            "key": "address_2",
+            "type": "string",
+            "label": "Address 2"
+          },
+          {
+            "key": "address_3",
+            "type": "string",
+            "label": "Address 3"
+          },
+          {
+            "key": "postcode",
+            "type": "string",
+            "label": "Postcode"
+          },
+          {
+            "key": "town_city",
+            "type": "string",
+            "label": "Town/City"
+          },
+          {
+            "key": "state",
+            "type": "state-code",
+            "label": "State"
+          },
+          {
+            "key": "country",
+            "type": "country-code",
+            "label": "Country"
+          },
+          {
+            "key": "email",
+            "type": "string",
+            "label": "Email"
+          },
+          {
+            "key": "tel_no",
+            "type": "string",
+            "label": "Tel No."
+          },
+          {
+            "key": "tin",
+            "type": "string",
+            "label": "TIN"
+          }
+        ],
+        "short_description": "A list of authorized tax agents."
       },
       {
-        "id": 14,
-        "code": "OR",
-        "asset_name": "OTHERS"
+        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef1",
+        "slug": "audit-firms",
+        "title": "Audit Firms",
+        "code_regex": null,
+        "created_at": "2025-11-03T00:00:00.000000+00:00",
+        "updated_at": "2025-11-03T00:00:00.000000+00:00",
+        "category_id": "audit-firm",
+        "code_format": null,
+        "columns_schema": [
+          {
+            "key": "code",
+            "type": "string",
+            "label": "Code"
+          },
+          {
+            "key": "business_registration_no",
+            "type": "string",
+            "label": "Business Registration No."
+          },
+          {
+            "key": "name",
+            "type": "string",
+            "label": "Name"
+          },
+          {
+            "key": "license",
+            "type": "string",
+            "label": "License"
+          },
+          {
+            "key": "address_1",
+            "type": "string",
+            "label": "Address 1"
+          },
+          {
+            "key": "address_2",
+            "type": "string",
+            "label": "Address 2"
+          },
+          {
+            "key": "address_3",
+            "type": "string",
+            "label": "Address 3"
+          },
+          {
+            "key": "postcode",
+            "type": "string",
+            "label": "Postcode"
+          },
+          {
+            "key": "town_city",
+            "type": "string",
+            "label": "Town/City"
+          },
+          {
+            "key": "state",
+            "type": "state-code",
+            "label": "State"
+          },
+          {
+            "key": "country",
+            "type": "country-code",
+            "label": "Country"
+          },
+          {
+            "key": "email",
+            "type": "string",
+            "label": "Email"
+          },
+          {
+            "key": "tel_no",
+            "type": "string",
+            "label": "Tel No."
+          },
+          {
+            "key": "fax_no",
+            "type": "string",
+            "label": "Fax No."
+          },
+          {
+            "key": "mobile_no",
+            "type": "string",
+            "label": "Mobile No."
+          },
+          {
+            "key": "income_tax_no",
+            "type": "string",
+            "label": "Income Tax No."
+          }
+        ],
+        "short_description": "A list of registered audit firms."
       },
       {
-        "id": 15,
-        "code": "PC",
-        "asset_name": "COMPUTER"
+        "id": "a2b3c4d5-e6f7-8901-2345-67890abcdef2",
+        "slug": "position",
+        "title": "Position",
+        "code_regex": "^[0-9]+$",
+        "created_at": "2025-11-04T00:00:00.000000+00:00",
+        "updated_at": "2025-11-04T00:00:00.000000+00:00",
+        "category_id": "business-and-regulatory",
+        "code_format": "Numeric",
+        "columns_schema": [
+          {
+            "key": "code",
+            "type": "int",
+            "label": "Code",
+            "required": true
+          },
+          {
+            "key": "description",
+            "type": "string",
+            "label": "Description"
+          }
+        ],
+        "short_description": "Various job positions or roles."
       }
     ]
   },
   {
-    "table_name": "lookup_bank_code",
+    "table_name": "lookup_property_type",
     "rows": [
       {
         "id": 1,
-        "code": "BK101",
-        "bank_name": "AFFIN BANK BERHAD"
+        "code": "1SDF",
+        "description": "1 1/2 STOREY SEMI-DETACHED FACTORY"
       },
       {
         "id": 2,
-        "code": "BK133",
-        "bank_name": "AFFIN ISLAMIC BANK BERHAD"
+        "code": "1SF",
+        "description": "1 1/2 STOREY / FACTORY"
       },
       {
         "id": 3,
-        "code": "BK121",
-        "bank_name": "AGRO BANK"
+        "code": "1SSF",
+        "description": "1-STOREY FACTORY"
       },
       {
         "id": 4,
-        "code": "BK102",
-        "bank_name": "ALLIANCE BANK MALAYSIA BERHAD"
+        "code": "2SCS",
+        "description": "2-STOREY COMMERCIAL SHOPHOUSE"
       },
       {
         "id": 5,
-        "code": "BK134",
-        "bank_name": "ALLIANCE ISLAMIC BANK BERHAD"
+        "code": "2SDF",
+        "description": "2 1/2 STOREY CORNER SEMI-D FACTORY"
       },
       {
         "id": 6,
-        "code": "BK126",
-        "bank_name": "AL RAJHI BANKING & INVESTMENT CORPORATION (MALAYSIA) BERHAD"
+        "code": "2SF",
+        "description": "2-STOREY FACTORY"
       },
       {
         "id": 7,
-        "code": "BK103",
-        "bank_name": "AMBANK (M) BERHAD"
+        "code": "2SS",
+        "description": "2- STOREY SHOP"
       },
       {
         "id": 8,
-        "code": "BK135",
-        "bank_name": "AM ISLAMIC BANK BERHAD"
+        "code": "2SSDB",
+        "description": "2-STOREY SEMI-DETACHED BUILDING"
       },
       {
         "id": 9,
-        "code": "BK148",
-        "bank_name": "BANGKOK BANK BERHAD"
+        "code": "2SSO",
+        "description": "2-STOREY SHOP OFFICE"
       },
       {
         "id": 10,
-        "code": "BK105",
-        "bank_name": "BANK ISLAM MALAYSIA BERHAD"
+        "code": "2STF",
+        "description": "DOUBLE STOREY TERRACE FACTORY"
       },
       {
         "id": 11,
-        "code": "BK106",
-        "bank_name": "BANK KERJASAMA RAKYAT"
+        "code": "31/2SSO",
+        "description": "3 1/2 STOREY SHOP OFFICE"
       },
       {
         "id": 12,
-        "code": "BK104",
-        "bank_name": "BANK MUAMALAT MALAYSIA BERHAD"
+        "code": "3SCS",
+        "description": "3-STOREY COMMERCIAL SHOPHOUSE"
       },
       {
         "id": 13,
-        "code": "BK120",
-        "bank_name": "BANK OF AMERICA MALAYSIA BERHAD"
+        "code": "3SF",
+        "description": "3-STOREY FACTORY"
       },
       {
         "id": 14,
-        "code": "BK152",
-        "bank_name": "BANK OF CHINA (MALAYSIA) BERHAD"
+        "code": "3SISH",
+        "description": "3 STOREY INTERMEDIATE SHOPHOUSE"
       },
       {
         "id": 15,
-        "code": "BK116",
-        "bank_name": "BANK SIMPANAN NASIONAL"
+        "code": "3SSH",
+        "description": "3 STOREY SHOPHOUSE"
       }
     ]
-  },
-  {
+  },  {
     "table_name": "lookup_country_code",
     "rows": [
       {
@@ -236,6 +676,21 @@
         "id": 15,
         "code": "AUS",
         "country_name": "Australia"
+      },
+      {
+        "id": 16,
+        "code": "AUT",
+        "country_name": "Austria"
+      },
+      {
+        "id": 17,
+        "code": "AZE",
+        "country_name": "Azerbaijan"
+      },
+      {
+        "id": 18,
+        "code": "BDI",
+        "country_name": "Burundi"
       }
     ]
   },
@@ -320,503 +775,6 @@
     ]
   },
   {
-    "table_name": "lookup_groups",
-    "rows": [
-      {
-        "id": "4612b065-85d7-49bb-938c-e95f58d78d14",
-        "slug": "foreign-exchange-rate",
-        "title": "Foreign Exchange Rate",
-        "code_regex": null,
-        "created_at": "2025-10-24T09:02:51.811863+00:00",
-        "updated_at": "2025-10-24T09:02:51.811863+00:00",
-        "category_id": "financial-banking",
-        "code_format": null,
-        "columns_schema": [
-          {
-            "key": "year",
-            "type": "integer",
-            "label": "Year",
-            "required": true
-          },
-          {
-            "key": "month",
-            "type": "text",
-            "label": "Month",
-            "required": true
-          },
-          {
-            "key": "currency_name",
-            "type": "text",
-            "label": "Currency Name",
-            "required": true
-          },
-          {
-            "key": "currency_code",
-            "type": "text",
-            "label": "Currency Code",
-            "required": true
-          },
-          {
-            "key": "conversion_rate",
-            "type": "double",
-            "label": "Conversion Rate",
-            "required": true
-          }
-        ],
-        "short_description": "Reference exchange rate entries (pairs or rate providers)."
-      },
-      {
-        "id": "7cd1b3a9-699d-4c3e-b7e6-c85ca8e886e0",
-        "slug": "average-lending-rate",
-        "title": "Average Lending Rate",
-        "code_regex": "^[0-9]+$",
-        "created_at": "2025-10-24T09:02:51.811863+00:00",
-        "updated_at": "2025-10-24T09:02:51.811863+00:00",
-        "category_id": "financial-banking",
-        "code_format": "Numeric",
-        "columns_schema": [
-          {
-            "key": "year",
-            "type": "integer",
-            "label": "Year",
-            "required": true
-          },
-          {
-            "key": "month",
-            "type": "integer",
-            "label": "Month",
-            "required": true
-          },
-          {
-            "key": "average_lending_rate",
-            "type": "double",
-            "label": "Average Lending Rate",
-            "required": true
-          }
-        ],
-        "short_description": "Average Lending Rate (ALR) related lookup values."
-      },
-      {
-        "id": "cd5faea2-07eb-4464-8497-72f162092bff",
-        "slug": "business-code",
-        "title": "Business Code",
-        "code_regex": "^[A-Za-z0-9]+$",
-        "created_at": "2025-10-24T09:02:51.811863+00:00",
-        "updated_at": "2025-10-24T09:03:24.951816+00:00",
-        "category_id": "business-and-regulatory",
-        "code_format": "Alphanumeric",
-        "columns_schema": [
-          {
-            "key": "code",
-            "type": "text",
-            "label": "Code",
-            "required": true
-          },
-          {
-            "key": "label",
-            "type": "text",
-            "label": "Description"
-          }
-        ],
-        "short_description": "Business classification codes used for reporting."
-      },
-      {
-        "id": "d42976e6-02d5-473b-9e18-6fb91465c56a",
-        "slug": "property-type",
-        "title": "Property Type",
-        "code_regex": "^[0-9]+$",
-        "created_at": "2025-10-24T09:02:51.811863+00:00",
-        "updated_at": "2025-10-24T09:03:24.951816+00:00",
-        "category_id": "assets-and-properties",
-        "code_format": "Numeric",
-        "columns_schema": [
-          {
-            "key": "code",
-            "type": "number",
-            "label": "Code",
-            "required": true
-          },
-          {
-            "key": "label",
-            "type": "text",
-            "label": "Property Type"
-          }
-        ],
-        "short_description": "Property categories used in asset registers."
-      },
-      {
-        "id": "b9ff2617-c9cb-4837-85a4-2efae31edba2",
-        "slug": "msic-code",
-        "title": "MSIC Code",
-        "code_regex": "^[0-9]{5}$",
-        "created_at": "2025-10-24T09:02:51.811863+00:00",
-        "updated_at": "2025-10-27T00:56:38.131795+00:00",
-        "category_id": "business-and-regulatory",
-        "code_format": "Numeric",
-        "columns_schema": [
-          {
-            "key": "code",
-            "type": "text",
-            "label": "MSIC Code"
-          },
-          {
-            "key": "description",
-            "type": "text",
-            "label": "Description"
-          },
-          {
-            "key": "section",
-            "type": "text",
-            "label": "Section"
-          },
-          {
-            "key": "category",
-            "type": "text",
-            "label": "Category"
-          },
-          {
-            "key": "sub_category",
-            "type": "text",
-            "label": "Sub Category"
-          }
-        ],
-        "short_description": "Malaysian Standard Industrial Classification codes."
-      },
-      {
-        "id": "984f3f5c-7cce-43b9-8281-1e32e0f9c620",
-        "slug": "asset-type",
-        "title": "Asset Type",
-        "code_regex": "^[A-Z]{2,3}$",
-        "created_at": "2025-10-24T09:02:51.811863+00:00",
-        "updated_at": "2025-10-27T00:52:19.419304+00:00",
-        "category_id": "assets-and-properties",
-        "code_format": "Alphabetic",
-        "columns_schema": [
-          {
-            "key": "code",
-            "type": "text",
-            "label": "Code"
-          },
-          {
-            "key": "asset_name",
-            "type": "text",
-            "label": "Asset Name"
-          }
-        ],
-        "short_description": "Types of assets used for classification."
-      },
-      {
-        "id": "9ee423e2-b6ad-4486-a55c-c4c9a80d5d27",
-        "slug": "headers",
-        "title": "Headers",
-        "code_regex": null,
-        "created_at": "2025-10-24T09:02:51.811863+00:00",
-        "updated_at": "2025-10-27T00:54:55.1704+00:00",
-        "category_id": "income-statement-headers",
-        "code_format": null,
-        "columns_schema": [
-          {
-            "key": "value",
-            "type": "text",
-            "label": "Value"
-          }
-        ],
-        "short_description": "Income statement header rows used to structure reports."
-      },
-      {
-        "id": "d2bfa2b8-3c7f-458b-9cf9-735c63b28887",
-        "slug": "bank-code",
-        "title": "Bank Code",
-        "code_regex": "^BK[0-9]{3}$",
-        "created_at": "2025-10-24T09:02:51.811863+00:00",
-        "updated_at": "2025-10-27T00:53:01.457271+00:00",
-        "category_id": "financial-banking",
-        "code_format": "Alphanumeric",
-        "columns_schema": [
-          {
-            "key": "code",
-            "type": "text",
-            "label": "Code"
-          },
-          {
-            "key": "bank_name",
-            "type": "text",
-            "label": "Bank Name"
-          }
-        ],
-        "short_description": "Standard bank identification codes used in payments and bank lists."
-      },
-      {
-        "id": "070fdd1a-3edb-477b-94b1-a51db81c6376",
-        "slug": "country-code",
-        "title": "Country Code",
-        "code_regex": "^[A-Z]{3}$",
-        "created_at": "2025-10-24T09:02:51.811863+00:00",
-        "updated_at": "2025-10-27T00:54:06.790454+00:00",
-        "category_id": "geographic-and-location",
-        "code_format": "Alphabetic",
-        "columns_schema": [
-          {
-            "key": "code",
-            "type": "text",
-            "label": "Code"
-          },
-          {
-            "key": "country_name",
-            "type": "text",
-            "label": "Country Name"
-          }
-        ],
-        "short_description": "ISO 3166-1 alpha-2/alpha-3 country codes."
-      },
-      {
-        "id": "6cf3d4af-8621-4f28-8312-b895170a122b",
-        "slug": "state-code",
-        "title": "State Code",
-        "code_regex": null,
-        "created_at": "2025-10-24T09:02:51.811863+00:00",
-        "updated_at": "2025-10-27T00:57:07.241201+00:00",
-        "category_id": "geographic-and-location",
-        "code_format": null,
-        "columns_schema": [
-          {
-            "key": "value",
-            "type": "text",
-            "label": "Value"
-          }
-        ],
-        "short_description": "ISO-like codes for states or provinces."
-      },
-      {
-        "id": "07581307-2c3f-4f4a-97b1-517e8e46b3dd",
-        "slug": "currency-code",
-        "title": "Currency Code",
-        "code_regex": "^[A-Z]{3}$",
-        "created_at": "2025-10-24T09:02:51.811863+00:00",
-        "updated_at": "2025-10-27T00:54:40.168539+00:00",
-        "category_id": "financial-banking",
-        "code_format": "Alphabetic",
-        "columns_schema": [
-          {
-            "key": "code",
-            "type": "text",
-            "label": "Code"
-          },
-          {
-            "key": "currency_name",
-            "type": "text",
-            "label": "Currency Name"
-          }
-        ],
-        "short_description": "ISO 4217 three-letter currency codes."
-      },
-      {
-        "id": "468d5e14-9ef4-4564-9e48-fa84bbff6ce0",
-        "slug": "type-of-interest-income",
-        "title": "Type of Interest Income",
-        "code_regex": null,
-        "created_at": "2025-10-24T09:02:51.811863+00:00",
-        "updated_at": "2025-10-27T00:55:48.885385+00:00",
-        "category_id": "income-and-interest",
-        "code_format": null,
-        "columns_schema": [
-          {
-            "key": "value",
-            "type": "text",
-            "label": "Value"
-          }
-        ],
-        "short_description": "Lookup of interest income types for reporting."
-      },
-      {
-        "id": "a1b2c3d4-e5f6-7890-1234-567890abcdef",
-        "slug": "tax-agents",
-        "title": "Tax Agents",
-        "code_regex": null,
-        "created_at": "2025-11-03T00:00:00.000000+00:00",
-        "updated_at": "2025-11-03T00:00:00.000000+00:00",
-        "category_id": "tax-agent",
-        "code_format": null,
-        "columns_schema": [
-          {
-            "key": "tax_agent_name",
-            "type": "text",
-            "label": "Tax Agent Name"
-          },
-          {
-            "key": "tax_agent_no",
-            "type": "text",
-            "label": "Tax Agent No."
-          },
-          {
-            "key": "tax_agent_nric",
-            "type": "text",
-            "label": "Tax Agent NRIC"
-          },
-          {
-            "key": "position",
-            "type": "select",
-            "label": "Position"
-          },
-          {
-            "key": "company_name",
-            "type": "text",
-            "label": "Company Name"
-          },
-          {
-            "key": "business_registration_no",
-            "type": "text",
-            "label": "Business Registration No."
-          },
-          {
-            "key": "address_1",
-            "type": "text",
-            "label": "Address 1"
-          },
-          {
-            "key": "address_2",
-            "type": "text",
-            "label": "Address 2"
-          },
-          {
-            "key": "address_3",
-            "type": "text",
-            "label": "Address 3"
-          },
-          {
-            "key": "postcode",
-            "type": "text",
-            "label": "Postcode"
-          },
-          {
-            "key": "town_city",
-            "type": "text",
-            "label": "Town/City"
-          },
-          {
-            "key": "state",
-            "type": "state-code",
-            "label": "State"
-          },
-          {
-            "key": "country",
-            "type": "country-code",
-            "label": "Country"
-          },
-          {
-            "key": "email",
-            "type": "text",
-            "label": "Email"
-          },
-          {
-            "key": "tel_no",
-            "type": "text",
-            "label": "Tel No."
-          },
-          {
-            "key": "tin",
-            "type": "text",
-            "label": "TIN"
-          }
-        ],
-        "short_description": "A list of authorized tax agents."
-      },
-      {
-        "id": "b2c3d4e5-f6a7-8901-2345-67890abcdef1",
-        "slug": "audit-firms",
-        "title": "Audit Firms",
-        "code_regex": null,
-        "created_at": "2025-11-03T00:00:00.000000+00:00",
-        "updated_at": "2025-11-03T00:00:00.000000+00:00",
-        "category_id": "audit-firm",
-        "code_format": null,
-        "columns_schema": [
-          {
-            "key": "code",
-            "type": "text",
-            "label": "Code"
-          },
-          {
-            "key": "business_registration_no",
-            "type": "text",
-            "label": "Business Registration No."
-          },
-          {
-            "key": "name",
-            "type": "text",
-            "label": "Name"
-          },
-          {
-            "key": "license",
-            "type": "text",
-            "label": "License"
-          },
-          {
-            "key": "address_1",
-            "type": "text",
-            "label": "Address 1"
-          },
-          {
-            "key": "address_2",
-            "type": "text",
-            "label": "Address 2"
-          },
-          {
-            "key": "address_3",
-            "type": "text",
-            "label": "Address 3"
-          },
-          {
-            "key": "postcode",
-            "type": "text",
-            "label": "Postcode"
-          },
-          {
-            "key": "town_city",
-            "type": "text",
-            "label": "Town/City"
-          },
-          {
-            "key": "state",
-            "type": "state-code",
-            "label": "State"
-          },
-          {
-            "key": "country",
-            "type": "country-code",
-            "label": "Country"
-          },
-          {
-            "key": "email",
-            "type": "text",
-            "label": "Email"
-          },
-          {
-            "key": "tel_no",
-            "type": "text",
-            "label": "Tel No."
-          },
-          {
-            "key": "fax_no",
-            "type": "text",
-            "label": "Fax No."
-          },
-          {
-            "key": "mobile_no",
-            "type": "text",
-            "label": "Mobile No."
-          },
-          {
-            "key": "income_tax_no",
-            "type": "text",
-            "label": "Income Tax No."
-          }
-        ],
-        "short_description": "A list of registered audit firms."
-      }
-    ]
-  },
-  {
     "table_name": "lookup_tax_agents",
     "rows": []
   },
@@ -863,121 +821,145 @@
       {
         "id": 1,
         "code": "01111",
+        "description": "Growing of maize",
         "section": "A AGRICULTURE, FORESTRY AND FISHING",
         "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
-        "description": "Growing of maize",
         "sub_category": "Growing of non perennial crops"
       },
       {
         "id": 2,
         "code": "01112",
+        "description": "Growing of leguminous crops",
         "section": "A AGRICULTURE, FORESTRY AND FISHING",
         "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
-        "description": "Growing of leguminous crops",
         "sub_category": "Growing of non perennial crops"
       },
       {
         "id": 3,
         "code": "01113",
+        "description": "Growing of oil seeds",
         "section": "A AGRICULTURE, FORESTRY AND FISHING",
         "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
-        "description": "Growing of oil seeds",
         "sub_category": "Growing of non perennial crops"
       },
       {
         "id": 4,
         "code": "01119",
+        "description": "Growing of other cereals n.e.c",
         "section": "A AGRICULTURE, FORESTRY AND FISHING",
         "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
-        "description": "Growing of other cereals n.e.c",
         "sub_category": "Growing of non perennial crops"
       },
       {
         "id": 5,
         "code": "01120",
+        "description": "Growing of paddy",
         "section": "A AGRICULTURE, FORESTRY AND FISHING",
         "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
-        "description": "Growing of paddy",
         "sub_category": "Growing of non perennial crops"
       },
       {
         "id": 6,
         "code": "01131",
+        "description": "Growing of leafy or stem vegetables",
         "section": "A AGRICULTURE, FORESTRY AND FISHING",
         "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
-        "description": "Growing of leafy or stem vegetables",
         "sub_category": "Growing of non perennial crops"
       },
       {
         "id": 7,
         "code": "01132",
+        "description": "Growing of fruits bearing vegetables",
         "section": "A AGRICULTURE, FORESTRY AND FISHING",
         "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
-        "description": "Growing of fruits bearing vegetables",
         "sub_category": "Growing of non perennial crops"
       },
       {
         "id": 8,
         "code": "01133",
+        "description": "Growing of melons",
         "section": "A AGRICULTURE, FORESTRY AND FISHING",
         "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
-        "description": "Growing of melons",
         "sub_category": "Growing of non perennial crops"
       },
       {
         "id": 9,
         "code": "01134",
+        "description": "Growing of mushrooms and truffles",
         "section": "A AGRICULTURE, FORESTRY AND FISHING",
         "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
-        "description": "Growing of mushrooms and truffles",
         "sub_category": "Growing of non perennial crops"
       },
       {
         "id": 10,
         "code": "01135",
+        "description": "Growing of vegetables seeds, except beet seeds",
         "section": "A AGRICULTURE, FORESTRY AND FISHING",
         "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
-        "description": "Growing of vegetables seeds, except beet seeds",
         "sub_category": "Growing of non perennial crops"
       },
       {
         "id": 11,
         "code": "01136",
+        "description": "Growing of other vegetables",
         "section": "A AGRICULTURE, FORESTRY AND FISHING",
         "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
-        "description": "Growing of other vegetables",
         "sub_category": "Growing of non perennial crops"
       },
       {
         "id": 12,
         "code": "01137",
+        "description": "Growing of sugar beet",
         "section": "A AGRICULTURE, FORESTRY AND FISHING",
         "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
-        "description": "Growing of sugar beet",
         "sub_category": "Growing of non perennial crops"
       },
       {
         "id": 13,
         "code": "01138",
+        "description": "Growing of roots, tubers, bulb or tuberous vegetables",
         "section": "A AGRICULTURE, FORESTRY AND FISHING",
         "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
-        "description": "Growing of roots, tubers, bulb or tuberous vegetables",
         "sub_category": "Growing of non perennial crops"
       },
       {
         "id": 14,
         "code": "01140",
+        "description": "Growing of sugar cane",
         "section": "A AGRICULTURE, FORESTRY AND FISHING",
         "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
-        "description": "Growing of sugar cane",
         "sub_category": "Growing of non perennial crops"
       },
       {
         "id": 15,
         "code": "01150",
+        "description": "Growing of tobacco",
         "section": "A AGRICULTURE, FORESTRY AND FISHING",
         "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
-        "description": "Growing of tobacco",
+        "sub_category": "Growing of non perennial crops"
+      },
+      {
+        "id": 16,
+        "code": "01160",
+        "description": "Growing of fibre crops",
+        "section": "A AGRICULTURE, FORESTRY AND FISHING",
+        "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
+        "sub_category": "Growing of non perennial crops"
+      },
+      {
+        "id": 17,
+        "code": "01191",
+        "description": "Growing of flowers",
+        "section": "A AGRICULTURE, FORESTRY AND FISHING",
+        "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
+        "sub_category": "Growing of non perennial crops"
+      },
+      {
+        "id": 18,
+        "code": "01192",
+        "description": "Growing of flower seeds",
+        "section": "A AGRICULTURE, FORESTRY AND FISHING",
+        "category": "CROPS AND ANIMAL PRODUCTION HUNTING AND RELATED SERVICE ACTIVITIES",
         "sub_category": "Growing of non perennial crops"
       }
     ]
@@ -1044,6 +1026,10 @@
       {
         "id": 15,
         "value": "WILAYAH PERSEKUTUAN LABUAN"
+      },
+      {
+        "id": 16,
+        "value": "WILAYAH PERSEKUTUAN PUTRAJAYA"
       }
     ]
   },
@@ -1095,5 +1081,97 @@
         "value": "THIRD PARTY"
       }
     ]
+  },
+  {
+    "table_name": "lookup_position",
+    "rows": [
+      {
+        "id": 1,
+        "code": 1,
+        "description": "CHAIRMAN"
+      },
+      {
+        "id": 2,
+        "code": 2,
+        "description": "DIRECTOR"
+      },
+      {
+        "id": 3,
+        "code": 3,
+        "description": "EJEN CUKAI"
+      },
+      {
+        "id": 4,
+        "code": 4,
+        "description": "MANAGING PARTNER"
+      },
+      {
+        "id": 5,
+        "code": 5,
+        "description": "MANAGING DIRECTOR"
+      },
+      {
+        "id": 6,
+        "code": 6,
+        "description": "PARTNER"
+      },
+      {
+        "id": 7,
+        "code": 7,
+        "description": "PENGARAH"
+      },
+      {
+        "id": 8,
+        "code": 8,
+        "description": "ACCOUNT EXECUTIVE"
+      },
+      {
+        "id": 9,
+        "code": 9,
+        "description": "PRECEDENT PARTNER"
+      },
+      {
+        "id": 10,
+        "code": 10,
+        "description": "SOLE-PROPRIETOR"
+      },
+      {
+        "id": 11,
+        "code": 11,
+        "description": "SETIAUSAHA"
+      },
+      {
+        "id": 12,
+        "code": 12,
+        "description": "TREASURER"
+      },
+      {
+        "id": 13,
+        "code": 13,
+        "description": "MANAGER"
+      },
+      {
+        "id": 14,
+        "code": 14,
+        "description": "ACCOUNTANT"
+      },
+      {
+        "id": 15,
+        "code": 15,
+        "description": "CHIEF EXECUTIVE OFFICER"
+      }
+    ]
+  },
+  {
+    "table_name": "lookup_average-lending-rate",
+    "rows": []
+  },
+  {
+    "table_name": "lookup_audit-firms",
+    "rows": []
+  },
+  {
+    "table_name": "lookup_tax-agents",
+    "rows": []
   }
 ]

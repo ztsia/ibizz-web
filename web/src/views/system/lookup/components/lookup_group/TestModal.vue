@@ -85,8 +85,7 @@ const visible = computed({
 
 onMounted(() => {});
 
-onUnmounted(() => {
-});
+onUnmounted(() => {});
 
 function onClose() {
   visible.value = false;

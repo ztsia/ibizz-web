@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "value": "DIRECTOR"
+  },
+  {
+    "id": 2,
+    "value": "FIXED DEPOSIT"
+  },
+  {
+    "id": 3,
+    "value": "LOAN STOCK"
+  },
+  {
+    "id": 4,
+    "value": "OTHER INTEREST INCOM NOT S33(2)"
+  },
+  {
+    "id": 5,
+    "value": "OTHERS"
+  },
+  {
+    "id": 6,
+    "value": "PROPERTY"
+  },
+  {
+    "id": 7,
+    "value": "RELATED COMPANY"
+  },
+  {
+    "id": 8,
+    "value": "TAX EXEMPT/SINGLE-TIER"
+  },
+  {
+    "id": 9,
+    "value": "INVESTMENT"
+  },
+  {
+    "id": 10,
+    "value": "TAXABLE INVESTMENT"
+  },
+  {
+    "id": 11,
+    "value": "THIRD PARTY"
+  }
+]

@@ -1,0 +1,87 @@
+[
+  {
+    "id": 1,
+    "code": "AC",
+    "asset_name": "AIR CONDITIONER"
+  },
+  {
+    "id": 2,
+    "code": "BG",
+    "asset_name": "BUILDING"
+  },
+  {
+    "id": 3,
+    "code": "CE",
+    "asset_name": "CAPITAL EXPENDITURE EXPENSED OFF TO P&L"
+  },
+  {
+    "id": 4,
+    "code": "DM",
+    "asset_name": "DIE AND MOULD"
+  },
+  {
+    "id": 5,
+    "code": "EF",
+    "asset_name": "ELECTRICAL FITTINGS"
+  },
+  {
+    "id": 6,
+    "code": "EQ",
+    "asset_name": "EQUIPMENT"
+  },
+  {
+    "id": 7,
+    "code": "FF",
+    "asset_name": "FURNITURE & FITTINGS"
+  },
+  {
+    "id": 8,
+    "code": "FLB",
+    "asset_name": "FREEHOLD LAND AND BUILDING"
+  },
+  {
+    "id": 9,
+    "code": "FR",
+    "asset_name": "FACTORY RENOVATION"
+  },
+  {
+    "id": 10,
+    "code": "LL",
+    "asset_name": "LEASEHOLD LAND"
+  },
+  {
+    "id": 11,
+    "code": "MV",
+    "asset_name": "MOTOR VEHICLE"
+  },
+  {
+    "id": 12,
+    "code": "OE",
+    "asset_name": "OFFICE EQUIPMENT"
+  },
+  {
+    "id": 13,
+    "code": "OHR",
+    "asset_name": "OFFICE AND HOUSE RENOVATION"
+  },
+  {
+    "id": 14,
+    "code": "OR",
+    "asset_name": "OTHERS"
+  },
+  {
+    "id": 15,
+    "code": "PC",
+    "asset_name": "COMPUTER"
+  },
+  {
+    "id": 16,
+    "code": "PM",
+    "asset_name": "PLANT & MACHINERY"
+  },
+  {
+    "id": 17,
+    "code": "SG",
+    "asset_name": "SIGNBOARD"
+  }
+]

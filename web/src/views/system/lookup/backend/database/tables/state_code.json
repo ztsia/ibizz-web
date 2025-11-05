@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "value": "JOHOR"
+  },
+  {
+    "id": 2,
+    "value": "KEDAH"
+  },
+  {
+    "id": 3,
+    "value": "KELANTAN"
+  },
+  {
+    "id": 4,
+    "value": "MELAKA"
+  },
+  {
+    "id": 5,
+    "value": "NEGERI SEMBILAN"
+  },
+  {
+    "id": 6,
+    "value": "PAHANG"
+  },
+  {
+    "id": 7,
+    "value": "PERAK"
+  },
+  {
+    "id": 8,
+    "value": "PERLIS"
+  },
+  {
+    "id": 9,
+    "value": "PULAU PINANG"
+  },
+  {
+    "id": 10,
+    "value": "SABAH"
+  },
+  {
+    "id": 11,
+    "value": "SARAWAK"
+  },
+  {
+    "id": 12,
+    "value": "SELANGOR"
+  },
+  {
+    "id": 13,
+    "value": "TERENGGANU"
+  },
+  {
+    "id": 14,
+    "value": "WILAYAH PERSEKUTUAN KUALA LUMPUR"
+  },
+  {
+    "id": 15,
+    "value": "WILAYAH PERSEKUTUAN LABUAN"
+  },
+  {
+    "id": 16,
+    "value": "WILAYAH PERSEKUTUAN PUTRAJAYA"
+  }
+]

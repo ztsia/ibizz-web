@@ -1,1 +1,0 @@
-INSERT INTO "public"."lookup_headers" ("id", "value") VALUES ('1', 'Revenue'), ('2', 'Cost of Sale'), ('3', 'Gross Profit'), ('4', 'Other Income'), ('5', 'Operating Expenses'), ('6', 'Profit before tax'), ('7', 'Net Profit for the Year');
