@@ -53,3 +53,6 @@ vite.config.ts.*
 # Gemini and Speckit files
 .gemini
 .specify
+
+# GitHub metadata (not needed in repo; templates/prompts are local)
+.github/

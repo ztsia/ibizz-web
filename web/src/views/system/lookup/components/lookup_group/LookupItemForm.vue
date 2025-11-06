@@ -112,7 +112,7 @@ import {
   Textarea,
 } from '@vben-core/shadcn-ui';
 
-import LookupSelect from './LookupSelect.vue';
+import { LookupSelect } from '../../../shared_components';
 
 const props = defineProps<{
   modelValue?: boolean;
