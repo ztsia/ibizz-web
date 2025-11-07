@@ -79,6 +79,24 @@ function normalizeRow(r: any) {
  *   the page (or provide an efficient estimate if counting is expensive).
  * - Consider exposing `nextCursor` instead of `page` for more robust
  *   pagination.
+ * @security
+ * TODO: Implement authorization logic.
+ * - Admin roles should be able to call this for any `groupId`.
+ * - Other roles should only be allowed to call this for generic, public groups (e.g., 'countries', 'states').
+ * The backend API should enforce these rules based on the user's session/token.
+ */
+/**
+ * List items for a given group with support for pagination and searching.
+ * @param {string | null} groupId - The ID of the group whose items are to be listed.
+ * @param {any} [opts] - Options object: { page, perPage, q, count }.
+ * @returns {Promise<Array<any> | {items: Array<any>, total: number}>} An array of items or an object with items and total count.
+ *
+ * @backend_implementation
+ * This function should query the specific table for the given `groupId` (e.g., `lookup_countries`).
+ * - `page` & `perPage`: Implement pagination using `LIMIT` and `OFFSET`.
+ * - `q`: Implement full-text search across all relevant text/JSON columns. The original used `ilike` with wildcards.
+ * - `count`: If true, the response must include the total number of matching records, typically via a `Content-Range` header or in the response body.
+ * Original Supabase/PostgREST URL: `/rest/v1/lookup_my_group?limit=10&offset=0&or=(col1.ilike.*search*,col2.ilike.*search*)`
  */
 export async function listItems(groupId: string | null, opts: any = {}) {
   await delay();
