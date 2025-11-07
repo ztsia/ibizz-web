@@ -335,7 +335,7 @@
           },
           {
             "key": "position",
-            "type": "select",
+            "type": "position",
             "label": "Position"
           },
           {
@@ -776,7 +776,30 @@
   },
   {
     "table_name": "lookup_tax_agents",
-    "rows": []
+    "rows": [
+      {
+        "id": 1,
+        "tax_agent_name": "Acme Tax Services",
+        "tax_agent_no": "TA-0001",
+        "tax_agent_nric": "900101-01-1234",
+        "position": 1,
+        "company_name": "Acme Tax Services Sdn Bhd",
+        "business_registration_no": "BRN123456",
+        "address_1": "10 Jalan Example",
+        "address_2": "Off Jalan Sample",
+        "address_3": "",
+        "postcode": "43000",
+        "town_city": "Kajang",
+        "state": 12,
+        "country": "MYS",
+        "email": "agent1@example.com",
+        "tel_no": "+60123456789",
+        "tin": "TIN-0001",
+        "version": 1,
+        "created_at": "2025-11-06T00:00:00.000000+00:00",
+        "updated_at": "2025-11-06T00:00:00.000000+00:00"
+      }
+    ]
   },
   {
     "table_name": "lookup_audit_firms",
@@ -1338,14 +1361,6 @@
   },
   {
     "table_name": "lookup_average_lending_rate",
-    "rows": []
-  },
-  {
-    "table_name": "lookup_audit_firms",
-    "rows": []
-  },
-  {
-    "table_name": "lookup_tax_agents",
     "rows": []
   }
 ]

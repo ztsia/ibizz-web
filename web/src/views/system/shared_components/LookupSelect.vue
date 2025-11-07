@@ -89,6 +89,7 @@ onMounted(async () => {
       `[LookupSelect] Failed to load items for lookup slug "${props.lookupSlug}":`,
       error,
     );
+    emit('lookup-error', error);
   }
 });
 </script>
