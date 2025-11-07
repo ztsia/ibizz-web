@@ -43,6 +43,13 @@ function normalizeRow(r: any) {
 }
 
 /**
+ * @security
+ * TODO: Implement authorization logic.
+ * - Admin roles should be able to call this for any `groupId`.
+ * - Other roles should only be allowed to call this for generic, public groups (e.g., 'countries', 'states').
+ * The backend API should enforce these rules based on the user's session/token.
+ */
+/**
  * List items for a given group with support for pagination and searching.
  * @param {string | null} groupId - The ID of the group whose items are to be listed.
  * @param {any} [opts] - Options object: { page, perPage, q, count }.
