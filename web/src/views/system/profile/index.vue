@@ -297,13 +297,9 @@ import {
   Input,
 } from '@vben-core/shadcn-ui';
 import { z } from '@vben/common-ui';
-import {
-  getOwnProfile,
-  updateOwnProfile,
-} from '#/views/system/services/profile.service';
-import ToggleEditViewButton from './components/ToggleEditViewButton.vue';
-import LookupSelect from '#/views/system/shared_components/LookupSelect.vue';
-import ProfileActionsBar from './components/ProfileActionsBar.vue';
+import { getOwnProfile, updateOwnProfile } from '#/views/system/services';
+import { ToggleEditViewButton, ProfileActionsBar } from './components';
+import { LookupSelect } from '#/views/system/shared_components';
 
 // Profile data
 interface ProfileData {
