@@ -464,8 +464,9 @@ async function handleCreateOrUpdate(payload: any) {
       } catch {
         /* ignore */
       }
-    } catch {
+    } catch (error) {
       localItems.value.splice(idx, 1, before);
+      console.error('Update failed:', error);
       notifyError('Failed to update item');
     }
   } else {
@@ -487,8 +488,9 @@ async function handleCreateOrUpdate(payload: any) {
       } catch {
         /* ignore */
       }
-    } catch {
+    } catch (error) {
       localItems.value = localItems.value.filter((i) => i.id !== tempId);
+      console.error('Create failed:', error);
       notifyError('Failed to create item');
     }
   }
@@ -520,8 +522,9 @@ async function remove(item: any) {
     } catch {
       /* ignore */
     }
-  } catch {
+  } catch (error) {
     localItems.value = before;
+    console.error('Delete failed:', error);
     notifyError('Failed to delete item');
   }
 }
