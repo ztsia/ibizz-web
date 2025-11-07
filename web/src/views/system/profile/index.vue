@@ -34,11 +34,13 @@
         <!-- Personal Details -->
         <Card data-test="category-personal-details">
           <CardHeader>
-            <CardTitle>Personal Details</CardTitle>
+            <CardTitle class="text-xl font-semibold"
+              >Personal Details</CardTitle
+            >
           </CardHeader>
           <CardContent class="space-y-4">
             <div data-test="field-tax-agent-name">
-              <label class="text-sm font-medium">Tax Agent Name</label>
+              <label class="text-base font-medium">Tax Agent Name</label>
               <Input
                 v-if="isEditMode && editableProfile"
                 v-model="editableProfile.tax_agent_name"
@@ -49,14 +51,18 @@
               </div>
             </div>
             <div data-test="field-tax-agent-no">
-              <label class="text-sm font-medium">Tax Agent No</label>
-              <div class="text-muted-foreground mt-1 text-sm">(view only)</div>
+              <label class="text-base font-medium">
+                Tax Agent No
+                <span class="text-muted-foreground ml-2 text-sm"
+                  >(view only)</span
+                >
+              </label>
               <div class="mt-1 text-sm">
                 {{ displayValue(profile.tax_agent_no) }}
               </div>
             </div>
             <div data-test="field-tax-agent-nric">
-              <label class="text-sm font-medium">Tax Agent NRIC</label>
+              <label class="text-base font-medium">Tax Agent NRIC</label>
               <Input
                 v-if="isEditMode && editableProfile"
                 v-model="editableProfile.tax_agent_nric"
@@ -72,28 +78,40 @@
         <!-- Firm & Employment -->
         <Card data-test="category-firm-employment">
           <CardHeader>
-            <CardTitle>Firm & Employment</CardTitle>
+            <CardTitle class="text-xl font-semibold"
+              >Firm & Employment</CardTitle
+            >
           </CardHeader>
           <CardContent class="space-y-4">
             <div data-test="field-company-name">
-              <label class="text-sm font-medium">Company Name</label>
-              <div class="text-muted-foreground mt-1 text-sm">(view only)</div>
+              <label class="text-base font-medium">
+                Company Name
+                <span class="text-muted-foreground ml-2 text-sm"
+                  >(view only)</span
+                >
+              </label>
               <div class="mt-1 text-sm">
                 {{ displayValue(profile.company_name) }}
               </div>
             </div>
             <div data-test="field-business-registration-no">
-              <label class="text-sm font-medium"
-                >Business Registration No</label
-              >
-              <div class="text-muted-foreground mt-1 text-sm">(view only)</div>
+              <label class="text-base font-medium">
+                Business Registration No
+                <span class="text-muted-foreground ml-2 text-sm"
+                  >(view only)</span
+                >
+              </label>
               <div class="mt-1 text-sm">
                 {{ displayValue(profile.business_registration_no) }}
               </div>
             </div>
             <div data-test="field-position">
-              <label class="text-sm font-medium">Position</label>
-              <div class="text-muted-foreground mt-1 text-sm">(view only)</div>
+              <label class="text-base font-medium">
+                Position
+                <span class="text-muted-foreground mt-1 text-sm"
+                  >(view only)</span
+                >
+              </label>
               <div class="mt-1 text-sm">
                 {{ displayValue(profile.position) }}
               </div>
@@ -104,11 +122,13 @@
         <!-- Contact Information -->
         <Card data-test="category-contact-information">
           <CardHeader>
-            <CardTitle>Contact Information</CardTitle>
+            <CardTitle class="text-xl font-semibold"
+              >Contact Information</CardTitle
+            >
           </CardHeader>
           <CardContent class="space-y-4">
             <div data-test="field-email">
-              <label class="text-sm font-medium">Email</label>
+              <label class="text-base font-medium">Email</label>
               <div v-if="isEditMode && editableProfile">
                 <Input v-model="editableProfile.email" class="mt-1" />
                 <div
@@ -123,7 +143,7 @@
               </div>
             </div>
             <div data-test="field-tel-no">
-              <label class="text-sm font-medium">Contact No</label>
+              <label class="text-base font-medium">Contact No</label>
               <div v-if="isEditMode && editableProfile">
                 <Input v-model="editableProfile.tel_no" class="mt-1" />
                 <div
@@ -143,11 +163,11 @@
         <!-- Address -->
         <Card data-test="category-address">
           <CardHeader>
-            <CardTitle>Address</CardTitle>
+            <CardTitle class="text-xl font-semibold">Address</CardTitle>
           </CardHeader>
           <CardContent class="space-y-4">
             <div data-test="field-address-1">
-              <label class="text-sm font-medium">Address 1</label>
+              <label class="text-base font-medium">Address 1</label>
               <Input
                 v-if="isEditMode && editableProfile"
                 v-model="editableProfile.address_1"
@@ -158,7 +178,7 @@
               </div>
             </div>
             <div data-test="field-address-2">
-              <label class="text-sm font-medium">Address 2</label>
+              <label class="text-base font-medium">Address 2</label>
               <Input
                 v-if="isEditMode && editableProfile"
                 v-model="editableProfile.address_2"
@@ -169,7 +189,7 @@
               </div>
             </div>
             <div data-test="field-address-3">
-              <label class="text-sm font-medium">Address 3</label>
+              <label class="text-base font-medium">Address 3</label>
               <Input
                 v-if="isEditMode && editableProfile"
                 v-model="editableProfile.address_3"
@@ -180,7 +200,7 @@
               </div>
             </div>
             <div data-test="field-postcode">
-              <label class="text-sm font-medium">Postcode</label>
+              <label class="text-base font-medium">Postcode</label>
               <div v-if="isEditMode && editableProfile">
                 <Input v-model="editableProfile.postcode" class="mt-1" />
                 <div
@@ -195,7 +215,7 @@
               </div>
             </div>
             <div data-test="field-town-city">
-              <label class="text-sm font-medium">Town/City</label>
+              <label class="text-base font-medium">Town/City</label>
               <Input
                 v-if="isEditMode && editableProfile"
                 v-model="editableProfile.town_city"
@@ -206,7 +226,7 @@
               </div>
             </div>
             <div data-test="field-state">
-              <label class="text-sm font-medium">State</label>
+              <label class="text-base font-medium">State</label>
               <div v-if="isEditMode && editableProfile">
                 <LookupSelect
                   v-if="!stateLookupError"
@@ -235,12 +255,18 @@
         <!-- Tax Identification -->
         <Card data-test="category-tax-identification">
           <CardHeader>
-            <CardTitle>Tax Identification</CardTitle>
+            <CardTitle class="text-xl font-semibold"
+              >Tax Identification</CardTitle
+            >
           </CardHeader>
           <CardContent class="space-y-4">
             <div data-test="field-tin">
-              <label class="text-sm font-medium">TIN</label>
-              <div class="text-muted-foreground mt-1 text-sm">(view only)</div>
+              <label class="text-base font-medium">
+                TIN
+                <span class="text-muted-foreground ml-2 text-sm"
+                  >(view only)</span
+                >
+              </label>
               <div class="mt-1 text-sm">{{ displayValue(profile.tin) }}</div>
             </div>
           </CardContent>
@@ -277,12 +303,6 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <div v-if="successMessage" class="fixed right-4 top-4 z-50">
-    <div class="rounded-md border border-green-200 bg-green-50 p-3 shadow-sm">
-      <div class="text-sm text-green-800">{{ successMessage }}</div>
     </div>
   </div>
 </template>
@@ -348,13 +368,13 @@ const profileSchema = z.object({
   // Add other fields to the schema if they have validation rules
 });
 
-watch(isEditMode, (newValue) => {
-  // Use structuredClone for deep copy when entering edit mode; prefer ternary per lint rules
-  editableProfile.value = newValue ? structuredClone(profile.value) : null;
-});
-
 watch(isEditMode, async (newValue) => {
   if (newValue) {
+    // 1. Deep copy the profile using the reliable JSON method
+    // eslint-disable-next-line unicorn/prefer-structured-clone
+    editableProfile.value = JSON.parse(JSON.stringify(profile.value));
+
+    // 2. Set up the observer after the DOM updates
     await nextTick();
     if (dockedButtonsRef.value) {
       observer = new IntersectionObserver(
@@ -367,6 +387,10 @@ watch(isEditMode, async (newValue) => {
       observer.observe(dockedButtonsRef.value);
     }
   } else {
+    // 1. Clear the cloned profile
+    editableProfile.value = null;
+
+    // 2. Disconnect the observer
     if (observer) {
       observer.disconnect();
       observer = null;
