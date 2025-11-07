@@ -1,31 +1,76 @@
 /**
  * @file Tax Agent Profile Service
- * @description Mock service for tax agent profile operations.
- * Provides getOwnProfile and updateOwnProfile with:
- * - Access control: only allow access to own row via Tax Agent No from session
- * - Optimistic concurrency: version/updated_at checks
- * - Validation: required fields, E.164 phone, email format, postcode
- * - E.164 phone normalization
- * - Uses mock_db.ts (no direct file IO)
+ * @description
+ * Mock service that exposes the minimal API surface required by the
+ * Profile UI: read the current authenticated tax agent's row and update it.
+ *
+ * This module intentionally mirrors a server-side implementation so that
+ * frontend development and reviewers can reason about the expected backend
+ * behaviour. The in-memory `db` is the single source of truth for the
+ * development server and tests. When the real backend is implemented, the
+ * functions here should be replaced by calls to the real API but the
+ * documented semantics (access control, validation and optimistic
+ * concurrency) must be preserved.
+ *
+ * Key responsibilities implemented by this mock:
+ * - Access control: only allow reads/updates for the authenticated user's
+ *   Tax Agent No (from the session/user store).
+ * - Optimistic concurrency: validate that the client edits are based on the
+ *   latest row state (version/updated_at) and reject stale writes with a
+ *   Conflict error.
+ * - Validation: basic checks for required fields and formats (email,
+ *   E.164 phone, postcode). Normalises phone numbers into E.164 for storage.
+ * - Server-authoritative timestamps/versioning: the mock sets `updated_at`
+ *   and increments `version` on successful updates.
+ *
+ * Implementation note for backend engineers:
+ * - getOwnProfile should SELECT the row from `lookup_tax_agents` WHERE
+ *   `tax_agent_no = :taxAgentNo`.
+ * - updateOwnProfile should perform an UPDATE with a WHERE clause that
+ *   includes the incoming `version` (or `updated_at`) to enforce optimistic
+ *   concurrency in a single atomic statement (e.g. `UPDATE ... WHERE id = :id
+ *   AND version = :version RETURNING *`). If the UPDATE affects 0 rows,
+ *   return a Conflict error to the client.
  */
 
 import { db, delay } from './mock_db';
 
-// Type definition for user info
+// Type definition for user info (used by the userInfoProvider)
 interface UserInfo {
   taxAgentNo?: string;
 }
 
-// User info provider - can be overridden in tests
+/**
+ * User info provider
+ *
+ * In production this would read the authenticated user's session / user
+ * store. For development and tests we expose a replaceable provider so
+ * test code can simulate different authenticated users.
+ *
+ * Backend implementers: the real server would determine the authenticated
+ * user's tax agent identity from the auth token/session and use that to
+ * authorise reads/updates.
+ */
 export const userInfoProvider = {
   getUserInfo: (): UserInfo => {
     // Default to seeded dev row so the dev server uses the in-memory mock DB.
-    // Tests can still override this provider (vi.spyOn or direct assignment).
+    // Tests can override this provider (vi.spyOn or direct assignment).
     return { taxAgentNo: 'TA-0001' };
   },
 };
 
 // Initialize with real user store (called at module load in production)
+/**
+ * initUserStore()
+ *
+ * Hook point for wiring the mock provider to the real user store in the
+ * running application. In production the function would read the user
+ * store and patch `userInfoProvider.getUserInfo` so that the service uses
+ * the same authenticated identity as the rest of the app.
+ *
+ * Note: this method is a no-op in the mock environment used for tests and
+ * local development, but it illustrates where the auth integration belongs.
+ */
 export async function initUserStore() {
   try {
     // const { useUserStore } = await import('#/store/modules/user');
@@ -86,10 +131,19 @@ interface ProfileUpdatePayload {
 }
 
 /**
- * Get the current authenticated tax agent's profile.
- * @returns {Promise<TaxAgentProfile>} The profile data
- * @throws {Error} Forbidden if taxAgentNo is missing from session
- * @throws {Error} Not Found if no matching row exists
+ * getOwnProfile()
+ *
+ * Read the current authenticated tax agent's profile from the lookup
+ * table. The function enforces access control using the taxAgentNo provided
+ * by `userInfoProvider.getUserInfo()`.
+ *
+ * Backend implementation guidance:
+ * - SQL: SELECT * FROM lookup_tax_agents WHERE tax_agent_no = :taxAgentNo
+ * - If no taxAgentNo exists in the session, return 403 Forbidden.
+ * - If no row is found, return 404 Not Found.
+ *
+ * Returns a complete TaxAgentProfile including `version` and `updated_at` so
+ * clients can perform optimistic concurrency checks when updating.
  */
 export async function getOwnProfile(): Promise<TaxAgentProfile> {
   await delay();
@@ -112,13 +166,42 @@ export async function getOwnProfile(): Promise<TaxAgentProfile> {
 }
 
 /**
- * Update the current authenticated tax agent's profile.
- * @param {ProfileUpdatePayload} updates - The fields to update
- * @returns {Promise<TaxAgentProfile>} The updated profile
- * @throws {Error} Forbidden if taxAgentNo is missing from session
- * @throws {Error} Not Found if no matching row exists
- * @throws {Error} Conflict if version mismatch (optimistic concurrency)
- * @throws {Error} Validation errors for invalid inputs
+ * updateOwnProfile()
+ *
+ * Update the authenticated tax agent's editable fields. The function:
+ * 1. Enforces access control using the Tax Agent No from the session.
+ * 2. Performs an optimistic concurrency check using `version` (rejects if
+ *    the provided version does not match the current row).
+ * 3. Validates required fields and formats.
+ * 4. Normalises phone numbers to E.164 and sets server-authoritative
+ *    `updated_at` and `version` values before persisting.
+ *
+ * Backend implementation guidance:
+ * - Prefer a single atomic UPDATE statement that includes the concurrency
+ *   predicate in the WHERE clause. Example (Postgres):
+ *
+ *   UPDATE lookup_tax_agents
+ *   SET tax_agent_name = :tax_agent_name,
+ *       email = :email,
+ *       tel_no = :tel_no,
+ *       -- other editable columns --
+ *       version = version + 1,
+ *       updated_at = now()
+ *   WHERE tax_agent_no = :taxAgentNo AND version = :clientVersion
+ *   RETURNING *;
+ *
+ *   If the UPDATE returns no rows then another actor modified the row and
+ *   you should return a 409 Conflict to the client.
+ *
+ * - Alternatively, you can use `updated_at` equality as the concurrency
+ *   check (compare the timestamps). Using a numeric `version` counter is
+ *   simpler and avoids clock/precision issues.
+ *
+ * Errors
+ * - 403 Forbidden: if the session doesn't include a taxAgentNo.
+ * - 404 Not Found: if no row exists for the taxAgentNo.
+ * - 409 Conflict: if optimistic concurrency check fails.
+ * - 400 Bad Request: if validation fails (invalid email/phone/postcode).
  */
 export async function updateOwnProfile(
   updates: ProfileUpdatePayload,
@@ -158,7 +241,7 @@ export async function updateOwnProfile(
   }
 
   // Simple email format validation
-  const emailRegex = /^[^\s@]+@[^\s@][^\s.@]*\.[^\s@]+$/;
+  const emailRegex = /^[^\s@]+@[^\s@][^.\s@]*\.[^\s@]+$/;
   if (!emailRegex.test(emailToValidate)) {
     throw new Error('Invalid email format');
   }
@@ -209,7 +292,7 @@ export async function updateOwnProfile(
     Object.entries(editableFields).filter(([_, v]) => v !== undefined),
   );
 
-  // Apply updates
+  // Apply updates (server-authoritative version and timestamp)
   const updatedProfile = {
     ...currentProfile,
     ...fieldsToUpdate,
