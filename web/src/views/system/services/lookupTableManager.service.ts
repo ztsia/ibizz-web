@@ -1,34 +1,54 @@
 /**
  * @file Mock implementation for managing items within a specific lookup group's table.
- * @summary This file provides an in-memory mock for CRUD operations on dynamically managed lookup tables.
- * The comments describe the expected behavior of the real backend API.
- * The original implementation used Supabase, where each lookup group had its own table (e.g., `lookup_countries`).
+ * @summary
+ * This module provides an in-memory mock that mirrors the behaviour of a
+ * real backend service responsible for CRUD operations on per-group lookup
+ * tables (for example `lookup_countries`, `lookup_state_code`, etc.).
+ *
+ * The intent of these comments is to help backend engineers implement the
+ * production service with compatible semantics. Key expectations:
+ * - Per-group tables are named using a predictable convention derived from
+ *   the group's slug.
+ * - APIs should be implemented as atomic operations where necessary (e.g.
+ *   optimistic concurrency checks applied in the same update statement).
+ * - The mock uses a shared in-memory `db` object; all browser clients talking
+ *   to the same dev server share the same memory. Ensure production services
+ *   use real persistence and appropriate concurrency controls.
  */
 
 import { db, delay, genId } from './mock_db';
 
 /**
- * (Internal Helper) Compute the per-group table name used in the mock DB.
- * @param {string | null} groupId - The slug or ID of the group.
- * @returns {string} The derived table name (e.g., 'lookup_countries').
+ * tableNameFor()
  *
- * @backend_implementation
- * The backend will derive the table name from the group ID/slug.
- * The convention is `lookup_<safe_slug>`, where `safe_slug` is a sanitized version of the group slug.
+ * Derive the concrete table name used for a group's items. The mock keeps
+ * each group's items in a top-level array on the `db` object keyed by this
+ * name.
+ *
+ * Backend guidance:
+ * - In production the lookup group's data will typically be stored in a
+ *   dedicated table or collection. The server should map the group's slug
+ *   to the physical storage location using the same sanitisation rules so
+ *   client code can rely on a predictable naming scheme when necessary.
+ * - Use a safe transformation: lowercase, replace non-alphanumerics with
+ *   underscores, and trim leading/trailing underscores.
  */
 function tableNameFor(groupId: string | null) {
   return `lookup_${String(groupId || '').replaceAll(/\W/g, '_')}`.toLowerCase();
 }
 
 /**
- * (Internal Helper) Normalize a database row to the frontend's expected shape.
- * @param {any} r - The raw database row.
- * @returns {any} The normalized row in `{ id, columns: { ... } }` format.
+ * normalizeRow()
  *
- * @backend_implementation
- * The backend API should ideally return data in this normalized format.
- * If the backend returns flat rows from the table, the client-side service is responsible for this transformation.
- * The original Supabase service performed this normalization client-side.
+ * Convert a flat database row to the normalized `{ id, columns }` shape used
+ * by the frontend services. If the backend already returns a normalized
+ * shape, this is a no-op.
+ *
+ * Backend guidance:
+ * - The production API may choose to return either flat rows or a
+ *   normalized payload. Document the chosen format and keep clients
+ *   consistent. If returning flat rows, consider providing a small
+ *   transformation layer server-side so clients do less work.
  */
 function normalizeRow(r: any) {
   if (!r) return r;
@@ -43,6 +63,22 @@ function normalizeRow(r: any) {
 }
 
 /**
+ * listItems()
+ *
+ * Retrieve a page of items for a lookup group. Supports simple free-text
+ * searching and pagination. The mock implementation performs an in-memory
+ * filter; production implementations should push filtering and pagination
+ * into the database for performance.
+ *
+ * Backend guidance:
+ * - Implement filtering and pagination at the DB/query layer (use
+ *   LIMIT/OFFSET, cursors or server-side pagination depending on scale).
+ * - For full-text search, use a proper text index (Postgres `tsvector` or a
+ *   dedicated search index) instead of client-side substring search.
+ * - If `count` is requested, return the total matching count alongside
+ *   the page (or provide an efficient estimate if counting is expensive).
+ * - Consider exposing `nextCursor` instead of `page` for more robust
+ *   pagination.
  * @security
  * TODO: Implement authorization logic.
  * - Admin roles should be able to call this for any `groupId`.
@@ -90,14 +126,11 @@ export async function listItems(groupId: string | null, opts: any = {}) {
 }
 
 /**
- * Retrieve a single item by its ID from a group's table.
- * @param {string | null} groupId - The ID of the group.
- * @param {any} itemId - The ID of the item to retrieve.
- * @returns {Promise<any>} The normalized item object `{ id, columns }` or `undefined` if not found.
+ * getItem()
  *
- * @backend_implementation
- * This function should perform a `SELECT` on the group-specific table, filtering by the primary key (`id`).
- * Original Supabase/PostgREST URL: `/rest/v1/lookup_my_group?id=eq.{itemId}`
+ * Return a single normalized item from the group's backing table by its
+ * primary key. Production backends should perform a simple indexed lookup
+ * and return 404 when not found.
  */
 export async function getItem(groupId: string | null, itemId: any) {
   await delay();
@@ -107,15 +140,12 @@ export async function getItem(groupId: string | null, itemId: any) {
 }
 
 /**
- * Find items by an exact `code` value. Used for uniqueness checks.
- * @param {string | null} groupId - The ID of the group.
- * @param {any} code - The code value to search for.
- * @returns {Promise<Array<any>>} An array of normalized item objects.
+ * findItemsByCode()
  *
- * @backend_implementation
- * This function should query the group-specific table for rows with an exact match on the `code` column.
- * It should be optimized to be fast, as it's used for UI validation.
- * Original Supabase/PostgREST URL: `/rest/v1/lookup_my_group?code=eq.{code}&limit=1`
+ * Look up items by their `code` column (exact match). Typically used to
+ * validate uniqueness before creating/updating items. Production services
+ * should ensure an index exists on the `code` column for the group's
+ * table and return a small paginated result or single item.
  */
 export async function findItemsByCode(groupId: string | null, code: any) {
   await delay();
@@ -126,16 +156,17 @@ export async function findItemsByCode(groupId: string | null, code: any) {
 }
 
 /**
- * Create a new item in a group's table.
- * @param {string | null} groupId - The ID of the group.
- * @param {any} item - The item data to insert. Can be a flat object or in `{ columns: {...} }` format.
- * @returns {Promise<any>} The created item, normalized to `{ id, columns }` format.
+ * createItem()
  *
- * @backend_implementation
- * This function should perform an `INSERT` into the group-specific table.
- * The payload should be the flat object corresponding to the table's columns.
- * The API should return the newly created row.
- * Original Supabase/PostgREST URL: `POST /rest/v1/lookup_my_group`
+ * Insert a new item into the group's table. The mock assigns an `id`
+ * when none is provided and returns the normalized result.
+ *
+ * Backend guidance:
+ * - Validate the payload server-side. Do not trust client-supplied ids or
+ *   other invariant fields.
+ * - To enforce uniqueness (e.g., unique `code`), use a database unique
+ *   constraint and surface a clear 409 Conflict when the constraint is
+ *   violated.
  */
 export async function createItem(groupId: string | null, item: any) {
   await delay();
@@ -150,16 +181,25 @@ export async function createItem(groupId: string | null, item: any) {
 }
 
 /**
- * Update an existing item in a group's table.
- * @param {string | null} groupId - The ID of the group.
- * @param {any} itemId - The ID of the item to update.
- * @param {any} updates - An object with the fields to update.
- * @returns {Promise<any|null>} The updated item, normalized, or `null` if not found.
+ * updateItem()
  *
- * @backend_implementation
- * This function should perform an `UPDATE` (or `PATCH`) on the group-specific table, filtering by `id`.
- * The payload should be a flat object of the columns to be changed.
- * Original Supabase/PostgREST URL: `PATCH /rest/v1/lookup_my_group?id=eq.{itemId}`
+ * Update an existing item in the group's table. The mock simply merges the
+ * provided changes and replaces the row in-memory. Production backends must
+ * treat updates as atomic operations and consider optimistic concurrency
+ * when multiple actors may modify the same row.
+ *
+ * Backend guidance (optimistic concurrency):
+ * - Prefer a single atomic update that includes a concurrency predicate
+ *   in the filter. Examples:
+ *   - SQL: `UPDATE ... WHERE id = :id AND version = :clientVersion` and
+ *     check affected rows.
+ *   - MongoDB: `findOneAndUpdate({ _id: id, version: clientVersion }, { $set: ..., $inc: { version: 1 } }, { returnDocument: 'after' })`.
+ * - If the update affects no document, return 409 Conflict (client has a
+ *   stale copy).
+ * - Ensure the server sets `updated_at` and increments `version` (server-
+ *   authoritative values) rather than relying on client-supplied values.
+ * - Keep update payload validation strict and ignore or reject writes to
+ *   view-only columns where appropriate.
  */
 export async function updateItem(
   groupId: string | null,
@@ -179,14 +219,11 @@ export async function updateItem(
 }
 
 /**
- * Delete an item from a group's table.
- * @param {string | null} groupId - The ID of the group.
- * @param {any} itemId - The ID of the item to delete.
- * @returns {Promise<any|null>} The deleted item, normalized, or `null` if not found.
+ * deleteItem()
  *
- * @backend_implementation
- * This function should perform a `DELETE` from the group-specific table, filtering by `id`.
- * Original Supabase/PostgREST URL: `DELETE /rest/v1/lookup_my_group?id=eq.{itemId}`
+ * Remove an item from the group's table. Production implementations should
+ * perform an indexed delete and return an appropriate 404 when the item
+ * does not exist.
  */
 export async function deleteItem(groupId: string | null, itemId: any) {
   await delay();
@@ -198,15 +235,16 @@ export async function deleteItem(groupId: string | null, itemId: any) {
 }
 
 /**
- * Get column metadata for a group's table.
- * @param {string | null} groupSlug - The slug of the group.
- * @returns {Promise<Array<any>>} An array of `{ column_name, data_type }` objects.
+ * getTableColumns()
  *
- * @backend_implementation
- * This function should provide the schema of a given lookup table.
- * The original implementation first tried to query `information_schema.columns`.
- * As a fallback, it read the `columns_schema` JSON from the group's record in the `lookup_groups` table.
- * A robust backend might expose a dedicated endpoint for this.
+ * Return the column metadata for a group's table. In production this
+ * should be driven by the database schema (information_schema) or a
+ * documented schema store rather than ad-hoc JSON.
+ *
+ * Backend guidance:
+ * - Expose stable metadata for client-side form generation and validation.
+ * - Consider caching or a lightweight schema registry for performance
+ *   rather than querying database system tables on every request.
  */
 export async function getTableColumns(groupSlug: string | null) {
   await delay();
@@ -227,15 +265,18 @@ export async function getTableColumns(groupSlug: string | null) {
 }
 
 /**
- * Ensures a backing table exists for the group. Called after group creation/update.
- * @param {any} group - The group object, containing slug and schema information.
- * @returns {Promise<any>} A promise that resolves when the operation is complete.
+ * ensureTableForGroup()
  *
- * @backend_implementation
- * This function should trigger a backend process to create or verify a database table for the lookup group.
- * It is idempotent. If the table already exists, it does nothing.
- * The original implementation used a Supabase RPC function `ensure_lookup_table` that took `p_slug`, `p_columns`, and `p_code_format` as parameters.
- * This allows for dynamic table creation based on the schema provided by the user.
+ * Ensure that a physical backing table/collection exists for the provided
+ * group. In the mock this simply ensures there's an array on `db` for the
+ * derived table name.
+ *
+ * Backend guidance:
+ * - Creating/dropping tables is a privileged operation and should be
+ *   guarded. Consider migrations and schema versioning when supporting
+ *   dynamic table creation.
+ * - The production implementation may use a transactional step or a
+ *   provisioning job to create the table and any required indexes.
  */
 export async function ensureTableForGroup(group: any) {
   await delay();

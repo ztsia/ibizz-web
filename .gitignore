@@ -56,3 +56,5 @@ vite.config.ts.*
 
 # GitHub metadata (not needed in repo; templates/prompts are local)
 .github/
+
+/specs/
