@@ -12417,13 +12417,5 @@
   {
     "table_name": "lookup_average_lending_rate",
     "rows": []
-  },
-  {
-    "table_name": "lookup_audit_firms",
-    "rows": []
-  },
-  {
-    "table_name": "lookup_tax_agents",
-    "rows": []
   }
 ]

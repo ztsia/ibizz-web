@@ -278,7 +278,7 @@
           class="mt-4 flex justify-end"
         >
           <div class="p-2">
-            <ProfileActionsBar
+            <FormActionsBar
               :disabled="!hasChanges"
               @save="handleSave"
               @cancel="handleCancel"
@@ -295,7 +295,7 @@
       >
         <div class="pointer-events-auto mx-auto flex max-w-4xl justify-end p-4">
           <div class="rounded-md bg-white/90 p-2 shadow-md">
-            <ProfileActionsBar
+            <FormActionsBar
               :disabled="!hasChanges"
               @save="handleSave"
               @cancel="handleCancel"
@@ -318,8 +318,7 @@ import {
 } from '@vben-core/shadcn-ui';
 import { z } from '@vben/common-ui';
 import { getOwnProfile, updateOwnProfile } from '#/views/system/services';
-import { ToggleEditViewButton, ProfileActionsBar } from './components';
-import { LookupSelect } from '#/views/system/shared_components';
+import { LookupSelect, ToggleEditViewButton, FormActionsBar } from '#/views/system/shared_components';
 import { message } from 'ant-design-vue';
 
 // Profile data
