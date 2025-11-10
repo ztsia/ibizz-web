@@ -318,7 +318,11 @@ import {
 } from '@vben-core/shadcn-ui';
 import { z } from '@vben/common-ui';
 import { getOwnProfile, updateOwnProfile } from '#/views/system/services';
-import { LookupSelect, ToggleEditViewButton, FormActionsBar } from '#/views/system/shared_components';
+import {
+  LookupSelect,
+  ToggleEditViewButton,
+  FormActionsBar,
+} from '#/views/system/shared_components';
 import { message } from 'ant-design-vue';
 
 // Profile data
