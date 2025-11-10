@@ -90,6 +90,7 @@
 
 <script lang="ts" setup>
 import { ref, watch, toRaw, computed } from 'vue';
+import { message } from 'ant-design-vue';
 import { useForm } from 'vee-validate';
 import {
   suggestNextCode,
@@ -397,6 +398,7 @@ const onSave = handleSubmit(async (_values: Record<string, any>) => {
   }
 
   emit('save', { columns: toRaw(form.value.columns) });
+  message.success('Lookup item saved successfully.');
   visible.value = false;
 });
 

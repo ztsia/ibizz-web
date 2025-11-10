@@ -320,6 +320,7 @@ import { z } from '@vben/common-ui';
 import { getOwnProfile, updateOwnProfile } from '#/views/system/services';
 import { ToggleEditViewButton, ProfileActionsBar } from './components';
 import { LookupSelect } from '#/views/system/shared_components';
+import { message } from 'ant-design-vue';
 
 // Profile data
 interface ProfileData {
@@ -349,8 +350,6 @@ const error = ref<string | null>(null);
 const isEditMode = ref(false);
 const editableProfile = ref<ProfileData | null>(null);
 const validationErrors = ref<Record<string, string>>({});
-const stateLookupError = ref(false);
-const successMessage = ref<string | null>(null);
 const isHeaderVisible = ref(true);
 const dockedButtonsRef = ref<HTMLElement | null>(null);
 const isDocked = ref(false);
@@ -482,9 +481,7 @@ async function handleSave() {
     const updatedProfile = await updateOwnProfile(editableProfile.value);
     profile.value = updatedProfile;
     isEditMode.value = false;
-    // Set in-component success message (transient)
-    successMessage.value = 'Profile updated successfully';
-    setTimeout(() => (successMessage.value = null), 3000);
+    message.success('Profile updated successfully');
   } catch (error_: any) {
     if (error_.message?.includes('Conflict')) {
       error.value =
@@ -504,5 +501,3 @@ function handleStateLookupError() {
   stateLookupError.value = true;
 }
 </script>
-
-<!-- Success banner displayed briefly after a successful save. Using Tailwind utilities + shadcn-ui classes only. -->

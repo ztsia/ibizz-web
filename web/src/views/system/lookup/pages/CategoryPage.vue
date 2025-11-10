@@ -125,6 +125,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch, onMounted } from 'vue';
+import { message } from 'ant-design-vue';
 import {
   listGroups,
   createGroup,
@@ -331,6 +332,9 @@ async function confirmDeleteGroup() {
   if (!activeGroup.value) return;
   try {
     await deleteGroup(activeGroup.value.id);
+    message.success(
+      `Lookup group '${activeGroup.value.title}' deleted successfully.`,
+    );
     await loadGroups();
     showDeleteGroupModal.value = false;
     activeTab.value = groups.value.length > 0 ? groups.value[0]!.slug : '';

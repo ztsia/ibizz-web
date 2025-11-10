@@ -376,6 +376,8 @@ import {
   SelectValue,
 } from '@vben-core/shadcn-ui';
 
+import { message } from 'ant-design-vue';
+
 const props = defineProps<{
   modelValue?: boolean;
   initial?: any;
@@ -689,6 +691,7 @@ const submitLogic: SubmissionHandler = async (formValues, _actions) => {
   }
 
   emit('save', payload);
+  message.success(`Lookup group '${payload.title}' saved successfully.`);
   visible.value = false;
 };
 
