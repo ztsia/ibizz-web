@@ -98,7 +98,7 @@ import {
   generateExampleCode,
   getFieldLabel,
   getFieldType as getColumnFieldType,
-} from '../../utils/';
+} from '../../utils';
 import {
   Button,
   // DialogFooter, // Removed
@@ -292,7 +292,7 @@ function fieldAttributes(col: any) {
       attrs.step = '0.0001';
       attrs.onInput = (e: Event) => {
         const target = e.target as HTMLInputElement;
-        const value = target.value;
+        const value = target.value || '';
         if (value.includes('.')) {
           const parts = value.split('.');
           if (parts[1] && parts[1].length > 4) {

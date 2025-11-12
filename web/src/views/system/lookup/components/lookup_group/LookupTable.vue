@@ -27,13 +27,16 @@
           </Button>
         </div>
       </div>
-      <Button data-test="add-item" @click="openAdd"> Add Item </Button>
+      <Button v-if="props.showActions" data-test="add-item" @click="openAdd">
+        Add Item
+      </Button>
     </div>
 
     <div class="mt-3 overflow-x-auto rounded-lg border">
       <table data-test="lookup-table" class="w-full text-sm">
         <thead class="bg-gray-50">
           <tr>
+            <th v-if="props.selectable" class="w-12 px-4 py-3 text-center"></th>
             <th
               v-for="col in columns"
               :key="col.name"
@@ -41,7 +44,10 @@
             >
               {{ col.label || col.name }}
             </th>
-            <th class="w-24 px-4 py-3 text-center font-medium text-gray-600">
+            <th
+              v-if="props.showActions"
+              class="w-24 px-4 py-3 text-center font-medium text-gray-600"
+            >
               Actions
             </th>
           </tr>
@@ -49,17 +55,36 @@
         <tbody>
           <tr v-if="!loadingPage && localItems && localItems.length === 0">
             <td
-              :colspan="columns.length + 1"
+              :colspan="
+                columns.length +
+                (props.selectable ? 1 : 0) +
+                (props.showActions ? 1 : 0)
+              "
               class="border-t px-4 py-3 text-center"
             >
               No records found.
             </td>
           </tr>
           <tr v-for="item in localItems" :key="item.id" class="border-t">
+            <td v-if="props.selectable" class="px-4 py-3 text-center">
+              <input
+                type="checkbox"
+                :checked="props.selection.includes(item.id)"
+                :disabled="props.selectionDisabled"
+                @change="
+                  (event) =>
+                    toggleItemSelection(
+                      item.id,
+                      (event.target as HTMLInputElement).checked,
+                    )
+                "
+                class="text-primary focus:ring-primary h-4 w-4 rounded border-gray-300 disabled:cursor-not-allowed disabled:opacity-50"
+              />
+            </td>
             <td v-for="col in columns" :key="col.name" class="px-4 py-3">
               {{ item.columns ? item.columns[col.name] : '' }}
             </td>
-            <td class="w-24 px-4 py-3 text-center">
+            <td v-if="props.showActions" class="w-24 px-4 py-3 text-center">
               <GroupActions
                 :group="item"
                 @edit="openEdit"
@@ -172,21 +197,37 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch, onMounted, getCurrentInstance } from 'vue';
-import { LookupItemForm, DeleteConfirm, GroupActions } from '..';
+import { DeleteConfirm } from '../../../shared_components';
+import { LookupItemForm, GroupActions } from '..';
 import * as lookupService from '../../../services';
 import { notifySuccess, notifyError } from '../../utils';
 import { Button, Input } from '@vben-core/shadcn-ui';
 import { X } from '@vben/icons';
 
-const props = defineProps<{
-  title?: string;
-  columns?: any[];
-  items?: any[];
-  perPage?: number;
-  groupId?: string | null;
-  group?: any | null;
-  hasPager?: boolean;
-}>();
+const props = withDefaults(
+  defineProps<{
+    title?: string;
+    columns?: any[];
+    items?: any[];
+    perPage?: number;
+    groupId?: string | null;
+    group?: any | null;
+    hasPager?: boolean;
+    selectable?: boolean;
+    selection?: string[];
+    showActions?: boolean;
+    selectionDisabled?: boolean;
+  }>(),
+  {
+    columns: () => [],
+    items: () => [],
+    hasPager: true,
+    selectable: false,
+    selection: () => [],
+    showActions: true,
+    selectionDisabled: false,
+  },
+);
 
 // Template and runtime helpers: ensure `columns` is always an array to avoid
 // template-level 'possibly undefined' complaints from the language server.
@@ -196,6 +237,7 @@ const emit = defineEmits<{
   (e: 'create', payload: any): void;
   (e: 'update', payload: any): void;
   (e: 'delete', id: any): void;
+  (e: 'update:selection', value: string[]): void;
 }>();
 
 // Reactive state
@@ -213,6 +255,21 @@ const searchQuery = ref('');
 let _searchTimer: any = null;
 const showDeleteModal = ref(false);
 const deleteTarget = ref<any | null>(null);
+
+function toggleItemSelection(itemId: string, checked: boolean) {
+  if (!props.selection) return;
+  const newSelection = [...props.selection];
+  const index = newSelection.indexOf(itemId);
+
+  if (checked && index === -1) {
+    // If checked and not already in selection, add it
+    newSelection.push(itemId);
+  } else if (!checked && index > -1) {
+    // If unchecked and in selection, remove it
+    newSelection.splice(index, 1);
+  }
+  emit('update:selection', newSelection);
+}
 
 const instance = getCurrentInstance();
 /**

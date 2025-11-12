@@ -1,4 +1,4 @@
-import mockData from './mock_data/mock_data.json';
+import { mockData } from './mock_data';
 
 /* Shared in-memory DB seeded from mock_data.json for lookup services.
    Exports:

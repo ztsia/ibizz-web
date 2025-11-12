@@ -11,8 +11,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import LookupMenu from './pages/LookupMenu.vue';
-import CategoryPage from './pages/CategoryPage.vue';
+import { LookupMenu, CategoryPage } from './pages';
 
 const currentView = ref('menu');
 const selectedCategory = ref<string | null>(null);

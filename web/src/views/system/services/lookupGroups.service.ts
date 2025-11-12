@@ -219,3 +219,14 @@ export async function deleteGroup(id: string) {
   const removed = tbl.splice(idx, 1)[0];
   return removed;
 }
+
+/**
+ * Find a single lookup group by its slug.
+ * @param {string} slug - The unique slug of the group.
+ * @returns {Promise<object|null>} A promise that resolves to the matched group object, or null if not found.
+ */
+export async function findGroupBySlug(slug: string) {
+  await delay();
+  const tbl = db.lookup_groups || [];
+  return tbl.find((g: any) => String(g.slug) === String(slug)) || null;
+}

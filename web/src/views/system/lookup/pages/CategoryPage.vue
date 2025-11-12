@@ -134,12 +134,8 @@ import {
   listItems,
   ensureTableForGroup,
 } from '../../services';
-import {
-  AddGroupModal,
-  LookupTable,
-  DeleteConfirm,
-  SegmentedOverlay,
-} from '../components';
+import { AddGroupModal, LookupTable, SegmentedOverlay } from '../components';
+import { DeleteConfirm } from '../../shared_components';
 import { categories } from './categories';
 import {
   Button,

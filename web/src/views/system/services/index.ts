@@ -3,6 +3,7 @@ export * from './lookupGroups.service';
 export * from './lookupTableManager.service';
 export * from './mock_db';
 export * from './profile.service';
+export * from './form_c_service';
 
 // NOTE: `http.client`, `config`, and `supabase` were removed in favor of the
 // in-repo `mock_data.json` based implementations. If you re-add a real backend

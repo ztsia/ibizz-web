@@ -346,7 +346,7 @@ import { ref, watch, toRaw, computed, onMounted } from 'vue';
 import { slugify, generateCodeRegex, generateExampleCode } from '../../utils';
 import { ColumnChips } from '..';
 import { IconArrowLeftRight, X, IconArrowDown } from '@vben/icons';
-import { listGroups } from '../../../services/';
+import { listGroups } from '../../../services';
 
 import {
   Button,

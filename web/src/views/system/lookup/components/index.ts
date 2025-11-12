@@ -3,8 +3,6 @@
 
 export * from './shared/types';
 
-export { default as DeleteConfirm } from './shared/DeleteConfirm.vue';
-
 export { default as CardGrid } from './categories/CardGrid.vue';
 export { default as LookupCard } from './categories/LookupCard.vue';
 

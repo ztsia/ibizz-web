@@ -50,7 +50,7 @@ The `show_if` object defines conditional visibility for sections or fields.
 - **`operator` (String):** The comparison to perform (e.g., `"equals"`, `"not_equals"`).
 - **`value` (String | Number):** The value to check against (e.g., `"1"`).
 
-> **Example:** `{ "fieldId": "G7a", "operator": "equals", "value": "1" }` means "Show this field ONLY IF the field 'G7a' has a value of '1'".
+> **Example:** `{ "fieldId": "G7a", "operator": "equals", "value": "yes" }` means "Show this field ONLY IF the field 'G7a' has a value of 'yes'".
 
 ---
 

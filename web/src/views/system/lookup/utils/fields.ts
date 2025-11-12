@@ -4,6 +4,7 @@ export function getFieldType(
   col: any,
   group: any | null,
 ): 'text' | 'number' | 'month' | 'year' | 'double' | 'int' | 'string' | string {
+  if (!col) return 'string';
   if (
     (col.name === 'code' || col.key === 'code') &&
     group &&
