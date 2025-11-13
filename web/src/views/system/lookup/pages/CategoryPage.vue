@@ -17,22 +17,32 @@
     <Card>
       <CardHeader class="px-1 py-1">
         <div class="flex items-center justify-between">
-          <Tabs v-model="activeTab" class="flex-1">
-            <TabsList class="overflow-x-auto">
-              <TabsTrigger
-                v-for="g in groups"
-                :key="g.slug"
-                :value="g.slug"
-                class="group-tab"
-                data-test="group-tab"
-                @contextmenu.prevent="onTabContextMenu(g, $event)"
+          <div class="flex-1">
+            <Tabs v-model="activeTab" class="flex-1">
+              <TabsList class="overflow-x-auto">
+                <TabsTrigger
+                  v-for="g in groups"
+                  :key="g.slug"
+                  :value="g.slug"
+                  class="group-tab"
+                  data-test="group-tab"
+                  @contextmenu.prevent="onTabContextMenu(g, $event)"
+                >
+                  <div class="text-left">
+                    <span class="font-medium">{{ g.title }}</span>
+                  </div>
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+            <div v-if="activeGroup">
+              <p
+                class="text-sm text-gray-500 text-left w-full pt-2 px-4"
+                data-test="group-tab-desc"
               >
-                <div class="text-left">
-                  <span class="font-medium">{{ g.title }}</span>
-                </div>
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+                {{ activeGroup.short_description || '' }}
+              </p>
+            </div>
+          </div>
 
           <div>
             <Button
@@ -48,12 +58,6 @@
       </CardHeader>
 
       <CardContent class="pt-0">
-        <div v-if="activeGroup">
-          <p class="text-sm text-gray-500" data-test="group-tab-desc">
-            {{ activeGroup.short_description || '' }}
-          </p>
-        </div>
-
         <!-- Status area (loading / error / empty state) -->
 
         <div>

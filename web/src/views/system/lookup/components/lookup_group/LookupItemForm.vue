@@ -10,7 +10,7 @@
     <!-- Modal Content -->
     <div
       v-if="visible"
-      class="bg-background fixed left-1/2 top-1/2 z-[60] w-full -translate-x-1/2 -translate-y-1/2 p-6 shadow-lg outline-none sm:max-w-[520px] sm:rounded-xl"
+      class="bg-background fixed left-1/2 top-1/2 z-[60] w-full -translate-x-1/2 -translate-y-1/2 p-6 shadow-lg outline-none sm:max-w-[700px] sm:rounded-xl"
       role="dialog"
       aria-modal="true"
     >
@@ -23,7 +23,7 @@
         </p>
       </div>
       <form @submit.prevent="onSave">
-        <div class="grid max-h-[70vh] gap-4 overflow-y-auto py-4 pr-4">
+        <div class="grid grid-cols-2 max-h-[70vh] gap-4 overflow-y-auto py-4 pr-4">
           <div
             v-if="duplicateError"
             class="mb-4 rounded border border-red-200 bg-red-50 p-3 text-sm text-red-700"
@@ -33,23 +33,63 @@
           </div>
           <FormField v-for="col in columns" :key="col.name" :name="col.name">
             <FormItem class="mb-4">
-              <FormLabel :for="col.name">{{ fieldLabels[col.name] }}</FormLabel>
+              <FormLabel :for="col.name" class="block mb-1">{{ fieldLabels[col.name] }}</FormLabel>
               <FormControl>
-                <component
-                  :is="fieldComponent(col)"
-                  :id="col.name"
-                  v-model="form.columns[col.name]"
-                  :type="fieldType(col)"
-                  :rows="
-                    String(col.type || '').toLowerCase() === 'text' &&
-                    col.multiline
-                      ? 3
-                      : undefined
+                <template v-if="getColumnFieldType(col, props.group) === 'boolean'">
+                  <RadioGroup
+                    v-model="form.columns[col.name]"
+                    class="flex space-x-4"
+                  >
+                    <div class="flex items-center space-x-2">
+                      <RadioGroupItem :id="`${col.name}-yes`" value="yes" />
+                      <Label :for="`${col.name}-yes`">Yes</Label>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <RadioGroupItem :id="`${col.name}-no`" value="no" />
+                      <Label :for="`${col.name}-no`">No</Label>
+                    </div>
+                  </RadioGroup>
+                </template>
+                <template v-else-if="isLookup(col)">
+                  <LookupSelect
+                    :id="col.name"
+                    v-model="form.columns[col.name]"
+                    :lookup-slug="getColumnFieldType(col, props.group)"
+                    :required="col.required"
+                    v-bind="fieldAttributes(col)"
+                    data-test="item-field"
+                  />
+                </template>
+                <template
+                  v-else-if="
+                    String(col.type || '').toLowerCase() === 'text' && col.multiline
                   "
-                  :required="col.required"
-                  v-bind="fieldAttributes(col)"
-                  data-test="item-field"
-                />
+                >
+                  <Textarea
+                    :id="col.name"
+                    v-model="form.columns[col.name]"
+                    :rows="3"
+                    :required="col.required"
+                    v-bind="fieldAttributes(col)"
+                    data-test="item-field"
+                  />
+                </template>
+                <template v-else>
+                  <Input
+                    :id="col.name"
+                    v-model="form.columns[col.name]"
+                    :type="
+                      ['int', 'double', 'month', 'year', 'number'].includes(
+                        getColumnFieldType(col, props.group),
+                      )
+                        ? 'number'
+                        : 'text'
+                    "
+                    :required="col.required"
+                    v-bind="fieldAttributes(col)"
+                    data-test="item-field"
+                  />
+                </template>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -111,6 +151,9 @@ import {
   FormMessage,
   Input,
   Textarea,
+  RadioGroup,
+  RadioGroupItem,
+  Label,
 } from '@vben-core/shadcn-ui';
 
 import { LookupSelect } from '../../../shared_components';
@@ -162,6 +205,8 @@ function resetFormFromProps() {
           value = new Date().getMonth() + 1;
         } else if (ty === 'year') {
           value = new Date().getFullYear();
+        } else if (ty === 'boolean') {
+          value = 'no'; // Default to 'no' string
         } else {
           value = '';
         }
@@ -261,25 +306,8 @@ function isLookup(col: any) {
     'string',
     'number',
     'text',
+    'boolean',
   ].includes(ty);
-}
-
-function fieldComponent(col: any) {
-  if (isLookup(col)) {
-    return LookupSelect;
-  }
-  if (String(col.type || '').toLowerCase() === 'text' && col.multiline) {
-    return Textarea;
-  }
-  return Input;
-}
-
-function fieldType(col: any) {
-  const ty = getColumnFieldType(col, props.group);
-  if (['int', 'double', 'month', 'year', 'number'].includes(ty)) {
-    return 'number';
-  }
-  return 'text';
 }
 
 function fieldAttributes(col: any) {
@@ -348,7 +376,12 @@ const onSave = handleSubmit(async (_values: Record<string, any>) => {
   duplicateError.value = '';
   let hasError = false;
   for (const col of columns.value) {
-    if (col.required && !form.value.columns[col.name]) {
+    if (
+      col.required &&
+      (form.value.columns[col.name] === null ||
+        form.value.columns[col.name] === undefined ||
+        form.value.columns[col.name] === '')
+    ) {
       setFieldError(col.name, 'Required');
       hasError = true;
     }

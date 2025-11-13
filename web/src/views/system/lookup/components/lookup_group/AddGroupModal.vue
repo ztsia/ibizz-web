@@ -476,6 +476,7 @@ interface ColumnTypeOption {
 
 const baseColumnTypes: ColumnTypeOption[] = [
   { label: 'String', value: 'string' },
+  { label: 'Boolean', value: 'boolean' },
   {
     label: 'Number',
     submenu: [

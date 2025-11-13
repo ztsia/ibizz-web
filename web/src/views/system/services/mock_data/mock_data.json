@@ -527,7 +527,7 @@
           { "key": "name", "type": "string", "label": "Name of Company", "required": true },
           { "key": "registration_no", "type": "string", "label": "Registration No.", "required": true },
           { "key": "tin", "type": "string", "label": "Income Tax No", "required": true },
-          { "key": "transaction_related", "type": "string", "label": "Transaction with Related Company", "required": true }
+          { "key": "transaction_related", "type": "boolean", "label": "Transaction with Subsidiary Company/Related Entity(ies)", "required": true }
         ],
         "short_description": "List of subsidiary companies or related entities in Labuan."
       }

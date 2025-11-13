@@ -454,7 +454,11 @@
               {
                 "id": "payment_related",
                 "label": "Payment to Related Labuan Entity(ies)",
-                "inputType": "text",
+                "inputType": "radio",
+                "options": [
+                  { "label": "Yes", "value": "yes" },
+                  { "label": "No", "value": "no" }
+                ],
                 "required": true
               },
               {
