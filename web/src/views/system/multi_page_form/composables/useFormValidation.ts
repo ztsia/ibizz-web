@@ -10,6 +10,25 @@ export function useFormValidation(
   const errors = ref<Record<string, string>>({});
 
   const validate = () => {
+    // --- PRE-VALIDATION CLEANUP for itemList ---
+    if (template.value) {
+      template.value.pages.forEach((page) => {
+        page.sections.forEach((section) => {
+          section.fields.forEach((field) => {
+            if (
+              field.inputType === 'itemList' &&
+              Array.isArray(formData.value[field.id])
+            ) {
+              formData.value[field.id] = formData.value[field.id].filter(
+                (item) => item.key !== null && item.key !== undefined,
+              );
+            }
+          });
+        });
+      });
+    }
+    // --- END CLEANUP ---
+
     const newErrors: Record<string, string> = {};
 
     // If there's no template loaded yet, treat as valid (no fields to validate)
@@ -40,6 +59,36 @@ export function useFormValidation(
             return; // Stop validation for this field
           }
 
+          // itemList validation
+          if (field.inputType === 'itemList' && field.itemStructure) {
+            const items = data[field.id];
+            if (Array.isArray(items)) {
+              for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                // Only validate rows that have a key selected
+                if (item.key) {
+                  for (const valueField of field.itemStructure.values) {
+                    if (valueField.required) {
+                      const itemValue = item.values[valueField.id];
+                      if (
+                        itemValue === null ||
+                        itemValue === undefined ||
+                        itemValue === ''
+                      ) {
+                        newErrors[
+                          field.id
+                        ] = `Row ${i + 1}: '${valueField.label}' is required.`;
+                        // Break out of all loops for this field once an error is found
+                        break;
+                      }
+                    }
+                  }
+                }
+                if (newErrors[field.id]) break; // Exit outer loop if error found
+              }
+            }
+          }
+
           // Email validation (can be combined with required)
           if (field.inputType === 'email' && value) {
             const emailRegex = /.[^\n\r@\u2028\u2029]*@.+\..+/;
@@ -66,6 +115,21 @@ export function useFormValidation(
     const pageToValidate = template.value.pages.find((p) => p.id === pageId);
     if (!pageToValidate) return true; // No page found, nothing to validate
 
+    // --- PRE-VALIDATION CLEANUP for itemList ---
+    (pageToValidate.sections || []).forEach((section) => {
+      (section.fields || []).forEach((field) => {
+        if (
+          field.inputType === 'itemList' &&
+          Array.isArray(formData.value[field.id])
+        ) {
+          formData.value[field.id] = formData.value[field.id].filter(
+            (item) => item.key !== null && item.key !== undefined,
+          );
+        }
+      });
+    });
+    // --- END CLEANUP ---
+
     const data = formData.value || {};
 
     (pageToValidate.sections || []).forEach((section) => {
@@ -78,6 +142,36 @@ export function useFormValidation(
           if (value === null || value === undefined || value === '') {
             newErrors[field.id] = `${field.label} is required.`;
             return;
+          }
+        }
+
+        // itemList validation
+        if (field.inputType === 'itemList' && field.itemStructure) {
+          const items = data[field.id];
+          if (Array.isArray(items)) {
+            for (let i = 0; i < items.length; i++) {
+              const item = items[i];
+              // Only validate rows that have a key selected
+              if (item.key) {
+                for (const valueField of field.itemStructure.values) {
+                  if (valueField.required) {
+                    const itemValue = item.values[valueField.id];
+                    if (
+                      itemValue === null ||
+                      itemValue === undefined ||
+                      itemValue === ''
+                    ) {
+                      newErrors[
+                        field.id
+                      ] = `Row ${i + 1}: '${valueField.label}' is required.`;
+                      // Break out of all loops for this field once an error is found
+                      break;
+                    }
+                  }
+                }
+              }
+              if (newErrors[field.id]) break; // Exit outer loop if error found
+            }
           }
         }
 

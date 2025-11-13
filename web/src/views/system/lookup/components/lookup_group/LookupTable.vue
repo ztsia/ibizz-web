@@ -34,19 +34,19 @@
 
     <div class="mt-3 overflow-x-auto rounded-lg border">
       <table data-test="lookup-table" class="w-full text-sm">
-        <thead class="bg-muted">
+        <thead class="bg-background">
           <tr>
             <th v-if="props.selectable" class="w-12 px-4 py-3 text-center"></th>
             <th
               v-for="col in columns"
               :key="col.name"
-              class="text-muted-foreground px-4 py-3 text-left font-medium"
+              class="text-foreground px-4 py-3 text-left font-medium"
             >
               {{ col.label || col.name }}
             </th>
             <th
               v-if="props.showActions"
-              class="w-24 px-4 py-3 text-center font-medium text-gray-600"
+              class="w-24 px-4 py-3 text-center font-medium text-foreground"
             >
               Actions
             </th>

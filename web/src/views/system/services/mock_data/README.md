@@ -1,77 +1,201 @@
-# Mock Data Documentation
+# Form Template Engine: A Developer's Guide
 
-This directory contains the mock JSON files for the form services. The data structures are defined as follows.
-
----
-
-## 1. `FormTemplate` (e.g., `form_c_example.json`)
-
-### Purpose
-
-The `FormTemplate` is a JSON document that acts as the complete **blueprint** for rendering a dynamic form. It defines which sections to show, what fields are in each section, the type of input for each field, and all conditional logic. The frontend reads this document and builds the UI based on its structure.
-
-### Top-Level Fields
-
-- **`_id` (String):** A unique identifier for the form template (e.g., "form_c_2025").
-- **`formName` (String):** The human-readable name of the form (e.g., "Company Return Form C").
-- **`yearOfAssessment` (Number):** The tax year this form applies to (e.g., 2025).
-- **`sections` (Array):** An ordered array of **Section Objects**. The order of objects in this array dictates the order they will appear in the UI.
-
-### Section Object
-
-Each object in the `sections` array defines a single collapsible accordion panel.
-
-- **`part` (String):** A unique ID for the section, used as the accordion's value (e.g., "G", "Basic_Particulars").
-- **`title` (String):** The text displayed on the accordion trigger (e.g., "Particulars of Company").
-- **`show_if` (Object | null):** If `null`, the section is always shown. If an object, it defines the condition for this section to appear. (See **Conditional Logic** below).
-- **`fields` (Array):** An ordered array of **Field Objects** that will be rendered inside this section.
-
-### Field Object
-
-Each object in the `fields` array defines a single form input.
-
-- **`id` (String):** The unique identifier for this field (e.g., "G1_state", "H5a"). **This is the most important key**, as it directly maps to the key in the `FormSubmission`'s `formData` object.
-- **`label` (String):** The human-readable text for the form label.
-- **`inputType` (String):** A key that tells the frontend what component to render.
-  - `"text"`, `"number"`, `"email"`, `"date"`: Renders a `shadcn/ui` **Input**.
-  - `"radio"`: Renders a `shadcn/ui` **RadioGroup**. Requires an `options` array.
-  - `"checkbox"`: Renders a `shadcn/ui` **Checkbox**. If it's a multi-select, it requires an `options` array.
-  - `"select"`: Renders a `shadcn/ui` **Select**. Requires an `options` array.
-  - `"readonly_note"`: Renders plain text, not an input (e.g., "Fill in the required appendix").
-  - **(Any Other String):** If the string is not a standard type (e.g., `"states"`, `"countries"`), it is treated as a **lookup slug**. This will render the reusable `LookupSelect` component and pass this string to it.
-- **`options` (Array<Object> | null):** An array of `{ label: String, value: String }` objects used to populate `radio`, `checkbox`, or `select` inputs.
-- **`show_if` (Object | null):** If `null`, the field is always shown. If an object, it defines the condition for this field to appear.
-
-### Conditional Logic (`show_if` Object)
-
-The `show_if` object defines conditional visibility for sections or fields.
-
-- **`fieldId` (String):** The `id` of the _other_ field this one depends on (e.g., "G7a").
-- **`operator` (String):** The comparison to perform (e.g., `"equals"`, `"not_equals"`).
-- **`value` (String | Number):** The value to check against (e.g., `"1"`).
-
-> **Example:** `{ "fieldId": "G7a", "operator": "equals", "value": "yes" }` means "Show this field ONLY IF the field 'G7a' has a value of 'yes'".
+This document is the definitive guide to creating and managing dynamic, multi-page forms using the `form_template.json` file. The entire form structure, from page layout to individual field validation and conditional logic, is defined here. The frontend components read this blueprint and render the form accordingly, making this file the single source of truth.
 
 ---
 
-## 2. `FormSubmission` (e.g., `submission_example.json`)
+## 1. High-Level Structure (`FormTemplate`)
 
-### Purpose
+The root of the JSON is an array of `FormTemplate` objects. Each object represents a complete form.
 
-The `FormSubmission` document is a **record** that stores one user's (e.g., one company's) data for a _specific_ `FormTemplate`. It is a simple key-value store of the answers.
+-   **`_id` (String, Required):** A unique identifier for the form template (e.g., `"form_c_2025_example"`).
+-   **`formName` (String, Required):** The human-readable name of the form (e.g., `"Company Return Form C (Example)"`).
+-   **`yearOfAssessment` (Number, Required):** The tax year this form applies to.
+-   **`pages` (Array<Page Object>, Required):** An ordered array of **Page Objects**. This array defines the multi-page structure of the form.
 
-### Top-Level Fields
+---
 
-- **`_id` (String):** A unique identifier for the submission (e.g., "sub_xyz_sdn_bhd_2025").
-- **`companyId` (String):** The ID of the company this submission belongs to.
-- **`formTemplateId` (String):** The `_id` of the `FormTemplate` this data is based on (e.g., "form_c_2025_example"). This links the data to its "blueprint."
-- **`status` (String):** The current state of the submission (e.g., `"draft"`, `"submitted"`, `"processing"`).
-- **`formData` (Object):** This is the core data object.
+## 2. Page Object
 
-### The `formData` Object
+Each object in the `pages` array represents a single page in the form's progression.
 
-- **Structure:** A flat object of key-value pairs.
-- **Keys:** The keys in this object **must exactly match** the `id` values defined in the corresponding `FormTemplate`'s `fields` array.
-- **Values:** The values are the user's saved input.
-  - For `text`, `radio`, `select`: A **String** or **Number**.
-  - For multi-select `checkbox`: An **Array** of values (e.g., `["sales", "payment"]`).
+-   **`id` (String, Required):** A unique identifier for the page (e.g., `"page_controlled_transactions"`).
+-   **`title` (String, Required):** The title displayed at the top of the page.
+-   **`show_if` (Object | null):** Defines the condition for this entire page to be visible. If `null`, the page is always included. (See **Conditional Logic** below).
+-   **`sections` (Array<Section Object>, Required):** An ordered array of **Section Objects** that will be rendered on this page.
+
+---
+
+## 3. Section Object
+
+Each object in the `sections` array defines a collapsible accordion panel within a page.
+
+-   **`part` (String, Required):** A unique ID for the section, used internally (e.g., `"CT_Part_A"`).
+-   **`title` (String, Required):** The text displayed on the accordion header.
+-   **`show_if` (Object | null):** If `null`, the section is always shown. If an object, it defines the condition for this section to appear.
+-   **`fields` (Array<Field Object>, Required):** An ordered array of **Field Objects** that will be rendered inside this section.
+
+---
+
+## 4. Field Object (The Core Component)
+
+This is the most important object, defining a single form input and its behavior.
+
+-   **`id` (String, Required):** The unique identifier for the field. **This is critical**, as it directly maps to the key in the `FormSubmission`'s data object.
+-   **`label` (String, Required):** The human-readable text for the form label.
+-   **`inputType` (String, Required):** A key that tells the frontend what component to render. See the **Input Types Guide** below for a full list.
+-   **`required` (Boolean, Optional):** If `true`, the field must have a value for the form to be valid.
+-   **`isLabelHidden` (Boolean, Optional):** If `true`, the `<label>` element will not be rendered. Useful for layout purposes, like subsequent lines of an address field.
+-   **`show_if` (Object | null, Optional):** If `null`, the field is always shown (within its parent section/page). If an object, it defines the condition for this field to appear.
+-   **`options` (Array<Object>, Optional):** Required for `select`, `radio`, and `checkbox` types. This is an array of `{ label: String, value: String }` objects.
+-   **`itemStructure` (Object, Optional):** **Required only for `inputType: "itemList"`**. Defines the columns and behavior of the list.
+-   **`allowRepeating` (Boolean, Optional):** **Used only with `inputType: "itemList"`**. If `true`, the same option from the `key` dropdown can be selected in multiple rows. If `false` or omitted, each key can only be used once.
+
+---
+
+## 5. Input Types Guide (`inputType`)
+
+### Simple Inputs
+
+These render a standard `shadcn/ui` `<Input>` component.
+
+-   `"text"`
+-   `"number"`
+-   `"email"`
+-   `"date"`
+
+### Option-Based Inputs
+
+These require an `options` array in the Field Object.
+
+-   **`"select"`**: Renders a dropdown menu.
+-   **`"radio"`**: Renders a radio button group.
+-   **`"checkbox"`**: Renders a group of checkboxes. The saved value in the form submission will be an **array** of the selected `value` strings.
+
+### Specialized Inputs
+
+-   **`"readonly_note"`**: Renders a simple, non-editable text block. It does not store any data.
+-   **`"countries"` / `"states"`**: These are special-purpose lookup slugs that render a pre-configured `LookupSelect` component for selecting countries or states.
+-   **`"lookup"`**: Renders a generic, searchable `FormLookupInput` component. The `label` of the field is used as the `slug` to fetch the correct lookup data from the backend (e.g., a `label` of `"labuan-entities"` will fetch data for that lookup).
+
+### Complex Input: `itemList`
+
+The `"itemList"` input type is for creating a table-like structure where users can add multiple rows of related data. It is defined by the `itemStructure` object.
+
+**`itemStructure` Object:**
+
+-   **`key` (Object, Required):** Defines the first column of the list, which is always a dropdown selector.
+    -   `id` (String): The property name for the selected key in the row's data object (e.g., `"payment_type"`).
+    -   `label` (String): The column header for the key dropdown.
+    -   `options` (Array, Required): An array of dropdown options.
+        -   `value` (String): The value stored in the data for this option.
+        -   `label` (String): The text displayed in the dropdown.
+        -   `disabledFields` (Array<String>, Optional): A powerful feature to disable specific `value` columns in that row based on the key selected. The strings in the array must match the `id` of the `value` fields to be disabled.
+
+-   **`values` (Array<Field Object>, Required):** Defines the subsequent columns in the row. Each object in this array is a simplified Field Object.
+    -   `id` (String): The property name for this column's data within the row object.
+    -   `label` (String): The column header.
+    -   `inputType` (String): The input type for this column's cells (e.g., `"text"`, `"number"`).
+    -   `required` (Boolean): If `true`, this cell must have a value if a `key` has been selected for the row.
+
+**Example `itemList` Field:**
+
+```json
+{
+  "id": "labuan_payments",
+  "label": "Payment to Labuan List",
+  "inputType": "itemList",
+  "allowRepeating": true,
+  "itemStructure": {
+    "key": {
+      "id": "payment_type",
+      "label": "Type of Payment",
+      "options": [
+        { "value": "interest", "label": "Interest payment" },
+        { "value": "lease", "label": "Lease rental" }
+      ]
+    },
+    "values": [
+      {
+        "id": "total",
+        "label": "Total of Payment (RM)",
+        "inputType": "number",
+        "required": true
+      },
+      {
+        "id": "allowed",
+        "label": "Amounts Allowed for Deduction (RM)",
+        "inputType": "number",
+        "required": true
+      }
+    ]
+  }
+}
+```
+
+**Resulting Data Structure in `FormSubmission`:**
+
+```json
+{
+  "labuan_payments": [
+    {
+      "key": "interest",
+      "values": {
+        "total": 5000,
+        "allowed": 5000
+      }
+    },
+    {
+      "key": "lease",
+      "values": {
+        "total": 12000,
+        "allowed": 10000
+      }
+    }
+  ]
+}
+```
+
+---
+
+## 6. Conditional Logic (`show_if`)
+
+The `show_if` object provides powerful conditional rendering for pages, sections, and fields.
+
+### Basic Condition
+
+This is the simplest form, checking one field against a value.
+
+-   **`fieldId` (String):** The `id` of the field to check.
+-   **`operator` (String):** The comparison to perform. Currently supports `"equals"` and `"not_equals"`.
+-   **`value` (String | Number):** The value to check against.
+
+> **Example:** `{ "fieldId": "labuan_payment", "operator": "equals", "value": "yes" }`
+> This means: "Show this item ONLY IF the field 'labuan_payment' has a value of 'yes'".
+
+### Complex (Nested) Condition
+
+For more complex logic, you can use `and` or `or` operators with an array of conditions.
+
+-   **`operator` (String):** Must be `"or"` or `"and"`.
+-   **`conditions` (Array<Object>):** An array where each object is a **Basic Condition** object.
+
+> **Example:**
+>
+> ```json
+> "show_if": {
+>   "operator": "or",
+>   "conditions": [
+>     { "fieldId": "labuan_subsidiary", "operator": "equals", "value": "yes" },
+>     { "fieldId": "labuan_payment", "operator": "equals", "value": "yes" }
+>   ]
+> }
+> ```
+>
+> This means: "Show this item IF 'labuan_subsidiary' is 'yes' OR 'labuan_payment' is 'yes'".
+
+---
+
+## 7. Form Submission Data
+
+The `form_submission.json` file stores the actual user-entered data. Its structure is a simple key-value map where the keys **must exactly match** the `id` attributes of the fields defined in the `form_template.json`. This direct mapping is what links the data to its definition.

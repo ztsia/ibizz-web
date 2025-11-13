@@ -1,13 +1,13 @@
 <template>
-  <div class="space-y-6">
+  <div class="space-y-4">
     <!-- Display Table -->
-    <div v-if="items.length > 0" class="overflow-x-auto rounded-lg border">
-      <table class="w-full text-sm">
+    <div class="overflow-x-auto rounded-lg border">
+      <table class="w-full text-sm table-fixed">
         <thead class="bg-muted/50 border-b">
           <tr>
             <th
               v-if="field.itemStructure.key"
-              class="text-muted-foreground px-4 py-3 text-left font-medium"
+              class="text-muted-foreground w-1/4 px-4 py-3 text-left font-medium"
             >
               {{ field.itemStructure.key.label }}
             </th>
@@ -24,111 +24,123 @@
           </tr>
         </thead>
         <tbody>
-          <tr
-            v-for="(item, index) in items"
-            :key="index"
-            class="hover:bg-muted/50 border-b transition-colors"
-          >
-            <!-- Keyed -->
-            <td v-if="field.itemStructure.key" class="px-4 py-3 font-medium">
-              {{ getKeyLabel(item.key) }}
-            </td>
-            <td
-              v-for="valueField in field.itemStructure.values"
-              :key="valueField.id"
-              class="text-muted-foreground px-4 py-3"
+          <!-- VIEW MODE ROWS -->
+          <template v-if="!isEditMode">
+            <tr
+              v-for="(item, index) in items"
+              :key="index"
+              class="hover:bg-muted/50 border-b transition-colors"
             >
-              {{
-                field.itemStructure.key
-                  ? item.values[valueField.id]
-                  : item[valueField.id] || '—'
-              }}
-            </td>
-            <td v-if="isEditMode" class="px-4 py-3 text-center">
-              <Button
-                @click="removeItem(index)"
-                variant="ghost"
-                size="icon"
-                class="h-8 w-8"
+              <td v-if="field.itemStructure.key" class="w-1/4 px-4 py-3 font-medium">
+              </td>
+              <td
+                v-for="valueField in field.itemStructure.values"
+                :key="valueField.id"
+                class="text-muted-foreground px-4 py-3"
               >
-                <X class="h-4 w-4" />
-              </Button>
-            </td>
-          </tr>
+                {{
+                  field.itemStructure.key
+                    ? item.values[valueField.id]
+                    : item[valueField.id] || '—'
+                }}
+              </td>
+            </tr>
+            <tr v-if="items.length === 0">
+              <td
+                :colspan="
+                  (field.itemStructure.key ? 1 : 0) +
+                  field.itemStructure.values.length +
+                  (isEditMode ? 1 : 0)
+                "
+                class="text-muted-foreground border-t p-6 text-center"
+              >
+                No items have been added.
+              </td>
+            </tr>
+          </template>
+
+          <!-- EDIT MODE ROWS -->
+          <template v-else>
+            <tr
+              v-for="(item, index) in items"
+              :key="index"
+              class="hover:bg-muted/50 border-b transition-colors"
+            >
+              <!-- Key Dropdown -->
+              <td v-if="field.itemStructure.key" class="w-1/4 px-4 py-3 font-medium">
+                <Select v-model="item.key">
+                  <SelectTrigger class="h-auto min-h-0 py-2 text-left">
+                    <span v-if="item.key" class="truncate">
+                      {{ getKeyLabel(item.key) }}
+                    </span>
+                    <span v-else class="text-muted-foreground">
+                      Select an item...
+                    </span>
+                  </SelectTrigger>
+                  <SelectContent class="max-h-60 w-[--radix-select-trigger-width]">
+                    <SelectItem
+                      v-for="option in getAvailableKeysForRow(item)"
+                      :key="option.value"
+                      :value="option.value"
+                      class="whitespace-normal"
+                    >
+                      {{ option.label }}
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </td>
+              <!-- Value Inputs -->
+              <td
+                v-for="valueField in field.itemStructure.values"
+                :key="valueField.id"
+                class="px-4 py-3"
+              >
+                <FormField
+                  :field="logAndReturnField(valueField)"
+                  :form-data="item.values"
+                  :is-edit-mode="!isFieldDisabled(item, valueField.id)"
+                  :compact="true"
+                  @update:field="
+                    (payload) =>
+                      handleItemFieldUpdate(item, payload.fieldId, payload.value)
+                  "
+                />
+              </td>
+              <!-- Remove Button -->
+              <td class="px-4 py-3 text-center">
+                <Button
+                  @click="removeItem(index)"
+                  variant="ghost"
+                  size="icon"
+                  class="h-8 w-8"
+                >
+                  <X class="h-4 w-4" />
+                </Button>
+              </td>
+            </tr>
+          </template>
         </tbody>
       </table>
     </div>
-    <div
-      v-else-if="!isEditMode"
-      class="text-muted-foreground rounded-lg border border-dashed p-6 text-center"
-    >
-      No items have been added.
-    </div>
 
-    <!-- Add Item Form (Edit Mode Only) -->
-    <div v-if="isEditMode" class="bg-muted/20 space-y-4 rounded-lg border p-4">
-      <h3 class="font-medium">Add New Item</h3>
-
-      <!-- Keyed: Dropdown to select item type -->
-      <div v-if="field.itemStructure.key" class="space-y-1">
-        <Label>Item Type</Label>
-        <Select v-model="selectedKey">
-          <SelectTrigger>
-            <SelectValue placeholder="Select an item..." />
-          </SelectTrigger>
-          <SelectContent class="max-h-60">
-            <SelectItem
-              v-for="option in availableKeys"
-              :key="option.value"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      <!-- Input fields for the selected item type -->
-      <div
-        v-if="selectedKey || !field.itemStructure.key"
-        class="grid grid-cols-1 gap-4 sm:grid-cols-2"
-      >
-        <div
-          v-for="valueField in field.itemStructure.values"
-          :key="valueField.id"
-          class="space-y-1"
-        >
-          <Label :for="`new-item-${valueField.id}`">{{
-            valueField.label
-          }}</Label>
-          <Input
-            :id="`new-item-${valueField.id}`"
-            v-model="newItemData[valueField.id]"
-            :disabled="isFieldDisabled(valueField.id)"
-            :placeholder="
-              isFieldDisabled(valueField.id) ? 'Not applicable' : ''
-            "
-          />
-        </div>
-      </div>
-
-      <!-- Add Button -->
-      <Button @click="addItem" :disabled="!canAddItem">
+    <!-- Add Row Button -->
+    <div v-if="isEditMode">
+      <Button @click="addRow" variant="outline">
         <Plus class="mr-1 h-4 w-4" />
-        Add Item
+        Add Row
       </Button>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { Plus, X } from 'lucide-vue-next';
 import type { FormTemplateField, KeyedRow, UnkeyedRow } from '../types';
+import FormField from './fields/FormField.vue';
 import {
   Button,
   Input,
-  Label,
   Select,
   SelectTrigger,
   SelectValue,
@@ -144,9 +156,10 @@ const props = defineProps<{
 
 const emit = defineEmits(['update:field']);
 
-const items = ref<KeyedRow[] | UnkeyedRow[]>(
+const items = ref<Array<KeyedRow | UnkeyedRow>>(
   props.formData[props.field.id] || [],
 );
+
 watch(
   () => props.formData[props.field.id],
   (newVal) => {
@@ -157,81 +170,70 @@ watch(
 watch(
   items,
   (newItems) => {
+    // Emit the current state, including empty rows, to the parent
     emit('update:field', { fieldId: props.field.id, value: newItems });
   },
   { deep: true },
 );
 
-// --- State for adding new items ---
-const selectedKey = ref<string | null>(null);
-const newItemData = ref<Record<string, any>>({});
+// Watch for changes in edit mode to clean up empty rows
+watch(
+  () => props.isEditMode,
+  (isEditing, wasEditing) => {
+    // If we are transitioning from Edit Mode to View Mode, clean up empty rows
+    if (!isEditing && wasEditing) {
+      items.value = items.value.filter((item) => {
+        if (props.field.itemStructure.key) {
+          return (item as KeyedRow).key !== null && (item as KeyedRow).key !== undefined;
+        }
+        // Add logic for unkeyed items if needed, for now, keep them
+        return true;
+      });
+    }
+  },
+);
 
-// --- Computed properties for UI logic ---
-const availableKeys = computed(() => {
-  if (!props.field.itemStructure?.key) {
-    return [];
+const getAvailableKeysForRow = (currentItem: KeyedRow) => {
+  if (!props.field.itemStructure?.key) return [];
+
+  // If repeating keys are allowed, return all options
+  if (props.field.allowRepeating) {
+    return props.field.itemStructure.key.options;
   }
-  const usedKeys = new Set((items.value as KeyedRow[]).map((item) => item.key));
+
+  // Otherwise, filter out keys used in OTHER rows
+  const usedKeysInOtherRows = new Set(
+    (items.value as KeyedRow[])
+      .filter((item) => item !== currentItem)
+      .map((item) => item.key),
+  );
+
   return props.field.itemStructure.key.options.filter(
-    (opt) => !usedKeys.has(opt.value),
+    (opt) => !usedKeysInOtherRows.has(opt.value),
   );
-});
+};
 
-const selectedKeyOption = computed(() => {
-  if (!selectedKey.value || !props.field.itemStructure?.key) {
-    return null;
-  }
-  return props.field.itemStructure.key.options.find(
-    (opt) => opt.value === selectedKey.value,
-  );
-});
-
-const isFieldDisabled = (fieldId: string): boolean => {
+const isFieldDisabled = (item: KeyedRow, fieldId: string): boolean => {
   // Unkeyed items never have disabled fields
   if (!props.field.itemStructure?.key) {
     return false;
   }
+
+  // Disable all value fields if no key is selected for the row
+  if (!item.key) {
+    return true;
+  }
+
+  // Find the selected option for the current row's key
+  const selectedOption = props.field.itemStructure.key.options.find(
+    (opt) => opt.value === item.key,
+  );
+
   // Check for the disabledFields property on the selected option
-  const disabledFields = selectedKeyOption.value?.disabledFields || [];
+  const disabledFields = selectedOption?.disabledFields || [];
   return disabledFields.includes(fieldId);
 };
 
-const canAddItem = computed(() => {
-  // For unkeyed, just check if all fields are filled
-  if (!props.field.itemStructure.key) {
-    return props.field.itemStructure.values.every(
-      (field) =>
-        newItemData.value[field.id] !== '' &&
-        newItemData.value[field.id] !== null &&
-        newItemData.value[field.id] !== undefined,
-    );
-  }
-
-  // For keyed, check that a key is selected
-  if (!selectedKey.value) {
-    return false;
-  }
-
-  // And that all ENABLED fields are filled
-  return props.field.itemStructure.values.every((field) => {
-    if (isFieldDisabled(field.id)) {
-      return true; // Ignore disabled fields
-    }
-    return (
-      newItemData.value[field.id] !== '' &&
-      newItemData.value[field.id] !== null &&
-      newItemData.value[field.id] !== undefined
-    );
-  });
-});
-
-// --- Watchers ---
-watch(selectedKey, () => {
-  // Reset input fields when the selected item type changes
-  newItemData.value = {};
-});
-
-// --- Methods ---
 const getKeyLabel = (key: string): string => {
   if (!props.field.itemStructure?.key) return key;
   const option = props.field.itemStructure.key.options.find(
@@ -240,34 +242,44 @@ const getKeyLabel = (key: string): string => {
   return option?.label || key;
 };
 
-const addItem = () => {
-  if (!canAddItem.value) return;
-
+const addRow = () => {
   if (props.field.itemStructure?.key) {
     // Keyed
     const newRow: KeyedRow = {
-      key: selectedKey.value!,
-      values: { ...newItemData.value },
+      key: null, // Start with null key
+      values: {},
     };
-    // Ensure all possible values are present, even if empty/disabled
+    // Pre-fill value keys to ensure reactivity
     props.field.itemStructure.values.forEach((val) => {
-      if (!(val.id in newRow.values)) {
-        newRow.values[val.id] = '';
-      }
+      newRow.values[val.id] = '';
     });
     items.value.push(newRow);
   } else {
     // Unkeyed
-    const newRow: UnkeyedRow = { ...newItemData.value };
+    const newRow: UnkeyedRow = {};
+    props.field.itemStructure.values.forEach((val) => {
+      newRow[val.id] = '';
+    });
     items.value.push(newRow);
   }
-
-  // Reset form
-  selectedKey.value = null;
-  newItemData.value = {};
 };
 
 const removeItem = (index: number) => {
   items.value.splice(index, 1);
 };
+
+const handleItemFieldUpdate = (item: KeyedRow, fieldId: string, value: any) => {
+  item.values[fieldId] = value;
+};
+
+const logAndReturnField = (valueField) => {
+  const syntheticField = {
+    ...valueField,
+    inputType: valueField.inputType || 'text',
+    isLabelHidden: true,
+  };
+  console.log('Passing to FormField:', syntheticField);
+  return syntheticField;
+};
 </script>
+

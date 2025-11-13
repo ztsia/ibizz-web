@@ -7,8 +7,8 @@
         field.inputType === 'lookup' || field.inputType === 'itemList',
     }"
   >
-    <div class="mb-2 min-h-[24px]">
-      <Label v-if="!field.isLabelHidden" :for="field.id">{{
+    <div v-if="field.inputType !== 'lookup' && !props.compact" class="mb-2 min-h-[24px]">
+      <Label v-if="!field.isLabelHidden && field.inputType !== 'lookup'" :for="field.id">{{
         field.label
       }}</Label>
     </div>
@@ -153,7 +153,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, toRef } from 'vue';
+import { computed, toRef, watch } from 'vue';
 import type { FormTemplateField } from '../../types';
 import { useShowIfEngine } from '../../composables';
 // SFC imports: some TS setups don't expose default export types for .vue files.
@@ -180,7 +180,16 @@ const props = defineProps<{
   formData: Record<string, any>;
   isEditMode: boolean;
   error?: string;
+  compact?: boolean;
 }>();
+
+watch(
+  () => props.field,
+  (newField) => {
+    console.log('FormField received field:', newField);
+  },
+  { immediate: true, deep: true },
+);
 
 const emit = defineEmits(['update:field']);
 

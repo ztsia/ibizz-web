@@ -530,21 +530,6 @@
           { "key": "transaction_related", "type": "string", "label": "Transaction with Related Company", "required": true }
         ],
         "short_description": "List of subsidiary companies or related entities in Labuan."
-      },
-      {
-        "id": "ce2ecdeb-3608-4256-b6b4-e77608b5dcf2",
-        "slug": "payment-to-labuan",
-        "title": "Payment to Labuan",
-        "category_id": null,
-        "columns_schema": [
-          { "key": "type", "type": "string", "label": "Type of Payment", "required": true },
-          { "key": "payment_related", "type": "string", "label": "Payment to Related Labuan Entity(ies)", "required": true },
-          { "key": "total", "type": "double", "label": "Total of Payment (RM)", "required": true },
-          { "key": "allowed_exemption", "type": "double", "label": "Amounts Allowed for Deduction [Exemption from the provisions of paragraph 39(1)(r) ITA under PUA 425/2021] (RM)", "required": true },
-          { "key": "allowed", "type": "double", "label": "Amounts Allowed for Deduction (RM)", "required": true },
-          { "key": "not_allowed", "type": "double", "label": "Amounts Not Allowed for Deduction under Paragraph 39(1)(r) (RM)", "required": true }
-        ],
-        "short_description": "List of payments made to Labuan entities."
       }
     ]
   },
@@ -1393,10 +1378,6 @@
   },
   {
     "table_name": "lookup_labuan-entities",
-    "rows": []
-  },
-  {
-    "table_name": "lookup_payment-to-labuan",
     "rows": []
   }
 ]
