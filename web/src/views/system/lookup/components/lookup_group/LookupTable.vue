@@ -34,13 +34,13 @@
 
     <div class="mt-3 overflow-x-auto rounded-lg border">
       <table data-test="lookup-table" class="w-full text-sm">
-        <thead class="bg-gray-50">
+        <thead class="bg-muted">
           <tr>
             <th v-if="props.selectable" class="w-12 px-4 py-3 text-center"></th>
             <th
               v-for="col in columns"
               :key="col.name"
-              class="px-4 py-3 text-left font-medium text-gray-600"
+              class="text-muted-foreground px-4 py-3 text-left font-medium"
             >
               {{ col.label || col.name }}
             </th>
@@ -69,16 +69,10 @@
             <td v-if="props.selectable" class="px-4 py-3 text-center">
               <input
                 type="checkbox"
+                class="border-input text-primary focus:ring-primary disabled:checked:bg-primary-500 disabled:checked:border-primary-500 h-4 w-4 rounded disabled:opacity-100"
                 :checked="props.selection.includes(item.id)"
                 :disabled="props.selectionDisabled"
-                @change="
-                  (event) =>
-                    toggleItemSelection(
-                      item.id,
-                      (event.target as HTMLInputElement).checked,
-                    )
-                "
-                class="text-primary focus:ring-primary h-4 w-4 rounded border-gray-300 disabled:cursor-not-allowed disabled:opacity-50"
+                @change="toggleItemSelection(item.id, $event.target.checked)"
               />
             </td>
             <td v-for="col in columns" :key="col.name" class="px-4 py-3">

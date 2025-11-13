@@ -9,82 +9,92 @@
       {{ error }}
     </div>
   </div>
-  <div v-else-if="template" class="mx-auto max-w-5xl space-y-6 p-6">
-    <!-- Header with title and toggle -->
-    <div class="flex items-center justify-between border-b pb-4">
-      <h1 class="text-3xl font-bold">
-        {{
-          currentPage && currentPage.title
-            ? currentPage.title
-            : template && template.formName
-        }}
-      </h1>
-      <ToggleEditViewButton v-if="canEdit" v-model:isEditing="isEditMode" />
-    </div>
-
-    <!-- Progress + Navigation (buttons left/right of the progress bar) -->
-    <div class="flex items-center gap-4 border-t pt-6">
-      <!-- Left: Previous (hide on first page but keep width for alignment) -->
-      <div class="w-32">
-        <div v-if="currentPageIndex > 0">
-          <Button @click="previousPage" variant="outline" class="w-full">
-            <ChevronLeft class="mr-1 h-4 w-4" />
-            Previous
-          </Button>
-        </div>
-        <div v-else class="h-full w-full" aria-hidden="true"></div>
+  <div v-else-if="template" class="bg-muted mx-auto max-w-5xl p-6 pt-48">
+    <div
+      class="bg-muted fixed left-1/2 top-[88px] z-20 w-full max-w-5xl -translate-x-1/2 px-6 pb-4 pt-6"
+    >
+      <!-- Header with title and toggle -->
+      <div class="flex items-center justify-between pb-2">
+        <h1 class="text-2xl font-bold">
+          {{
+            currentPage && currentPage.title
+              ? currentPage.title
+              : template && template.formName
+          }}
+        </h1>
+        <ToggleEditViewButton v-if="canEdit" v-model:isEditing="isEditMode" />
       </div>
 
-      <!-- Center: Progress & indicators -->
-      <div class="flex-1 space-y-2">
-        <div class="text-muted-foreground flex justify-between text-sm">
-          <span
-            >Page {{ currentPageIndex + 1 }} of {{ visiblePages.length }}</span
-          >
-          <span>{{ Math.round(progressPercentage) }}% Complete</span>
-        </div>
-
-        <!-- Page indicators -->
-        <div class="flex items-center gap-2 pt-2">
-          <button
-            v-for="(page, index) in visiblePages"
-            :key="page.id"
-            @click="goToPage(index)"
-            :disabled="!canNavigateToPage(index)"
-            class="h-2 flex-1 rounded-full transition-all"
-            :class="[
-              index === currentPageIndex
-                ? 'bg-primary'
-                : index < currentPageIndex
-                  ? 'bg-primary/50'
-                  : 'bg-muted',
-              canNavigateToPage(index)
-                ? 'hover:bg-primary/70 cursor-pointer'
-                : 'cursor-not-allowed',
-            ]"
-            :title="page.title"
-          ></button>
-        </div>
-      </div>
-
-      <!-- Right: Next / Save (Save only visible when editing on last page) -->
-      <div class="flex w-32 justify-end">
-        <div>
-          <Button
-            v-if="currentPageIndex < visiblePages.length - 1"
-            @click="nextPage"
-            class="w-full"
-          >
-            Next
-            <ChevronRight class="ml-1 h-4 w-4" />
-          </Button>
-
-          <div v-else>
-            <Button v-if="isEditMode" @click="onSave" class="w-full">
-              <Save class="mr-1 h-4 w-4" />
-              Save
+      <!-- Progress + Navigation (buttons left/right of the progress bar) -->
+      <div class="flex items-center gap-4 pt-2">
+        <!-- Left: Previous (hide on first page but keep width for alignment) -->
+        <div class="w-32">
+          <div v-if="currentPageIndex > 0">
+            <Button @click="previousPage" variant="outline" class="w-full">
+              <ChevronLeft class="mr-1 h-4 w-4" />
+              Previous
             </Button>
-            <div v-else class="h-full w-full" aria-hidden="true"></div>
+          </div>
+          <div v-else class="h-full w-full" aria-hidden="true"></div>
+        </div>
+
+        <!-- Center: Progress & indicators -->
+        <div class="flex-1 space-y-2">
+          <div class="text-muted-foreground flex justify-between text-sm">
+            <span
+              >Page {{ currentPageIndex + 1 }} of
+              {{ visiblePages.length }}</span
+            >
+            <span>{{ Math.round(progressPercentage) }}% Complete</span>
+          </div>
+
+          <!-- Page indicators -->
+          <div class="flex items-center gap-2 pt-2">
+            <button
+              v-for="(page, index) in visiblePages"
+              :key="page.id"
+              @click="goToPage(index)"
+              :disabled="!canNavigateToPage(index)"
+              class="h-2 flex-1 rounded-full transition-all"
+              :class="[
+                index === currentPageIndex
+                  ? 'bg-primary'
+                  : index < currentPageIndex
+                    ? 'bg-primary/50'
+                    : 'bg-gray-300',
+                canNavigateToPage(index)
+                  ? 'hover:bg-primary/70 cursor-pointer'
+                  : 'cursor-not-allowed',
+              ]"
+              :title="page.title"
+            ></button>
+          </div>
+        </div>
+
+        <!-- Right: Next / Save (Save only visible when editing on last page) -->
+        <div class="flex w-32 justify-end">
+          <div>
+            <Button
+              v-if="currentPageIndex < visiblePages.length - 1"
+              @click="nextPage"
+              class="w-full"
+            >
+              Next
+              <ChevronRight class="ml-1 h-4 w-4" />
+            </Button>
+
+            <div v-else>
+              <Button
+                v-if="isEditMode"
+                @click="onSave"
+                class="w-full"
+                :disabled="!hasChanges"
+              >
+                <Save class="mr-1 h-4 w-4" />
+                Save
+              </Button>
+              <div v-else class="h-full w-full" aria-hidden="true"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -96,21 +106,9 @@
         :page="currentPage"
         :form-data="formData"
         :is-edit-mode="isEditMode"
+        :errors="errors"
         @update:field="updateField"
       />
-    </div>
-
-    <!-- Validation Errors -->
-    <div
-      v-if="Object.keys(errors).length > 0"
-      class="border-destructive bg-destructive/10 rounded-lg border p-4"
-    >
-      <h4 class="text-destructive mb-2 font-semibold">
-        Please fix the following errors:
-      </h4>
-      <ul class="text-destructive/90 list-inside list-disc space-y-1 text-sm">
-        <li v-for="(error, fieldId) in errors" :key="fieldId">{{ error }}</li>
-      </ul>
     </div>
   </div>
 </template>
@@ -141,7 +139,7 @@ const isEditMode = ref(false);
 const currentPageIndex = ref(0);
 
 const { visibleFieldIds } = useVisibleFields(template, formData);
-const { errors, validate } = useFormValidation(
+const { errors, validate, validatePage } = useFormValidation(
   template,
   formData,
   visibleFieldIds,
@@ -172,6 +170,16 @@ watch(visiblePages, (newPages) => {
   }
 });
 
+// When user cancels editing by toggling back to view mode
+watch(isEditMode, (isEditing, wasEditing) => {
+  if (!isEditing && wasEditing) {
+    // eslint-disable-next-line unicorn/prefer-structured-clone
+    formData.value = JSON.parse(JSON.stringify(originalFormData.value));
+    errors.value = {}; // Clear all validation errors
+    message.info('Changes cancelled.');
+  }
+});
+
 // Current page being displayed
 const currentPage = computed(() => {
   return visiblePages.value[currentPageIndex.value] || null;
@@ -183,8 +191,31 @@ const progressPercentage = computed(() => {
   return ((currentPageIndex.value + 1) / visiblePages.value.length) * 100;
 });
 
+const hasChanges = computed(() => {
+  const getSortedStringify = (obj: any) => {
+    if (!obj) return '';
+    const sortedObj: Record<string, any> = {};
+    for (const key of Object.keys(obj).sort()) {
+      sortedObj[key] = obj[key];
+    }
+    return JSON.stringify(sortedObj);
+  };
+  return (
+    getSortedStringify(formData.value) !==
+    getSortedStringify(originalFormData.value)
+  );
+});
+
 // Navigation functions
 const nextPage = () => {
+  if (
+    isEditMode.value &&
+    currentPage.value &&
+    !validatePage(currentPage.value.id)
+  ) {
+    message.error('Please fix the errors on this page before proceeding.');
+    return;
+  }
   if (currentPageIndex.value < visiblePages.value.length - 1) {
     currentPageIndex.value++;
     scrollToTop();
@@ -199,6 +230,16 @@ const previousPage = () => {
 };
 
 const goToPage = (index: number) => {
+  // Add validation check for the current page before allowing navigation
+  if (
+    isEditMode.value &&
+    currentPage.value &&
+    !validatePage(currentPage.value.id)
+  ) {
+    message.error('Please fix the errors on this page before proceeding.');
+    return; // Block navigation
+  }
+
   if (canNavigateToPage(index)) {
     currentPageIndex.value = index;
     scrollToTop();

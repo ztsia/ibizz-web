@@ -3,7 +3,7 @@
     <SelectTrigger>
       <SelectValue placeholder="Select an option" />
     </SelectTrigger>
-    <SelectContent>
+    <SelectContent class="max-h-60">
       <SelectGroup>
         <SelectItem
           v-for="item in items"

@@ -294,7 +294,7 @@
         class="pointer-events-none fixed bottom-0 left-0 right-0 z-50"
       >
         <div class="pointer-events-auto mx-auto flex max-w-4xl justify-end p-4">
-          <div class="rounded-md bg-white/90 p-2 shadow-md">
+          <div class="bg-popover rounded-md p-2 shadow-md">
             <FormActionsBar
               :disabled="!hasChanges"
               @save="handleSave"

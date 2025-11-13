@@ -14,16 +14,10 @@ export function useShowIfEngine(
     const evaluate = (condition: ShowIf): boolean => {
       if (condition.operator === 'or') {
         const res = condition.conditions?.some((c) => evaluate(c)) ?? false;
-        console.log('[useShowIfEngine] or ->', { condition, result: res });
         return res;
       }
 
       if (!condition.fieldId) {
-        // This case should not happen for non-composite conditions, but as a safeguard...
-        console.log(
-          '[useShowIfEngine] missing fieldId in condition, defaulting visible',
-          { condition },
-        );
         return true;
       }
 
@@ -31,23 +25,11 @@ export function useShowIfEngine(
 
       if (condition.operator === 'equals') {
         const res = fieldValue === condition.value;
-        console.log('[useShowIfEngine] equals ->', {
-          fieldId: condition.fieldId,
-          fieldValue,
-          expected: condition.value,
-          result: res,
-        });
         return res;
       }
 
       if (condition.operator === 'not_equals') {
         const res = fieldValue !== condition.value;
-        console.log('[useShowIfEngine] not_equals ->', {
-          fieldId: condition.fieldId,
-          fieldValue,
-          expected: condition.value,
-          result: res,
-        });
         return res;
       }
 
@@ -59,7 +41,6 @@ export function useShowIfEngine(
     };
 
     const result = evaluate(showIf);
-    console.log('[useShowIfEngine] evaluated show_if', { showIf, result });
     return result;
   });
 

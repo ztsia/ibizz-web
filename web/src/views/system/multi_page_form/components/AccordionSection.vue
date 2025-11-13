@@ -1,38 +1,44 @@
 <template>
   <div v-if="isVisible" class="mb-4">
-    <!-- Card-like accordion section: rounded card with subtle header/content contrast -->
-    <Accordion type="single" collapsible>
+    <Accordion
+      type="single"
+      collapsible
+      class="w-full"
+      :model-value="openSectionId"
+      @update:model-value="emit('update:openSectionId', $event)"
+    >
       <AccordionItem
         :value="sectionId"
-        class="w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm"
+        class="border-border bg-card w-full overflow-hidden rounded-xl border shadow-sm"
       >
-        <!-- Trigger must be a direct child of AccordionItem for proper behavior -->
         <AccordionTrigger
-          class="w-full rounded-t-xl bg-gray-50 px-4 py-3 text-lg font-semibold text-gray-800"
+          class="text-foreground hover:text-primary hover:bg-muted w-full rounded-t-xl px-4 py-3 text-lg font-semibold transition-colors hover:no-underline"
         >
-          {{ section.title }}
+          <div class="flex w-full items-center justify-between">
+            <span>{{ section.title }}</span>
+            <span
+              v-if="errorCount > 0"
+              class="bg-destructive ml-4 flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold text-white"
+            >
+              {{ errorCount }}
+            </span>
+          </div>
         </AccordionTrigger>
 
-        <AccordionContent class="rounded-b-xl bg-white px-4 py-4">
+        <AccordionContent
+          class="bg-card data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden rounded-b-xl px-4 py-4 text-sm transition-all"
+        >
           <!-- Responsive 2-column grid for fields: 1 col on xs, 2 cols from sm -->
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div
+            <FormField
               v-for="field in section.fields"
               :key="field.id"
-              class="w-full"
-              :class="{
-                'sm:col-span-2':
-                  field.inputType === 'lookup' ||
-                  field.inputType === 'itemList',
-              }"
-            >
-              <FormField
-                :field="field"
-                :form-data="formData"
-                :is-edit-mode="isEditMode"
-                @update:field="onUpdateField"
-              />
-            </div>
+              :field="field"
+              :form-data="formData"
+              :is-edit-mode="isEditMode"
+              :error="props.errors[field.id]"
+              @update:field="onUpdateField"
+            />
           </div>
         </AccordionContent>
       </AccordionItem>
@@ -58,9 +64,12 @@ const props = defineProps<{
   section: FormTemplateSection;
   formData: Record<string, any>;
   isEditMode: boolean;
+  errors: Record<string, string>;
+  openSectionId?: string;
+  errorCount: number;
 }>();
 
-const emit = defineEmits(['update:field']);
+const emit = defineEmits(['update:field', 'update:openSectionId']);
 
 const formDataRef = toRef(props, 'formData');
 const { isVisible } = useShowIfEngine(props.section.show_if, formDataRef);

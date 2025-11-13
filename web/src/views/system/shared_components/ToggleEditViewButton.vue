@@ -26,7 +26,7 @@ function toggleMode() {
   <!-- Compact floating toggle (icon-only) when scrolled -->
   <button
     v-if="compact"
-    class="fixed right-4 flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+    class="border-border bg-popover fixed right-4 flex h-12 w-12 items-center justify-center rounded-full border shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
     style="top: 100px; z-index: 250"
     @click="toggleMode"
   >

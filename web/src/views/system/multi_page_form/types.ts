@@ -38,6 +38,7 @@ export interface FormTemplateField {
   id: string;
   label: string;
   inputType: InputType;
+  required?: boolean;
   show_if?: ShowIf;
   options?: Option[];
   itemStructure?: ItemStructure;
