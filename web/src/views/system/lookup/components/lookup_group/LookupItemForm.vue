@@ -23,7 +23,9 @@
         </p>
       </div>
       <form @submit.prevent="onSave">
-        <div class="grid grid-cols-2 max-h-[70vh] gap-4 overflow-y-auto py-4 pr-4">
+        <div
+          class="grid max-h-[70vh] grid-cols-2 gap-4 overflow-y-auto py-4 pr-4"
+        >
           <div
             v-if="duplicateError"
             class="mb-4 rounded border border-red-200 bg-red-50 p-3 text-sm text-red-700"
@@ -33,9 +35,13 @@
           </div>
           <FormField v-for="col in columns" :key="col.name" :name="col.name">
             <FormItem class="mb-4">
-              <FormLabel :for="col.name" class="block mb-1">{{ fieldLabels[col.name] }}</FormLabel>
+              <FormLabel :for="col.name" class="mb-1 block">{{
+                fieldLabels[col.name]
+              }}</FormLabel>
               <FormControl>
-                <template v-if="getColumnFieldType(col, props.group) === 'boolean'">
+                <template
+                  v-if="getColumnFieldType(col, props.group) === 'boolean'"
+                >
                   <RadioGroup
                     v-model="form.columns[col.name]"
                     class="flex space-x-4"
@@ -62,7 +68,8 @@
                 </template>
                 <template
                   v-else-if="
-                    String(col.type || '').toLowerCase() === 'text' && col.multiline
+                    String(col.type || '').toLowerCase() === 'text' &&
+                    col.multiline
                   "
                 >
                   <Textarea
@@ -201,14 +208,25 @@ function resetFormFromProps() {
         value = props.initial?.columns?.[c.name] ?? '';
       } else {
         const ty = getColumnFieldType(c, props.group);
-        if (ty === 'month') {
-          value = new Date().getMonth() + 1;
-        } else if (ty === 'year') {
-          value = new Date().getFullYear();
-        } else if (ty === 'boolean') {
-          value = 'no'; // Default to 'no' string
-        } else {
-          value = '';
+        switch (ty) {
+          case 'month': {
+            value = new Date().getMonth() + 1;
+
+            break;
+          }
+          case 'year': {
+            value = new Date().getFullYear();
+
+            break;
+          }
+          case 'boolean': {
+            value = 'no'; // Default to 'no' string
+
+            break;
+          }
+          default: {
+            value = '';
+          }
         }
       }
       return [c.name, value];

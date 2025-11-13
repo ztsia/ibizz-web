@@ -36,7 +36,7 @@
             </Tabs>
             <div v-if="activeGroup">
               <p
-                class="text-sm text-gray-500 text-left w-full pt-2 px-4"
+                class="w-full px-4 pt-2 text-left text-sm text-gray-500"
                 data-test="group-tab-desc"
               >
                 {{ activeGroup.short_description || '' }}
