@@ -63,8 +63,7 @@ export function useFormValidation(
           if (field.inputType === 'itemList' && field.itemStructure) {
             const items = data[field.id];
             if (Array.isArray(items)) {
-              for (let i = 0; i < items.length; i++) {
-                const item = items[i];
+              for (const [i, item] of items.entries()) {
                 // Only validate rows that have a key selected
                 if (item.key) {
                   for (const valueField of field.itemStructure.values) {
@@ -75,9 +74,8 @@ export function useFormValidation(
                         itemValue === undefined ||
                         itemValue === ''
                       ) {
-                        newErrors[
-                          field.id
-                        ] = `Row ${i + 1}: '${valueField.label}' is required.`;
+                        newErrors[field.id] =
+                          `Row ${i + 1}: '${valueField.label}' is required.`;
                         // Break out of all loops for this field once an error is found
                         break;
                       }
@@ -149,8 +147,7 @@ export function useFormValidation(
         if (field.inputType === 'itemList' && field.itemStructure) {
           const items = data[field.id];
           if (Array.isArray(items)) {
-            for (let i = 0; i < items.length; i++) {
-              const item = items[i];
+            for (const [i, item] of items.entries()) {
               // Only validate rows that have a key selected
               if (item.key) {
                 for (const valueField of field.itemStructure.values) {
@@ -161,9 +158,8 @@ export function useFormValidation(
                       itemValue === undefined ||
                       itemValue === ''
                     ) {
-                      newErrors[
-                        field.id
-                      ] = `Row ${i + 1}: '${valueField.label}' is required.`;
+                      newErrors[field.id] =
+                        `Row ${i + 1}: '${valueField.label}' is required.`;
                       // Break out of all loops for this field once an error is found
                       break;
                     }

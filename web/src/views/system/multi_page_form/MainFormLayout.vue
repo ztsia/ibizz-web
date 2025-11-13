@@ -234,12 +234,11 @@ const goToPage = (index: number) => {
   if (
     isEditMode.value &&
     currentPage.value &&
-    index > currentPageIndex.value
+    index > currentPageIndex.value &&
+    !validatePage(currentPage.value.id)
   ) {
-    if (!validatePage(currentPage.value.id)) {
-      message.error('Please fix the errors on this page before proceeding.');
-      return; // Block navigation
-    }
+    message.error('Please fix the errors on this page before proceeding.');
+    return; // Block navigation
   }
 
   if (canNavigateToPage(index)) {

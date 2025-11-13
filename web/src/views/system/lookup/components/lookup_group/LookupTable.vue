@@ -46,7 +46,7 @@
             </th>
             <th
               v-if="props.showActions"
-              class="w-24 px-4 py-3 text-center font-medium text-foreground"
+              class="text-foreground w-24 px-4 py-3 text-center font-medium"
             >
               Actions
             </th>

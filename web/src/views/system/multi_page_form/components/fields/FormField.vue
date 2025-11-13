@@ -7,10 +7,15 @@
         field.inputType === 'lookup' || field.inputType === 'itemList',
     }"
   >
-    <div v-if="field.inputType !== 'lookup' && !props.compact" class="mb-2 min-h-[24px]">
-      <Label v-if="!field.isLabelHidden && field.inputType !== 'lookup'" :for="field.id">{{
-        field.label
-      }}</Label>
+    <div
+      v-if="field.inputType !== 'lookup' && !props.compact"
+      class="mb-2 min-h-[24px]"
+    >
+      <Label
+        v-if="!field.isLabelHidden && field.inputType !== 'lookup'"
+        :for="field.id"
+        >{{ field.label }}</Label
+      >
     </div>
 
     <!-- Lookup fields (handle both edit/view modes internally) -->

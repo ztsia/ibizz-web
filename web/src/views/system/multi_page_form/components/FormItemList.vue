@@ -2,7 +2,7 @@
   <div class="space-y-4">
     <!-- Display Table -->
     <div class="overflow-x-auto rounded-lg border">
-      <table class="w-full text-sm table-fixed">
+      <table class="w-full table-fixed text-sm">
         <thead class="bg-muted/50 border-b">
           <tr>
             <th
@@ -31,8 +31,10 @@
               :key="index"
               class="hover:bg-muted/50 border-b transition-colors"
             >
-              <td v-if="field.itemStructure.key" class="w-1/4 px-4 py-3 font-medium">
-              </td>
+              <td
+                v-if="field.itemStructure.key"
+                class="w-1/4 px-4 py-3 font-medium"
+              ></td>
               <td
                 v-for="valueField in field.itemStructure.values"
                 :key="valueField.id"
@@ -67,7 +69,10 @@
               class="hover:bg-muted/50 border-b transition-colors"
             >
               <!-- Key Dropdown -->
-              <td v-if="field.itemStructure.key" class="w-1/4 px-4 py-3 font-medium">
+              <td
+                v-if="field.itemStructure.key"
+                class="w-1/4 px-4 py-3 font-medium"
+              >
                 <Select v-model="item.key">
                   <SelectTrigger class="h-auto min-h-0 py-2 text-left">
                     <span v-if="item.key" class="truncate">
@@ -77,7 +82,9 @@
                       Select an item...
                     </span>
                   </SelectTrigger>
-                  <SelectContent class="max-h-60 w-[--radix-select-trigger-width]">
+                  <SelectContent
+                    class="max-h-60 w-[--radix-select-trigger-width]"
+                  >
                     <SelectItem
                       v-for="option in getAvailableKeysForRow(item)"
                       :key="option.value"
@@ -102,7 +109,11 @@
                   :compact="true"
                   @update:field="
                     (payload) =>
-                      handleItemFieldUpdate(item, payload.fieldId, payload.value)
+                      handleItemFieldUpdate(
+                        item,
+                        payload.fieldId,
+                        payload.value,
+                      )
                   "
                 />
               </td>
@@ -140,10 +151,8 @@ import type { FormTemplateField, KeyedRow, UnkeyedRow } from '../types';
 import FormField from './fields/FormField.vue';
 import {
   Button,
-  Input,
   Select,
   SelectTrigger,
-  SelectValue,
   SelectContent,
   SelectItem,
 } from '@vben-core/shadcn-ui';
@@ -184,7 +193,10 @@ watch(
     if (!isEditing && wasEditing) {
       items.value = items.value.filter((item) => {
         if (props.field.itemStructure.key) {
-          return (item as KeyedRow).key !== null && (item as KeyedRow).key !== undefined;
+          return (
+            (item as KeyedRow).key !== null &&
+            (item as KeyedRow).key !== undefined
+          );
         }
         // Add logic for unkeyed items if needed, for now, keep them
         return true;
@@ -282,4 +294,3 @@ const logAndReturnField = (valueField) => {
   return syntheticField;
 };
 </script>
-
