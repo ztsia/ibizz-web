@@ -2,6 +2,7 @@
   <div>
     <div v-if="group">
       <div
+        v-if="isEditMode"
         class="mb-4 flex items-start space-x-3 border-l-4 border-blue-500 bg-blue-50 p-3"
       >
         <div>
@@ -25,6 +26,14 @@
         :per-page="5"
         @update:selection="handleSelectionChange"
       />
+      <GeneratePdfControl
+        v-if="!isEditMode"
+        :title="group.title || group.name || group.slug || props.field.label"
+        :submission-year="new Date().getFullYear()"
+        :headers="tableColumns"
+        :lookup-slug="tableSlug"
+        :selected-row-ids="fieldValue"
+      />
     </div>
     <div v-else class="text-muted-foreground text-sm">Loading...</div>
   </div>
@@ -36,6 +45,7 @@ import { ref, computed, onMounted } from 'vue';
 import type { FormTemplateField } from '../../types';
 import { LookupTable } from '../../../lookup/components';
 import * as lookupService from '../../../services';
+import GeneratePdfControl from './GeneratePdfControl.vue';
 
 const props = defineProps<{
   field: FormTemplateField;
