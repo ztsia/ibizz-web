@@ -1,24 +1,34 @@
 <template>
   <div>
-    <LookupTable
-      v-if="group"
-      :key="tableSlug"
-      :group-id="tableSlug"
-      :group="group"
-      :columns="tableColumns"
-      :selectable="true"
-      :selection="fieldValue"
-      :show-actions="isEditMode"
-      :selection-disabled="!isEditMode"
-      :has-pager="true"
-      :per-page="5"
-      @update:selection="handleSelectionChange"
-    />
+    <div v-if="group">
+      <div class="border-l-4 border-blue-500 bg-blue-50 p-3 flex items-start space-x-3 mb-4">
+        <div>
+          <Info class="h-5 w-5 text-blue-600" />
+        </div>
+        <p class="text-sm text-blue-800">
+          Use the checkboxes to select all items you want to include in your form. Unchecked items will be ignored and not saved.
+        </p>
+      </div>
+      <LookupTable
+        :key="tableSlug"
+        :group-id="tableSlug"
+        :group="group"
+        :columns="tableColumns"
+        :selectable="true"
+        :selection="fieldValue"
+        :show-actions="isEditMode"
+        :selection-disabled="!isEditMode"
+        :has-pager="true"
+        :per-page="5"
+        @update:selection="handleSelectionChange"
+      />
+    </div>
     <div v-else class="text-muted-foreground text-sm">Loading...</div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { Info } from 'lucide-vue-next';
 import { ref, computed, onMounted } from 'vue';
 import type { FormTemplateField } from '../../types';
 import { LookupTable } from '../../../lookup/components';

@@ -36,7 +36,17 @@
       <table data-test="lookup-table" class="w-full text-sm">
         <thead class="bg-background">
           <tr>
-            <th v-if="props.selectable" class="w-12 px-4 py-3 text-center"></th>
+            <th v-if="props.selectable" class="w-12 px-4 py-3 text-center">
+              <input
+                ref="selectAllCheckbox"
+                type="checkbox"
+                class="border-input text-primary focus:ring-primary h-4 w-4 rounded disabled:opacity-50"
+                :checked="isAllSelected"
+                :disabled="props.selectionDisabled"
+                title="Select All"
+                @change="toggleSelectAll"
+              />
+            </th>
             <th
               v-for="col in columns"
               :key="col.name"
@@ -69,7 +79,7 @@
             <td v-if="props.selectable" class="px-4 py-3 text-center">
               <input
                 type="checkbox"
-                class="border-input text-primary focus:ring-primary disabled:checked:bg-primary-500 disabled:checked:border-primary-500 h-4 w-4 rounded disabled:opacity-100"
+                class="border-input text-primary focus:ring-primary h-4 w-4 rounded disabled:opacity-50"
                 :checked="props.selection.includes(item.id)"
                 :disabled="props.selectionDisabled"
                 @change="toggleItemSelection(item.id, $event.target.checked)"
@@ -249,6 +259,49 @@ const searchQuery = ref('');
 let _searchTimer: any = null;
 const showDeleteModal = ref(false);
 const deleteTarget = ref<any | null>(null);
+const selectAllCheckbox = ref<HTMLInputElement | null>(null);
+
+// Computed properties for the "Select All" checkbox state
+const visibleItemIds = computed(() => new Set(localItems.value.map((item) => item.id)));
+
+const selectedVisibleCount = computed(() => {
+  if (!props.selection) return 0;
+  return props.selection.filter((id) => visibleItemIds.value.has(id)).length;
+});
+
+const isAllSelected = computed(() => {
+  if (visibleItemIds.value.size === 0) return false;
+  return selectedVisibleCount.value === visibleItemIds.value.size;
+});
+
+const isPartiallySelected = computed(() => {
+  return selectedVisibleCount.value > 0 && !isAllSelected.value;
+});
+
+// Watcher to set the indeterminate property on the checkbox
+watch(
+  isPartiallySelected,
+  (isPartial) => {
+    if (selectAllCheckbox.value) {
+      selectAllCheckbox.value.indeterminate = isPartial;
+    }
+  },
+  { immediate: true, flush: 'post' },
+);
+
+function toggleSelectAll() {
+  const currentSelection = new Set(props.selection || []);
+  const visibleIds = Array.from(visibleItemIds.value);
+
+  if (isAllSelected.value) {
+    // If all are selected, deselect all visible items
+    visibleIds.forEach((id) => currentSelection.delete(id));
+  } else {
+    // If not all are selected (or partially selected), select all visible items
+    visibleIds.forEach((id) => currentSelection.add(id));
+  }
+  emit('update:selection', Array.from(currentSelection));
+}
 
 function toggleItemSelection(itemId: string, checked: boolean) {
   if (!props.selection) return;
