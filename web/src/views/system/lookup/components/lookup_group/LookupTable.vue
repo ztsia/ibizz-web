@@ -262,7 +262,9 @@ const deleteTarget = ref<any | null>(null);
 const selectAllCheckbox = ref<HTMLInputElement | null>(null);
 
 // Computed properties for the "Select All" checkbox state
-const visibleItemIds = computed(() => new Set(localItems.value.map((item) => item.id)));
+const visibleItemIds = computed(
+  () => new Set(localItems.value.map((item) => item.id)),
+);
 
 const selectedVisibleCount = computed(() => {
   if (!props.selection) return 0;
@@ -291,7 +293,7 @@ watch(
 
 function toggleSelectAll() {
   const currentSelection = new Set(props.selection || []);
-  const visibleIds = Array.from(visibleItemIds.value);
+  const visibleIds = [...visibleItemIds.value];
 
   if (isAllSelected.value) {
     // If all are selected, deselect all visible items
@@ -300,7 +302,7 @@ function toggleSelectAll() {
     // If not all are selected (or partially selected), select all visible items
     visibleIds.forEach((id) => currentSelection.add(id));
   }
-  emit('update:selection', Array.from(currentSelection));
+  emit('update:selection', [...currentSelection]);
 }
 
 function toggleItemSelection(itemId: string, checked: boolean) {

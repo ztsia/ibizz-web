@@ -2,13 +2,13 @@
   <Popover v-model:open="open">
     <PopoverTrigger as-child>
       <div
-        class="relative flex items-center rounded-md overflow-hidden border border-input focus-within:border-blue-500"
+        class="border-input relative flex items-center overflow-hidden rounded-md border focus-within:border-blue-500"
       >
         <Input
           v-model="displayedValue"
           type="text"
           placeholder="Select or type..."
-          class="w-full rounded-r-none h-10 border-r-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+          class="h-10 w-full rounded-r-none border-r-0 focus-visible:ring-0 focus-visible:ring-offset-0"
           @input="handleTyping"
           @keydown.down.prevent="handleArrowDown"
           @keydown.up.prevent="handleArrowUp"
@@ -18,14 +18,14 @@
         <Button
           type="button"
           variant="outline"
-          class="h-10 rounded-l-none border-l-0 -ml-px px-3 focus-visible:ring-0 focus-visible:ring-offset-0"
+          class="-ml-px h-10 rounded-l-none border-l-0 px-3 focus-visible:ring-0 focus-visible:ring-offset-0"
           @mousedown.prevent
         >
           <ChevronsUpDown class="h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </div>
     </PopoverTrigger>
-    <PopoverContent class="w-[--radix-popover-trigger-width] p-0 z-[999]">
+    <PopoverContent class="z-[999] w-[--radix-popover-trigger-width] p-0">
       <div class="max-h-60 overflow-y-auto">
         <div v-if="filteredItems.length === 0" class="py-6 text-center text-sm">
           No results found.
@@ -33,9 +33,15 @@
         <div
           v-for="(item, index) in filteredItems"
           :key="item.id"
-          :ref="el => { if (el) itemRefs[index] = el }"
+          :ref="
+            (el) => {
+              if (el) itemRefs[index] = el;
+            }
+          "
           class="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none"
-          :class="{ 'bg-accent text-accent-foreground': highlightedIndex === index }"
+          :class="{
+            'bg-accent text-accent-foreground': highlightedIndex === index,
+          }"
           @click="handleSelect(item)"
         >
           {{ item.columns[displayKey] }}
@@ -78,10 +84,14 @@ const highlightedIndex = ref(-1);
 const itemRefs = ref<HTMLElement[]>([]);
 
 // Sync displayedValue with modelValue when the component loads or modelValue changes externally
-watch(() => props.modelValue, (newValue) => {
-  displayedValue.value = newValue;
-  internalSearchQuery.value = ''; // Reset internal search
-}, { immediate: true });
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    displayedValue.value = newValue;
+    internalSearchQuery.value = ''; // Reset internal search
+  },
+  { immediate: true },
+);
 
 // When popover closes, reset state
 watch(open, (isOpen) => {
@@ -98,7 +108,11 @@ const filteredItems = computed(() => {
   }
   return items.value.filter((item) => {
     const value = item.columns[displayKey.value];
-    return value && typeof value === 'string' && value.toLowerCase().includes(internalSearchQuery.value.toLowerCase());
+    return (
+      value &&
+      typeof value === 'string' &&
+      value.toLowerCase().includes(internalSearchQuery.value.toLowerCase())
+    );
   });
 });
 
@@ -137,14 +151,17 @@ function handleSelect(item: any) {
 function handleArrowDown() {
   if (!open.value) open.value = true;
   if (filteredItems.value.length > 0) {
-    highlightedIndex.value = (highlightedIndex.value + 1) % filteredItems.value.length;
+    highlightedIndex.value =
+      (highlightedIndex.value + 1) % filteredItems.value.length;
   }
 }
 
 function handleArrowUp() {
   if (!open.value) open.value = true;
   if (filteredItems.value.length > 0) {
-    highlightedIndex.value = (highlightedIndex.value - 1 + filteredItems.value.length) % filteredItems.value.length;
+    highlightedIndex.value =
+      (highlightedIndex.value - 1 + filteredItems.value.length) %
+      filteredItems.value.length;
   }
 }
 
@@ -165,15 +182,27 @@ function handleEscape() {
 
 onMounted(async () => {
   try {
-    const result = await lookupService.listItems(props.lookupSlug, { perPage: 1000 });
+    const result = await lookupService.listItems(props.lookupSlug, {
+      perPage: 1000,
+    });
     const fetchedItems = Array.isArray(result) ? result : result?.items || [];
 
     if (fetchedItems.length > 0) {
       const keys = Object.keys(fetchedItems[0].columns || {});
-      const rankedKeywords = ['name', 'title', 'label', 'display', 'description', 'desc', 'value'];
+      const rankedKeywords = [
+        'name',
+        'title',
+        'label',
+        'display',
+        'description',
+        'desc',
+        'value',
+      ];
       let descriptiveKey = '';
       for (const keyword of rankedKeywords) {
-        const foundKey = keys.find((key) => key.toLowerCase().includes(keyword));
+        const foundKey = keys.find((key) =>
+          key.toLowerCase().includes(keyword),
+        );
         if (foundKey) {
           descriptiveKey = foundKey;
           break;
@@ -187,7 +216,10 @@ onMounted(async () => {
     }
     items.value = fetchedItems;
   } catch (error) {
-    console.error(`[LookupSelect] Failed to load items for lookup slug "${props.lookupSlug}":`, error);
+    console.error(
+      `[LookupSelect] Failed to load items for lookup slug "${props.lookupSlug}":`,
+      error,
+    );
     emit('lookup-error', error);
   }
 });

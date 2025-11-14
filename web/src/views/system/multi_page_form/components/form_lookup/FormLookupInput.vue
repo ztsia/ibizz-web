@@ -1,12 +1,15 @@
 <template>
   <div>
     <div v-if="group">
-      <div class="border-l-4 border-blue-500 bg-blue-50 p-3 flex items-start space-x-3 mb-4">
+      <div
+        class="mb-4 flex items-start space-x-3 border-l-4 border-blue-500 bg-blue-50 p-3"
+      >
         <div>
           <Info class="h-5 w-5 text-blue-600" />
         </div>
         <p class="text-sm text-blue-800">
-          Use the checkboxes to select all items you want to include in your form. Unchecked items will be ignored and not saved.
+          Use the checkboxes to select all items you want to include in your
+          form. Unchecked items will be ignored and not saved.
         </p>
       </div>
       <LookupTable
