@@ -15,7 +15,9 @@ export interface PdfReportPayload {
  * @returns A promise that resolves to true on success.
  * @throws Error if the request fails or the server returns an error.
  */
-export async function generatePdfReport(payload: PdfReportPayload): Promise<boolean> {
+export async function generatePdfReport(
+  payload: PdfReportPayload,
+): Promise<boolean> {
   const endpoint = 'http://localhost:3000/generate-pdf';
 
   try {
@@ -29,8 +31,13 @@ export async function generatePdfReport(payload: PdfReportPayload): Promise<bool
 
     if (!response.ok) {
       // Try to parse error message from JSON response
-      const errorData = await response.json().catch(() => ({ error: { message: 'Unknown error' } }));
-      throw new Error(errorData.error?.message || `HTTP ${response.status}: ${response.statusText}`);
+      const errorData = await response
+        .json()
+        .catch(() => ({ error: { message: 'Unknown error' } }));
+      throw new Error(
+        errorData.error?.message ||
+          `HTTP ${response.status}: ${response.statusText}`,
+      );
     }
 
     // Get the PDF blob from the response
@@ -40,8 +47,8 @@ export async function generatePdfReport(payload: PdfReportPayload): Promise<bool
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${payload.title.replace(/\s+/g, '_')}_${payload.submissionYear}.pdf`;
-    document.body.appendChild(a);
+    a.download = `${payload.title.replaceAll(/\s+/g, '_')}_${payload.submissionYear}.pdf`;
+    document.body.append(a);
     a.click();
     a.remove();
     window.URL.revokeObjectURL(url);

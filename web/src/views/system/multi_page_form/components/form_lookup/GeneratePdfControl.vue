@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center gap-4 mt-4">
+  <div class="mt-4 flex items-center gap-4">
     <div class="flex items-center">
       <Checkbox
         id="print-selected"
@@ -98,8 +98,16 @@ async function handleGeneratePdf() {
     // DEBUG: Log payload to verify structure
     console.log('=== PDF Payload Debug ===');
     console.log('title:', payload.title, typeof payload.title);
-    console.log('submissionYear:', payload.submissionYear, typeof payload.submissionYear);
-    console.log('printSelectedOnly:', payload.printSelectedOnly, typeof payload.printSelectedOnly);
+    console.log(
+      'submissionYear:',
+      payload.submissionYear,
+      typeof payload.submissionYear,
+    );
+    console.log(
+      'printSelectedOnly:',
+      payload.printSelectedOnly,
+      typeof payload.printSelectedOnly,
+    );
     console.log('headers:', payload.headers);
     console.log('selectedRowIds:', payload.selectedRowIds);
     console.log('allRows sample:', payload.allRows.slice(0, 2));

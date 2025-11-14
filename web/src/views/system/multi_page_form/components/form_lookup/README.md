@@ -4,9 +4,9 @@ This is a microservice for generating PDF reports from a JSON payload.
 
 ## Features
 
--   Generate PDF reports from a JSON payload.
--   Supports filtering of data.
--   Stateless and scalable.
+- Generate PDF reports from a JSON payload.
+- Supports filtering of data.
+- Stateless and scalable.
 
 ## API Documentation
 
@@ -29,9 +29,7 @@ The request body must be a JSON object with the following structure:
       "label": "string"
     }
   ],
-  "selectedRowIds": [
-    "string"
-  ],
+  "selectedRowIds": ["string"],
   "allRows": [
     {
       "id": "string",
@@ -89,9 +87,9 @@ For a detailed schema, see `specs/001-pdf-generation-endpoint/contracts/openapi.
 
 **Responses**:
 
--   **`200 OK`**: Successfully generated PDF report. The response body will contain the PDF file as a binary blob.
--   **`400 Bad Request`**: Invalid JSON payload. The response body will contain a JSON object with an error message.
--   **`500 Internal Server Error`**: An error occurred on the server while generating the PDF.
+- **`200 OK`**: Successfully generated PDF report. The response body will contain the PDF file as a binary blob.
+- **`400 Bad Request`**: Invalid JSON payload. The response body will contain a JSON object with an error message.
+- **`500 Internal Server Error`**: An error occurred on the server while generating the PDF.
 
 **Frontend Implementation Guide**:
 
@@ -109,28 +107,28 @@ fetch('http://localhost:3000/generate-pdf', {
   },
   body: JSON.stringify(payload),
 })
-.then(response => {
-  if (!response.ok) {
-    return response.json().then(error => {
-      throw new Error(error.error.message);
-    });
-  }
-  return response.blob();
-})
-.then(blob => {
-  // The PDF is attached in the response as a blob.
-  // You can create a URL from the blob and open it in a new tab or download it.
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = "report.pdf";
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-})
-.catch(error => {
-  console.error('Error generating PDF:', error);
-});
+  .then((response) => {
+    if (!response.ok) {
+      return response.json().then((error) => {
+        throw new Error(error.error.message);
+      });
+    }
+    return response.blob();
+  })
+  .then((blob) => {
+    // The PDF is attached in the response as a blob.
+    // You can create a URL from the blob and open it in a new tab or download it.
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'report.pdf';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  })
+  .catch((error) => {
+    console.error('Error generating PDF:', error);
+  });
 ```
 
 ### `GET /health`
@@ -139,7 +137,7 @@ This endpoint can be used to check the health of the service.
 
 **Responses**:
 
--   **`200 OK`**: The service is healthy. The response body will be a JSON object: `{"status": "ok"}`.
+- **`200 OK`**: The service is healthy. The response body will be a JSON object: `{"status": "ok"}`.
 
 ## Running the Service
 
