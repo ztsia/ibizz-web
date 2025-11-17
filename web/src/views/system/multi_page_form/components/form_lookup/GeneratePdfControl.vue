@@ -1,15 +1,5 @@
 <template>
   <div class="mt-4 flex items-center gap-4">
-    <div class="flex items-center">
-      <Checkbox
-        id="print-selected"
-        v-model:checked="printSelectedOnly"
-        :disabled="isGenerating"
-      />
-      <label for="print-selected" class="ml-2 text-sm font-medium">
-        Print selected items only
-      </label>
-    </div>
     <Button
       :disabled="isGenerating"
       @click="isGenerated ? handleDownload() : handleGeneratePdf()"
@@ -23,7 +13,7 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
-import { Button, Checkbox } from '@vben-core/shadcn-ui';
+import { Button } from '@vben-core/shadcn-ui';
 import { Loader2, FileText } from 'lucide-vue-next';
 import { generatePdfReport } from '../../../services/pdfService';
 import * as lookupService from '../../../services';
@@ -37,9 +27,9 @@ const props = defineProps<{
   selectedRowIds: string[];
 }>();
 
-const printSelectedOnly = ref(false);
 const isGenerating = ref(false);
 const isGenerated = ref(false);
+const pdfBlob = ref<Blob | null>(null);
 
 const buttonText = computed(() => {
   if (isGenerating.value) {
@@ -54,6 +44,7 @@ const buttonText = computed(() => {
 async function handleGeneratePdf() {
   isGenerating.value = true;
   isGenerated.value = false;
+  pdfBlob.value = null;
 
   try {
     // 1. Fetch all items
@@ -89,7 +80,7 @@ async function handleGeneratePdf() {
     const payload = {
       title: props.title,
       submissionYear: props.submissionYear,
-      printSelectedOnly: printSelectedOnly.value,
+      printSelectedOnly: true, // Default to true as per new requirement
       headers,
       allRows,
       selectedRowIds: props.selectedRowIds,
@@ -114,8 +105,9 @@ async function handleGeneratePdf() {
     console.log('Full payload:', JSON.stringify(payload, null, 2));
 
     // 4. Call generation service
-    await generatePdfReport(payload);
-    notifySuccess('PDF report has been generated.');
+    const blob = await generatePdfReport(payload);
+    pdfBlob.value = blob;
+    notifySuccess('PDF report has been generated and is ready for download.');
     isGenerated.value = true;
   } catch (error) {
     console.error('PDF generation failed:', error);
@@ -126,7 +118,19 @@ async function handleGeneratePdf() {
 }
 
 function handleDownload() {
-  // For now, this button does nothing as per the plan.
-  notifySuccess('Download functionality is not yet implemented.');
+  if (!pdfBlob.value) {
+    notifyError('No PDF to download. Please generate the report first.');
+    return;
+  }
+
+  const url = window.URL.createObjectURL(pdfBlob.value);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${props.title.replaceAll(/\s+/g, '_')}_${props.submissionYear}.pdf`;
+  document.body.append(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(url);
+  notifySuccess('PDF download started.');
 }
 </script>

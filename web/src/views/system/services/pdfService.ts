@@ -10,14 +10,14 @@ export interface PdfReportPayload {
 }
 
 /**
- * Calls the PDF generation microservice to generate a PDF report and triggers a download.
+ * Calls the PDF generation microservice to generate a PDF report and returns the resulting Blob.
  * @param payload The data required to generate the report.
- * @returns A promise that resolves to true on success.
+ * @returns A promise that resolves to the PDF Blob on success.
  * @throws Error if the request fails or the server returns an error.
  */
 export async function generatePdfReport(
   payload: PdfReportPayload,
-): Promise<boolean> {
+): Promise<Blob> {
   const endpoint = 'http://localhost:3000/generate-pdf';
 
   try {
@@ -43,17 +43,7 @@ export async function generatePdfReport(
     // Get the PDF blob from the response
     const blob = await response.blob();
 
-    // Create a download link and trigger download
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${payload.title.replaceAll(/\s+/g, '_')}_${payload.submissionYear}.pdf`;
-    document.body.append(a);
-    a.click();
-    a.remove();
-    window.URL.revokeObjectURL(url);
-
-    return true;
+    return blob;
   } catch (error: any) {
     console.error('Error generating PDF:', error);
     throw error;
