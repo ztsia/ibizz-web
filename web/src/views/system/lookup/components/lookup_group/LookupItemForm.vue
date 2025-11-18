@@ -23,9 +23,7 @@
         </p>
       </div>
       <form @submit.prevent="onSave">
-        <div
-          class="grid max-h-[70vh] grid-cols-2 gap-4 overflow-y-auto p-4"
-        >
+        <div class="grid max-h-[70vh] grid-cols-2 gap-4 overflow-y-auto p-4">
           <div
             v-if="duplicateError"
             class="mb-4 rounded border border-red-200 bg-red-50 p-3 text-sm text-red-700"
