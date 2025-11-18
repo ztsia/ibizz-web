@@ -1,6 +1,6 @@
 import { mount, flushPromises } from '@vue/test-utils';
 import { describe, it, expect } from 'vitest';
-import FormItemList from '../FormItemList.vue';
+import FormItemList from '../components/fields/FormItemList.vue';
 import { FormTemplateField } from '../types';
 
 const MOCK_FIELD_UNKEYED: FormTemplateField = {

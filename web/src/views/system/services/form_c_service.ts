@@ -1,4 +1,4 @@
-import type { FormTemplate, FormSubmission } from '../multi_page_form/types';
+import type { FormTemplate, FormSubmission } from '../form_c/types';
 import { delay, genId } from './mock_db';
 import {
   formTemplate as formTemplateJson,
@@ -108,7 +108,18 @@ export const saveFormSubmission = async (
     (s) => s.year === submission.year,
   );
 
-  if (existingIndex > -1) {
+  if (existingIndex === -1) {
+    // Create a new submission for that year
+    const newSubmission = {
+      ...submission,
+      submissionId: genId(), // Generate a new ID
+      updated_at: new Date().toISOString(),
+    };
+    FORM_SUBMISSIONS.push(newSubmission);
+    // Return a deep copy
+    // eslint-disable-next-line unicorn/prefer-structured-clone
+    return JSON.parse(JSON.stringify(newSubmission));
+  } else {
     // Update existing submission for that year
     const existingSubmission = FORM_SUBMISSIONS[existingIndex];
     const updatedSubmission = {
@@ -120,17 +131,6 @@ export const saveFormSubmission = async (
     // Return a deep copy
     // eslint-disable-next-line unicorn/prefer-structured-clone
     return JSON.parse(JSON.stringify(updatedSubmission));
-  } else {
-    // Create a new submission for that year
-    const newSubmission = {
-      ...submission,
-      submissionId: genId(), // Generate a new ID
-      updated_at: new Date().toISOString(),
-    };
-    FORM_SUBMISSIONS.push(newSubmission);
-    // Return a deep copy
-    // eslint-disable-next-line unicorn/prefer-structured-clone
-    return JSON.parse(JSON.stringify(newSubmission));
   }
 };
 

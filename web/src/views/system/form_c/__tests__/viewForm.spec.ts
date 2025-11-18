@@ -1,6 +1,6 @@
 import { mount, flushPromises } from '@vue/test-utils';
 import { describe, it, expect, vi } from 'vitest';
-import MainFormLayout from '../MainFormLayout.vue';
+import OtherParticularsFormLayout from '../OtherParticularsFormLayout.vue';
 import * as formCService from '../../services/form_c_service';
 import { FormTemplate } from '../types';
 
@@ -27,7 +27,7 @@ const MOCK_TEMPLATE: FormTemplate = {
   ],
 };
 
-describe('mainFormLayout.vue', () => {
+describe('OtherParticularsFormLayout.vue', () => {
   it('should load the form template and render the first page', async () => {
     // Arrange
     vi.spyOn(formCService, 'getFormContext').mockResolvedValue({
@@ -36,7 +36,7 @@ describe('mainFormLayout.vue', () => {
       canEdit: true,
     });
 
-    const wrapper = mount(MainFormLayout, {
+    const wrapper = mount(OtherParticularsFormLayout, {
       props: { templateId: 'form-c-template-2025' },
     });
 
@@ -58,7 +58,7 @@ describe('mainFormLayout.vue', () => {
       canEdit: true,
     });
 
-    const wrapper = mount(MainFormLayout, {
+    const wrapper = mount(OtherParticularsFormLayout, {
       props: { templateId: 'form-c-template-2025' },
     });
 

@@ -160,11 +160,11 @@
 <script lang="ts" setup>
 import { ref, watch, computed, inject } from 'vue';
 import { Plus, X } from 'lucide-vue-next';
-import type { FormTemplateField, KeyedRow, UnkeyedRow } from '../types';
+import type { FormTemplateField, KeyedRow, UnkeyedRow } from '../../types';
 // @ts-ignore
-import FormField from './fields/FormField.vue';
+import FormField from './FormField.vue';
 // @ts-ignore
-import GeneratePdfControl from './form_lookup/GeneratePdfControl.vue';
+import GeneratePdfControl from '../GeneratePdfControl.vue';
 import {
   Button,
   Select,

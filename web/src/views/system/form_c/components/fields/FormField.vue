@@ -176,9 +176,9 @@ import type { FormTemplateField } from '../../types';
 import { useShowIfEngine } from '../../composables';
 // SFC imports: some TS setups don't expose default export types for .vue files.
 import ViewField from './ViewField.vue';
-import FormLookupInput from '../form_lookup/FormLookupInput.vue';
+import FormLookupInput from './FormLookupInput.vue';
 import ReadonlyNoteField from './ReadonlyNoteField.vue';
-import FormItemList from '../FormItemList.vue';
+import FormItemList from './FormItemList.vue';
 import { LookupSelect } from '../../../shared_components';
 import {
   Input,

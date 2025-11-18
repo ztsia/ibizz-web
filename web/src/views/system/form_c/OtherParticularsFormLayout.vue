@@ -102,7 +102,7 @@
 
     <!-- Current Page -->
     <div v-if="currentPage" class="space-y-4">
-      <FormPage
+      <AccordionPage
         :page="currentPage"
         :form-data="formData"
         :is-edit-mode="isEditMode"
@@ -119,7 +119,7 @@ import { message } from 'ant-design-vue';
 import { ChevronLeft, ChevronRight, Save } from 'lucide-vue-next';
 import { getFormContext, saveFormSubmission } from '../services';
 import type { FormTemplate, FormSubmission } from './types';
-import { FormPage } from './components';
+import { AccordionPage } from './components';
 import { ToggleEditViewButton } from '../shared_components';
 import {
   useShowIfEngine,

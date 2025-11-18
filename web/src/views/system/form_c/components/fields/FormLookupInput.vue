@@ -46,7 +46,7 @@ import type { FormTemplateField } from '../../types';
 import { LookupTable } from '../../../lookup/components';
 import * as lookupService from '../../../services';
 // @ts-ignore
-import GeneratePdfControl from './GeneratePdfControl.vue';
+import GeneratePdfControl from '../GeneratePdfControl.vue';
 
 const props = defineProps<{
   field: FormTemplateField;

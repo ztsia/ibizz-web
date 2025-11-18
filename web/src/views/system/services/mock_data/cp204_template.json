@@ -1,0 +1,386 @@
+[
+  {
+    "_id": "form_cp204_2024",
+    "formName": "CP204 Form",
+    "yearOfAssessment": 2024,
+    "pages": [
+      {
+        "id": "page_cp204",
+        "title": "CP204",
+        "show_if": null,
+        "sections": [
+          {
+            "part": "CP204_Main",
+            "title": "CP204",
+            "show_if": null,
+            "fields": [
+              {
+                "id": "cp204_cp205_date",
+                "label": "CP204 / CP205 Date",
+                "inputType": "date"
+              },
+              {
+                "id": "estimated_revised_previous_year",
+                "label": "Estimated Revised for previous year",
+                "inputType": "currency"
+              },
+              {
+                "id": "estimated_tax_current_year",
+                "label": "Estimated tax for current assessment year",
+                "inputType": "currency"
+              },
+              {
+                "id": "s107a_acp",
+                "label": "S107A ACP (Non Resident)",
+                "inputType": "checkbox"
+              },
+              {
+                "id": "acc_period_from",
+                "label": "Accounting Period",
+                "inputType": "date"
+              },
+              {
+                "id": "acc_period_to",
+                "label": "To",
+                "inputType": "date",
+                "isLabelHidden": true
+              },
+              {
+                "id": "basis_period_from",
+                "label": "Basis Period",
+                "inputType": "date"
+              },
+              {
+                "id": "basis_period_to",
+                "label": "To",
+                "inputType": "date",
+                "isLabelHidden": true
+              },
+              {
+                "id": "new_company_commenced_on",
+                "label": "New company business commenced on",
+                "inputType": "date"
+              },
+              {
+                "id": "new_company_sme_status",
+                "label": "New Company with SME status only, TA From",
+                "inputType": "date"
+              },
+              {
+                "id": "new_company_sme_status_to",
+                "label": "To",
+                "inputType": "date",
+                "isLabelHidden": true
+              },
+              {
+                "id": "financial_year_end",
+                "label": "Financial year end",
+                "inputType": "select",
+                "options": [
+                  { "label": "Not Applicable", "value": "not_applicable" }
+                ]
+              },
+              {
+                "id": "installments_1_to_11",
+                "label": "1 to 11 Installments",
+                "inputType": "currency"
+              },
+              {
+                "id": "final_installment",
+                "label": "Final installment",
+                "inputType": "currency"
+              },
+              {
+                "id": "new_company_or_change_fye",
+                "label": "New company or change of financial year end",
+                "inputType": "checkbox"
+              },
+              {
+                "id": "following_basis_period_from",
+                "label": "Following assessment basis period from",
+                "inputType": "date"
+              },
+              {
+                "id": "following_basis_period_to",
+                "label": "To",
+                "inputType": "date",
+                "isLabelHidden": true
+              },
+              {
+                "id": "next_basis_period_from",
+                "label": "Next assessment basis period from",
+                "inputType": "date"
+              },
+              {
+                "id": "next_basis_period_to",
+                "label": "To",
+                "inputType": "date",
+                "isLabelHidden": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "page_cp204a",
+        "title": "CP204A",
+        "show_if": null,
+        "sections": [
+          {
+            "part": "CP204A_1st_Revision",
+            "title": "1st Revision",
+            "show_if": null,
+            "fields": [
+              {
+                "id": "revision_1_toggle",
+                "label": "1st Revision",
+                "inputType": "checkbox"
+              },
+              {
+                "id": "revision_1_application_made",
+                "label": "Application made before the 15th day of the sixth month",
+                "inputType": "checkbox"
+              },
+              {
+                "id": "revision_1_date",
+                "label": "CP204A Date",
+                "inputType": "date"
+              },
+              {
+                "id": "revision_1_revised_estimated_tax",
+                "label": "Revised estimated tax payable",
+                "inputType": "currency"
+              },
+              {
+                "id": "revision_1_less_tax_paid",
+                "label": "Less Tax paid to date",
+                "inputType": "currency"
+              },
+              {
+                "id": "revision_1_balance_estimated_tax",
+                "label": "Balance estimated tax payable",
+                "inputType": "currency"
+              },
+              {
+                "id": "revision_1_revised_installment_6_11",
+                "label": "Revised installment tax payment 6th to 11th installment @",
+                "inputType": "currency"
+              },
+              {
+                "id": "revision_1_final_installment",
+                "label": "Final Installment",
+                "inputType": "currency"
+              }
+            ]
+          },
+          {
+            "part": "CP204A_2nd_Revision",
+            "title": "2nd Revision",
+            "show_if": null,
+            "fields": [
+              {
+                "id": "revision_2_toggle",
+                "label": "2nd Revision",
+                "inputType": "checkbox"
+              },
+              {
+                "id": "revision_2_application_made",
+                "label": "Application made before the 15th day of the ninth month",
+                "inputType": "checkbox"
+              },
+              {
+                "id": "revision_2_date",
+                "label": "CP204A Date",
+                "inputType": "date"
+              },
+              {
+                "id": "revision_2_revised_estimated_tax",
+                "label": "Revised estimated tax payable",
+                "inputType": "currency"
+              },
+              {
+                "id": "revision_2_less_tax_paid",
+                "label": "Less Tax paid to date",
+                "inputType": "currency"
+              },
+              {
+                "id": "revision_2_balance_estimated_tax",
+                "label": "Balance estimated tax payable",
+                "inputType": "currency"
+              },
+              {
+                "id": "revision_2_revised_installment_9_11",
+                "label": "Revised installment tax payment 9th to 11th installment @",
+                "inputType": "currency"
+              },
+              {
+                "id": "revision_2_final_installment",
+                "label": "Final Installment",
+                "inputType": "currency"
+              }
+            ]
+          },
+          {
+            "part": "CP204A_Special_Revision",
+            "title": "Special Revision",
+            "show_if": null,
+            "fields": [
+              {
+                "id": "special_revision_type",
+                "label": "Revision Type",
+                "inputType": "select"
+              },
+              {
+                "id": "special_revision_date",
+                "label": "Application / CP205 Date",
+                "inputType": "date"
+              },
+              {
+                "id": "special_revision_revised_estimated_tax",
+                "label": "Revised estimated tax payable",
+                "inputType": "currency"
+              }
+            ]
+          },
+          {
+            "part": "CP204A_3rd_Revision",
+            "title": "3rd Revision",
+            "show_if": null,
+            "fields": [
+              {
+                "id": "revision_3_toggle",
+                "label": "3rd Revision",
+                "inputType": "checkbox"
+              },
+              {
+                "id": "revision_3_application_made",
+                "label": "Application made before the 15th day of the eleventh month",
+                "inputType": "checkbox"
+              },
+              {
+                "id": "revision_3_date",
+                "label": "CP204A Date",
+                "inputType": "date"
+              },
+              {
+                "id": "revision_3_revised_estimated_tax",
+                "label": "Revised estimated tax payable",
+                "inputType": "currency"
+              },
+              {
+                "id": "revision_3_less_tax_paid",
+                "label": "Less Tax paid to date",
+                "inputType": "currency"
+              },
+              {
+                "id": "revision_3_balance_estimated_tax",
+                "label": "Balance estimated tax payable",
+                "inputType": "currency"
+              },
+              {
+                "id": "revision_3_revised_installment_11",
+                "label": "Revised installment tax payment 11th installment @",
+                "inputType": "currency"
+              },
+              {
+                "id": "revision_3_final_installment",
+                "label": "Final Installment",
+                "inputType": "currency"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "page_cp204b",
+        "title": "CP204B",
+        "show_if": null,
+        "sections": [
+          {
+            "part": "CP204B_Main",
+            "title": "CP204B",
+            "show_if": null,
+            "fields": [
+              {
+                "id": "cp204b_date",
+                "label": "CP204B Date",
+                "inputType": "date"
+              },
+              {
+                "id": "cp204b_current_acc_from",
+                "label": "Current accounting period",
+                "inputType": "date"
+              },
+              {
+                "id": "cp204b_current_acc_to",
+                "label": "To",
+                "inputType": "date",
+                "isLabelHidden": true
+              },
+              {
+                "id": "cp204b_new_acc_from",
+                "label": "New accounting period",
+                "inputType": "date"
+              },
+              {
+                "id": "cp204b_new_acc_to",
+                "label": "To",
+                "inputType": "date",
+                "isLabelHidden": true
+              },
+              {
+                "id": "cp204b_current_basis_from",
+                "label": "Current assessment year basis period",
+                "inputType": "date"
+              },
+              {
+                "id": "cp204b_current_basis_to",
+                "label": "To",
+                "inputType": "date",
+                "isLabelHidden": true
+              },
+              {
+                "id": "cp204b_following_basis_from",
+                "label": "Following assessment basis period from",
+                "inputType": "date"
+              },
+              {
+                "id": "cp204b_following_basis_to",
+                "label": "To",
+                "inputType": "date",
+                "isLabelHidden": true
+              },
+              {
+                "id": "cp204b_next_basis_from",
+                "label": "Next assessment basis period from",
+                "inputType": "date"
+              },
+              {
+                "id": "cp204b_next_basis_to",
+                "label": "To",
+                "inputType": "date",
+                "isLabelHidden": true
+              },
+              {
+                "id": "cp204b_previous_estimated_tax",
+                "label": "Previous estimated tax payable",
+                "inputType": "currency"
+              },
+              {
+                "id": "cp204b_revised_estimated_tax",
+                "label": "Revised estimated tax payable",
+                "inputType": "currency"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "page_payment",
+        "title": "PAYMENT",
+        "show_if": null,
+        "sections": []
+      }
+    ]
+  }
+]

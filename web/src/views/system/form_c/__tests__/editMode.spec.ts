@@ -1,6 +1,6 @@
 import { mount, flushPromises } from '@vue/test-utils';
 import { describe, it, expect, vi } from 'vitest';
-import MainFormLayout from '../MainFormLayout.vue';
+import OtherParticularsFormLayout from '../OtherParticularsFormLayout.vue';
 import * as formCService from '../../services/form_c_service';
 import { FormTemplate, FormSubmission } from '../types';
 
@@ -43,7 +43,7 @@ const MOCK_SUBMISSION: FormSubmission = {
   updated_at: '2025-01-15T10:00:00Z',
 };
 
-describe('edit Mode in MainFormLayout', () => {
+describe('edit Mode in OtherParticularsFormLayout', () => {
   it('should toggle between view and edit mode', async () => {
     vi.spyOn(formCService, 'getFormContext').mockResolvedValue({
       template: MOCK_TEMPLATE,
@@ -51,7 +51,7 @@ describe('edit Mode in MainFormLayout', () => {
       canEdit: true,
     });
 
-    const wrapper = mount(MainFormLayout, {
+    const wrapper = mount(OtherParticularsFormLayout, {
       props: { templateId: 'form-c-template-2025', submissionId: 'sub-2025-1' },
     });
     await flushPromises();
@@ -72,7 +72,7 @@ describe('edit Mode in MainFormLayout', () => {
       canEdit: true,
     });
 
-    const wrapper = mount(MainFormLayout, {
+    const wrapper = mount(OtherParticularsFormLayout, {
       props: { templateId: 'form-c-template-2025', submissionId: 'sub-2025-1' },
     });
     await flushPromises();
@@ -102,7 +102,7 @@ describe('edit Mode in MainFormLayout', () => {
       canEdit: true,
     });
 
-    const wrapper = mount(MainFormLayout, {
+    const wrapper = mount(OtherParticularsFormLayout, {
       props: { templateId: 'form-c-template-2025', submissionId: 'sub-2025-1' },
     });
     await flushPromises();

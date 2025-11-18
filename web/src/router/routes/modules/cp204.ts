@@ -2,13 +2,13 @@ import type { RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
   {
-    path: '/form-c',
-    name: 'FormC',
+    path: '/cp204',
+    name: 'CP204',
     component: () =>
-      import('#/views/system/form_c/OtherParticularsFormLayout.vue'),
+      import('#/views/system/form_c/CP204FormLayout.vue'),
     meta: {
-      title: 'Form C',
-      icon: 'lucide:building-2',
+      title: 'CP204',
+      icon: 'lucide:file-text',
       requiresAuth: true,
     },
   },
