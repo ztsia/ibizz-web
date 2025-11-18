@@ -2,7 +2,9 @@
   <template v-if="field.inputType === 'boolean'">
     <div class="flex items-center space-x-2">
       <Checkbox :id="`${field.id}-view`" :checked="rawValue" disabled />
-      <Label :for="`${field.id}-view`" class="font-normal">{{ field.label }}</Label>
+      <Label :for="`${field.id}-view`" class="font-normal">{{
+        field.label
+      }}</Label>
     </div>
   </template>
   <template v-else>

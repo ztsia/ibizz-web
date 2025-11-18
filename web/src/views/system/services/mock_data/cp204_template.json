@@ -77,7 +77,9 @@
                 "label": "Financial year end",
                 "inputType": "select",
                 "options": [
-                  { "label": "Not Applicable", "value": "not_applicable" }
+                  { "label": "Not Applicable", "value": "not_applicable" },
+                  { "label": "Same with associate / group company", "value": "same_with_associate_group_company" },
+                  { "label": "Different from associate / group company", "value": "different_from_associate_group_company" }
                 ]
               },
               {

@@ -10,10 +10,9 @@
     </div>
   </div>
   <div v-else-if="template" class="mx-auto max-w-5xl p-6">
-    <!-- Header with title and toggle -->
+    <!-- Header with title -->
     <div class="mb-6 flex items-center justify-between border-b pb-4">
       <h1 class="text-3xl font-bold">{{ template.formName }}</h1>
-      <ToggleEditViewButton v-if="canEdit" v-model:isEditing="isEditMode" />
     </div>
 
     <!-- Tabs Navigation -->
@@ -29,32 +28,40 @@
         <CardPage
           :page="page"
           :form-data="formData"
-          :is-edit-mode="isEditMode"
+          :is-edit-mode="true"
           :errors="errors"
+          :is-form-valid="isFormValid"
           @update:field="updateField"
+          @view-page="openViewModal"
         />
       </TabsContent>
     </Tabs>
 
-    <!-- Save Button (bottom right, only in edit mode) -->
-    <div v-if="isEditMode" class="mt-6 flex justify-end">
+    <!-- Save Button (bottom right, always in edit mode) -->
+    <div v-if="canEdit" class="mt-6 flex justify-end">
       <Button @click="onSave" :disabled="!hasChanges">
         <Save class="mr-2 h-4 w-4" />
         Save
       </Button>
     </div>
   </div>
+
+  <CP204ViewModal
+    v-model="isViewModalOpen"
+    :form-data="formData"
+    :page-id="pageIdToView"
+  />
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, computed, watch, provide } from 'vue';
+import { ref, onMounted, computed, provide } from 'vue';
 import { message } from 'ant-design-vue';
 import { Save } from 'lucide-vue-next';
 import { getFormContext, saveFormSubmission } from '../services/cp204_service';
 import type { FormTemplate, FormSubmission } from './types';
 // @ts-ignore
 import { CardPage } from './components';
-import { ToggleEditViewButton } from '../shared_components';
+import CP204ViewModal from './components/CP204ViewModal.vue';
 import { useFormValidation, useVisibleFields } from './composables';
 import {
   VbenSpinner,
@@ -71,8 +78,11 @@ const originalFormData = ref<Record<string, any>>({});
 const canEdit = ref(false);
 const loading = ref(true);
 const error = ref<string | null>(null);
-const isEditMode = ref(false);
+const isEditMode = ref(true); // Default to edit mode
 const currentTab = ref<string>('');
+
+const isViewModalOpen = ref(false);
+const pageIdToView = ref<string | null>(null);
 
 const { visibleFieldIds } = useVisibleFields(template, formData);
 const { errors, validate } = useFormValidation(
@@ -81,6 +91,12 @@ const { errors, validate } = useFormValidation(
   visibleFieldIds,
 );
 
+const isFormValid = computed(() => {
+  // Trigger validation to update errors, then check if errors object is empty
+  validate();
+  return Object.keys(errors.value).length === 0;
+});
+
 // All pages are visible in CP204 (no show_if filtering at page level)
 const pages = computed(() => {
   if (!template.value || !template.value.pages) return [];
@@ -88,14 +104,15 @@ const pages = computed(() => {
 });
 
 // Watch for changes in edit mode to reset data on cancel
-watch(isEditMode, (isEditing, wasEditing) => {
-  if (!isEditing && wasEditing) {
-    // eslint-disable-next-line unicorn/prefer-structured-clone
-    formData.value = JSON.parse(JSON.stringify(originalFormData.value));
-    errors.value = {}; // Clear all validation errors
-    message.info('Changes cancelled.');
-  }
-});
+// This watch is no longer needed as the main form is always in edit mode
+// and there's no inline view/edit toggle.
+// watch(isEditMode, (isEditing, wasEditing) => {
+//   if (!isEditing && wasEditing) {
+//     formData.value = JSON.parse(JSON.stringify(originalFormData.value));
+//     errors.value = {}; // Clear all validation errors
+//     message.info('Changes cancelled.');
+//   }
+// });
 
 const hasChanges = computed(() => {
   const getSortedStringify = (obj: any) => {
@@ -146,6 +163,12 @@ provide(
 
 const updateField = ({ fieldId, value }: { fieldId: string; value: any }) => {
   formData.value[fieldId] = value;
+  validate(); // Trigger validation on every field update
+};
+
+const openViewModal = (pageId: string) => {
+  pageIdToView.value = pageId;
+  isViewModalOpen.value = true;
 };
 
 const onSave = async () => {
@@ -170,7 +193,7 @@ const onSave = async () => {
     formData.value = JSON.parse(JSON.stringify(savedSubmission.data));
     // eslint-disable-next-line unicorn/prefer-structured-clone
     originalFormData.value = JSON.parse(JSON.stringify(savedSubmission.data));
-    isEditMode.value = false;
+    // isEditMode.value = false; // No longer needed as it's always true
 
     message.success('Form saved successfully!');
   } catch (error_: any) {

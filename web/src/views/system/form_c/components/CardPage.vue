@@ -1,5 +1,14 @@
 <template>
   <div class="space-y-4">
+    <div class="mb-4 flex justify-end">
+      <Button
+        v-if="isFormValid"
+        variant="outline"
+        @click="emit('view-page', page.id)"
+      >
+        View
+      </Button>
+    </div>
     <SectionCard
       v-for="section in page.sections"
       :key="section.part"
@@ -15,15 +24,17 @@
 import type { FormTemplatePage } from '../types';
 // @ts-ignore
 import { SectionCard } from './';
+import { Button } from '@vben-core/shadcn-ui';
 
 defineProps<{
   page: FormTemplatePage;
   formData: Record<string, any>;
   isEditMode: boolean;
   errors?: Record<string, string>;
+  isFormValid: boolean;
 }>();
 
-const emit = defineEmits(['update:field']);
+const emit = defineEmits(['update:field', 'view-page']);
 
 const onUpdateField = (payload: { fieldId: string; value: any }) => {
   emit('update:field', payload);
