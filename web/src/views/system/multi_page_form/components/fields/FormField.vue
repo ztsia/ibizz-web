@@ -85,6 +85,7 @@
           "
           :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
           style="width: 100%"
+          class="h-10"
           :class="{ 'border-destructive': error }"
         />
 
