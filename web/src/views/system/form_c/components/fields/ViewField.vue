@@ -24,7 +24,7 @@ const displayValue = computed(() => {
     Array.isArray(field.options)
   ) {
     const opt = field.options.find((o: any) => String(o.value) === String(v));
-    return opt ? opt.label : v ?? '';
+    return opt ? opt.label : (v ?? '');
   }
 
   // Checkboxes (multi-select): map values to labels

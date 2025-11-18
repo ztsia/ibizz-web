@@ -1,8 +1,10 @@
-export function formatNumber(value: number | string | null | undefined): string {
+export function formatNumber(
+  value: number | string | null | undefined,
+): string {
   if (value === null || value === undefined || value === '') {
     return '—';
   }
-  const num = Number(String(value).replace(/[,]/g, ''));
+  const num = Number(String(value).replaceAll(',', ''));
   if (Number.isNaN(num)) {
     return String(value);
   }

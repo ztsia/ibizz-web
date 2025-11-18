@@ -87,7 +87,10 @@
             </td>
             <td v-for="col in columns" :key="col.name" class="px-4 py-3">
               {{
-                getFormattedValue(item.columns ? item.columns[col.name] : '', col)
+                getFormattedValue(
+                  item.columns ? item.columns[col.name] : '',
+                  col,
+                )
               }}
             </td>
             <td v-if="props.showActions" class="w-24 px-4 py-3 text-center">

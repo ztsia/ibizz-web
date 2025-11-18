@@ -80,6 +80,7 @@
                     "
                     :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
                     style="width: 100%"
+                    class="h-10"
                     :required="col.required"
                     v-bind="fieldAttributes(col)"
                     data-test="item-field"
