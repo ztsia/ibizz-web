@@ -24,7 +24,7 @@
       </div>
       <form @submit.prevent="onSave">
         <div
-          class="grid max-h-[70vh] grid-cols-2 gap-4 overflow-y-auto py-4 pr-4"
+          class="grid max-h-[70vh] grid-cols-2 gap-4 overflow-y-auto p-4"
         >
           <div
             v-if="duplicateError"
@@ -67,7 +67,9 @@
                   />
                 </template>
                 <template
-                  v-else-if="getColumnFieldType(col, props.group) === 'currency'"
+                  v-else-if="
+                    getColumnFieldType(col, props.group) === 'currency'
+                  "
                 >
                   <InputNumber
                     :id="col.name"
