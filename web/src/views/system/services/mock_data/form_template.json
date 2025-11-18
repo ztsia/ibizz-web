@@ -371,25 +371,23 @@
               {
                 "id": "sales_my",
                 "label": "Sales/Revenue (In Malaysia)",
-                "inputType": "number",
+                "inputType": "currency",
                 "required": true
               },
               {
-                "id": "purchases_my",
-                "label": "Purchases/Expenditure (In Malaysia)",
-                "inputType": "number",
+                "inputType": "currency",
                 "required": true
               },
               {
                 "id": "sales_os",
                 "label": "Sales/Revenue (Outside Malaysia)",
-                "inputType": "number",
+                "inputType": "currency",
                 "required": true
               },
               {
                 "id": "purchases_os",
                 "label": "Purchases/Expenditure (Outside Malaysia)",
-                "inputType": "number",
+                "inputType": "currency",
                 "required": true
               }
             ]
@@ -464,25 +462,25 @@
               {
                 "id": "total",
                 "label": "Total of Payment (RM)",
-                "inputType": "number",
+                "inputType": "currency",
                 "required": true
               },
               {
                 "id": "allowed_exemption",
                 "label": "Amounts Allowed for Deduction [Exemption from the provisions of paragraph 39(1)(r) ITA under PUA 425/2021] (RM)",
-                "inputType": "number",
+                "inputType": "currency",
                 "required": true
               },
               {
                 "id": "allowed",
                 "label": "Amounts Allowed for Deduction (RM)",
-                "inputType": "number",
+                "inputType": "currency",
                 "required": true
               },
               {
                 "id": "not_allowed",
                 "label": "Amounts Not Allowed for Deduction under Paragraph 39(1)(r) (RM)",
-                "inputType": "number",
+                "inputType": "currency",
                 "required": true
               }
             ]
