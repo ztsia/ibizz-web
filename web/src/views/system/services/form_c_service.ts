@@ -83,52 +83,64 @@ export const getFormTemplate = async (): Promise<FormTemplate> => {
 };
 
 /**
- * Get the latest submission from the JSON fixture
+ * Get a submission by year
  */
-export const getLatestSubmission = async (): Promise<
-  FormSubmission | undefined
-> => {
+export const getSubmissionByYear = async (
+  year: number,
+): Promise<FormSubmission | undefined> => {
   await delay();
-  if (FORM_SUBMISSIONS.length === 0) return undefined;
-
-  // Sort by year descending and return the latest
-  const sorted = [...FORM_SUBMISSIONS].sort((a, b) => b.year - a.year);
-  const latest = sorted[0];
-  return latest ? { ...latest } : undefined;
+  const submission = FORM_SUBMISSIONS.find((s) => s.year === year);
+  // Return a deep copy to prevent direct mutation of the in-memory store
+  // eslint-disable-next-line unicorn/prefer-structured-clone
+  return submission ? JSON.parse(JSON.stringify(submission)) : undefined;
 };
 
 /**
- * Save/update a form submission
+ * Save/update a form submission based on its year.
  */
 export const saveFormSubmission = async (
   submission: FormSubmission,
 ): Promise<FormSubmission> => {
   await delay();
-  const newSubmission = {
-    ...submission,
-    submissionId: submission.submissionId || genId(),
-    updated_at: new Date().toISOString(),
-  };
 
-  const index = FORM_SUBMISSIONS.findIndex(
-    (s) => s.submissionId === newSubmission.submissionId,
+  // Find existing submission for the same year
+  const existingIndex = FORM_SUBMISSIONS.findIndex(
+    (s) => s.year === submission.year,
   );
-  if (index === -1) {
-    FORM_SUBMISSIONS.push(newSubmission);
-  } else {
-    FORM_SUBMISSIONS[index] = newSubmission;
-  }
 
-  return { ...newSubmission };
+  if (existingIndex > -1) {
+    // Update existing submission for that year
+    const existingSubmission = FORM_SUBMISSIONS[existingIndex];
+    const updatedSubmission = {
+      ...submission,
+      submissionId: existingSubmission.submissionId, // Ensure we keep the original ID
+      updated_at: new Date().toISOString(),
+    };
+    FORM_SUBMISSIONS[existingIndex] = updatedSubmission;
+    // Return a deep copy
+    // eslint-disable-next-line unicorn/prefer-structured-clone
+    return JSON.parse(JSON.stringify(updatedSubmission));
+  } else {
+    // Create a new submission for that year
+    const newSubmission = {
+      ...submission,
+      submissionId: genId(), // Generate a new ID
+      updated_at: new Date().toISOString(),
+    };
+    FORM_SUBMISSIONS.push(newSubmission);
+    // Return a deep copy
+    // eslint-disable-next-line unicorn/prefer-structured-clone
+    return JSON.parse(JSON.stringify(newSubmission));
+  }
 };
 
 /**
- * Get the complete form context (template + latest submission)
+ * Get the complete form context (template + submission for the template's year)
  */
 export const getFormContext = async () => {
   await delay();
   const template = await getFormTemplate();
-  const submission = await getLatestSubmission();
+  const submission = await getSubmissionByYear(template.yearOfAssessment);
 
   // For this frontend-only mock, we assume the user always has edit rights
   const canEdit = true;
