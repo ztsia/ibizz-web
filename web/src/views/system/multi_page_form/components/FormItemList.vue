@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-4">
+  <div v-if="field.itemStructure" class="space-y-4">
     <!-- PDF Control (View Mode Only) -->
     <div v-if="!isEditMode" class="flex justify-end">
       <GeneratePdfControl
@@ -97,7 +97,7 @@
                     class="max-h-60 w-[--radix-select-trigger-width]"
                   >
                     <SelectItem
-                      v-for="option in getAvailableKeysForRow(item)"
+                      v-for="option in getAvailableKeysForRow(item as KeyedRow)"
                       :key="option.value"
                       :value="option.value"
                       class="whitespace-normal"
@@ -116,12 +116,12 @@
                 <FormField
                   :field="logAndReturnField(valueField)"
                   :form-data="item.values"
-                  :is-edit-mode="!isFieldDisabled(item, valueField.id)"
+                  :is-edit-mode="!isFieldDisabled(item as KeyedRow, valueField.id)"
                   :compact="true"
                   @update:field="
                     (payload) =>
                       handleItemFieldUpdate(
-                        item,
+                        item as KeyedRow,
                         payload.fieldId,
                         payload.value,
                       )
@@ -186,7 +186,10 @@ const props = defineProps<{
 const emit = defineEmits(['update:field']);
 
 // Inject submissionYear with fallback
-const submissionYear = inject('submissionYear', computed(() => new Date().getFullYear()));
+const submissionYear = inject(
+  'submissionYear',
+  computed(() => new Date().getFullYear()),
+);
 
 const items = ref<Array<KeyedRow | UnkeyedRow>>(
   props.formData[props.field.id] || [],
@@ -212,8 +215,8 @@ watch(
 watch(
   () => props.isEditMode,
   (isEditing, wasEditing) => {
-    // If we are transitioning from Edit Mode to View Mode, clean up empty rows
     if (!isEditing && wasEditing) {
+      if (!props.field.itemStructure) return;
       items.value = items.value.filter((item) => {
         if (props.field.itemStructure.key) {
           return (
@@ -221,7 +224,6 @@ watch(
             (item as KeyedRow).key !== undefined
           );
         }
-        // Add logic for unkeyed items if needed, for now, keep them
         return true;
       });
     }
@@ -229,70 +231,60 @@ watch(
 );
 
 const getAvailableKeysForRow = (currentItem: KeyedRow) => {
-  if (!props.field.itemStructure?.key) return [];
+  const options = props.field.itemStructure?.key?.options;
+  if (!options) return [];
 
-  // If repeating keys are allowed, return all options
   if (props.field.allowRepeating) {
-    return props.field.itemStructure.key.options;
+    return options;
   }
 
-  // Otherwise, filter out keys used in OTHER rows
   const usedKeysInOtherRows = new Set(
     (items.value as KeyedRow[])
       .filter((item) => item !== currentItem)
       .map((item) => item.key),
   );
 
-  return props.field.itemStructure.key.options.filter(
-    (opt) => !usedKeysInOtherRows.has(opt.value),
-  );
+  return options.filter((opt) => !usedKeysInOtherRows.has(opt.value));
 };
 
 const isFieldDisabled = (item: KeyedRow, fieldId: string): boolean => {
-  // Unkeyed items never have disabled fields
-  if (!props.field.itemStructure?.key) {
+  const options = props.field.itemStructure?.key?.options;
+  if (!options) {
     return false;
   }
 
-  // Disable all value fields if no key is selected for the row
   if (!item.key) {
     return true;
   }
 
-  // Find the selected option for the current row's key
-  const selectedOption = props.field.itemStructure.key.options.find(
-    (opt) => opt.value === item.key,
-  );
-
-  // Check for the disabledFields property on the selected option
+  const selectedOption = options.find((opt) => opt.value === item.key);
   const disabledFields = selectedOption?.disabledFields || [];
   return disabledFields.includes(fieldId);
 };
 
 const getKeyLabel = (key: string): string => {
-  if (!props.field.itemStructure?.key) return key;
-  const option = props.field.itemStructure.key.options.find(
-    (opt) => opt.value === key,
-  );
+  const options = props.field.itemStructure?.key?.options;
+  if (!options) return key;
+  const option = options.find((opt) => opt.value === key);
   return option?.label || key;
 };
 
 const addRow = () => {
-  if (props.field.itemStructure?.key) {
-    // Keyed
+  const itemStructure = props.field.itemStructure;
+  if (!itemStructure) return;
+
+  if (itemStructure.key) {
     const newRow: KeyedRow = {
-      key: null, // Start with null key
+      key: null,
       values: {},
     };
-    // Pre-fill value keys to ensure reactivity
-    props.field.itemStructure.values.forEach((val) => {
+    itemStructure.values.forEach((val) => {
       newRow.values[val.id] = '';
     });
     items.value.push(newRow);
   } else {
-    // Unkeyed
     const newRow: UnkeyedRow = {};
-    props.field.itemStructure.values.forEach((val) => {
+    itemStructure.values.forEach((val) => {
       newRow[val.id] = '';
     });
     items.value.push(newRow);
@@ -319,49 +311,50 @@ const logAndReturnField = (valueField) => {
 
 // Computed: PDF Headers
 const pdfHeaders = computed(() => {
-  const headers: Array<{key: string; label: string}> = [];
-  
-  // Add key header if present
-  if (props.field.itemStructure.key) {
+  const itemStructure = props.field.itemStructure;
+  if (!itemStructure) return [];
+
+  const headers: Array<{ key: string; label: string }> = [];
+
+  if (itemStructure.key) {
     headers.push({
       key: 'key',
-      label: props.field.itemStructure.key.label,
+      label: itemStructure.key.label,
     });
   }
-  
-  // Add value headers
-  props.field.itemStructure.values.forEach(valueField => {
+
+  itemStructure.values.forEach((valueField) => {
     headers.push({
       key: valueField.id,
       label: valueField.label,
     });
   });
-  
+
   return headers;
 });
 
 // Computed: PDF Rows
 const pdfRows = computed(() => {
+  const itemStructure = props.field.itemStructure;
+  if (!itemStructure) return [];
+
   return items.value.map((item, index) => {
     const columns: Record<string, any> = {};
-    
-    if (props.field.itemStructure.key) {
-      // Keyed item
+
+    if (itemStructure.key) {
       const keyedItem = item as KeyedRow;
       columns.key = getKeyLabel(keyedItem.key || '');
-      
-      // Add values
-      props.field.itemStructure.values.forEach(valueField => {
+
+      itemStructure.values.forEach((valueField) => {
         columns[valueField.id] = keyedItem.values[valueField.id] || '';
       });
     } else {
-      // Unkeyed item
       const unkeyedItem = item as UnkeyedRow;
-      props.field.itemStructure.values.forEach(valueField => {
+      itemStructure.values.forEach((valueField) => {
         columns[valueField.id] = unkeyedItem[valueField.id] || '';
       });
     }
-    
+
     return {
       id: String(index),
       columns,
