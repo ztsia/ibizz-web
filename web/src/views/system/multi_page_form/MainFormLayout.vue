@@ -185,7 +185,9 @@ watch(isEditMode, (isEditing, wasEditing) => {
     return;
   }
   if (!isEditing && wasEditing) {
-    console.log('[watch isEditMode] Reverting changes and showing cancel message.');
+    console.log(
+      '[watch isEditMode] Reverting changes and showing cancel message.',
+    );
     // eslint-disable-next-line unicorn/prefer-structured-clone
     formData.value = JSON.parse(JSON.stringify(originalFormData.value));
     errors.value = {}; // Clear all validation errors
@@ -376,8 +378,11 @@ const onSave = async () => {
     console.error('[onSave] Error during save:', error_);
     message.error(error_.message || 'Failed to save form.');
   } finally {
-    console.log('[onSave] finally block: Setting isSaving to false.');
-    isSaving.value = false;
+    console.log('[onSave] finally block: Setting isSaving to false (delayed).');
+    setTimeout(() => {
+      isSaving.value = false;
+      console.log('[onSave] isSaving reset to false after delay.');
+    }, 0);
   }
 };
 </script>
