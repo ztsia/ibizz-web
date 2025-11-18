@@ -45,7 +45,9 @@
               <td
                 v-if="field.itemStructure.key"
                 class="w-1/4 px-4 py-3 font-medium"
-              ></td>
+              >
+                {{ getKeyLabel((item as KeyedRow).key || '') }}
+              </td>
               <td
                 v-for="valueField in field.itemStructure.values"
                 :key="valueField.id"
