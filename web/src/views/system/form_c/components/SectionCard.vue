@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, toRef } from 'vue';
+import { toRef } from 'vue';
 import type { FormTemplateSection } from '../types';
 import { useShowIfEngine } from '../composables/useShowIfEngine';
 import { FormField } from './fields';

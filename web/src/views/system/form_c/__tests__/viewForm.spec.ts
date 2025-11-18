@@ -27,7 +27,7 @@ const MOCK_TEMPLATE: FormTemplate = {
   ],
 };
 
-describe('OtherParticularsFormLayout.vue', () => {
+describe('otherParticularsFormLayout.vue', () => {
   it('should load the form template and render the first page', async () => {
     // Arrange
     vi.spyOn(formCService, 'getFormContext').mockResolvedValue({

@@ -19,21 +19,13 @@
     <!-- Tabs Navigation -->
     <Tabs v-model="currentTab" class="w-full">
       <TabsList class="mb-6 grid w-full grid-cols-4">
-        <TabsTrigger
-          v-for="page in pages"
-          :key="page.id"
-          :value="page.id"
-        >
+        <TabsTrigger v-for="page in pages" :key="page.id" :value="page.id">
           {{ page.title }}
         </TabsTrigger>
       </TabsList>
 
       <!-- Tab Content -->
-      <TabsContent
-        v-for="page in pages"
-        :key="page.id"
-        :value="page.id"
-      >
+      <TabsContent v-for="page in pages" :key="page.id" :value="page.id">
         <CardPage
           :page="page"
           :form-data="formData"
@@ -58,16 +50,23 @@
 import { ref, onMounted, computed, watch, provide } from 'vue';
 import { message } from 'ant-design-vue';
 import { Save } from 'lucide-vue-next';
-import { getFormContext, saveFormSubmission } from '../../services/cp204_service';
+import {
+  getFormContext,
+  saveFormSubmission,
+} from '../../services/cp204_service';
 import type { FormTemplate, FormSubmission } from './types';
 // @ts-ignore
 import { CardPage } from './components';
 import { ToggleEditViewButton } from '../shared_components';
+import { useFormValidation, useVisibleFields } from './composables';
 import {
-  useFormValidation,
-  useVisibleFields,
-} from './composables';
-import { VbenSpinner, Button, Tabs, TabsContent, TabsList, TabsTrigger } from '@vben-core/shadcn-ui';
+  VbenSpinner,
+  Button,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@vben-core/shadcn-ui';
 
 const template = ref<FormTemplate | null>(null);
 const formData = ref<Record<string, any>>({});
@@ -129,7 +128,7 @@ onMounted(async () => {
       );
     }
     canEdit.value = context.canEdit;
-    
+
     // Set default tab to first page
     if (pages.value.length > 0) {
       currentTab.value = pages.value[0].id;
@@ -143,7 +142,10 @@ onMounted(async () => {
 });
 
 // Provide submissionYear to all descendant components
-provide('submissionYear', computed(() => template.value?.yearOfAssessment || new Date().getFullYear()));
+provide(
+  'submissionYear',
+  computed(() => template.value?.yearOfAssessment || new Date().getFullYear()),
+);
 
 const updateField = ({ fieldId, value }: { fieldId: string; value: any }) => {
   formData.value[fieldId] = value;

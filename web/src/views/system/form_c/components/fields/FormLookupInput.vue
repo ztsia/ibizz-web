@@ -57,7 +57,10 @@ const props = defineProps<{
 const emit = defineEmits(['update:field']);
 
 // Inject submissionYear with fallback
-const submissionYear = inject('submissionYear', computed(() => new Date().getFullYear()));
+const submissionYear = inject(
+  'submissionYear',
+  computed(() => new Date().getFullYear()),
+);
 
 const group = ref<any>(null);
 

@@ -16,7 +16,7 @@
  *   use real persistence and appropriate concurrency controls.
  */
 
-import { db, delay, genId } from './mock_db';
+import { db, delay, genId } from './';
 
 /**
  * tableNameFor()

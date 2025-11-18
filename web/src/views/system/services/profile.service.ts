@@ -33,7 +33,7 @@
  *   return a Conflict error to the client.
  */
 
-import { db, delay } from './mock_db';
+import { db, delay } from './';
 
 // Type definition for user info (used by the userInfoProvider)
 interface UserInfo {

@@ -1,5 +1,5 @@
 import type { FormTemplate, FormSubmission } from '../form_c/types';
-import { delay, genId } from './mock_db';
+import { delay, genId } from './';
 import {
   formTemplate as formTemplateJson,
   formSubmission as formSubmissionJson,

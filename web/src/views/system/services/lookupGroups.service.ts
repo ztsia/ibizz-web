@@ -6,7 +6,7 @@
  * The original implementation used Supabase with a `lookup_groups` table and several RPC functions.
  */
 
-import { db, delay, genId } from './mock_db';
+import { db, delay, genId } from './';
 
 /**
  * List lookup groups for a specific category.

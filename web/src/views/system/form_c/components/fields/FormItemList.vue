@@ -118,7 +118,9 @@
                 <FormField
                   :field="logAndReturnField(valueField)"
                   :form-data="item.values"
-                  :is-edit-mode="!isFieldDisabled(item as KeyedRow, valueField.id)"
+                  :is-edit-mode="
+                    !isFieldDisabled(item as KeyedRow, valueField.id)
+                  "
                   :compact="true"
                   @update:field="
                     (payload) =>

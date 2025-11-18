@@ -25,7 +25,7 @@ const props = defineProps<{
   headers: any[];
   lookupSlug?: string;
   selectedRowIds: string[];
-  allRows?: Array<{id: string; columns: Record<string, any>}>;
+  allRows?: Array<{ id: string; columns: Record<string, any> }>;
 }>();
 
 const isGenerating = ref(false);
@@ -49,7 +49,7 @@ async function handleGeneratePdf() {
 
   try {
     let rawRows;
-    
+
     // 1. Fetch all items (or use provided rows)
     if (props.allRows) {
       // Use provided rows directly (for FormItemList)
