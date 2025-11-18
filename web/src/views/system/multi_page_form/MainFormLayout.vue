@@ -173,8 +173,19 @@ watch(visiblePages, (newPages) => {
 
 // When user cancels editing by toggling back to view mode
 watch(isEditMode, (isEditing, wasEditing) => {
-  if (isSaving.value) return;
+  console.log(
+    '[watch isEditMode] Triggered. isEditing:',
+    isEditing,
+    'wasEditing:',
+    wasEditing,
+  );
+  console.log('[watch isEditMode] isSaving.value:', isSaving.value);
+  if (isSaving.value) {
+    console.log('[watch isEditMode] isSaving is true, returning.');
+    return;
+  }
   if (!isEditing && wasEditing) {
+    console.log('[watch isEditMode] Reverting changes and showing cancel message.');
     // eslint-disable-next-line unicorn/prefer-structured-clone
     formData.value = JSON.parse(JSON.stringify(originalFormData.value));
     errors.value = {}; // Clear all validation errors
@@ -320,13 +331,18 @@ const updateField = ({ fieldId, value }: { fieldId: string; value: any }) => {
 /* debug overlay removed */
 
 const onSave = async () => {
+  console.log('[onSave] Starting save process.');
   if (!validate()) {
     message.error('Please fix the validation errors before saving.');
     return;
   }
 
-  if (!template.value) return;
+  if (!template.value) {
+    console.log('[onSave] No template found, aborting.');
+    return;
+  }
 
+  console.log('[onSave] Setting isSaving to true.');
   isSaving.value = true;
   try {
     const submissionToSave: FormSubmission = {
@@ -336,18 +352,31 @@ const onSave = async () => {
       data: formData.value,
       updated_at: new Date().toISOString(),
     };
+    console.log(
+      '[onSave] Calling saveFormSubmission with data:',
+      JSON.stringify(submissionToSave.data, null, 2),
+    );
 
     const savedSubmission = await saveFormSubmission(submissionToSave);
+    console.log(
+      '[onSave] Save successful. Received data:',
+      JSON.stringify(savedSubmission.data, null, 2),
+    );
+
     // eslint-disable-next-line unicorn/prefer-structured-clone
     formData.value = JSON.parse(JSON.stringify(savedSubmission.data));
     // eslint-disable-next-line unicorn/prefer-structured-clone
     originalFormData.value = JSON.parse(JSON.stringify(savedSubmission.data));
+
+    console.log('[onSave] Setting isEditMode to false.');
     isEditMode.value = false;
 
     message.success('Form saved successfully!');
   } catch (error_: any) {
+    console.error('[onSave] Error during save:', error_);
     message.error(error_.message || 'Failed to save form.');
   } finally {
+    console.log('[onSave] finally block: Setting isSaving to false.');
     isSaving.value = false;
   }
 };
