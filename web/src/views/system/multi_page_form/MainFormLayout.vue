@@ -137,6 +137,7 @@ const loading = ref(true);
 const error = ref<string | null>(null);
 const isEditMode = ref(false);
 const currentPageIndex = ref(0);
+const isSaving = ref(false);
 
 const { visibleFieldIds } = useVisibleFields(template, formData);
 const { errors, validate, validatePage } = useFormValidation(
@@ -172,6 +173,7 @@ watch(visiblePages, (newPages) => {
 
 // When user cancels editing by toggling back to view mode
 watch(isEditMode, (isEditing, wasEditing) => {
+  if (isSaving.value) return;
   if (!isEditing && wasEditing) {
     // eslint-disable-next-line unicorn/prefer-structured-clone
     formData.value = JSON.parse(JSON.stringify(originalFormData.value));
@@ -279,7 +281,10 @@ onMounted(async () => {
 });
 
 // Provide submissionYear to all descendant components
-provide('submissionYear', computed(() => template.value?.yearOfAssessment || new Date().getFullYear()));
+provide(
+  'submissionYear',
+  computed(() => template.value?.yearOfAssessment || new Date().getFullYear()),
+);
 
 // Watch formData changes to help debug dynamic visibility
 watch(
@@ -322,6 +327,7 @@ const onSave = async () => {
 
   if (!template.value) return;
 
+  isSaving.value = true;
   try {
     const submissionToSave: FormSubmission = {
       submissionId: originalFormData.value.submissionId || '',
@@ -341,6 +347,8 @@ const onSave = async () => {
     message.success('Form saved successfully!');
   } catch (error_: any) {
     message.error(error_.message || 'Failed to save form.');
+  } finally {
+    isSaving.value = false;
   }
 };
 </script>
