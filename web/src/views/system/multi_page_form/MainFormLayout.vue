@@ -114,7 +114,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, computed, watch, provide } from 'vue';
 import { message } from 'ant-design-vue';
 import { ChevronLeft, ChevronRight, Save } from 'lucide-vue-next';
 import { getFormContext, saveFormSubmission } from '../services';
@@ -277,6 +277,9 @@ onMounted(async () => {
     loading.value = false;
   }
 });
+
+// Provide submissionYear to all descendant components
+provide('submissionYear', computed(() => template.value?.yearOfAssessment || new Date().getFullYear()));
 
 // Watch formData changes to help debug dynamic visibility
 watch(

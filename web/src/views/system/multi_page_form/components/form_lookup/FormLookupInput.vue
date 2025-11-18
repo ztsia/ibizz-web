@@ -29,7 +29,7 @@
       <GeneratePdfControl
         v-if="!isEditMode"
         :title="group.title || group.name || group.slug || props.field.label"
-        :submission-year="new Date().getFullYear()"
+        :submission-year="submissionYear"
         :headers="tableColumns"
         :lookup-slug="tableSlug"
         :selected-row-ids="fieldValue"
@@ -41,10 +41,11 @@
 
 <script lang="ts" setup>
 import { Info } from 'lucide-vue-next';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, inject } from 'vue';
 import type { FormTemplateField } from '../../types';
 import { LookupTable } from '../../../lookup/components';
 import * as lookupService from '../../../services';
+// @ts-ignore
 import GeneratePdfControl from './GeneratePdfControl.vue';
 
 const props = defineProps<{
@@ -54,6 +55,9 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits(['update:field']);
+
+// Inject submissionYear with fallback
+const submissionYear = inject('submissionYear', computed(() => new Date().getFullYear()));
 
 const group = ref<any>(null);
 

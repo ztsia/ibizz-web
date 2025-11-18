@@ -76,6 +76,18 @@
           :class="{ 'border-destructive': error }"
         />
 
+        <InputNumber
+          v-else-if="field.inputType === 'currency'"
+          :id="field.id"
+          v-model:value="fieldValue"
+          :formatter="
+            (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+          "
+          :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
+          style="width: 100%"
+          :class="{ 'border-destructive': error }"
+        />
+
         <!-- Radio buttons -->
         <div
           v-else-if="field.inputType === 'radio'"
@@ -179,6 +191,7 @@ import {
   SelectContent,
   SelectItem,
 } from '@vben-core/shadcn-ui';
+import { InputNumber } from 'ant-design-vue';
 
 const props = defineProps<{
   field: FormTemplateField;

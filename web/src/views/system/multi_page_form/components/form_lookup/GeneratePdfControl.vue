@@ -23,8 +23,9 @@ const props = defineProps<{
   title: string;
   submissionYear: number;
   headers: any[];
-  lookupSlug: string;
+  lookupSlug?: string;
   selectedRowIds: string[];
+  allRows?: Array<{id: string; columns: Record<string, any>}>;
 }>();
 
 const isGenerating = ref(false);
@@ -47,11 +48,21 @@ async function handleGeneratePdf() {
   pdfBlob.value = null;
 
   try {
-    // 1. Fetch all items
-    const result = await lookupService.listItems(props.lookupSlug, {
-      perPage: 9999, // Fetch all items
-    });
-    const rawRows = Array.isArray(result) ? result : result?.items || [];
+    let rawRows;
+    
+    // 1. Fetch all items (or use provided rows)
+    if (props.allRows) {
+      // Use provided rows directly (for FormItemList)
+      rawRows = props.allRows;
+    } else if (props.lookupSlug) {
+      // Fetch from lookup service (for FormLookupInput)
+      const result = await lookupService.listItems(props.lookupSlug, {
+        perPage: 9999,
+      });
+      rawRows = Array.isArray(result) ? result : result?.items || [];
+    } else {
+      throw new Error('Either allRows or lookupSlug must be provided');
+    }
 
     // 2. Transform rows to match PDF service schema: { id, columns: {...} }
     const allRows = rawRows.map((row: any) => {

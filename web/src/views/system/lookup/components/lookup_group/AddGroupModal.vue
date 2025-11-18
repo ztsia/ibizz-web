@@ -482,6 +482,7 @@ const baseColumnTypes: ColumnTypeOption[] = [
     submenu: [
       { label: 'Integer', value: 'int' },
       { label: 'Float', value: 'double' },
+      { label: 'Currency', value: 'currency' },
     ],
   },
   {
@@ -599,6 +600,12 @@ const modalTitle = computed(() =>
   props.mode === 'edit' ? 'Edit Lookup Group' : 'Add Lookup Group',
 );
 
+// Refs for new column inputs. Placed before watcher to avoid TDZ when
+// the watcher runs immediately during setup.
+const newCol = ref({ label: '', type: '' });
+const isNewColLabelInvalid = ref(false);
+const isNewColTypeInvalid = ref(false);
+
 watch(
   visible,
   (val) => {
@@ -616,10 +623,6 @@ watch(
   },
   { immediate: true },
 );
-
-const newCol = ref({ label: '', type: '' });
-const isNewColLabelInvalid = ref(false);
-const isNewColTypeInvalid = ref(false);
 
 watch(
   () => newCol.value.label,

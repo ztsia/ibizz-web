@@ -17,6 +17,7 @@ export function getFieldType(
   const ty = String(col.type || '').toLowerCase();
   if (ty === 'int') return 'int';
   if (ty === 'double') return 'double';
+  if (ty === 'currency') return 'currency';
   if (ty === 'month') return 'month';
   if (ty === 'year') return 'year';
   if (ty === 'string') return 'string';
@@ -57,6 +58,7 @@ export function getFieldLabel(
   // Prioritize col.type from schema
   if (ty === 'int') return `${base} (integer)`;
   if (ty === 'double') return `${base} (float)`;
+  if (ty === 'currency') return `${base} (currency)`;
   if (ty === 'month') return `${base} (month, 1-12)`;
   if (ty === 'year') return `${base} (year, 4 digits)`;
   if (ty === 'string') return `${base} (string)`;

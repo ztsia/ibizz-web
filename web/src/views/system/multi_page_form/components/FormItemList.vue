@@ -1,5 +1,16 @@
 <template>
   <div class="space-y-4">
+    <!-- PDF Control (View Mode Only) -->
+    <div v-if="!isEditMode" class="flex justify-end">
+      <GeneratePdfControl
+        :title="field.label"
+        :submission-year="submissionYear"
+        :headers="pdfHeaders"
+        :all-rows="pdfRows"
+        :selected-row-ids="[]"
+      />
+    </div>
+
     <!-- Display Table -->
     <div class="overflow-x-auto rounded-lg border">
       <table class="w-full table-fixed text-sm">
@@ -145,10 +156,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref, watch, computed, inject } from 'vue';
 import { Plus, X } from 'lucide-vue-next';
 import type { FormTemplateField, KeyedRow, UnkeyedRow } from '../types';
+// @ts-ignore
 import FormField from './fields/FormField.vue';
+// @ts-ignore
+import GeneratePdfControl from './form_lookup/GeneratePdfControl.vue';
 import {
   Button,
   Select,
@@ -161,9 +175,18 @@ const props = defineProps<{
   field: FormTemplateField;
   formData: Record<string, any>;
   isEditMode: boolean;
+  showPdf?: boolean;
+  pdfTitle?: string;
+  pdfSubmissionYear?: number;
+  pdfHeaders?: any[];
+  pdfLookupSlug?: string;
+  pdfSelectedRowIds?: string[];
 }>();
 
 const emit = defineEmits(['update:field']);
+
+// Inject submissionYear with fallback
+const submissionYear = inject('submissionYear', computed(() => new Date().getFullYear()));
 
 const items = ref<Array<KeyedRow | UnkeyedRow>>(
   props.formData[props.field.id] || [],
@@ -293,4 +316,56 @@ const logAndReturnField = (valueField) => {
   console.log('Passing to FormField:', syntheticField);
   return syntheticField;
 };
+
+// Computed: PDF Headers
+const pdfHeaders = computed(() => {
+  const headers: Array<{key: string; label: string}> = [];
+  
+  // Add key header if present
+  if (props.field.itemStructure.key) {
+    headers.push({
+      key: 'key',
+      label: props.field.itemStructure.key.label,
+    });
+  }
+  
+  // Add value headers
+  props.field.itemStructure.values.forEach(valueField => {
+    headers.push({
+      key: valueField.id,
+      label: valueField.label,
+    });
+  });
+  
+  return headers;
+});
+
+// Computed: PDF Rows
+const pdfRows = computed(() => {
+  return items.value.map((item, index) => {
+    const columns: Record<string, any> = {};
+    
+    if (props.field.itemStructure.key) {
+      // Keyed item
+      const keyedItem = item as KeyedRow;
+      columns.key = getKeyLabel(keyedItem.key || '');
+      
+      // Add values
+      props.field.itemStructure.values.forEach(valueField => {
+        columns[valueField.id] = keyedItem.values[valueField.id] || '';
+      });
+    } else {
+      // Unkeyed item
+      const unkeyedItem = item as UnkeyedRow;
+      props.field.itemStructure.values.forEach(valueField => {
+        columns[valueField.id] = unkeyedItem[valueField.id] || '';
+      });
+    }
+    
+    return {
+      id: String(index),
+      columns,
+    };
+  });
+});
 </script>

@@ -67,6 +67,23 @@
                   />
                 </template>
                 <template
+                  v-else-if="getColumnFieldType(col, props.group) === 'currency'"
+                >
+                  <InputNumber
+                    :id="col.name"
+                    v-model:value="form.columns[col.name]"
+                    :formatter="
+                      (value) =>
+                        `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                    "
+                    :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
+                    style="width: 100%"
+                    :required="col.required"
+                    v-bind="fieldAttributes(col)"
+                    data-test="item-field"
+                  />
+                </template>
+                <template
                   v-else-if="
                     String(col.type || '').toLowerCase() === 'text' &&
                     col.multiline
@@ -137,7 +154,7 @@
 
 <script lang="ts" setup>
 import { ref, watch, toRaw, computed } from 'vue';
-import { message } from 'ant-design-vue';
+import { message, InputNumber } from 'ant-design-vue';
 import { useForm } from 'vee-validate';
 import {
   suggestNextCode,
@@ -325,6 +342,7 @@ function isLookup(col: any) {
     'number',
     'text',
     'boolean',
+    'currency',
   ].includes(ty);
 }
 
@@ -334,6 +352,9 @@ function fieldAttributes(col: any) {
   if (isLookup(col)) {
     attrs['lookup-slug'] = ty;
   } else {
+    if (ty === 'currency') {
+      attrs.step = '0.01';
+    }
     if (ty === 'double') {
       attrs.step = '0.0001';
       attrs.onInput = (e: Event) => {

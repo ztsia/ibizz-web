@@ -12,7 +12,7 @@
           { "id": "company_name", "label": "Name of company", "inputType": "text" },
           { "id": "ref_no", "label": "Reference no. (registration no.)", "inputType": "text" },
           { "id": "company_tin", "label": "Tax Identification No. (TIN)", "inputType": "text" },
-          { "id": "incorporated_malaysia", "label": "Incorporated in Malaysia", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "incorporated_malaysia", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
           { "id": "labuan_tin", "label": "Labuan entity's TIN", "inputType": "text" },
           { "id": "country_residence", "label": "Country of residence", "inputType": "countries" },
           { "id": "employer_tin", "label": "Employer's TIN", "inputType": "text" },
@@ -22,15 +22,15 @@
           { "id": "acc_period_to", "label": "Accounting period to (dd/mm/yyyy)", "inputType": "date" },
           { "id": "basis_period_from", "label": "Basis period from (dd/mm/yyyy)", "inputType": "date" },
           { "id": "basis_period_to", "label": "Basis period to (dd/mm/yyyy)", "inputType": "date" },
-          { "id": "small_capital", "label": "Company with paid-up ordinary share capital not exceeding RM2.5 million at the beginning of the basis period, gross income from all business sources not exceeding RM50 million and fulfils the requirements under paragraph 2B and 2C, Part 1, Schedule 1", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-          { "id": "asset_backed", "label": "Company established for the issuance of asset-backed securities", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-          { "id": "limited_by_guarantee", "label": "Company limited by guarantee", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-          { "id": "controlled_company", "label": "Controlled company", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-          { "id": "foreign_no_share", "label": "Foreign company without share capital", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-          { "id": "statutory_body", "label": "Federal/State Statutory Body", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-          { "id": "permanent_establishment", "label": "Permanent Establishment in Malaysia", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-          { "id": "shareholding_change", "label": "Substantial change in shareholding and subsection 44(5A) applies", "inputType": "select", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }, { "label": "Not relevant", "value": "not_relevant" }] },
-          { "id": "group_relief", "label": "Claim/Surrender loss under the Group Relief provision", "inputType": "select", "options": [{ "label": "Claim", "value": "claim" }, { "label": "Surrender", "value": "surrender" }, { "label": "Not relevant", "value": "not_relevant" }] }
+          { "id": "small_capital", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "asset_backed", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "limited_by_guarantee", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "controlled_company", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "foreign_no_share", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "statutory_body", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "permanent_establishment", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "shareholding_change", "inputType": "select", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }, { "label": "Not relevant", "value": "not_relevant" }] },
+          { "id": "group_relief", "inputType": "select", "options": [{ "label": "Claim", "value": "claim" }, { "label": "Surrender", "value": "surrender" }, { "label": "Not relevant", "value": "not_relevant" }] }
         ]
       },
       {
@@ -45,32 +45,32 @@
           { "id": "town", "label": "Town", "inputType": "text" },
           { "id": "state", "label": "State", "inputType": "states" },
           { "id": "country", "label": "Country", "inputType": "countries" },
-          { "id": "tax_agent_address", "label": "Address in G1 is the tax agent's address", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-          { "id": "tax_refund_method", "label": "Method of payment for tax refund", "inputType": "select", "options": [{ "label": "Via own account in Malaysia", "value": "own_account" }, { "label": "Via DuitNow", "value": "duitnow" }, { "label": "Via overseas account/a third party account", "value": "overseas_third_party" }] },
+          { "id": "tax_agent_address", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "tax_refund_method", "inputType": "select", "options": [{ "label": "Via own account in Malaysia", "value": "own_account" }, { "label": "Via DuitNow", "value": "duitnow" }, { "label": "Via overseas account/a third party account", "value": "overseas_third_party" }] },
           { "id": "bank_name", "label": "Name of bank", "inputType": "text", "show_if": { "fieldId": "tax_refund_method", "operator": "not_equals", "value": "duitnow" } },
           { "id": "bank_account_no", "label": "Bank account no.", "inputType": "text", "show_if": { "fieldId": "tax_refund_method", "operator": "not_equals", "value": "duitnow" } },
           { "id": "bank_id_no", "label": "Bank identification no.", "inputType": "text", "show_if": { "fieldId": "tax_refund_method", "operator": "not_equals", "value": "duitnow" } },
           { "id": "directors_particulars", "label": "Particulars of company directors (Fill in the required appendix)", "inputType": "readonly_note" },
           { "id": "major_shareholders", "label": "Particulars of company's major shareholders (Fill in the required appendix)", "inputType": "readonly_note" },
           { "id": "beneficial_owner_info", "label": "Information of company's beneficial owner (Fill in the required appendix)", "inputType": "readonly_note" },
-          { "id": "dividend_payments", "label": "The company makes dividend payments to individual shareholders in the basis period", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-          { "id": "dividend_certificates", "label": "The company issues dividend certificates/vouchers to individual shareholders", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }], "show_if": { "fieldId": "dividend_payments", "operator": "equals", "value": "yes" } },
+          { "id": "dividend_payments", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "dividend_certificates", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }], "show_if": { "fieldId": "dividend_payments", "operator": "equals", "value": "yes" } },
           { "id": "dividend_exceeding_100k", "label": "The number of individual shareholders who received dividends exceeding RM100,000 (State the number)", "inputType": "number", "show_if": { "fieldId": "dividend_payments", "operator": "equals", "value": "yes" } },
           { "id": "foreign_equity_pct", "label": "Foreign equity in comparison with paid-up capital (%)", "inputType": "number" },
-          { "id": "glc", "label": "Government Linked Company (GLC)", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-          { "id": "listed_bursa", "label": "Company listed on Bursa Malaysia", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-          { "id": "has_holding_company", "label": "Has holding company", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-          { "id": "controlled_transactions", "label": "Carry out controlled transactions under section 139 and 140A", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-          { "id": "interest_restriction", "label": "Subject to interest restriction under section 140C", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-          { "id": "advance_ruling", "label": "Has Advance Ruling", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-          { "id": "advance_ruling_compliance", "label": "Compliance with Advance Ruling", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }], "show_if": { "fieldId": "advance_ruling", "operator": "equals", "value": "yes" } },
-          { "id": "advance_ruling_difference", "label": "Material difference in tax arrangement compared to Advance Ruling", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }], "show_if": { "fieldId": "advance_ruling", "operator": "equals", "value": "yes" } },
-          { "id": "apa", "label": "Has Advance Pricing Arrangement", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-          { "id": "apa_compliance", "label": "Compliance with Advance Pricing Arrangement", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }], "show_if": { "fieldId": "apa", "operator": "equals", "value": "yes" } },
-          { "id": "apa_difference", "label": "Material difference in tax arrangement compared to Advance Pricing Arrangement", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }], "show_if": { "fieldId": "apa", "operator": "equals", "value": "yes" } },
+          { "id": "glc", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "listed_bursa", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "has_holding_company", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "controlled_transactions", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "interest_restriction", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "advance_ruling", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "advance_ruling_compliance", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }], "show_if": { "fieldId": "advance_ruling", "operator": "equals", "value": "yes" } },
+          { "id": "advance_ruling_difference", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }], "show_if": { "fieldId": "advance_ruling", "operator": "equals", "value": "yes" } },
+          { "id": "apa", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "apa_compliance", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }], "show_if": { "fieldId": "apa", "operator": "equals", "value": "yes" } },
+          { "id": "apa_difference", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }], "show_if": { "fieldId": "apa", "operator": "equals", "value": "yes" } },
           { "id": "financial_appendix", "label": "Financial particulars of company (Fill in the required appendix)", "inputType": "readonly_note" },
-          { "id": "labuan_subsidiary", "label": "Has subsidiary company(ies) or related entity(ies) in the Federal Territory of Labuan", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-          { "id": "labuan_payments", "label": "Made payments to Labuan entity(ies)", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] }
+          { "id": "labuan_subsidiary", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "labuan_payments", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] }
         ]
       },
       {
@@ -79,22 +79,22 @@
         "show_if": null,
         "fields": [
           { "id": "preceding_income_type", "label": "Type of Income (for preceding year)", "inputType": "text" },
-            { "id": "preceding_income_ya", "label": "Year of Assessment (for preceding year)", "inputType": "number" },
-            { "id": "preceding_income_amount", "label": "Amount (for preceding year)", "inputType": "number" },
-            { "id": "withholding_payments", "label": "Made payments in the basis period which are subject to withholding tax under section 107A, 107B, 109, 109A, 109B, 109E, 109F and 109G", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-            { "id": "disposal_capital_performed", "label": "Disposal of capital asset under Income Tax Act 1967", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-            { "id": "disposal_capital_declared", "label": "Disposal of capital asset declared to IRBM", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }], "show_if": { "fieldId": "disposal_capital_performed", "operator": "equals", "value": "yes" } },
-            { "id": "disposal_rpgt_performed", "label": "Disposal of asset under the Real Property Gains Tax Act 1976", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-            { "id": "disposal_rpgt_declared", "label": "Disposal of asset declared to IRBM", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }], "show_if": { "fieldId": "disposal_rpgt_performed", "operator": "equals", "value": "yes" } },
-            { "id": "ecommerce_performed", "label": "Carry on E-commerce", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-            { "id": "ecommerce_model", "label": "E-Commerce business model", "inputType": "checkbox", "options": [{ "label": "Online sales/services", "value": "sales" }, { "label": "Online advertising", "value": "ads" }, { "label": "Cloud computing", "value": "cloud" }, { "label": "Payment services", "value": "payment" }, { "label": "Digital currency/digital token", "value": "digital" }, { "label": "e-Hailing/p-Hailing", "value": "hailing" }, { "label": "Other", "value": "other" }], "show_if": { "fieldId": "ecommerce_performed", "operator": "equals", "value": "yes" } },
-            { "id": "cbcr_subject_rules", "label": "Subject to Income Tax (Country-by-Country Reporting) Rules 2016", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-            { "id": "cbcr_reporting_status", "label": "Subject as a reporting entity/non-reporting entity", "inputType": "radio", "options": [{ "label": "Reporting entity", "value": "reporting" }, { "label": "Non-reporting entity", "value": "non_reporting" }], "show_if": { "fieldId": "cbcr_subject_rules", "operator": "equals", "value": "yes" } },
-            { "id": "has_foreign_fin_accounts", "label": "Has financial account(s) at financial institution(s) outside Malaysia", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-            { "id": "tax_governance", "label": "Company has implemented tax governance framework", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-            { "id": "participates_tax_governance", "label": "Company participates in IRBM's tax governance program", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }], "show_if": { "fieldId": "tax_governance", "operator": "equals", "value": "yes" } },
-            { "id": "subject_to_topup", "label": "Subject to Domestic Top-up Tax or Multinational Top-up Tax under Part XI of the Income Tax Act 1967", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
-            { "id": "ultimate_parent_info", "label": "Name of the Ultimate Parent Entity and its Jurisdiction (Use country code)", "inputType": "text", "show_if": { "fieldId": "subject_to_topup", "operator": "equals", "value": "yes" } }
+          { "id": "preceding_income_ya", "label": "Year of Assessment (for preceding year)", "inputType": "number" },
+          { "id": "preceding_income_amount", "label": "Amount (for preceding year)", "inputType": "currency" },
+          { "id": "withholding_payments", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "disposal_capital_performed", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "disposal_capital_declared", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }], "show_if": { "fieldId": "disposal_capital_performed", "operator": "equals", "value": "yes" } },
+          { "id": "disposal_rpgt_performed", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "disposal_rpgt_declared", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }], "show_if": { "fieldId": "disposal_rpgt_performed", "operator": "equals", "value": "yes" } },
+          { "id": "ecommerce_performed", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "ecommerce_model", "inputType": "checkbox", "options": [{ "label": "Online sales/services", "value": "sales" }, { "label": "Online advertising", "value": "ads" }, { "label": "Cloud computing", "value": "cloud" }, { "label": "Payment services", "value": "payment" }, { "label": "Digital currency/digital token", "value": "digital" }, { "label": "e-Hailing/p-Hailing", "value": "hailing" }, { "label": "Other", "value": "other" }], "show_if": { "fieldId": "ecommerce_performed", "operator": "equals", "value": "yes" } },
+          { "id": "cbcr_subject_rules", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "cbcr_reporting_status", "inputType": "radio", "options": [{ "label": "Reporting entity", "value": "reporting" }, { "label": "Non-reporting entity", "value": "non_reporting" }], "show_if": { "fieldId": "cbcr_subject_rules", "operator": "equals", "value": "yes" } },
+          { "id": "has_foreign_fin_accounts", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "tax_governance", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "participates_tax_governance", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }], "show_if": { "fieldId": "tax_governance", "operator": "equals", "value": "yes" } },
+          { "id": "subject_to_topup", "inputType": "radio", "options": [{ "label": "Yes", "value": "yes" }, { "label": "No", "value": "no" }] },
+          { "id": "ultimate_parent_info", "label": "Name of the Ultimate Parent Entity and its Jurisdiction (Use country code)", "inputType": "text", "show_if": { "fieldId": "subject_to_topup", "operator": "equals", "value": "yes" } }
         ]
       }
     ]
@@ -260,7 +260,7 @@
             { "value": "experimental_research", "label": "Systematic, investigative and experimental study that involves novelty" },
             { "value": "technical_risk", "label": "Technical risk carried out in the field of science or technology with the object of acquiring new knowledge" },
             { "value": "product_development", "label": "Study for the production or improvement of materials, devices, products, produce, or processes" },
-            { "value": "other", "label": "Others" }
+            { "value": "other", "label": "Other" }
           ],
           "show_if": { "fieldId": "rnd_performed", "operator": "equals", "value": "yes" }
         },
@@ -349,22 +349,22 @@
               {
                 "id": "sales_my",
                 "label": "Sales/Revenue (In Malaysia)",
-                "inputType": "number"
+                "inputType": "currency"
               },
               {
                 "id": "purchases_my",
                 "label": "Purchases/Expenditure (In Malaysia)",
-                "inputType": "number"
+                "inputType": "currency"
               },
               {
                 "id": "sales_os",
                 "label": "Sales/Revenue (Outside Malaysia)",
-                "inputType": "number"
+                "inputType": "currency"
               },
               {
                 "id": "purchases_os",
                 "label": "Purchases/Expenditure (Outside Malaysia)",
-                "inputType": "number"
+                "inputType": "currency"
               }
             ]
           }
