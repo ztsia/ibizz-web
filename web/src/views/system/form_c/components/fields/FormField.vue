@@ -8,11 +8,11 @@
     }"
   >
     <div
-      v-if="field.inputType !== 'lookup' && !props.compact"
+      v-if="!['lookup', 'boolean'].includes(field.inputType) && !props.compact"
       class="mb-2 min-h-[24px]"
     >
       <Label
-        v-if="!field.isLabelHidden && field.inputType !== 'lookup'"
+        v-if="!field.isLabelHidden && !['lookup', 'boolean'].includes(field.inputType)"
         :for="field.id"
         >{{ field.label }}</Label
       >
@@ -139,6 +139,21 @@
               >{{ option.label }}</Label
             >
           </div>
+        </div>
+        <!-- Boolean Checkbox -->
+        <div
+          v-else-if="field.inputType === 'boolean'"
+          class="flex items-center space-x-2"
+        >
+          <Checkbox
+            :id="field.id"
+            :checked="fieldValue"
+            @update:checked="fieldValue = $event"
+            :class="{ 'border-destructive': error }"
+          />
+          <Label :for="field.id" class="cursor-pointer font-normal">{{
+            field.label
+          }}</Label>
         </div>
         <!-- Select dropdown -->
         <Select v-else-if="field.inputType === 'select'" v-model="fieldValue">

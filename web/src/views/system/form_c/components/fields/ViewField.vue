@@ -1,11 +1,17 @@
 <template>
-  <div class="text-muted-foreground text-sm">{{ displayValue || '—' }}</div>
+  <template v-if="field.inputType === 'boolean'">
+    <Checkbox :checked="rawValue" disabled />
+  </template>
+  <template v-else>
+    <div class="text-muted-foreground text-sm">{{ displayValue || '—' }}</div>
+  </template>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue';
 import type { FormTemplateField } from '../../types';
 import { formatNumber } from '../../../lookup/utils';
+import { Checkbox } from '@vben-core/shadcn-ui';
 
 const props = defineProps<{
   field: FormTemplateField;
@@ -24,7 +30,7 @@ const displayValue = computed(() => {
     Array.isArray(field.options)
   ) {
     const opt = field.options.find((o: any) => String(o.value) === String(v));
-    return opt ? opt.label : (v ?? '');
+    return opt ? opt.label : v ?? '';
   }
 
   // Checkboxes (multi-select): map values to labels
