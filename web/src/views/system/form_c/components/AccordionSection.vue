@@ -52,7 +52,7 @@ import type { FormTemplateSection } from '../types';
 import { useShowIfEngine } from '../composables';
 // SFC runtime import - TypeScript may not recognize the default export typing for .vue files in some configs.
 // @ts-ignore-next-line
-import FormField from './fields/FormField.vue';
+import { FormField } from './';
 import {
   Accordion,
   AccordionContent,

@@ -20,7 +20,7 @@
 <script lang="ts" setup>
 import { toRef } from 'vue';
 import type { FormTemplateSection } from '../types';
-import { useShowIfEngine } from '../composables/useShowIfEngine';
+import { useShowIfEngine } from '../composables';
 import { FormField } from './fields';
 
 const props = defineProps<{

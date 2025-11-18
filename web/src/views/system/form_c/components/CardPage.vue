@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import type { FormTemplatePage } from '../types';
 // @ts-ignore
-import SectionCard from './SectionCard.vue';
+import { SectionCard } from './';
 
 defineProps<{
   page: FormTemplatePage;

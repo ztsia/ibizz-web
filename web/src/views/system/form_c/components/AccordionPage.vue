@@ -17,7 +17,7 @@
 
 <script lang="ts" setup>
 import { computed, ref, toRef, watch } from 'vue';
-import AccordionSection from './AccordionSection.vue';
+import { AccordionSection } from './';
 import type { FormTemplatePage } from '../types';
 import { useShowIfEngine } from '../composables';
 
