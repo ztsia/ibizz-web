@@ -15,9 +15,9 @@
 import { ref, computed } from 'vue';
 import { Button } from '@vben-core/shadcn-ui';
 import { Loader2, FileText } from 'lucide-vue-next';
-import { generatePdfReport } from '../../../services';
-import * as lookupService from '../../../services';
-import { notifyError, notifySuccess } from '../../../lookup/utils/index';
+import { generatePdfReport } from '../../services';
+import * as lookupService from '../../services';
+import { notifyError, notifySuccess } from '../../lookup/utils';
 
 const props = defineProps<{
   title: string;

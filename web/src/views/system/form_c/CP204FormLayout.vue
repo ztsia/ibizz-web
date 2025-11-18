@@ -53,7 +53,7 @@ import { Save } from 'lucide-vue-next';
 import {
   getFormContext,
   saveFormSubmission,
-} from '../../services/cp204_service';
+} from '../services/cp204_service';
 import type { FormTemplate, FormSubmission } from './types';
 // @ts-ignore
 import { CardPage } from './components';

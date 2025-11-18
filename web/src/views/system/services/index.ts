@@ -4,7 +4,6 @@ export * from './lookupTableManager.service';
 export * from './mock_db';
 export * from './profile.service';
 export * from './form_c_service';
-export * from './cp204_service';
 export * from './pdfService';
 
 // NOTE: `http.client`, `config`, and `supabase` were removed in favor of the
