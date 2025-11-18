@@ -12,7 +12,10 @@
       class="mb-2 min-h-[24px]"
     >
       <Label
-        v-if="!field.isLabelHidden && !['lookup', 'boolean'].includes(field.inputType)"
+        v-if="
+          !field.isLabelHidden &&
+          !['lookup', 'boolean'].includes(field.inputType)
+        "
         :for="field.id"
         >{{ field.label }}</Label
       >

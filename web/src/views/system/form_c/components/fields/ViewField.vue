@@ -1,6 +1,9 @@
 <template>
   <template v-if="field.inputType === 'boolean'">
-    <Checkbox :checked="rawValue" disabled />
+    <div class="flex items-center space-x-2">
+      <Checkbox :id="`${field.id}-view`" :checked="rawValue" disabled />
+      <Label :for="`${field.id}-view`" class="font-normal">{{ field.label }}</Label>
+    </div>
   </template>
   <template v-else>
     <div class="text-muted-foreground text-sm">{{ displayValue || '—' }}</div>
@@ -30,7 +33,7 @@ const displayValue = computed(() => {
     Array.isArray(field.options)
   ) {
     const opt = field.options.find((o: any) => String(o.value) === String(v));
-    return opt ? opt.label : v ?? '';
+    return opt ? opt.label : (v ?? '');
   }
 
   // Checkboxes (multi-select): map values to labels
