@@ -3,12 +3,12 @@
     <div v-if="group">
       <div
         v-if="isEditMode"
-        class="mb-4 flex items-start space-x-3 border-l-4 border-primary bg-primary/10 p-3"
+        class="border-primary bg-primary/10 mb-4 flex items-start space-x-3 border-l-4 p-3"
       >
         <div>
-          <Info class="h-5 w-5 text-primary" />
+          <Info class="text-primary h-5 w-5" />
         </div>
-        <p class="text-sm text-primary">
+        <p class="text-primary text-sm">
           Use the checkboxes to select all items you want to include in your
           form. Unchecked items will be ignored and not saved.
         </p>

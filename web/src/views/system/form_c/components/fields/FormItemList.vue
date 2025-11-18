@@ -54,9 +54,12 @@
                 class="text-muted-foreground px-4 py-3"
               >
                 {{
-                  field.itemStructure.key
-                    ? item.values[valueField.id]
-                    : item[valueField.id] || '—'
+                  getFormattedValue(
+                    field.itemStructure.key
+                      ? item.values[valueField.id]
+                      : item[valueField.id],
+                    valueField,
+                  )
                 }}
               </td>
             </tr>
@@ -162,7 +165,12 @@
 <script lang="ts" setup>
 import { ref, watch, computed, inject } from 'vue';
 import { Plus, X } from 'lucide-vue-next';
-import type { FormTemplateField, KeyedRow, UnkeyedRow } from '../../types';
+import type {
+  FormTemplateField,
+  KeyedRow,
+  UnkeyedRow,
+  ItemStructureValue,
+} from '../../types';
 // @ts-ignore
 import { FormField } from './';
 // @ts-ignore
@@ -174,6 +182,7 @@ import {
   SelectContent,
   SelectItem,
 } from '@vben-core/shadcn-ui';
+import { formatNumber } from '../../../lookup/utils';
 
 const props = defineProps<{
   field: FormTemplateField;
@@ -233,6 +242,19 @@ watch(
     }
   },
 );
+
+const getFormattedValue = (
+  value: any,
+  valueField: ItemStructureValue,
+): string => {
+  if (
+    valueField.inputType === 'currency' ||
+    valueField.inputType === 'number'
+  ) {
+    return formatNumber(value);
+  }
+  return value || '—';
+};
 
 const getAvailableKeysForRow = (currentItem: KeyedRow) => {
   const options = props.field.itemStructure?.key?.options;

@@ -50,10 +50,7 @@
 import { ref, onMounted, computed, watch, provide } from 'vue';
 import { message } from 'ant-design-vue';
 import { Save } from 'lucide-vue-next';
-import {
-  getFormContext,
-  saveFormSubmission,
-} from '../services/cp204_service';
+import { getFormContext, saveFormSubmission } from '../services/cp204_service';
 import type { FormTemplate, FormSubmission } from './types';
 // @ts-ignore
 import { CardPage } from './components';

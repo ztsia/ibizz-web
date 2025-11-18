@@ -5,6 +5,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import type { FormTemplateField } from '../../types';
+import { formatNumber } from '../../../lookup/utils';
 
 const props = defineProps<{
   field: FormTemplateField;
@@ -23,7 +24,7 @@ const displayValue = computed(() => {
     Array.isArray(field.options)
   ) {
     const opt = field.options.find((o: any) => String(o.value) === String(v));
-    return opt ? opt.label : (v ?? '');
+    return opt ? opt.label : v ?? '';
   }
 
   // Checkboxes (multi-select): map values to labels
@@ -39,6 +40,11 @@ const displayValue = computed(() => {
       return opt ? opt.label : String(val);
     });
     return labels.join(', ');
+  }
+
+  // Currency and numbers: format with thousand separators
+  if (field.inputType === 'currency' || field.inputType === 'number') {
+    return formatNumber(v);
   }
 
   // Fallback: show raw value

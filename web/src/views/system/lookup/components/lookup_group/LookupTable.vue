@@ -86,7 +86,9 @@
               />
             </td>
             <td v-for="col in columns" :key="col.name" class="px-4 py-3">
-              {{ item.columns ? item.columns[col.name] : '' }}
+              {{
+                getFormattedValue(item.columns ? item.columns[col.name] : '', col)
+              }}
             </td>
             <td v-if="props.showActions" class="w-24 px-4 py-3 text-center">
               <GroupActions
@@ -204,7 +206,7 @@ import { ref, computed, watch, onMounted, getCurrentInstance } from 'vue';
 import { DeleteConfirm } from '../../../shared_components';
 import { LookupItemForm, GroupActions } from '..';
 import * as lookupService from '../../../services';
-import { notifySuccess, notifyError } from '../../utils';
+import { notifySuccess, notifyError, formatNumber } from '../../utils';
 import { Button, Input } from '@vben-core/shadcn-ui';
 import { X } from '@vben/icons';
 
@@ -265,6 +267,13 @@ const selectAllCheckbox = ref<HTMLInputElement | null>(null);
 const visibleItemIds = computed(
   () => new Set(localItems.value.map((item) => item.id)),
 );
+
+const getFormattedValue = (value: any, column: any): string => {
+  if (column.type === 'currency' || column.type === 'number') {
+    return formatNumber(value);
+  }
+  return value || '';
+};
 
 const selectedVisibleCount = computed(() => {
   if (!props.selection) return 0;

@@ -4,3 +4,4 @@ export * from './slugify';
 export * from './code';
 export * from './validators';
 export * from './fields';
+export * from './format';
