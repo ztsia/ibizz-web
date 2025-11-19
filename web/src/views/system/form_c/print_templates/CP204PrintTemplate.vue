@@ -275,15 +275,19 @@ const getDisplayValue = (fieldId: string, value: any) => {
 .cp204-print-template {
   line-height: 1.4;
 }
+
 .field-value {
   @apply ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm;
 }
+
 .field-value-small {
   @apply flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm;
 }
+
 .print-checkbox {
   @apply h-4 w-4 border-2 border-gray-700;
 }
+
 @media print {
   .cp204-print-template {
     font-size: 12px;
