@@ -75,8 +75,11 @@ These require an `options` array in the Field Object.
 ### Specialized Inputs
 
 - **`"readonly_note"`**: Renders a simple, non-editable text block. It does not store any data.
+- **`"boolean"`**: Renders a single `Checkbox` with the label positioned to its right. This is ideal for simple "Yes/No" or "On/Off" toggles where the value is stored as a `true` or `false` boolean.
+- **`"currency"`**: Renders a numeric input (`InputNumber`) specifically for handling monetary values. It automatically formats the displayed value with thousand separators (e.g., "1,000,000") and handles parsing of the formatted string back to a number.
 - **`"countries"` / `"states"`**: These are special-purpose lookup slugs that render a pre-configured `LookupSelect` component for selecting countries or states.
 - **`"lookup"`**: Renders a generic, searchable `FormLookupInput` component. The `label` of the field is used as the `slug` to fetch the correct lookup data from the backend (e.g., a `label` of `"labuan-entities"` will fetch data for that lookup).
+- **`"placeholder"`**: A special layout-only field. It renders an empty, invisible, full-width container. Its sole purpose is to act as a spacer to push subsequent fields to the next row in a multi-column layout, allowing for more complex form arrangements. It does not store any data and is not visible to the user.
 
 ### Complex Input: `itemList`
 

@@ -17,6 +17,11 @@ export function useShowIfEngine(
         return res;
       }
 
+      if (condition.operator === 'and') {
+        const res = condition.conditions?.every((c) => evaluate(c)) ?? false;
+        return res;
+      }
+
       if (!condition.fieldId) {
         return true;
       }

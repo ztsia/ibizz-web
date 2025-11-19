@@ -14,8 +14,10 @@
       <!-- Row 1 -->
       <div class="flex items-center">
         <label class="w-1/2 font-medium">CP204 / CP205 Date</label>
-        <div class="field-value w-1/2">
-          {{ formData['cp204_cp205_date'] || '—' }}
+        <div class="field-value">
+          {{
+            getDisplayValue('cp204_cp205_date', formData['cp204_cp205_date'])
+          }}
         </div>
       </div>
       <!-- Row 2 -->
@@ -23,8 +25,15 @@
         <label class="w-1/2 font-medium"
           >Estimated Revised for previous year</label
         >
-        <div class="field-value w-1/2">
-          {{ formatNumber(formData['estimated_revised_previous_year']) }}
+        <div class="field-value">
+          {{
+            formatNumber(
+              getDisplayValue(
+                'estimated_revised_previous_year',
+                formData['estimated_revised_previous_year'],
+              ),
+            )
+          }}
         </div>
       </div>
       <!-- Row 3 -->
@@ -32,40 +41,58 @@
         <label class="w-1/2 font-medium"
           >Estimated tax for current assessment year</label
         >
-        <div class="field-value w-1/2">
-          {{ formatNumber(formData['estimated_tax_current_year']) }}
+        <div class="field-value">
+          {{
+            formatNumber(
+              getDisplayValue(
+                'estimated_tax_current_year',
+                formData['estimated_tax_current_year'],
+              ),
+            )
+          }}
         </div>
       </div>
       <!-- Row 4 -->
       <div class="flex items-center">
-        <label class="w-1/2 font-medium">S107A ACP (Non Resident)</label>
-        <div class="field-value w-1/2">
-          {{ formData['s107a_acp'] ? 'Yes' : 'No' }}
-        </div>
+        <Checkbox
+          :checked="!!formData['s107a_acp']"
+          disabled
+          class="print-checkbox"
+        />
+        <label class="ml-2 font-medium">S107A ACP (Non Resident)</label>
       </div>
       <!-- Row 5 -->
       <div class="flex items-center">
         <label class="w-1/2 font-medium">Accounting Period</label>
-        <div class="flex w-1/2 items-center">
+        <div class="ml-4 flex flex-1 items-center">
           <div class="field-value-small">
-            {{ formData['acc_period_from'] || '—' }}
+            {{
+              getDisplayValue('acc_period_from', formData['acc_period_from'])
+            }}
           </div>
           <span class="mx-2 font-medium">To</span>
           <div class="field-value-small">
-            {{ formData['acc_period_to'] || '—' }}
+            {{ getDisplayValue('acc_period_to', formData['acc_period_to']) }}
           </div>
         </div>
       </div>
       <!-- Row 6 -->
       <div class="flex items-center">
         <label class="w-1/2 font-medium">Basis Period</label>
-        <div class="flex w-1/2 items-center">
+        <div class="ml-4 flex flex-1 items-center">
           <div class="field-value-small">
-            {{ formData['basis_period_from'] || '—' }}
+            {{
+              getDisplayValue(
+                'basis_period_from',
+                formData['basis_period_from'],
+              )
+            }}
           </div>
           <span class="mx-2 font-medium">To</span>
           <div class="field-value-small">
-            {{ formData['basis_period_to'] || '—' }}
+            {{
+              getDisplayValue('basis_period_to', formData['basis_period_to'])
+            }}
           </div>
         </div>
       </div>
@@ -74,8 +101,13 @@
         <label class="w-1/2 font-medium"
           >New company business commenced on</label
         >
-        <div class="field-value w-1/2">
-          {{ formData['new_company_commenced_on'] || '—' }}
+        <div class="field-value">
+          {{
+            getDisplayValue(
+              'new_company_commenced_on',
+              formData['new_company_commenced_on'],
+            )
+          }}
         </div>
       </div>
       <!-- Row 8 -->
@@ -83,71 +115,119 @@
         <label class="w-1/2 font-medium"
           >New Company with SME status only, TA</label
         >
-        <div class="flex w-1/2 items-center">
+        <div class="ml-4 flex flex-1 items-center">
           <div class="field-value-small">
-            {{ formData['new_company_sme_status'] || '—' }}
+            {{
+              getDisplayValue(
+                'new_company_sme_status',
+                formData['new_company_sme_status'],
+              )
+            }}
           </div>
           <span class="mx-2 font-medium">To</span>
           <div class="field-value-small">
-            {{ formData['new_company_sme_status_to'] || '—' }}
+            {{
+              getDisplayValue(
+                'new_company_sme_status_to',
+                formData['new_company_sme_status_to'],
+              )
+            }}
           </div>
         </div>
       </div>
       <!-- Row 9 -->
       <div class="flex items-center">
         <label class="w-1/2 font-medium">Financial year end</label>
-        <div class="field-value w-1/2">
-          {{ formData['financial_year_end'] || '—' }}
+        <div class="field-value">
+          {{
+            getDisplayValue(
+              'financial_year_end',
+              formData['financial_year_end'],
+            )
+          }}
         </div>
       </div>
       <!-- Row 10 -->
       <div class="flex items-center">
         <label class="w-1/2 font-medium">1 to 11 Installments</label>
-        <div class="field-value w-1/2">
-          {{ formatNumber(formData['installments_1_to_11']) }}
+        <div class="field-value">
+          {{
+            formatNumber(
+              getDisplayValue(
+                'installments_1_to_11',
+                formData['installments_1_to_11'],
+              ),
+            )
+          }}
         </div>
       </div>
       <!-- Row 11 -->
       <div class="flex items-center">
         <label class="w-1/2 font-medium">Final installment</label>
-        <div class="field-value w-1/2">
-          {{ formatNumber(formData['final_installment']) }}
+        <div class="field-value">
+          {{
+            formatNumber(
+              getDisplayValue(
+                'final_installment',
+                formData['final_installment'],
+              ),
+            )
+          }}
         </div>
       </div>
-      <!-- Row 12 -->
-      <div class="flex items-center">
-        <label class="w-1/2 font-medium"
-          >New company or change of financial year end</label
-        >
-        <div class="field-value w-1/2">
-          {{ formData['new_company_or_change_fye'] ? 'Yes' : 'No' }}
+    </div>
+
+    <!-- New section: New company or change of financial year end -->
+    <div class="mb-12 mt-8">
+      <h3 class="mb-4 border-b text-lg font-semibold">
+        New company or change of financial year end
+      </h3>
+      <div class="space-y-4">
+        <!-- Fields for this section -->
+        <div class="flex items-center">
+          <label class="w-1/2 font-medium"
+            >Following assessment basis period</label
+          >
+          <div class="ml-4 flex flex-1 items-center">
+            <div class="field-value-small">
+              {{
+                getDisplayValue(
+                  'following_basis_period_from',
+                  formData['following_basis_period_from'],
+                )
+              }}
+            </div>
+            <span class="mx-2 font-medium">To</span>
+            <div class="field-value-small">
+              {{
+                getDisplayValue(
+                  'following_basis_period_to',
+                  formData['following_basis_period_to'],
+                )
+              }}
+            </div>
+          </div>
         </div>
-      </div>
-      <!-- Row 13 -->
-      <div class="flex items-center">
-        <label class="w-1/2 font-medium"
-          >Following assessment basis period</label
-        >
-        <div class="flex w-1/2 items-center">
-          <div class="field-value-small">
-            {{ formData['following_basis_period_from'] || '—' }}
-          </div>
-          <span class="mx-2 font-medium">To</span>
-          <div class="field-value-small">
-            {{ formData['following_basis_period_to'] || '—' }}
-          </div>
-        </div>
-      </div>
-      <!-- Row 14 -->
-      <div class="flex items-center">
-        <label class="w-1/2 font-medium">Next assessment basis period</label>
-        <div class="flex w-1/2 items-center">
-          <div class="field-value-small">
-            {{ formData['next_basis_period_from'] || '—' }}
-          </div>
-          <span class="mx-2 font-medium">To</span>
-          <div class="field-value-small">
-            {{ formData['next_basis_period_to'] || '—' }}
+        <div class="flex items-center">
+          <label class="w-1/2 font-medium">Next assessment basis period</label>
+          <div class="ml-4 flex flex-1 items-center">
+            <div class="field-value-small">
+              {{
+                getDisplayValue(
+                  'next_basis_period_from',
+                  formData['next_basis_period_from'],
+                )
+              }}
+            </div>
+            <span class="mx-2 font-medium">To</span>
+            <div class="field-value-small">
+              {{
+                getDisplayValue(
+                  'next_basis_period_to',
+                  formData['next_basis_period_to'],
+                )
+              }}
+            </div>
           </div>
         </div>
       </div>
@@ -161,10 +241,34 @@
 
 <script lang="ts" setup>
 import { formatNumber } from '../../lookup/utils';
+import { Checkbox } from '@vben-core/shadcn-ui';
+import type { FormTemplate } from '../../types';
 
-defineProps<{
+const props = defineProps<{
   formData: Record<string, any>;
+  template: FormTemplate | null;
 }>();
+
+const getDisplayValue = (fieldId: string, value: any) => {
+  if (!props.template || value === undefined || value === null) {
+    return value || '—';
+  }
+
+  for (const page of props.template.pages) {
+    for (const section of page.sections) {
+      const field = section.fields.find((f) => f.id === fieldId);
+      if (
+        field &&
+        (field.inputType === 'select' || field.inputType === 'radio')
+      ) {
+        const option = field.options?.find((o) => o.value === value);
+        return option ? option.label : value;
+      }
+    }
+  }
+
+  return value;
+};
 </script>
 
 <style scoped>
@@ -176,6 +280,9 @@ defineProps<{
 }
 .field-value-small {
   @apply flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm;
+}
+.print-checkbox {
+  @apply h-4 w-4 border-2 border-gray-700;
 }
 @media print {
   .cp204-print-template {

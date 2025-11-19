@@ -1,6 +1,23 @@
 <template>
-  <div>
-    <div v-if="loading" class="flex min-h-screen items-center justify-center">
+  <CP204Modal>
+    <!-- Custom Title Slot -->
+    <template #title>
+      <div class="flex w-full items-center justify-between pr-12">
+        <span>{{ template?.formName || 'CP204 Form' }}</span>
+        <Button
+          v-if="template"
+          variant="outline"
+          @click="openViewModal(currentTab)"
+        >
+          <Eye class="mr-2 h-4 w-4" />
+          Print Preview
+        </Button>
+      </div>
+    </template>
+
+    <!-- Main Content (default slot) -->
+    <!-- Loading/Error States -->
+    <div v-if="loading" class="flex h-96 items-center justify-center">
       <VbenSpinner class="h-8 w-8" />
     </div>
     <div v-else-if="error" class="p-4">
@@ -10,12 +27,9 @@
         {{ error }}
       </div>
     </div>
-    <div v-else-if="template" class="mx-auto max-w-5xl p-6">
-      <!-- Header with title -->
-      <div class="mb-6 flex items-center justify-between border-b pb-4">
-        <h1 class="text-3xl font-bold">{{ template.formName }}</h1>
-      </div>
 
+    <!-- Main Modal Layout (when data is loaded) -->
+    <div v-else-if="template">
       <!-- Tabs Navigation -->
       <Tabs v-model="currentTab" class="w-full">
         <TabsList class="mb-6 grid w-full grid-cols-4">
@@ -29,6 +43,7 @@
           <CardPage
             :page="page"
             :form-data="formData"
+            :is-edit-mode="true"
             :errors="errors"
             :is-form-valid="isFormValid"
             @update:field="updateField"
@@ -36,62 +51,56 @@
           />
         </TabsContent>
       </Tabs>
-
-      <!-- Docked (static) actions -->
-      <div v-if="canEdit" ref="dockedButtonsRef" class="mt-6 flex justify-end">
-        <div class="p-2">
-          <FormActionsBar
-            :disabled="!hasChanges"
-            @save="onSave"
-            @cancel="handleCancel"
-          />
-        </div>
-      </div>
     </div>
 
-    <!-- Floating fixed toolbar -->
-    <div
-      v-if="canEdit"
-      v-show="!isDocked"
-      class="pointer-events-none fixed bottom-0 left-0 right-0 z-50"
-    >
-      <div class="pointer-events-auto mx-auto flex max-w-5xl justify-end p-6">
-        <div class="bg-popover rounded-md p-2 shadow-md">
-          <FormActionsBar
-            :disabled="!hasChanges"
-            @save="onSave"
-            @cancel="handleCancel"
-          />
-        </div>
-      </div>
-    </div>
+    <!-- Custom Footer Slot -->
+    <template #footer>
+      <FormActionsBar
+        v-if="canEdit"
+        :disabled="!hasChanges"
+        @save="onSave"
+        @cancel="handleCancelAndClose"
+      />
+    </template>
 
-    <CP204ViewModal
-      v-model="isViewModalOpen"
-      :form-data="formData"
-      :page-id="pageIdToView"
-    />
-  </div>
+    <!-- The Print Preview Modal (nested) -->
+    <CP204ViewModal ref="viewModalRef" />
+  </CP204Modal>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, computed, provide, nextTick, onUnmounted } from 'vue';
+import { ref, computed, provide } from 'vue';
 import { message } from 'ant-design-vue';
-import { getFormContext, saveFormSubmission } from '../services/cp204_service';
-import type { FormTemplate, FormSubmission } from './types';
+import { Eye } from 'lucide-vue-next';
+import { useVbenModal } from '@vben/common-ui';
+import {
+  getFormContext,
+  saveFormSubmission,
+} from '../../services/cp204_service';
+import type { FormTemplate, FormSubmission } from '../types';
 // @ts-ignore
-import { CardPage } from './components';
-import FormActionsBar from '../shared_components/FormActionsBar.vue';
-import CP204ViewModal from './components/CP204ViewModal.vue';
-import { useFormValidation, useVisibleFields } from './composables';
+import { CardPage } from '../components';
+import FormActionsBar from '../../shared_components/FormActionsBar.vue';
+import CP204ViewModal from '../components/CP204ViewModal.vue';
+import { useFormValidation, useVisibleFields } from '../composables';
 import {
   VbenSpinner,
+  Button,
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
 } from '@vben-core/shadcn-ui';
 
+// Modal setup
+const [CP204Modal, cp204ModalApi] = useVbenModal({
+  title: 'CP204 Form', // Fallback title, will be overridden by custom header
+  showConfirmButton: false,
+  width: '90%',
+  class: 'cp204-form-modal',
+});
+
+// Component state
 const template = ref<FormTemplate | null>(null);
 const formData = ref<Record<string, any>>({});
 const originalFormData = ref<Record<string, any>>({});
@@ -100,13 +109,9 @@ const loading = ref(true);
 const error = ref<string | null>(null);
 const currentTab = ref<string>('');
 
-const isViewModalOpen = ref(false);
-const pageIdToView = ref<string | null>(null);
+const viewModalRef = ref<InstanceType<typeof CP204ViewModal> | null>(null);
 
-const dockedButtonsRef = ref<HTMLElement | null>(null);
-const isDocked = ref(false);
-let observer: IntersectionObserver | null = null;
-
+// Composables
 const { visibleFieldIds } = useVisibleFields(template, formData);
 const { errors, validate } = useFormValidation(
   template,
@@ -114,13 +119,12 @@ const { errors, validate } = useFormValidation(
   visibleFieldIds,
 );
 
+// Computed properties
 const isFormValid = computed(() => {
-  // Trigger validation to update errors, then check if errors object is empty
   validate();
   return Object.keys(errors.value).length === 0;
 });
 
-// All pages are visible in CP204 (no show_if filtering at page level)
 const pages = computed(() => {
   if (!template.value || !template.value.pages) return [];
   return template.value.pages;
@@ -141,14 +145,22 @@ const hasChanges = computed(() => {
   );
 });
 
-onMounted(async () => {
+// Provide submissionYear to all descendant components
+provide(
+  'submissionYear',
+  computed(() => template.value?.yearOfAssessment || new Date().getFullYear()),
+);
+
+// Methods
+const load = async () => {
+  loading.value = true;
+  error.value = null;
   try {
     const context = await getFormContext();
     template.value = context.template;
     if (context.submission) {
       // eslint-disable-next-line unicorn/prefer-structured-clone
       formData.value = JSON.parse(JSON.stringify(context.submission.data));
-
       // eslint-disable-next-line unicorn/prefer-structured-clone
       originalFormData.value = JSON.parse(
         JSON.stringify(context.submission.data),
@@ -156,7 +168,6 @@ onMounted(async () => {
     }
     canEdit.value = context.canEdit;
 
-    // Set default tab to first page
     if (pages.value.length > 0) {
       currentTab.value = pages.value[0].id;
     }
@@ -166,47 +177,29 @@ onMounted(async () => {
   } finally {
     loading.value = false;
   }
+};
 
-  // Set up observer for floating action bar
-  await nextTick();
-  if (dockedButtonsRef.value) {
-    observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        isDocked.value = !!entry && entry.isIntersecting;
-      },
-      { root: null, threshold: 0.1 },
-    );
-    observer.observe(dockedButtonsRef.value);
-  }
-});
-
-onUnmounted(() => {
-  if (observer) {
-    observer.disconnect();
-  }
-});
-
-// Provide submissionYear to all descendant components
-provide(
-  'submissionYear',
-  computed(() => template.value?.yearOfAssessment || new Date().getFullYear()),
-);
+const open = async () => {
+  await load();
+  cp204ModalApi.open();
+};
 
 const updateField = ({ fieldId, value }: { fieldId: string; value: any }) => {
   formData.value[fieldId] = value;
-  validate(); // Trigger validation on every field update
+  validate();
 };
 
 const openViewModal = (pageId: string) => {
-  pageIdToView.value = pageId;
-  isViewModalOpen.value = true;
+  if (template.value) {
+    viewModalRef.value?.open(formData.value, pageId, template.value);
+  }
 };
 
-const handleCancel = () => {
+const handleCancelAndClose = () => {
   // eslint-disable-next-line unicorn/prefer-structured-clone
   formData.value = JSON.parse(JSON.stringify(originalFormData.value));
   message.info('Changes cancelled.');
+  cp204ModalApi.close();
 };
 
 const onSave = async () => {
@@ -214,7 +207,6 @@ const onSave = async () => {
     message.error('Please fix the validation errors before saving.');
     return;
   }
-
   if (!template.value) return;
 
   try {
@@ -225,17 +217,18 @@ const onSave = async () => {
       data: formData.value,
       updated_at: new Date().toISOString(),
     };
-
     const savedSubmission = await saveFormSubmission(submissionToSave);
     // eslint-disable-next-line unicorn/prefer-structured-clone
     formData.value = JSON.parse(JSON.stringify(savedSubmission.data));
     // eslint-disable-next-line unicorn/prefer-structured-clone
     originalFormData.value = JSON.parse(JSON.stringify(savedSubmission.data));
-    // isEditMode.value = false; // No longer needed as it's always true
-
     message.success('Form saved successfully!');
+    cp204ModalApi.close();
   } catch (error_: any) {
     message.error(error_.message || 'Failed to save form.');
   }
 };
+
+// Expose open method
+defineExpose({ open });
 </script>

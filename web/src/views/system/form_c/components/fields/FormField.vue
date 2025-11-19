@@ -4,187 +4,201 @@
     class="w-full"
     :class="{
       'sm:col-span-2':
-        field.inputType === 'lookup' || field.inputType === 'itemList',
+        field.inputType === 'lookup' ||
+        field.inputType === 'itemList' ||
+        field.inputType === 'placeholder',
     }"
   >
-    <div
-      v-if="!['lookup', 'boolean'].includes(field.inputType) && !props.compact"
-      class="mb-2 min-h-[24px]"
-    >
-      <Label
+    <template v-if="field.inputType !== 'placeholder'">
+      <div
         v-if="
-          !field.isLabelHidden &&
-          !['lookup', 'boolean'].includes(field.inputType)
+          !['lookup', 'boolean'].includes(field.inputType) && !props.compact
         "
-        :for="field.id"
-        >{{ field.label }}</Label
+        class="mb-2 min-h-[24px]"
       >
-    </div>
+        <Label
+          v-if="
+            !field.isLabelHidden &&
+            !['lookup', 'boolean'].includes(field.inputType)
+          "
+          :for="field.id"
+          >{{ field.label }}</Label
+        >
+      </div>
 
-    <!-- Lookup fields (handle both edit/view modes internally) -->
-    <div
-      v-if="field.inputType === 'lookup'"
-      :class="{ 'border-destructive rounded-md border': error }"
-    >
-      <FormLookupInput
+      <!-- Lookup fields (handle both edit/view modes internally) -->
+      <div
+        v-if="field.inputType === 'lookup'"
+        :class="{ 'border-destructive rounded-md border': error }"
+      >
+        <FormLookupInput
+          :field="field"
+          :form-data="formData"
+          :is-edit-mode="isEditMode"
+          @update:field="onUpdateField"
+        />
+      </div>
+
+      <!-- ItemList (handle both edit/view modes internally) -->
+      <div
+        v-else-if="field.inputType === 'itemList'"
+        :class="{ 'border-destructive rounded-md border': error }"
+      >
+        <FormItemList
+          :field="field"
+          :form-data="formData"
+          :is-edit-mode="isEditMode"
+          @update:field="onUpdateField"
+        />
+      </div>
+
+      <!-- Readonly note (handle both edit/view modes internally) -->
+      <ReadonlyNoteField
+        v-else-if="field.inputType === 'readonly_note'"
         :field="field"
         :form-data="formData"
-        :is-edit-mode="isEditMode"
-        @update:field="onUpdateField"
       />
-    </div>
 
-    <!-- ItemList (handle both edit/view modes internally) -->
-    <div
-      v-else-if="field.inputType === 'itemList'"
-      :class="{ 'border-destructive rounded-md border': error }"
-    >
-      <FormItemList
-        :field="field"
-        :form-data="formData"
-        :is-edit-mode="isEditMode"
-        @update:field="onUpdateField"
-      />
-    </div>
-
-    <!-- Readonly note (handle both edit/view modes internally) -->
-    <ReadonlyNoteField
-      v-else-if="field.inputType === 'readonly_note'"
-      :field="field"
-      :form-data="formData"
-    />
-
-    <!-- All other fields: switch between input and view component -->
-    <template v-else>
-      <!-- EDIT MODE -->
-      <template v-if="isEditMode">
-        <!-- Countries/States with LookupSelect -->
-        <LookupSelect
-          v-if="field.inputType === 'countries' || field.inputType === 'states'"
-          v-model="fieldValue"
-          :lookup-slug="
-            field.inputType === 'countries' ? 'country-code' : 'state-code'
-          "
-          :class="{ 'border-destructive': error }"
-        />
-
-        <!-- Text, Number, Email, Date -->
-        <Input
-          v-else-if="
-            ['text', 'number', 'email', 'date'].includes(field.inputType)
-          "
-          :id="field.id"
-          :type="field.inputType"
-          v-model="fieldValue"
-          :class="{ 'border-destructive': error }"
-        />
-
-        <InputNumber
-          v-else-if="field.inputType === 'currency'"
-          :id="field.id"
-          v-model:value="fieldValue"
-          :formatter="
-            (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-          "
-          :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
-          style="width: 100%"
-          class="h-10"
-          :class="{ 'border-destructive': error }"
-        />
-
-        <!-- Radio buttons -->
-        <div
-          v-else-if="field.inputType === 'radio'"
-          class="rounded-md"
-          :class="{ 'border-destructive border p-2': error }"
-        >
-          <RadioGroup v-model="fieldValue">
-            <div :class="radioLayoutClass">
-              <div
-                class="flex items-center space-x-2"
-                v-for="option in field.options"
-                :key="option.value"
-              >
-                <RadioGroupItem
-                  :value="option.value"
-                  :id="`${field.id}-${option.value}`"
-                />
-                <Label
-                  :for="`${field.id}-${option.value}`"
-                  class="cursor-pointer font-normal"
-                  >{{ option.label }}</Label
-                >
-              </div>
-            </div>
-          </RadioGroup>
-        </div>
-        <!-- Checkboxes -->
-        <div
-          v-else-if="field.inputType === 'checkbox'"
-          class="space-y-2 rounded-md"
-          :class="{ 'border-destructive border p-2': error }"
-        >
-          <div
-            class="flex items-center space-x-2"
-            v-for="option in field.options"
-            :key="option.value"
-          >
-            <Checkbox
-              :id="`${field.id}-${option.value}`"
-              :checked="isChecked(option.value)"
-              @update:checked="
-                (checked) => onCheckboxChange(option.value, checked)
-              "
-            />
-            <Label
-              :for="`${field.id}-${option.value}`"
-              class="cursor-pointer font-normal"
-              >{{ option.label }}</Label
-            >
-          </div>
-        </div>
-        <!-- Boolean Checkbox -->
-        <div
-          v-else-if="field.inputType === 'boolean'"
-          class="flex items-center space-x-2"
-        >
-          <Checkbox
-            :id="field.id"
-            :checked="fieldValue"
-            @update:checked="fieldValue = $event"
+      <!-- All other fields: switch between input and view component -->
+      <template v-else>
+        <!-- EDIT MODE -->
+        <template v-if="isEditMode">
+          <!-- Countries/States with LookupSelect -->
+          <LookupSelect
+            v-if="
+              field.inputType === 'countries' || field.inputType === 'states'
+            "
+            v-model="fieldValue"
+            :lookup-slug="
+              field.inputType === 'countries' ? 'country-code' : 'state-code'
+            "
             :class="{ 'border-destructive': error }"
           />
-          <Label :for="field.id" class="cursor-pointer font-normal">{{
-            field.label
-          }}</Label>
-        </div>
-        <!-- Select dropdown -->
-        <Select v-else-if="field.inputType === 'select'" v-model="fieldValue">
-          <SelectTrigger
+
+          <!-- Text, Number, Email, Date -->
+          <Input
+            v-else-if="
+              ['text', 'number', 'email', 'date'].includes(field.inputType)
+            "
             :id="field.id"
+            :type="field.inputType"
+            v-model="fieldValue"
             :class="{ 'border-destructive': error }"
+          />
+
+          <InputNumber
+            v-else-if="field.inputType === 'currency'"
+            :id="field.id"
+            v-model:value="fieldValue"
+            :formatter="
+              (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+            "
+            :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
+            style="width: 100%"
+            class="h-10"
+            :class="{ 'border-destructive': error }"
+          />
+
+          <!-- Radio buttons -->
+          <div
+            v-else-if="field.inputType === 'radio'"
+            class="rounded-md"
+            :class="{ 'border-destructive border p-2': error }"
           >
-            <SelectValue placeholder="Select..." />
-          </SelectTrigger>
-          <SelectContent class="max-h-60">
-            <SelectItem
+            <RadioGroup v-model="fieldValue">
+              <div :class="radioLayoutClass">
+                <div
+                  class="flex items-center space-x-2"
+                  v-for="option in field.options"
+                  :key="option.value"
+                >
+                  <RadioGroupItem
+                    :value="option.value"
+                    :id="`${field.id}-${option.value}`"
+                  />
+                  <Label
+                    :for="`${field.id}-${option.value}`"
+                    class="cursor-pointer font-normal"
+                    >{{ option.label }}</Label
+                  >
+                </div>
+              </div>
+            </RadioGroup>
+          </div>
+          <!-- Checkboxes -->
+          <div
+            v-else-if="field.inputType === 'checkbox'"
+            class="space-y-2 rounded-md"
+            :class="{ 'border-destructive border p-2': error }"
+          >
+            <div
+              class="flex items-center space-x-2"
               v-for="option in field.options"
               :key="option.value"
-              :value="option.value"
             >
-              {{ option.label }}
-            </SelectItem>
-          </SelectContent>
-        </Select>
+              <Checkbox
+                :id="`${field.id}-${option.value}`"
+                :checked="isChecked(option.value)"
+                @update:checked="
+                  (checked) => onCheckboxChange(option.value, checked)
+                "
+              />
+              <Label
+                :for="`${field.id}-${option.value}`"
+                class="cursor-pointer font-normal"
+                >{{ option.label }}</Label
+              >
+            </div>
+          </div>
+          <!-- Boolean Checkbox -->
+          <div
+            v-else-if="field.inputType === 'boolean'"
+            class="flex items-center space-x-2"
+          >
+            <Checkbox
+              :id="field.id"
+              :checked="fieldValue"
+              @update:checked="fieldValue = $event"
+              :class="{ 'border-destructive': error }"
+            />
+            <Label :for="field.id" class="cursor-pointer font-normal">{{
+              field.label
+            }}</Label>
+          </div>
+          <!-- Select dropdown -->
+          <Select v-else-if="field.inputType === 'select'" v-model="fieldValue">
+            <SelectTrigger
+              :id="field.id"
+              :class="{ 'border-destructive': error }"
+            >
+              <SelectValue placeholder="Select..." />
+            </SelectTrigger>
+            <SelectContent class="max-h-60">
+              <SelectItem
+                v-for="option in field.options"
+                :key="option.value"
+                :value="option.value"
+              >
+                {{ option.label }}
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        </template>
+
+        <!-- VIEW MODE -->
+        <template v-else>
+          <ViewField
+            :field="field"
+            :form-data="formData"
+            :is-edit-mode="false"
+          />
+        </template>
       </template>
 
-      <!-- VIEW MODE -->
-      <template v-else>
-        <ViewField :field="field" :form-data="formData" :is-edit-mode="false" />
-      </template>
+      <p v-if="error" class="text-destructive text-sm font-medium">
+        {{ error }}
+      </p>
     </template>
-
-    <p v-if="error" class="text-destructive text-sm font-medium">{{ error }}</p>
   </div>
 </template>
 

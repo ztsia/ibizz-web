@@ -6,7 +6,8 @@
         variant="outline"
         @click="emit('view-page', page.id)"
       >
-        View
+        <Eye class="mr-2 h-4 w-4" />
+        Print Preview
       </Button>
     </div>
     <SectionCard
@@ -25,6 +26,7 @@ import type { FormTemplatePage } from '../types';
 // @ts-ignore
 import { SectionCard } from './';
 import { Button } from '@vben-core/shadcn-ui';
+import { Eye } from 'lucide-vue-next';
 
 defineProps<{
   page: FormTemplatePage;
