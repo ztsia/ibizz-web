@@ -15,17 +15,13 @@
 import { ref, computed } from 'vue';
 import { Button } from '@vben-core/shadcn-ui';
 import { Loader2, FileText } from 'lucide-vue-next';
-import { generatePdfReport } from '../../services';
-import * as lookupService from '../../services';
+import { generatePdf } from '../../services/pdfService';
 import { notifyError, notifySuccess } from '../../lookup/utils';
 
 const props = defineProps<{
-  title: string;
-  submissionYear: number;
-  headers: any[];
-  lookupSlug?: string;
-  selectedRowIds: string[];
-  allRows?: Array<{ id: string; columns: Record<string, any> }>;
+  template: string;
+  dataProvider: () => Promise<Record<string, any>>;
+  fileName: string;
 }>();
 
 const isGenerating = ref(false);
@@ -48,75 +44,9 @@ async function handleGeneratePdf() {
   pdfBlob.value = null;
 
   try {
-    let rawRows;
-
-    // 1. Fetch all items (or use provided rows)
-    if (props.allRows) {
-      // Use provided rows directly (for FormItemList)
-      rawRows = props.allRows;
-    } else if (props.lookupSlug) {
-      // Fetch from lookup service (for FormLookupInput)
-      const result = await lookupService.listItems(props.lookupSlug, {
-        perPage: 9999,
-      });
-      rawRows = Array.isArray(result) ? result : result?.items || [];
-    } else {
-      throw new Error('Either allRows or lookupSlug must be provided');
-    }
-
-    // 2. Transform rows to match PDF service schema: { id, columns: {...} }
-    const allRows = rawRows.map((row: any) => {
-      // If row already has a 'columns' property, use it directly (avoid double nesting)
-      if (row.columns && typeof row.columns === 'object') {
-        return {
-          id: row.id || row._id || String(Math.random()),
-          columns: row.columns,
-        };
-      }
-      // Otherwise, extract id and put everything else into columns
-      const { id, _id, ...columns } = row;
-      return {
-        id: id || _id || String(Math.random()),
-        columns,
-      };
-    });
-
-    // 3. Transform headers to match PDF service schema: { key, label } only
-    const headers = props.headers.map((h: any) => ({
-      key: h.name || h.key,
-      label: h.label,
-    }));
-
-    // 4. Assemble payload
-    const payload = {
-      title: props.title,
-      submissionYear: props.submissionYear,
-      printSelectedOnly: true, // Default to true as per new requirement
-      headers,
-      allRows,
-      selectedRowIds: props.selectedRowIds,
-    };
-
-    // DEBUG: Log payload to verify structure
-    console.log('=== PDF Payload Debug ===');
-    console.log('title:', payload.title, typeof payload.title);
-    console.log(
-      'submissionYear:',
-      payload.submissionYear,
-      typeof payload.submissionYear,
-    );
-    console.log(
-      'printSelectedOnly:',
-      payload.printSelectedOnly,
-      typeof payload.printSelectedOnly,
-    );
-    console.log('headers:', payload.headers);
-    console.log('selectedRowIds:', payload.selectedRowIds);
-    console.log('allRows sample:', payload.allRows.slice(0, 2));
-    console.log('Full payload:', JSON.stringify(payload, null, 2));
-
-    // 4. Call generation service
-    const blob = await generatePdfReport(payload);
+    // Call the async data provider function to get fresh data
+    const data = await props.dataProvider();
+    const blob = await generatePdf(props.template, data);
     pdfBlob.value = blob;
     notifySuccess('PDF report has been generated and is ready for download.');
     isGenerated.value = true;
@@ -137,7 +67,7 @@ function handleDownload() {
   const url = window.URL.createObjectURL(pdfBlob.value);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `${props.title.replaceAll(/\s+/g, '_')}_${props.submissionYear}.pdf`;
+  a.download = props.fileName;
   document.body.append(a);
   a.click();
   a.remove();

@@ -3,11 +3,9 @@
     <!-- PDF Control (View Mode Only) -->
     <div v-if="!isEditMode" class="flex justify-end">
       <GeneratePdfControl
-        :title="field.label"
-        :submission-year="submissionYear"
-        :headers="pdfHeaders"
-        :all-rows="pdfRows"
-        :selected-row-ids="[]"
+        template="table-template"
+        :data-provider="providePdfData"
+        :file-name="`${field.label}_${submissionYear}.pdf`"
       />
     </div>
 
@@ -387,4 +385,21 @@ const pdfRows = computed(() => {
     };
   });
 });
+
+// Computed: PDF Data Payload
+const pdfData = computed(() => {
+  return {
+    title: props.field.label,
+    submissionYear: submissionYear.value,
+    headers: pdfHeaders.value,
+    allRows: pdfRows.value,
+    selectedRowIds: [], // Not used in this context, pass empty array
+    printSelectedOnly: false, // Print all items in the list
+  };
+});
+
+// Data provider function for PDF generation
+async function providePdfData(): Promise<Record<string, any>> {
+  return pdfData.value;
+}
 </script>

@@ -215,7 +215,9 @@ const duplicateError = ref('');
 
 const form = ref<{ columns: Record<string, any> }>({ columns: {} });
 
-const columns = computed(() => props.columns || []);
+const columns = computed(() =>
+  (props.columns || []).filter((c) => c && c.name),
+);
 
 function resetFormFromProps() {
   const isEdit = !!props.initial?.id;

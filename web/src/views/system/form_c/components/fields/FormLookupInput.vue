@@ -28,11 +28,9 @@
       />
       <GeneratePdfControl
         v-if="!isEditMode"
-        :title="group.title || group.name || group.slug || props.field.label"
-        :submission-year="submissionYear"
-        :headers="tableColumns"
-        :lookup-slug="tableSlug"
-        :selected-row-ids="fieldValue"
+        template="table-template"
+        :data-provider="providePdfData"
+        :file-name="`${tableSlug}_${submissionYear}.pdf`"
       />
     </div>
     <div v-else class="text-muted-foreground text-sm">Loading...</div>
@@ -75,7 +73,8 @@ const tableColumns = computed(() => {
   const g = group.value;
   if (!g || !Array.isArray(g.columns_schema)) return [];
   return g.columns_schema.map((c: any) => ({
-    name: c.key || c.name || c.label,
+    key: c.key || c.name || c.label,
+    name: c.key || c.name || c.label, // `name` is needed by LookupTable
     label: c.label || c.key || c.name,
     type: c.type || 'text',
     required: !!c.required,
@@ -85,6 +84,50 @@ const tableColumns = computed(() => {
 
 function handleSelectionChange(newSelection: string[]) {
   fieldValue.value = newSelection;
+}
+
+async function providePdfData(): Promise<Record<string, any>> {
+  // 1. Fetch fresh data
+  const result = await lookupService.listItems(tableSlug.value, {
+    perPage: 9999,
+  });
+  const rawRows = Array.isArray(result) ? result : result?.items || [];
+
+  // 2. Transform rows to the required { id, columns } format
+  const allRows = rawRows.map((row: any) => {
+    if (row.columns && typeof row.columns === 'object') {
+      return {
+        id: row.id || row._id || String(Math.random()),
+        columns: row.columns,
+      };
+    }
+    const { id, _id, ...columns } = row;
+    return {
+      id: id || _id || String(Math.random()),
+      columns,
+    };
+  });
+
+  // 3. Assemble and return the payload
+  const title =
+    group.value?.title ||
+    group.value?.name ||
+    group.value?.slug ||
+    props.field.label;
+
+  const headers = tableColumns.value.map((col) => ({
+    key: col.key,
+    label: col.label,
+  }));
+
+  return {
+    title,
+    submissionYear: submissionYear.value,
+    headers,
+    allRows,
+    selectedRowIds: fieldValue.value,
+    printSelectedOnly: true,
+  };
 }
 
 onMounted(async () => {

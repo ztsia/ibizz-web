@@ -1,26 +1,22 @@
 // web/src/services/pdfService.ts
 
-export interface PdfReportPayload {
-  title: string;
-  submissionYear: number;
-  printSelectedOnly: boolean;
-  headers: Array<{ key: string; label: string }>;
-  selectedRowIds: string[];
-  allRows: Array<{ id: string; columns: Record<string, any> }>;
-}
-
 /**
- * Calls the PDF generation microservice to generate a PDF report and returns the resulting Blob.
- * @param payload The data required to generate the report.
+ * Calls the PDF generation microservice to generate a PDF document and returns the resulting Blob.
+ * @param template The name of the HTML template to use for the PDF.
+ * @param data The data payload to populate the template.
  * @returns A promise that resolves to the PDF Blob on success.
  * @throws Error if the request fails or the server returns an error.
  */
-export async function generatePdfReport(
-  payload: PdfReportPayload,
+export async function generatePdf(
+  template: string,
+  data: Record<string, any>,
 ): Promise<Blob> {
   const endpoint = 'http://localhost:3000/generate-pdf';
 
   try {
+    const payload = { template, data };
+    console.log('PDF Service Payload:', JSON.stringify(payload, null, 2)); // Debug log
+
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {

@@ -33,7 +33,15 @@
     </div>
 
     <template #footer>
-      <Button type="button" variant="outline" @click="onClose">Close</Button>
+      <div class="flex w-full justify-between">
+        <GeneratePdfControl
+          v-if="pdfTemplateName"
+          :template="pdfTemplateName"
+          :data-provider="providePdfData"
+          :file-name="pdfFileName"
+        />
+        <Button type="button" variant="outline" @click="onClose">Close</Button>
+      </div>
     </template>
   </ViewModal>
 </template>
@@ -48,6 +56,8 @@ import {
   CP204APrintTemplate,
   CP204BPrintTemplate,
 } from '../print_templates';
+import GeneratePdfControl from './GeneratePdfControl.vue';
+import { formatNumber } from '../../lookup/utils';
 
 // Internal state for the modal content
 const formData = ref<Record<string, any>>({});
@@ -77,6 +87,82 @@ const pageTitle = computed(() => {
     }
   }
 });
+
+const getDisplayValue = (fieldId: string, value: any) => {
+  if (!template.value || value === undefined || value === null) {
+    return value;
+  }
+
+  for (const page of template.value.pages) {
+    for (const section of page.sections) {
+      const field = section.fields.find((f) => f.id === fieldId);
+      if (
+        field &&
+        (field.inputType === 'select' || field.inputType === 'radio')
+      ) {
+        const option = field.options?.find((o) => o.value === value);
+        return option ? option.label : value;
+      }
+    }
+  }
+  return value;
+};
+
+const pdfTemplateName = computed(() => {
+  switch (pageId.value) {
+    case 'page_cp204':
+      return 'cp204-template';
+    case 'page_cp204a':
+      return 'cp204a-template';
+    case 'page_cp204b':
+      return 'cp204b-template';
+    default:
+      return null;
+  }
+});
+
+const pdfData = computed(() => {
+  const data: Record<string, any> = {};
+  if (!template.value) return data;
+
+  // Find the current page's fields
+  const currentPage = template.value.pages.find((p) => p.id === pageId.value);
+  if (!currentPage) return data;
+
+  const allFields = currentPage.sections
+    .flatMap((s) => s.fields)
+    .filter(
+      (f) => f.inputType !== 'placeholder' && !f.id.endsWith('_toggle'),
+    );
+
+  for (const field of allFields) {
+    const rawValue = formData.value[field.id];
+    if (field.inputType === 'boolean') {
+      // For PDF, send 'checked' if true, otherwise omit
+      if (rawValue) {
+        data[`${field.id}_checked`] = 'checked';
+      }
+    } else if (
+      field.inputType === 'currency' ||
+      field.inputType === 'number'
+    ) {
+      data[field.id] = formatNumber(rawValue);
+    } else {
+      data[field.id] = getDisplayValue(field.id, rawValue) || '';
+    }
+  }
+  return data;
+});
+
+const pdfFileName = computed(() => {
+  const year = template.value?.yearOfAssessment || new Date().getFullYear();
+  const title = pageTitle.value.replace(/ /g, '_');
+  return `${title}_${year}.pdf`;
+});
+
+async function providePdfData(): Promise<Record<string, any>> {
+  return pdfData.value;
+}
 
 const onClose = () => {
   viewModalApi.close();
