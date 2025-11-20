@@ -83,13 +83,19 @@ import { useVbenModal } from '@vben/common-ui';
 import {
   getFormContext,
   saveFormSubmission,
-} from '../../services/cp204_service';
-import type { FormTemplate, FormSubmission } from '../types';
+} from '../../../system/services/cp204_service';
+import type {
+  FormTemplate,
+  FormSubmission,
+} from '../../../system/form_c/types';
 // @ts-ignore
-import { CardPage } from '../components';
-import FormActionsBar from '../../shared_components/FormActionsBar.vue';
-import CP204ViewModal from '../components/CP204ViewModal.vue';
-import { useFormValidation, useVisibleFields } from '../composables';
+import { CardPage } from '../../../system/form_c/components';
+import FormActionsBar from '../../../system/shared_components/FormActionsBar.vue';
+import CP204ViewModal from '../../../system/form_c/components/CP204ViewModal.vue';
+import {
+  useFormValidation,
+  useVisibleFields,
+} from '../../../system/form_c/composables';
 import {
   VbenSpinner,
   Button,

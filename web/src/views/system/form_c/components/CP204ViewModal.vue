@@ -33,14 +33,16 @@
     </div>
 
     <template #footer>
-      <div class="flex w-full justify-between">
+      <div class="flex w-full items-center justify-between">
         <GeneratePdfControl
           v-if="pdfTemplateName"
           :template="pdfTemplateName"
           :data-provider="providePdfData"
           :file-name="pdfFileName"
         />
-        <Button type="button" variant="outline" @click="onClose">Close</Button>
+        <Button type="button" variant="outline" @click="onClose" class="mt-4"
+          >Close</Button
+        >
       </div>
     </template>
   </ViewModal>

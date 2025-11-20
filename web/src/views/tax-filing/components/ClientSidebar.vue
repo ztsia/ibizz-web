@@ -18,6 +18,7 @@ import {
   MenuUnfoldOutlined,
   FileSearchOutlined,
   DatabaseOutlined,
+  DownOutlined,
 } from '@ant-design/icons-vue';
 import {
   Avatar,
@@ -38,6 +39,8 @@ import InterestIncomeModal from './shared/InterestIncomeModal.vue';
 import RentalIncomeModal from './shared/RentalIncomeModal.vue';
 import CapitalAllowanceModal from './shared/CapitalAllowanceModal.vue';
 import AdjustmentNotesModal from './AdjustmentNotesModal.vue';
+import CP204Modal from './shared/CP204Modal.vue';
+import OtherParticularsModal from './shared/OtherParticularsModal.vue';
 import type {
   ClientSidebarProps as Props,
   ClientSidebarEmits as Emits,
@@ -55,6 +58,8 @@ const emit = defineEmits<Emits>();
 const taxFilingStore = useTaxFilingStore();
 const isCollapsed = ref(false);
 const selectedSection = ref<any>(null);
+const expandedItems = ref<Record<string, boolean>>({});
+const dynamicSubItems = ref<Record<string, any[]>>({});
 
 // Initialize Vben modal for section details
 const [SectionModal, sectionModalApi] = useVbenModal({
@@ -207,6 +212,8 @@ const dividendModalRef = ref();
 const interestModalRef = ref();
 const rentalModalRef = ref();
 const capitalAllowanceModalRef = ref();
+const cp204ModalRef = ref();
+const otherParticularsModalRef = ref();
 
 // Use shared adjustment notes from store
 const { addAdjustmentNote: getAllAdjustmentNotes } = taxFilingStore;
@@ -517,6 +524,24 @@ watch(
   { deep: true },
 );
 
+// Watch for changes in the Other Particulars modal's visible pages to update sub-items
+watch(
+  () => otherParticularsModalRef.value?.visiblePages,
+  (visiblePages) => {
+    if (!visiblePages) {
+      dynamicSubItems.value['Other Particulars'] = [];
+      return;
+    }
+    dynamicSubItems.value['Other Particulars'] = visiblePages.map(
+      (page: any) => ({
+        name: page.title,
+        pageId: page.id,
+      }),
+    );
+  },
+  { deep: true },
+);
+
 // Close adjustment modal
 const closeAdjustmentModal = () => {
   adjustmentNotesModalApi.close();
@@ -664,6 +689,20 @@ const notesToAccountCount = computed(() => {
 const capitalAllowanceCount = computed(() => {
   return taxFilingStore.getCapitalAllowanceItems().length;
 });
+
+const toggleAccordion = (itemName: string) => {
+  const dataIsLoaded =
+    dynamicSubItems.value[itemName] &&
+    dynamicSubItems.value[itemName].length > 0;
+
+  // If we are about to open the accordion and data isn't loaded, open the modal to trigger data load.
+  if (!expandedItems.value[itemName] && !dataIsLoaded) {
+    otherParticularsModalRef.value?.open();
+  }
+
+  // Always toggle the expansion state for immediate UI feedback.
+  expandedItems.value[itemName] = !expandedItems.value[itemName];
+};
 
 // Toggle sidebar collapse state
 const toggleCollapse = () => {
@@ -815,6 +854,18 @@ const handleSectionClick = (section: any) => {
     return;
   }
 
+  // Handle sub-item clicks for Other Particulars
+  if (section.pageId) {
+    otherParticularsModalRef.value?.open(section.pageId);
+    return;
+  }
+
+  // Handle accordion parent item for Other Particulars
+  if (section.isAccordion) {
+    otherParticularsModalRef.value?.open();
+    return;
+  }
+
   // Handle income modals
   if (section.name === 'Dividend Income') {
     dividendModalRef.value?.dividendIncomeModalApi.open();
@@ -833,6 +884,11 @@ const handleSectionClick = (section: any) => {
 
   if (section.name === 'Capital Allowance') {
     capitalAllowanceModalRef.value?.capitalAllowanceModalApi.open();
+    return;
+  }
+
+  if (section.name === 'CP204') {
+    cp204ModalRef.value?.open();
     return;
   }
 
@@ -1087,22 +1143,9 @@ const taxSections = computed(() => {
           disabled: props.currentWorkflowStep < 5,
         },
         {
-          name: 'Controlled Transaction',
+          name: 'Other Particulars',
           icon: 'FileTextOutlined',
-          hasView: true,
-          disabled: props.currentWorkflowStep < 5,
-        },
-        {
-          name: 'CbCR',
-          icon: 'FileTextOutlined',
-          hasView: true,
-          disabled: props.currentWorkflowStep < 5,
-        },
-        {
-          name: 'Labuan Entities',
-          icon: 'BankOutlined',
-          hasView: true,
-          disabled: props.currentWorkflowStep < 5,
+          isAccordion: true,
         },
         {
           name: 'CP204',
@@ -1200,98 +1243,158 @@ const getIconComponent = (iconName: string) => {
 
           <!-- Section Items -->
           <div class="space-y-2">
-            <div
-              v-for="item in section.items"
-              :key="item.name"
-              :class="[
-                'group flex items-center justify-between rounded-lg p-2 transition-colors',
-                item.disabled
-                  ? 'cursor-not-allowed opacity-50'
-                  : 'cursor-pointer hover:bg-gray-50',
-              ]"
-              @click="handleSectionClick(item)"
-            >
-              <div class="flex flex-1 items-center gap-2">
-                <component :is="getIconComponent(item.icon)" class="text-sm" />
-                <div class="flex-1">
-                  <div class="flex items-center gap-2">
+            <div v-for="item in section.items" :key="item.name">
+              <!-- Accordion Parent Item -->
+              <div
+                v-if="item.isAccordion"
+                :class="[
+                  'group flex items-center justify-between rounded-lg p-2 transition-colors',
+                  item.disabled
+                    ? 'cursor-not-allowed opacity-50'
+                    : 'cursor-pointer hover:bg-gray-50',
+                ]"
+                @click="handleSectionClick(item)"
+              >
+                <div class="flex flex-1 items-center gap-2">
+                  <component
+                    :is="getIconComponent(item.icon)"
+                    class="text-sm"
+                  />
+                  <div class="flex-1">
                     <span class="text-sm">{{ item.name }}</span>
-                    <!-- Count Badge -->
-                    <Tag
-                      v-if="item.count !== undefined"
-                      color="blue"
-                      class="text-xs"
-                    >
-                      {{ item.count }}
-                    </Tag>
-                    <!-- Pending Review Tag -->
-                    <Tag
-                      v-if="item.pendingReview"
-                      color="orange"
-                      class="text-xs"
-                    >
-                      Pending
-                    </Tag>
-                    <!-- Review Status Tags -->
-                    <Tag
-                      v-else-if="item.status === 'reviewed'"
-                      color="blue"
-                      class="text-xs"
-                    >
-                      Reviewed
-                    </Tag>
-                    <Tag
-                      v-else-if="item.status === 'approved'"
-                      color="green"
-                      class="text-xs"
-                    >
-                      Approved
-                    </Tag>
-                    <Tag
-                      v-else-if="item.status === 'classified'"
-                      color="purple"
-                      class="text-xs"
-                    >
-                      Classified
-                    </Tag>
                   </div>
-                  <!-- Classification confidence -->
-                  <div
-                    v-if="item.confidence"
-                    class="mt-1 text-xs text-gray-500"
+                </div>
+                <button @click.stop="toggleAccordion(item.name)" class="p-1">
+                  <DownOutlined
+                    class="transform text-xs transition-transform duration-200"
+                    :class="{ 'rotate-180': expandedItems[item.name] }"
+                  />
+                </button>
+              </div>
+
+              <!-- Regular Item -->
+              <div
+                v-else
+                :class="[
+                  'group flex items-center justify-between rounded-lg p-2 transition-colors',
+                  item.disabled
+                    ? 'cursor-not-allowed opacity-50'
+                    : 'cursor-pointer hover:bg-gray-50',
+                ]"
+                @click="handleSectionClick(item)"
+              >
+                <div class="flex flex-1 items-center gap-2">
+                  <component
+                    :is="getIconComponent(item.icon)"
+                    class="text-sm"
+                  />
+                  <div class="flex-1">
+                    <div class="flex items-center gap-2">
+                      <span class="text-sm">{{ item.name }}</span>
+                      <!-- Count Badge -->
+                      <Tag
+                        v-if="item.count !== undefined"
+                        color="blue"
+                        class="text-xs"
+                      >
+                        {{ item.count }}
+                      </Tag>
+                      <!-- Pending Review Tag -->
+                      <Tag
+                        v-if="item.pendingReview"
+                        color="orange"
+                        class="text-xs"
+                      >
+                        Pending
+                      </Tag>
+                      <!-- Review Status Tags -->
+                      <Tag
+                        v-else-if="item.status === 'reviewed'"
+                        color="blue"
+                        class="text-xs"
+                      >
+                        Reviewed
+                      </Tag>
+                      <Tag
+                        v-else-if="item.status === 'approved'"
+                        color="green"
+                        class="text-xs"
+                      >
+                        Approved
+                      </Tag>
+                      <Tag
+                        v-else-if="item.status === 'classified'"
+                        color="purple"
+                        class="text-xs"
+                      >
+                        Classified
+                      </Tag>
+                    </div>
+                    <!-- Classification confidence -->
+                    <div
+                      v-if="item.confidence"
+                      class="mt-1 text-xs text-gray-500"
+                    >
+                      Confidence: {{ item.confidence }}
+                    </div>
+                    <!-- Document types or detected items -->
+                    <div v-if="item.types" class="mt-1 text-xs text-gray-600">
+                      {{ item.types.join(', ') }}
+                    </div>
+                    <div
+                      v-if="item.detected"
+                      class="mt-1 text-xs text-gray-600"
+                    >
+                      {{ item.detected.join(', ') }}
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Action Icons -->
+                <div
+                  class="flex items-center gap-1 opacity-0 group-hover:opacity-100"
+                >
+                  <Button
+                    v-if="item.hasView"
+                    type="text"
+                    size="small"
+                    class="p-1"
                   >
-                    Confidence: {{ item.confidence }}
-                  </div>
-                  <!-- Document types or detected items -->
-                  <div v-if="item.types" class="mt-1 text-xs text-gray-600">
-                    {{ item.types.join(', ') }}
-                  </div>
-                  <div v-if="item.detected" class="mt-1 text-xs text-gray-600">
-                    {{ item.detected.join(', ') }}
-                  </div>
+                    <EyeOutlined class="text-xs" />
+                  </Button>
+                  <Button
+                    v-if="item.hasDownload"
+                    type="text"
+                    size="small"
+                    class="p-1"
+                  >
+                    <DownloadOutlined class="text-xs" />
+                  </Button>
                 </div>
               </div>
 
-              <!-- Action Icons -->
+              <!-- Sub-items list -->
               <div
-                class="flex items-center gap-1 opacity-0 group-hover:opacity-100"
+                v-if="item.isAccordion && expandedItems[item.name]"
+                class="ml-4 mt-1 space-y-1"
               >
-                <Button
-                  v-if="item.hasView"
-                  type="text"
-                  size="small"
-                  class="p-1"
+                <div
+                  v-for="subItem in dynamicSubItems[item.name]"
+                  :key="subItem.name"
+                  :class="[
+                    'group flex items-center justify-between rounded-lg p-2 transition-colors',
+                    subItem.disabled
+                      ? 'cursor-not-allowed opacity-50'
+                      : 'cursor-pointer hover:bg-gray-50',
+                  ]"
+                  @click="handleSectionClick(subItem)"
                 >
-                  <EyeOutlined class="text-xs" />
-                </Button>
-                <Button
-                  v-if="item.hasDownload"
-                  type="text"
-                  size="small"
-                  class="p-1"
-                >
-                  <DownloadOutlined class="text-xs" />
-                </Button>
+                  <div class="flex flex-1 items-center gap-2">
+                    <div class="flex-1">
+                      <span class="text-sm">{{ subItem.name }}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -3390,6 +3493,9 @@ const getIconComponent = (iconName: string) => {
       ref="capitalAllowanceModalRef"
       @save="handleCapitalAllowanceSave"
     />
+
+    <CP204Modal ref="cp204ModalRef" />
+    <OtherParticularsModal ref="otherParticularsModalRef" />
 
     <!-- Edit Adjustment Note Modal -->
     <Modal
