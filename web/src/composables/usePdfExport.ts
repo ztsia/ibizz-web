@@ -215,6 +215,15 @@ export function usePdfExport() {
       'HK-PC7',
       'HK-PC8',
       'HK-PC9',
+      'RK-T',
+      'RK-S',
+      'CP-204',
+      'CP-204A',
+      'CP-204B',
+      'OP-MAIN',
+      'OP-CT',
+      'OP-LABUAN',
+      'OP-CBCR',
     ];
     return availableTemplates.includes(worksheetCode);
   };

@@ -348,8 +348,10 @@ const onSave = async () => {
   } catch (error_: any) {
     message.error(error_.message || 'Failed to save form.');
   } finally {
-            setTimeout(() => { isSaving.value = false; }, 0);
-          }
-        };
+    setTimeout(() => {
+      isSaving.value = false;
+    }, 0);
+  }
+};
 defineExpose({ open, visiblePages });
 </script>

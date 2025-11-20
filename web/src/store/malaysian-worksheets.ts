@@ -842,6 +842,55 @@ const defaultWorksheets: MalaysianTaxWorksheet[] = [
     ],
     relatedForms: ['HK-C16', 'HK-C16A'],
   },
+  {
+    code: 'CP-204',
+    description: 'Estimation of Tax Payable by a Company',
+    section: 'supporting-forms',
+    status: 'pending',
+    lastUpdated: new Date(),
+  },
+  {
+    code: 'CP-204A',
+    description: 'Revision of Estimation of Tax Payable',
+    section: 'supporting-forms',
+    status: 'pending',
+    lastUpdated: new Date(),
+  },
+  {
+    code: 'CP-204B',
+    description: 'Notification of Change in Accounting Period',
+    section: 'supporting-forms',
+    status: 'pending',
+    lastUpdated: new Date(),
+  },
+  {
+    code: 'OP-MAIN',
+    description: 'Other Particulars - Main',
+    section: 'supporting-forms',
+    status: 'pending',
+    lastUpdated: new Date(),
+  },
+  {
+    code: 'OP-CT',
+    description: 'Other Particulars - Controlled Transactions',
+    section: 'supporting-forms',
+    status: 'pending',
+    lastUpdated: new Date(),
+  },
+  {
+    code: 'OP-LABUAN',
+    description: 'Other Particulars - Labuan Details',
+    section: 'supporting-forms',
+    status: 'pending',
+    lastUpdated: new Date(),
+  },
+  {
+    code: 'OP-CBCR',
+    description: 'Other Particulars - CbC Reporting',
+    section: 'supporting-forms',
+    status: 'pending',
+    lastUpdated: new Date(),
+  },
 ];
 
 export const useMalaysianWorksheetsStore = defineStore(

@@ -464,6 +464,27 @@
                           <HKPC9FormTemplate
                             v-else-if="selectedWorksheet.code === 'HK-PC9'"
                           />
+                          <CP204FormTemplate
+                            v-else-if="selectedWorksheet.code === 'CP-204'"
+                          />
+                          <CP204AFormTemplate
+                            v-else-if="selectedWorksheet.code === 'CP-204A'"
+                          />
+                          <CP204BFormTemplate
+                            v-else-if="selectedWorksheet.code === 'CP-204B'"
+                          />
+                          <OtherParticularsMainTemplate
+                            v-else-if="selectedWorksheet.code === 'OP-MAIN'"
+                          />
+                          <ControlledTransactionsTemplate
+                            v-else-if="selectedWorksheet.code === 'OP-CT'"
+                          />
+                          <LabuanDetailsTemplate
+                            v-else-if="selectedWorksheet.code === 'OP-LABUAN'"
+                          />
+                          <CbcrTemplate
+                            v-else-if="selectedWorksheet.code === 'OP-CBCR'"
+                          />
                           <div v-else class="py-16 text-center text-slate-500">
                             <FileTextOutlined class="mb-6 text-6xl" />
                             <p class="text-2xl font-medium">
@@ -524,6 +545,13 @@ import HKPC6FormTemplate from './forms/HKPC6FormTemplate.vue';
 import HKPC7FormTemplate from './forms/HKPC7FormTemplate.vue';
 import HKPC8FormTemplate from './forms/HKPC8FormTemplate.vue';
 import HKPC9FormTemplate from './forms/HKPC9FormTemplate.vue';
+import CP204FormTemplate from './forms/CP204FormTemplate.vue';
+import CP204AFormTemplate from './forms/CP204AFormTemplate.vue';
+import CP204BFormTemplate from './forms/CP204BFormTemplate.vue';
+import OtherParticularsMainTemplate from './forms/OtherParticularsMainTemplate.vue';
+import ControlledTransactionsTemplate from './forms/ControlledTransactionsTemplate.vue';
+import LabuanDetailsTemplate from './forms/LabuanDetailsTemplate.vue';
+import CbcrTemplate from './forms/CbcrTemplate.vue';
 import { usePdfExport } from '#/composables/usePdfExport';
 import { usePdfExportContext } from '#/composables/usePdfExportContext';
 
@@ -693,6 +721,13 @@ const previewWorksheet = (worksheet: MalaysianTaxWorksheet) => {
     'HK-PC7',
     'HK-PC8',
     'HK-PC9',
+    'CP-204',
+    'CP-204A',
+    'CP-204B',
+    'OP-MAIN',
+    'OP-CT',
+    'OP-LABUAN',
+    'OP-CBCR',
   ];
   activeTab.value = formsWithTemplates.includes(worksheet.code)
     ? 'form-preview'
@@ -771,38 +806,110 @@ watch(
 </script>
 
 <style scoped>
-/*
-  ENHANCED INPUT POSITIONING SYSTEM
-  
-  This component now includes multiple approaches for perfect vertical text alignment:
-  
-  1. CSS Grid Approach (tax-form-input-table):
-     - Uses `display: grid` with `place-items: center end`
-     - Perfect for table cells with right-aligned text
-     - Provides precise control over both axes
-  
-  2. Flexbox Approach (tax-form-input-standard):
-     - Uses `display: flex` with `align-items: center`
-     - Great for standard form inputs
-     - Excellent browser support
-  
-  3. CSS Transform Fine-tuning:
-     - `translateY(-1px)` for micro-adjustments
-     - Utility classes for different positioning needs
-     - Maintains positioning in PDF exports
-  
-  4. TaxFormInput Component:
-     - Custom Ant Design Vue wrapper
-     - Advanced positioning with multiple variants
-     - Consistent API across all form templates
-  
-  Usage Examples:
-  - Table inputs: Use .tax-form-input-table class
-  - Standard inputs: Use .tax-form-input-standard class
-  - Custom positioning: Add .tax-form-text-up-1, .tax-form-text-up-2, etc.
-  - Perfect centering: Use .tax-form-input-perfect-center
-  - Component approach: <TaxFormInput variant="table" textAlign="right" />
-*/
+/* Print media queries for PDF export */
+@media print {
+  .pdf-text-only {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+    font-family: Arial, sans-serif;
+  }
+
+  .pdf-text-table-cell,
+  .pdf-text-standard,
+  .pdf-text-small {
+    color: #000 !important;
+    background: transparent !important;
+    border-color: #000 !important;
+  }
+
+  /* Hide input elements during print */
+  input:not(.pdf-text-only),
+  textarea:not(.pdf-text-only),
+  select:not(.pdf-text-only) {
+    display: none !important;
+  }
+}
+
+/* Enhanced PDF Export Optimizations with Modern CSS */
+@media print {
+  .tax-form-input-base {
+    /* Maintain advanced positioning in PDF */
+    display: grid !important;
+    place-items: center !important;
+    font-size: 10px !important;
+    line-height: 1 !important;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+  }
+
+  .tax-form-input-table {
+    /* Preserve grid positioning */
+    display: grid !important;
+    place-items: center end !important;
+    height: 16px !important;
+    min-height: 16px !important;
+    padding: 0 4px !important;
+    line-height: 1 !important;
+    background: transparent !important;
+    border: none !important;
+    transform: translateY(-0.5px) !important;
+  }
+
+  .tax-form-input-standard {
+    /* Preserve flexbox positioning */
+    display: flex !important;
+    align-items: center !important;
+    height: 20px !important;
+    min-height: 20px !important;
+    padding: 0 6px !important;
+    line-height: 1 !important;
+    border: 1px solid #666 !important;
+    transform: translateY(-0.5px) !important;
+  }
+
+  .tax-form-input-small {
+    /* Preserve grid positioning */
+    display: grid !important;
+    place-items: center !important;
+    height: 14px !important;
+    min-height: 14px !important;
+    padding: 0 4px !important;
+    line-height: 1 !important;
+    transform: translateY(-0.5px) !important;
+  }
+
+  .form-display-container table {
+    border-collapse: collapse !important;
+  }
+
+  .form-display-container table td {
+    padding: 1px !important;
+    vertical-align: middle !important;
+    border: 1px solid #666 !important;
+  }
+
+  .form-display-container table td input {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    padding: 1px 2px !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: none !important;
+  }
+
+  /* Ensure text alignment is preserved in PDF */
+  .tax-form-text-right {
+    text-align: right !important;
+  }
+
+  .tax-form-text-center {
+    text-align: center !important;
+  }
+
+  .tax-form-text-left {
+    text-align: left !important;
+  }
+}
 
 /* Transitions */
 .toggle-fade-enter-active,
@@ -857,9 +964,9 @@ watch(
 /* Line clamp utility */
 .line-clamp-2 {
   display: -webkit-box;
+  overflow: hidden;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 /* Modal customization */
@@ -874,38 +981,39 @@ watch(
 
 /* Form display enhancements */
 .form-display-container {
-  background: #ffffff;
+  background: #fff;
   box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    0 4px 6px -1px rgb(0 0 0 / 10%),
+    0 2px 4px -1px rgb(0 0 0 / 6%);
 }
 
 .form-display-container:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 0 0 3px rgb(59 130 246 / 10%);
 }
 
 /* Form display enhancements */
 .form-content-wrapper {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
   background: white;
   border-radius: 8px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
 }
 
 /* Advanced Input Positioning System */
 .tax-form-input-base {
   @apply transition-all duration-200 focus:outline-none;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1;
 
   /* Modern CSS for perfect vertical centering */
   display: grid;
   place-items: center;
   align-content: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1;
 
   /* Alternative flexbox approach */
+
   /* display: flex;
      align-items: center;
      justify-content: center; */
@@ -913,28 +1021,26 @@ watch(
 
 /* Enhanced Input Container with CSS Grid */
 .tax-form-input-container {
+  position: relative;
   display: grid;
   place-items: center;
-  width: 100%;
-  min-height: 32px;
-  position: relative;
 
   /* Ensure proper text baseline alignment */
-  align-content: center;
-  justify-content: stretch;
+  place-content: center stretch;
+  width: 100%;
+  min-height: 32px;
 }
 
 /* Flexbox Alternative for Input Container */
 .tax-form-input-container-flex {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 32px;
   position: relative;
+  display: flex;
 
   /* Fine-tune vertical positioning */
-  align-content: center;
+  place-content: center center;
+  align-items: center;
+  width: 100%;
+  min-height: 32px;
 }
 
 /* Table Cell Inputs - Enhanced with CSS Grid positioning */
@@ -944,92 +1050,95 @@ watch(
   /* Advanced positioning for perfect vertical centering */
   display: grid;
   place-items: center end; /* Center vertically, align right horizontally */
-
-  padding: 0 6px;
-  min-height: 20px;
   height: 100%;
-
-  /* CSS Transform for micro-adjustments */
-  transform: translateY(-1px); /* Move text up slightly */
-
-  /* Fallback for older browsers */
-  vertical-align: middle;
-  line-height: 1;
+  min-height: 20px;
+  padding: 0 6px;
 
   /* Ensure text stays within bounds */
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1;
+
+  /* Fallback for older browsers */
+  vertical-align: middle;
   white-space: nowrap;
+
+  /* CSS Transform for micro-adjustments */
+  transform: translateY(-1px); /* Move text up slightly */
 }
 
 /* Standard Form Inputs - Enhanced with Flexbox positioning */
 .tax-form-input-standard {
   @apply tax-form-input-base border border-gray-400 bg-white text-sm;
 
+  box-sizing: border-box;
+
   /* Flexbox for precise vertical centering */
   display: flex;
   align-items: center;
-
-  padding: 0 8px;
-  min-height: 32px;
   height: 32px;
+  min-height: 32px;
+  padding: 0 8px;
+  line-height: 1;
 
   /* CSS Transform for fine-tuning */
   transform: translateY(-0.5px); /* Subtle upward adjustment */
-
-  line-height: 1;
-  box-sizing: border-box;
 }
 
 /* Small Form Inputs - Enhanced with CSS Grid */
 .tax-form-input-small {
   @apply tax-form-input-base border border-gray-400 bg-white text-xs;
 
+  box-sizing: border-box;
+
   /* CSS Grid for perfect centering */
   display: grid;
   place-items: center;
-
-  padding: 0 6px;
-  min-height: 24px;
   height: 24px;
+  min-height: 24px;
+  padding: 0 6px;
+  line-height: 1;
 
   /* CSS Transform for micro-positioning */
   transform: translateY(-1px); /* Move text up slightly */
-
-  line-height: 1;
-  box-sizing: border-box;
 }
 
 /* Text Alignment Classes with Enhanced Positioning */
 .tax-form-text-left {
-  text-align: left;
-  justify-content: flex-start;
   place-items: center start;
+  justify-content: flex-start;
+  text-align: left;
 }
+
 .tax-form-text-center {
-  text-align: center;
-  justify-content: center;
   place-items: center;
+  justify-content: center;
+  text-align: center;
 }
+
 .tax-form-text-right {
-  text-align: right;
-  justify-content: flex-end;
   place-items: center end;
+  justify-content: flex-end;
+  text-align: right;
 }
 
 /* Vertical Positioning Adjustment Classes */
 .tax-form-text-up-1 {
   transform: translateY(-1px);
 }
+
 .tax-form-text-up-2 {
   transform: translateY(-2px);
 }
+
 .tax-form-text-up-3 {
   transform: translateY(-3px);
 }
+
 .tax-form-text-down-1 {
   transform: translateY(1px);
 }
+
 .tax-form-text-down-2 {
   transform: translateY(2px);
 }
@@ -1038,37 +1147,39 @@ watch(
 .tax-form-input-perfect-center {
   display: grid;
   place-items: center;
-  transform: translateY(-1px);
   line-height: 1;
+  transform: translateY(-1px);
 }
 
 .tax-form-input-flex-center {
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translateY(-0.5px);
   line-height: 1;
+  transform: translateY(-0.5px);
 }
 
 /* Width Classes */
 .tax-form-w-full {
   width: 100%;
 }
+
 .tax-form-w-32 {
   width: 8rem;
 }
+
 .tax-form-w-40 {
   width: 10rem;
 }
 
 /* Enhanced form display for fullscreen within modal */
 .form-display-container.h-full .form-content-wrapper {
+  margin: 0;
   background: white;
   border-radius: 12px;
   box-shadow:
-    0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  margin: 0;
+    0 10px 15px -3px rgb(0 0 0 / 10%),
+    0 4px 6px -2px rgb(0 0 0 / 5%);
 }
 
 /* Smooth transitions for fullscreen toggle */
@@ -1128,39 +1239,42 @@ watch(
 /* Text elements for PDF export - Table cells */
 .pdf-text-table-cell {
   @apply pdf-text-only;
+
   width: 100%;
-  padding: 2px 6px 6px 6px;
-  text-align: right;
+  padding: 2px 6px 6px;
   font-size: 12px;
-  border: none;
-  background: transparent;
   color: #000;
+  text-align: right;
+  background: transparent;
+  border: none;
 }
 
 /* Text elements for PDF export - Standard form fields */
 .pdf-text-standard {
   @apply pdf-text-only;
-  padding: 4px 8px 8px 8px;
+
+  min-width: 120px;
+  padding: 4px 8px 8px;
   font-size: 14px;
   line-height: 1.2;
   color: #000;
   background: transparent;
   border: 1px solid #d1d5db;
   border-radius: 4px;
-  min-width: 120px;
 }
 
 /* Text elements for PDF export - Small form fields */
 .pdf-text-small {
   @apply pdf-text-only;
-  padding: 2px 6px 6px 6px;
+
+  min-width: 80px;
+  padding: 2px 6px 6px;
   font-size: 12px;
   line-height: 1.1;
   color: #000;
   background: transparent;
   border: 1px solid #d1d5db;
   border-radius: 3px;
-  min-width: 80px;
 }
 
 /* Text alignment classes for PDF export */
@@ -1178,6 +1292,7 @@ watch(
 
 /* PDF-specific table cell text styling */
 .pdf-table-text {
+  box-sizing: border-box;
   display: block;
   width: 100%;
   height: 100%;
@@ -1185,11 +1300,10 @@ watch(
   margin: 0;
   font-size: 11px;
   line-height: 1.2;
-  text-align: right;
   color: #000;
+  text-align: right;
   background: transparent;
   border: none;
-  box-sizing: border-box;
 }
 
 /* Ensure text elements maintain proper spacing in tables */
@@ -1201,33 +1315,10 @@ th .pdf-text-only {
   min-height: 18px;
 }
 
-/* Print media queries for PDF export */
-@media print {
-  .pdf-text-only {
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-    font-family: 'Arial', sans-serif;
-  }
-
-  .pdf-text-table-cell,
-  .pdf-text-standard,
-  .pdf-text-small {
-    border-color: #000 !important;
-    color: #000 !important;
-    background: transparent !important;
-  }
-
-  /* Hide input elements during print */
-  input:not(.pdf-text-only),
-  textarea:not(.pdf-text-only),
-  select:not(.pdf-text-only) {
-    display: none !important;
-  }
-}
-
 /* Enhanced Input Alignment for PDF Export */
 .form-display-container input {
   @apply tax-form-input-base;
+
   box-sizing: border-box;
   vertical-align: top;
 }
@@ -1251,89 +1342,36 @@ th .pdf-text-only {
   vertical-align: middle;
 }
 
-/* Enhanced PDF Export Optimizations with Modern CSS */
-@media print {
-  .tax-form-input-base {
-    -webkit-print-color-adjust: exact;
-    color-adjust: exact;
-    font-size: 10px !important;
-    line-height: 1 !important;
-
-    /* Maintain advanced positioning in PDF */
-    display: grid !important;
-    place-items: center !important;
-  }
-
-  .tax-form-input-table {
-    padding: 0 4px !important;
-    min-height: 16px !important;
-    height: 16px !important;
-    border: none !important;
-    background: transparent !important;
-
-    /* Preserve grid positioning */
-    display: grid !important;
-    place-items: center end !important;
-    transform: translateY(-0.5px) !important;
-
-    line-height: 1 !important;
-  }
-
-  .tax-form-input-standard {
-    padding: 0 6px !important;
-    min-height: 20px !important;
-    height: 20px !important;
-    border: 1px solid #666 !important;
-
-    /* Preserve flexbox positioning */
-    display: flex !important;
-    align-items: center !important;
-    transform: translateY(-0.5px) !important;
-
-    line-height: 1 !important;
-  }
-
-  .tax-form-input-small {
-    padding: 0 4px !important;
-    min-height: 14px !important;
-    height: 14px !important;
-
-    /* Preserve grid positioning */
-    display: grid !important;
-    place-items: center !important;
-    transform: translateY(-0.5px) !important;
-
-    line-height: 1 !important;
-  }
-
-  .form-display-container table {
-    border-collapse: collapse !important;
-  }
-
-  .form-display-container table td {
-    padding: 1px !important;
-    border: 1px solid #666 !important;
-    vertical-align: middle !important;
-  }
-
-  .form-display-container table td input {
-    border: none !important;
-    background: transparent !important;
-    padding: 1px 2px !important;
-    margin: 0 !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-  }
-
-  /* Ensure text alignment is preserved in PDF */
-  .tax-form-text-right {
-    text-align: right !important;
-  }
-  .tax-form-text-center {
-    text-align: center !important;
-  }
-  .tax-form-text-left {
-    text-align: left !important;
-  }
-}
+/*
+  ENHANCED INPUT POSITIONING SYSTEM
+  
+  This component now includes multiple approaches for perfect vertical text alignment:
+  
+  1. CSS Grid Approach (tax-form-input-table):
+     - Uses `display: grid` with `place-items: center end`
+     - Perfect for table cells with right-aligned text
+     - Provides precise control over both axes
+  
+  2. Flexbox Approach (tax-form-input-standard):
+     - Uses `display: flex` with `align-items: center`
+     - Great for standard form inputs
+     - Excellent browser support
+  
+  3. CSS Transform Fine-tuning:
+     - `translateY(-1px)` for micro-adjustments
+     - Utility classes for different positioning needs
+     - Maintains positioning in PDF exports
+  
+  4. TaxFormInput Component:
+     - Custom Ant Design Vue wrapper
+     - Advanced positioning with multiple variants
+     - Consistent API across all form templates
+  
+  Usage Examples:
+  - Table inputs: Use .tax-form-input-table class
+  - Standard inputs: Use .tax-form-input-standard class
+  - Custom positioning: Add .tax-form-text-up-1, .tax-form-text-up-2, etc.
+  - Perfect centering: Use .tax-form-input-perfect-center
+  - Component approach: <TaxFormInput variant="table" textAlign="right" />
+*/
 </style>

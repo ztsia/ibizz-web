@@ -193,48 +193,6 @@
       </div>
     </div>
 
-    <!-- Special Revision -->
-    <div class="mb-8">
-      <h3 class="mb-4 border-b text-lg font-semibold">Special Revision</h3>
-      <div class="space-y-4">
-        <div class="flex items-center">
-          <label class="w-48 font-medium">Revision Type</label>
-          <div class="field-value">
-            {{
-              getDisplayValue(
-                'special_revision_type',
-                formData['special_revision_type'],
-              )
-            }}
-          </div>
-        </div>
-        <div class="flex items-center">
-          <label class="w-48 font-medium">Application / CP205 Date</label>
-          <div class="field-value">
-            {{
-              getDisplayValue(
-                'special_revision_date',
-                formData['special_revision_date'],
-              )
-            }}
-          </div>
-        </div>
-        <div class="flex items-center">
-          <label class="w-48 font-medium">Revised estimated tax payable</label>
-          <div class="field-value">
-            {{
-              formatNumber(
-                getDisplayValue(
-                  'special_revision_revised_estimated_tax',
-                  formData['special_revision_revised_estimated_tax'],
-                ),
-              )
-            }}
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- 3rd Revision -->
     <div class="mb-8">
       <h3 class="mb-4 border-b text-lg font-semibold">3rd Revision</h3>

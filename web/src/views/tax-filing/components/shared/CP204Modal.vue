@@ -2,8 +2,26 @@
   <CP204Modal>
     <!-- Custom Title Slot -->
     <template #title>
-      <div class="flex w-full items-center justify-between pr-12">
-        <span>{{ template?.formName || 'CP204 Form' }}</span>
+      <div class="flex w-full flex-col pr-12">
+        <div class="flex w-full items-center justify-between">
+          <span>{{ template?.formName || 'CP204 Form' }}</span>
+        </div>
+        <!-- Manual Tab Navigator -->
+        <div class="mt-4 grid w-full grid-cols-4">
+          <button
+            v-for="page in pages"
+            :key="page.id"
+            @click="currentTab = page.id"
+            :class="[
+              'ring-offset-background focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+              currentTab === page.id
+                ? 'bg-background text-foreground shadow-sm'
+                : 'hover:bg-muted/50',
+            ]"
+          >
+            {{ page.title }}
+          </button>
+        </div>
       </div>
     </template>
 
@@ -22,16 +40,9 @@
 
     <!-- Main Modal Layout (when data is loaded) -->
     <div v-else-if="template">
-      <!-- Tabs Navigation -->
-      <Tabs v-model="currentTab" class="w-full">
-        <TabsList class="mb-6 grid w-full grid-cols-4">
-          <TabsTrigger v-for="page in pages" :key="page.id" :value="page.id">
-            {{ page.title }}
-          </TabsTrigger>
-        </TabsList>
-
-        <!-- Tab Content -->
-        <TabsContent v-for="page in pages" :key="page.id" :value="page.id">
+      <!-- Manually controlled tab content -->
+      <div v-for="page in pages" :key="page.id">
+        <div v-if="currentTab === page.id">
           <CardPage
             :page="page"
             :form-data="formData"
@@ -41,8 +52,8 @@
             @update:field="updateField"
             @view-page="openViewModal"
           />
-        </TabsContent>
-      </Tabs>
+        </div>
+      </div>
     </div>
 
     <!-- Custom Footer Slot -->
@@ -96,14 +107,7 @@ import {
   useFormValidation,
   useVisibleFields,
 } from '../../../system/form_c/composables';
-import {
-  VbenSpinner,
-  Button,
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@vben-core/shadcn-ui';
+import { VbenSpinner, Button } from '@vben-core/shadcn-ui';
 
 // Modal setup
 const [CP204Modal, cp204ModalApi] = useVbenModal({
