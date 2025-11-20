@@ -110,14 +110,18 @@ const getDisplayValue = (fieldId: string, value: any) => {
 
 const pdfTemplateName = computed(() => {
   switch (pageId.value) {
-    case 'page_cp204':
+    case 'page_cp204': {
       return 'cp204-template';
-    case 'page_cp204a':
+    }
+    case 'page_cp204a': {
       return 'cp204a-template';
-    case 'page_cp204b':
+    }
+    case 'page_cp204b': {
       return 'cp204b-template';
-    default:
+    }
+    default: {
       return null;
+    }
   }
 });
 
@@ -131,9 +135,7 @@ const pdfData = computed(() => {
 
   const allFields = currentPage.sections
     .flatMap((s) => s.fields)
-    .filter(
-      (f) => f.inputType !== 'placeholder' && !f.id.endsWith('_toggle'),
-    );
+    .filter((f) => f.inputType !== 'placeholder' && !f.id.endsWith('_toggle'));
 
   for (const field of allFields) {
     const rawValue = formData.value[field.id];
@@ -142,10 +144,7 @@ const pdfData = computed(() => {
       if (rawValue) {
         data[`${field.id}_checked`] = 'checked';
       }
-    } else if (
-      field.inputType === 'currency' ||
-      field.inputType === 'number'
-    ) {
+    } else if (field.inputType === 'currency' || field.inputType === 'number') {
       data[field.id] = formatNumber(rawValue);
     } else {
       data[field.id] = getDisplayValue(field.id, rawValue) || '';
@@ -156,7 +155,7 @@ const pdfData = computed(() => {
 
 const pdfFileName = computed(() => {
   const year = template.value?.yearOfAssessment || new Date().getFullYear();
-  const title = pageTitle.value.replace(/ /g, '_');
+  const title = pageTitle.value.replaceAll(' ', '_');
   return `${title}_${year}.pdf`;
 });
 

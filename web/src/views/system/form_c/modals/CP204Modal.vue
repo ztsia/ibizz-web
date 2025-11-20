@@ -4,14 +4,6 @@
     <template #title>
       <div class="flex w-full items-center justify-between pr-12">
         <span>{{ template?.formName || 'CP204 Form' }}</span>
-        <Button
-          v-if="template"
-          variant="outline"
-          @click="openViewModal(currentTab)"
-        >
-          <Eye class="mr-2 h-4 w-4" />
-          Print Preview
-        </Button>
       </div>
     </template>
 
@@ -55,12 +47,27 @@
 
     <!-- Custom Footer Slot -->
     <template #footer>
-      <FormActionsBar
-        v-if="canEdit"
-        :disabled="!hasChanges"
-        @save="onSave"
-        @cancel="handleCancelAndClose"
-      />
+      <div class="w-full flex items-center justify-between">
+        <div class="flex items-center">
+          <Button
+            v-if="template"
+            variant="outline"
+            @click="openViewModal(currentTab)"
+          >
+            <Eye class="mr-2 h-4 w-4" />
+            Print Preview
+          </Button>
+        </div>
+
+        <div>
+          <FormActionsBar
+            v-if="canEdit"
+            :disabled="!hasChanges"
+            @save="onSave"
+            @cancel="handleCancelAndClose"
+          />
+        </div>
+      </div>
     </template>
 
     <!-- The Print Preview Modal (nested) -->

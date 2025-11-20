@@ -42,8 +42,7 @@
               {
                 "id": "acc_period_to",
                 "label": "To",
-                "inputType": "date",
-                "isLabelHidden": true
+                "inputType": "date"
               },
               {
                 "id": "basis_period_from",
@@ -53,13 +52,16 @@
               {
                 "id": "basis_period_to",
                 "label": "To",
-                "inputType": "date",
-                "isLabelHidden": true
+                "inputType": "date"
               },
               {
                 "id": "new_company_commenced_on",
                 "label": "New company business commenced on",
                 "inputType": "date"
+              },
+              {
+                "id": "placeholder", 
+                "inputType": "placeholder"
               },
               {
                 "id": "new_company_sme_status",
@@ -83,6 +85,10 @@
                 ]
               },
               {
+                "id": "placeholder", 
+                "inputType": "placeholder"
+              },
+              {
                 "id": "installments_1_to_11",
                 "label": "1 to 11 Installments",
                 "inputType": "currency"
@@ -91,16 +97,15 @@
                 "id": "final_installment",
                 "label": "Final installment",
                 "inputType": "currency"
-              },
-              {
-                "id": "new_company_or_change_fye",
-                "label": "New company or change of financial year end",
-                "inputType": "boolean"
-              },
-              {
-                "id": "placeholder", 
-                "inputType": "placeholder"
-              },
+              }
+            ]
+          }
+          ,
+          {
+            "part": "CP204_NewCompanyOrFyeChange",
+            "title": "New company or change of financial year end",
+            "show_if": null,
+            "fields": [
               {
                 "id": "following_basis_period_from",
                 "label": "Following assessment basis period from",

@@ -1,15 +1,5 @@
 <template>
   <div class="space-y-4">
-    <div class="mb-4 flex justify-end">
-      <Button
-        v-if="isFormValid"
-        variant="outline"
-        @click="emit('view-page', page.id)"
-      >
-        <Eye class="mr-2 h-4 w-4" />
-        Print Preview
-      </Button>
-    </div>
     <SectionCard
       v-for="section in page.sections"
       :key="section.part"
