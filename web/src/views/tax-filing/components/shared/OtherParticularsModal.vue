@@ -1,7 +1,7 @@
 <template>
   <OtherParticularsModal>
     <template #title>
-      <div class="w-full">
+      <div class="w-full px-6 pt-6">
         <!-- Header with title and toggle -->
         <div class="flex items-center justify-between pb-2">
           <h1 class="text-2xl font-bold">
@@ -138,7 +138,7 @@ import { VbenSpinner, Button } from '@vben-core/shadcn-ui';
 const [OtherParticularsModal, otherParticularsModalApi] = useVbenModal({
   title: 'Other Particulars', // This will be replaced by the #title slot
   showConfirmButton: false,
-  showCancelButton: false,
+  showCancelButton: true,
   width: '90%',
   class: 'other-particulars-modal',
 });
@@ -348,11 +348,8 @@ const onSave = async () => {
   } catch (error_: any) {
     message.error(error_.message || 'Failed to save form.');
   } finally {
-    setTimeout(() => {
-      isSaving.value = false;
-    }, 0);
-  }
-};
-
+            setTimeout(() => { isSaving.value = false; }, 0);
+          }
+        };
 defineExpose({ open, visiblePages });
 </script>
