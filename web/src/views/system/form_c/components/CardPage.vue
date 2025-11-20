@@ -15,8 +15,6 @@
 import type { FormTemplatePage } from '../types';
 // @ts-ignore
 import { SectionCard } from './';
-import { Button } from '@vben-core/shadcn-ui';
-import { Eye } from 'lucide-vue-next';
 
 defineProps<{
   page: FormTemplatePage;

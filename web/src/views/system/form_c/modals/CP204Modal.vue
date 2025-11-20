@@ -47,7 +47,7 @@
 
     <!-- Custom Footer Slot -->
     <template #footer>
-      <div class="w-full flex items-center justify-between">
+      <div class="flex w-full items-center justify-between">
         <div class="flex items-center">
           <Button
             v-if="template"

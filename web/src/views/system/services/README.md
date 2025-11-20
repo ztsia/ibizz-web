@@ -190,6 +190,7 @@ Generates a PDF with a title, subtitle, and a dynamic table.
 **Template Name**: `table-template`
 
 **Data Payload Example**:
+
 ```json
 {
   "title": "List of Payments" (string),
@@ -220,6 +221,7 @@ Generates a CP204 form ("Estimation of Tax Payable"). For checkboxes, pass the s
 **Template Name**: `cp204-template`
 
 **Data Payload Example**:
+
 ```json
 {
   "cp204_cp205_date": "2025-01-15" (string),
@@ -250,6 +252,7 @@ Generates a CP204A form ("Revision of Estimation of Tax Payable").
 **Template Name**: `cp204a-template`
 
 **Data Payload Example**:
+
 ```json
 {
   "revision_1_application_made_checked": "checked" (string: "checked" | ""),
@@ -286,6 +289,7 @@ Generates a CP204B form ("Notification of Change in Accounting Period").
 **Template Name**: `cp204b-template`
 
 **Data Payload Example**:
+
 ```json
 {
   "cp204b_date": "2025-07-01" (string),
