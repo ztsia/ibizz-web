@@ -3,14 +3,14 @@
     <!-- Overlay -->
     <div
       v-if="visible"
-      class="z-overlay fixed inset-0 bg-black/80"
+      class="fixed inset-0 z-[9998] bg-black/80"
       @click="onCancel"
     ></div>
 
     <!-- Modal Content -->
     <div
       v-if="visible"
-      class="z-popup bg-background fixed left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 p-6 shadow-lg outline-none sm:max-w-[520px] sm:rounded-xl"
+      class="bg-background fixed left-1/2 top-1/2 z-[9999] w-full -translate-x-1/2 -translate-y-1/2 p-6 shadow-lg outline-none sm:max-w-[520px] sm:rounded-xl"
       role="dialog"
       aria-modal="true"
     >

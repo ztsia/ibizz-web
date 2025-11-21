@@ -109,20 +109,7 @@
         @delete="openDeleteGroup"
         @close="showSegmented = false"
       />
-      <AddGroupModal
-        :modelValue="showAddGroup"
-        @update:modelValue="showAddGroup = $event"
-        :initial="editInitial"
-        :allow-edit-columns="canEditColumns"
-        :mode="isEditingGroup ? 'edit' : 'add'"
-        @save="onGroupModalSave"
-        @close="
-          () => {
-            isEditingGroup = false;
-            editInitial = null;
-          }
-        "
-      />
+      <AddGroupModal ref="addGroupModalRef" @save="onGroupModalSave" />
     </Teleport>
   </div>
 </template>
@@ -190,9 +177,7 @@ const displayTitle = computed(() =>
 );
 
 // Add Group modal state
-const showAddGroup = ref(false);
-const isEditingGroup = ref(false);
-const editInitial = ref<Record<string, any> | null>(null);
+const addGroupModalRef = ref<InstanceType<typeof AddGroupModal> | null>(null);
 
 // pending group id generator
 let _tempId = 0;
@@ -309,16 +294,12 @@ function openLookup() {
 }
 
 function openAddGroup() {
-  isEditingGroup.value = false;
-  editInitial.value = null;
-  showAddGroup.value = true;
+  addGroupModalRef.value?.open(null, 'add', true);
 }
 
 function openEditGroup() {
   if (!activeGroup.value) return;
-  isEditingGroup.value = true;
-  editInitial.value = activeGroup.value;
-  showAddGroup.value = true;
+  addGroupModalRef.value?.open(activeGroup.value, 'edit', canEditColumns.value);
   showSegmented.value = false;
 }
 
@@ -437,14 +418,13 @@ async function handleEditGroupPayload(payload: any) {
     }
   } catch (error_) {
     console.error('An error occurred during the update process:', error_);
-  } finally {
-    isEditingGroup.value = false;
-    editInitial.value = null;
   }
 }
 
 function onGroupModalSave(payload: any) {
-  if (isEditingGroup.value) return handleEditGroupPayload(payload);
+  if (payload.mode === 'edit') {
+    return handleEditGroupPayload(payload);
+  }
   return handleAddGroupPayload(payload);
 }
 
@@ -463,5 +443,6 @@ const activeGroupColumns = computed(() => {
 
 <style scoped>
 /* Scoped styles are removed as per the migration to Tailwind CSS. */
+
 /* All styling is now handled by utility classes in the template. */
 </style>

@@ -1,19 +1,6 @@
 <template>
-  <Teleport to="body">
-    <!-- Overlay -->
-    <div
-      v-if="visible"
-      class="fixed inset-0 z-50 bg-black/80"
-      @click="onClose"
-    ></div>
-
-    <!-- Modal Content -->
-    <div
-      v-if="visible"
-      class="bg-background fixed left-1/2 top-1/2 z-[60] w-full -translate-x-1/2 -translate-y-1/2 p-6 shadow-lg outline-none sm:max-w-[700px] sm:rounded-xl"
-      role="dialog"
-      aria-modal="true"
-    >
+  <LookupItemModal>
+    <template #title>
       <div class="flex flex-col gap-y-1.5 text-center sm:text-left">
         <h2 class="text-lg font-semibold leading-none tracking-tight">
           {{ modeTitle }}
@@ -22,7 +9,9 @@
           Fill in the details for the lookup item. Click save when you're done.
         </p>
       </div>
-      <form @submit.prevent="onSave">
+    </template>
+    <template #default>
+      <form @submit.prevent="onSave" id="lookup-item-form">
         <div class="grid max-h-[70vh] grid-cols-2 gap-4 overflow-y-auto p-4">
           <div
             v-if="duplicateError"
@@ -38,7 +27,7 @@
               }}</FormLabel>
               <FormControl>
                 <template
-                  v-if="getColumnFieldType(col, props.group) === 'boolean'"
+                  v-if="getColumnFieldType(col, currentGroup) === 'boolean'"
                 >
                   <RadioGroup
                     v-model="form.columns[col.name]"
@@ -58,7 +47,7 @@
                   <LookupSelect
                     :id="col.name"
                     v-model="form.columns[col.name]"
-                    :lookup-slug="getColumnFieldType(col, props.group)"
+                    :lookup-slug="getColumnFieldType(col, currentGroup)"
                     :required="col.required"
                     v-bind="fieldAttributes(col)"
                     data-test="item-field"
@@ -66,7 +55,7 @@
                 </template>
                 <template
                   v-else-if="
-                    getColumnFieldType(col, props.group) === 'currency'
+                    getColumnFieldType(col, currentGroup) === 'currency'
                   "
                 >
                   <InputNumber
@@ -105,7 +94,7 @@
                     v-model="form.columns[col.name]"
                     :type="
                       ['int', 'double', 'month', 'year', 'number'].includes(
-                        getColumnFieldType(col, props.group),
+                        getColumnFieldType(col, currentGroup),
                       )
                         ? 'number'
                         : 'text'
@@ -120,41 +109,21 @@
             </FormItem>
           </FormField>
         </div>
-
-        <div
-          class="flex flex-col-reverse justify-end gap-x-2 sm:flex-row sm:justify-end sm:space-x-2"
-        >
-          <Button type="button" variant="ghost" @click="onClose">Cancel</Button>
-          <Button type="submit">Save</Button>
-        </div>
       </form>
-      <button
-        type="button"
-        class="data-[state=open]:bg-accent data-[state=open]:text-muted-foreground hover:bg-accent hover:text-accent-foreground text-foreground flex-center absolute right-3 top-3 h-6 w-6 rounded-full px-1 text-lg opacity-70 opacity-80 transition-opacity hover:opacity-100 focus:outline-none disabled:pointer-events-none"
-        @click="onClose"
+    </template>
+    <template #footer>
+      <div
+        class="flex flex-col-reverse justify-end gap-x-2 sm:flex-row sm:justify-end sm:space-x-2"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-x-icon lucide-x h-4 w-4"
-        >
-          <path d="M18 6 6 18"></path>
-          <path d="m6 6 12 12"></path>
-        </svg>
-      </button>
-    </div>
-  </Teleport>
+        <Button type="button" variant="ghost" @click="onClose">Cancel</Button>
+        <Button type="submit" form="lookup-item-form">Save</Button>
+      </div>
+    </template>
+  </LookupItemModal>
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, toRaw, computed } from 'vue';
+import { ref, toRaw, computed } from 'vue';
 import { message, InputNumber } from 'ant-design-vue';
 import { useForm } from 'vee-validate';
 import {
@@ -166,9 +135,6 @@ import {
 } from '../../utils';
 import {
   Button,
-  // DialogFooter, // Removed
-  // DialogHeader, // Removed
-  // DialogTitle, // Removed
   FormControl,
   FormField,
   FormItem,
@@ -181,67 +147,58 @@ import {
   Label,
 } from '@vben-core/shadcn-ui';
 
-import { LookupSelect } from '../../../shared_components';
+import { useVbenModal } from '@vben/common-ui';
 
-const props = defineProps<{
-  modelValue?: boolean;
-  columns?: any[];
-  initial?: any;
-  groupId?: string | null;
-  group?: {
-    code_format?: string;
-    code_regex?: string;
-    alpha_count?: number;
-    num_count?: number;
-    single_count?: number;
-  } | null;
-}>();
+import { LookupSelect } from '../../../shared_components';
 
 const emit = defineEmits<{
   (e: 'save', payload: any): void;
-  (e: 'close'): void;
-  (e: 'update:modelValue', v: boolean): void;
 }>();
 
-const visible = computed({
-  get: () => props.modelValue,
-  set: (value) => emit('update:modelValue', value),
+const [LookupItemModal, modalApi] = useVbenModal({
+  title: '',
+  width: '700px',
+  maskClosable: false,
+  showConfirmButton: false,
+  showCancelButton: false,
+  class: 'lookup-item-form-modal',
 });
 
-const { handleSubmit, setValues, setFieldError } = useForm(); // Simplified useForm call for clarity
+const { handleSubmit, setValues, setFieldError } = useForm();
 
 const dbColumns = ref<Record<string, any>>({});
 const duplicateError = ref('');
-
 const form = ref<{ columns: Record<string, any> }>({ columns: {} });
 
+const currentColumns = ref<any[]>([]);
+const currentInitial = ref<any>(null);
+const currentGroupId = ref<string | null>(null);
+const currentGroup = ref<any>(null);
+
 const columns = computed(() =>
-  (props.columns || []).filter((c) => c && c.name),
+  (currentColumns.value || []).filter((c) => c && c.name),
 );
 
-function resetFormFromProps() {
-  const isEdit = !!props.initial?.id;
+function resetFormFromData() {
+  const isEdit = !!currentInitial.value?.id;
   form.value.columns = Object.fromEntries(
     columns.value.map((c) => {
       let value;
       if (isEdit) {
-        value = props.initial?.columns?.[c.name] ?? '';
+        value = currentInitial.value?.columns?.[c.name] ?? '';
       } else {
-        const ty = getColumnFieldType(c, props.group);
+        const ty = getColumnFieldType(c, currentGroup.value);
         switch (ty) {
           case 'month': {
             value = new Date().getMonth() + 1;
-
             break;
           }
           case 'year': {
             value = new Date().getFullYear();
-
             break;
           }
           case 'boolean': {
-            value = 'no'; // Default to 'no' string
-
+            value = 'no';
             break;
           }
           default: {
@@ -255,22 +212,9 @@ function resetFormFromProps() {
   setValues({ ...form.value.columns });
 }
 
-watch(() => props.initial, resetFormFromProps, { immediate: true });
-
-watch(
-  () => props.modelValue,
-  (v) => {
-    if (v) {
-      resetFormFromProps();
-      loadDbColumns().catch(() => {});
-      loadSuggestedCode().catch(() => {});
-    }
-  },
-);
-
 async function loadDbColumns() {
   const svc = await import('../../../services');
-  const tbl = await svc.getTableColumns(props.groupId || null);
+  const tbl = await svc.getTableColumns(currentGroupId.value || null);
   if (Array.isArray(tbl)) {
     tbl.forEach((r: any) => {
       if (r && r.column_name) dbColumns.value[r.column_name] = r.data_type;
@@ -279,10 +223,10 @@ async function loadDbColumns() {
 }
 
 async function loadSuggestedCode() {
-  if (props.initial && props.initial.id) return;
+  if (currentInitial.value && currentInitial.value.id) return;
   const codeCol = columns.value.find((c: any) => c.name === 'code');
   if (!codeCol) return;
-  const grp = props.group || null;
+  const grp = currentGroup.value || null;
   if (!grp) return;
 
   if (form.value.columns.code) return;
@@ -297,14 +241,13 @@ async function loadSuggestedCode() {
     '';
 
   if (fmt === 'Free Text') {
-    // For Free Text, we don't suggest next code, but show the example
-    return; // Return after setting example for Free Text
+    return;
   }
 
   async function fetchItemsForScan() {
     try {
       const svc = await import('../../../services');
-      const res = await svc.listItems(props.groupId || null, {
+      const res = await svc.listItems(currentGroupId.value || null, {
         page: 1,
         perPage: 1000,
       });
@@ -326,16 +269,15 @@ async function loadSuggestedCode() {
     }
   } catch (error) {
     console.error('loadSuggestedCode: error during suggestion', error);
-    // fallthrough
   }
 }
 
 const modeTitle = computed(() =>
-  props.initial && props.initial.id ? 'Edit Item' : 'Add Item',
+  currentInitial.value && currentInitial.value.id ? 'Edit Item' : 'Add Item',
 );
 
 function isLookup(col: any) {
-  const ty = getColumnFieldType(col, props.group);
+  const ty = getColumnFieldType(col, currentGroup.value);
   return ![
     'int',
     'double',
@@ -350,7 +292,7 @@ function isLookup(col: any) {
 }
 
 function fieldAttributes(col: any) {
-  const ty = getColumnFieldType(col, props.group);
+  const ty = getColumnFieldType(col, currentGroup.value);
   const attrs: Record<string, any> = {};
   if (isLookup(col)) {
     attrs['lookup-slug'] = ty;
@@ -409,7 +351,7 @@ function fieldAttributes(col: any) {
 const fieldLabels = computed(() => {
   const result: Record<string, string> = {};
   for (const col of columns.value) {
-    result[col.name] = getFieldLabel(col, props.group, dbColumns.value);
+    result[col.name] = getFieldLabel(col, currentGroup.value, dbColumns.value);
   }
   return result;
 });
@@ -434,19 +376,22 @@ const onSave = handleSubmit(async (_values: Record<string, any>) => {
   if (
     codeCol &&
     form.value.columns.code &&
-    props.group &&
-    props.group.code_regex
+    currentGroup.value &&
+    currentGroup.value.code_regex
   ) {
     try {
-      const re = new RegExp(props.group.code_regex);
+      const re = new RegExp(currentGroup.value.code_regex);
       if (!re.test(String(form.value.columns.code))) {
         const example =
-          generateExampleCode(props.group.code_regex) || 'invalid';
+          generateExampleCode(currentGroup.value.code_regex) || 'invalid';
         setFieldError('code', `Code must match pattern (e.g. ${example})`);
         return;
       }
     } catch {
-      console.warn('Invalid code_regex on group', props.group?.code_regex);
+      console.warn(
+        'Invalid code_regex on group',
+        currentGroup.value?.code_regex,
+      );
     }
   }
 
@@ -454,13 +399,13 @@ const onSave = handleSubmit(async (_values: Record<string, any>) => {
     try {
       const svc = await import('../../../services');
       const found = await svc.findItemsByCode(
-        props.groupId || null,
+        currentGroupId.value || null,
         form.value.columns.code,
       );
       const items = Array.isArray(found) ? found : [];
       const duplicate = items.some(
         (it: any) =>
-          it.id !== props.initial?.id &&
+          it.id !== currentInitial.value?.id &&
           it.columns?.code === form.value.columns.code,
       );
       if (duplicate) {
@@ -472,13 +417,36 @@ const onSave = handleSubmit(async (_values: Record<string, any>) => {
     }
   }
 
-  emit('save', { columns: toRaw(form.value.columns) });
+  emit('save', {
+    id: currentInitial.value?.id,
+    columns: toRaw(form.value.columns),
+  });
   message.success('Lookup item saved successfully.');
-  visible.value = false;
+  modalApi.close();
 });
 
 function onClose() {
-  visible.value = false;
-  emit('close');
+  modalApi.close();
 }
+
+function open(data: {
+  initial?: any;
+  columns?: any[];
+  group?: any;
+  groupId?: string | null;
+}) {
+  currentInitial.value = data.initial || null;
+  currentColumns.value = data.columns || [];
+  currentGroup.value = data.group || null;
+  currentGroupId.value = data.groupId || null;
+
+  resetFormFromData();
+  loadDbColumns().catch(() => {});
+  loadSuggestedCode().catch(() => {});
+
+  // modalApi.setTitle(modeTitle.value); // REMOVED
+  modalApi.open();
+}
+
+defineExpose({ open });
 </script>

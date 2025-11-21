@@ -183,24 +183,7 @@
       @cancel="cancelDelete"
     />
 
-    <lookup-item-form
-      :model-value="showForm"
-      :columns="columns"
-      :initial="editingItem || {}"
-      :group-id="effectiveGroupId()"
-      :group="props.group || effectiveAttr('group') || null"
-      @update:model-value="
-        (v) => {
-          showForm = v;
-        }
-      "
-      @save="handleCreateOrUpdate"
-      @close="
-        () => {
-          showForm = false;
-        }
-      "
-    />
+    <lookup-item-form ref="lookupItemFormRef" @save="handleCreateOrUpdate" />
   </div>
 </template>
 
@@ -250,9 +233,8 @@ const emit = defineEmits<{
 }>();
 
 // Reactive state
-const showForm = ref(false);
+const lookupItemFormRef = ref<any>(null);
 const localItems = ref<any[]>((props.items && [...props.items]) || []);
-const editingItem = ref<any | null>(null);
 const page = ref(1);
 const pageInput = ref(1);
 const totalCount = ref<number | null>(null);
@@ -383,8 +365,6 @@ watch(
     localItems.value = [];
     page.value = 1;
     hasMore.value = false;
-    editingItem.value = null;
-    showForm.value = false;
     searchQuery.value = '';
     fetchPage(1).catch(() => {});
   },
@@ -397,8 +377,6 @@ watch(
     localItems.value = [];
     page.value = 1;
     hasMore.value = false;
-    editingItem.value = null;
-    showForm.value = false;
     searchQuery.value = '';
     fetchPage(1).catch(() => {});
   },
@@ -531,48 +509,48 @@ function cancelDelete() {
 
 /**
  * Open the item form in "add" mode.
- * Side effects: shows the form and clears any editingItem state.
  */
 function openAdd() {
-  showForm.value = true;
-  editingItem.value = null;
+  lookupItemFormRef.value?.open({
+    initial: null,
+    columns: columns.value,
+    group: props.group || effectiveAttr('group') || null,
+    groupId: effectiveGroupId(),
+  });
 }
 
 /**
  * Open the item form in "edit" mode for the provided item.
- * Side effects: sets `editingItem` and shows the form.
  */
 function openEdit(item: any) {
-  editingItem.value = item;
-  showForm.value = true;
+  lookupItemFormRef.value?.open({
+    initial: item,
+    columns: columns.value,
+    group: props.group || effectiveAttr('group') || null,
+    groupId: effectiveGroupId(),
+  });
 }
 
 /**
  * Handle item creation or update from the child form.
- *
- * Behaviour:
- * - If `editingItem` is set, updates the item optimistically then calls
- *   `lookupService.updateItem`. On failure, rolls back and notifies the user.
- * - If adding, inserts a temporary local item, calls `lookupService.createItem`,
- *   then replaces the temporary item with the server result. On failure,
- *   removes the temporary item and notifies the user.
- * Side effects: mutates `localItems`, emits `create`/`update` events, shows
- * notifications and attempts to refresh the current page.
  */
 async function handleCreateOrUpdate(payload: any) {
-  if (editingItem.value) {
-    const idx = localItems.value.findIndex(
-      (i) => i.id === editingItem.value.id,
-    );
-    const before = { ...localItems.value[idx] };
+  if (payload.id) {
+    const idx = localItems.value.findIndex((i) => i.id === payload.id);
+    if (idx === -1) {
+      notifyError('Item to update not found locally.');
+      return;
+    }
+    const originalItem = localItems.value[idx];
+    const before = { ...originalItem };
     localItems.value.splice(idx, 1, {
-      ...editingItem.value,
+      ...originalItem,
       columns: payload.columns,
     });
     try {
       const res = await lookupService.updateItem(
         effectiveGroupId() || 'unknown',
-        editingItem.value.id,
+        payload.id,
         payload,
       );
       notifySuccess('Item updated');
@@ -591,7 +569,6 @@ async function handleCreateOrUpdate(payload: any) {
     const tempId = `tmp-${Date.now()}`;
     const newItem = { id: tempId, columns: payload.columns };
     localItems.value.unshift(newItem as any);
-    showForm.value = false;
     try {
       const res = await lookupService.createItem(
         effectiveGroupId() || 'unknown',
@@ -612,8 +589,6 @@ async function handleCreateOrUpdate(payload: any) {
       notifyError('Failed to create item');
     }
   }
-  editingItem.value = null;
-  showForm.value = false;
 }
 
 /**
@@ -751,13 +726,3 @@ async function jumpToLast() {
   }
 }
 </script>
-
-<style>
-/* Hide native search input clear button */
-input[type='search']::-webkit-search-decoration,
-input[type='search']::-webkit-search-cancel-button,
-input[type='search']::-webkit-search-results-button,
-input[type='search']::-webkit-search-results-decoration {
-  -webkit-appearance: none;
-}
-</style>

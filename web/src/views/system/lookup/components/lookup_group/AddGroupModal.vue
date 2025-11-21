@@ -1,19 +1,6 @@
 <template>
-  <Teleport to="body">
-    <!-- Overlay -->
-    <div
-      v-if="visible"
-      class="z-overlay fixed inset-0 bg-black/80"
-      @click="onClose"
-    ></div>
-
-    <!-- Modal Content -->
-    <div
-      v-if="visible"
-      class="z-popup bg-background fixed left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 p-6 shadow-lg outline-none sm:max-w-[600px] sm:rounded-xl"
-      role="dialog"
-      aria-modal="true"
-    >
+  <AddGroupModal @ok="onSave" @cancel="onClose">
+    <template #title>
       <div class="flex flex-col gap-y-1.5 text-center sm:text-left">
         <h2 class="text-lg font-semibold leading-none tracking-tight">
           {{ modalTitle }}
@@ -23,7 +10,9 @@
           and code format.
         </p>
       </div>
-      <Form @submit="onSave">
+    </template>
+    <template #default>
+      <Form @submit="onSave" id="add-group-form">
         <div class="grid max-h-[70vh] gap-4 overflow-y-auto p-4">
           <FormField name="title">
             <FormItem class="mb-4">
@@ -322,30 +311,26 @@
             </div>
           </div>
         </div>
-
-        <div
-          class="flex flex-col-reverse justify-end gap-x-2 sm:flex-row sm:justify-end sm:space-x-2"
-        >
-          <Button type="button" variant="ghost" @click="onClose">Cancel</Button>
-          <Button type="submit" data-test="addgroup-save">Save</Button>
-        </div>
       </Form>
-      <button
-        type="button"
-        class="data-[state=open]:bg-accent data-[state=open]:text-muted-foreground hover:bg-accent hover:text-accent-foreground text-foreground/80 flex-center absolute right-3 top-3 h-6 w-6 rounded-full px-1 text-lg opacity-70 transition-opacity hover:opacity-100 focus:outline-none disabled:pointer-events-none"
-        @click="onClose"
+    </template>
+    <template #footer>
+      <div
+        class="flex flex-col-reverse justify-end gap-x-2 sm:flex-row sm:justify-end sm:space-x-2"
       >
-        <X class="h-4 w-4" />
-      </button>
-    </div>
-  </Teleport>
+        <Button type="button" variant="ghost" @click="onClose">Cancel</Button>
+        <Button type="submit" data-test="addgroup-save" form="add-group-form"
+          >Save</Button
+        >
+      </div>
+    </template>
+  </AddGroupModal>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch, toRaw, computed, onMounted } from 'vue';
 import { slugify, generateCodeRegex, generateExampleCode } from '../../utils';
 import { ColumnChips } from '..';
-import { IconArrowLeftRight, X, IconArrowDown } from '@vben/icons';
+import { IconArrowLeftRight, IconArrowDown } from '@vben/icons';
 import { listGroups } from '../../../services';
 
 import {
@@ -376,24 +361,38 @@ import {
   SelectValue,
 } from '@vben-core/shadcn-ui';
 
+import { useVbenModal } from '@vben/common-ui';
+
 import { message } from 'ant-design-vue';
 
 const props = defineProps<{
-  modelValue?: boolean;
+  // modelValue?: boolean; // Removed, controlled by modalApi
   initial?: any;
   allowEditColumns?: boolean;
   mode?: 'add' | 'edit' | string;
 }>();
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', v: boolean): void;
   (e: 'save', payload: any): void;
   (e: 'close'): void;
+  // (e: 'update:modelValue', v: boolean): void; // Removed
 }>();
 
-const visible = computed({
-  get: () => props.modelValue,
-  set: (value) => emit('update:modelValue', value),
+// Removed, controlled by modalApi
+// const visible = computed({
+//   get: () => props.modelValue,
+//   set: (value) => emit('update:modelValue', value),
+// });
+
+const isColumnEditingAllowed = ref(false);
+
+const [AddGroupModal, addGroupModalApi] = useVbenModal({
+  title: '', // Dynamic title, set in open()
+  width: '600px',
+  maskClosable: false,
+  showConfirmButton: false, // Use custom buttons
+  showCancelButton: false, // Use custom buttons
+  class: 'add-group-modal',
 });
 
 interface LookupColumn {
@@ -536,9 +535,7 @@ const singleCount = ref<number>(3);
 
 const codeEnabled = ref<boolean>(true);
 
-const effectiveAllowEditColumns = computed(
-  () => props.mode === 'add' || props.allowEditColumns,
-);
+const effectiveAllowEditColumns = computed(() => isColumnEditingAllowed.value);
 
 function addVisibleCodeColumn() {
   const cols = [...(values.columns_schema || [])];
@@ -586,43 +583,54 @@ const exampleCode = computed(() => {
   return generatedRegex ? generateExampleCode(generatedRegex) : null;
 });
 
-watch(
-  () => props.initial,
-  (v) => {
-    if (props.mode === 'edit' && v) {
-      populateFromInitial(v);
-    }
-  },
-  { immediate: true },
-);
+// Function to open the modal and populate with initial data
+function open(
+  initialData?: any,
+  mode?: 'add' | 'edit',
+  allowEditColumnsParam?: boolean, // Renamed to avoid confusion with prop
+) {
+  resetForm(); // Clear previous form state
+  populateFromInitial(initialData);
+  const effectiveMode = mode || (initialData?.id ? 'edit' : 'add');
+  setInternalMode(effectiveMode);
 
+  // Set local state for column editing permission
+    isColumnEditingAllowed.value =
+      effectiveMode === 'add'
+        ? true
+        : allowEditColumnsParam ?? props.allowEditColumns ?? false;
+  
+    if (internalMode.value === 'edit') {
+    // addGroupModalApi.setTitle('Edit Lookup Group'); // REMOVED
+  } else {
+    // addGroupModalApi.setTitle('Add Lookup Group'); // REMOVED
+    alphaCount.value = 2;
+    numCount.value = 2;
+    singleCount.value = 3;
+    alphanumericOrder.value = 'alpha-first';
+    codeEnabled.value = true;
+    newCol.value.label = '';
+    newCol.value.type = '';
+  }
+  addGroupModalApi.open();
+}
+
+// Internal mode ref to handle conditional logic
+const internalMode = ref('add');
+function setInternalMode(mode: string) {
+  internalMode.value = mode;
+}
+// Expose the open function
+defineExpose({ open });
+
+// Use internalMode for computed properties that depend on mode
 const modalTitle = computed(() =>
-  props.mode === 'edit' ? 'Edit Lookup Group' : 'Add Lookup Group',
+  internalMode.value === 'edit' ? 'Edit Lookup Group' : 'Add Lookup Group',
 );
 
-// Refs for new column inputs. Placed before watcher to avoid TDZ when
-// the watcher runs immediately during setup.
 const newCol = ref({ label: '', type: '' });
 const isNewColLabelInvalid = ref(false);
 const isNewColTypeInvalid = ref(false);
-
-watch(
-  visible,
-  (val) => {
-    if (!val) return;
-    if (props.mode === 'add') {
-      resetForm();
-      alphaCount.value = 2;
-      numCount.value = 2;
-      singleCount.value = 3;
-      alphanumericOrder.value = 'alpha-first';
-      codeEnabled.value = true;
-      newCol.value.label = '';
-      newCol.value.type = '';
-    }
-  },
-  { immediate: true },
-);
 
 watch(
   () => newCol.value.label,
@@ -666,8 +674,8 @@ function removeColumn(idx: number) {
 }
 
 function onClose() {
+  addGroupModalApi.close();
   emit('close');
-  visible.value = false;
 }
 
 const submitLogic: SubmissionHandler = async (formValues, _actions) => {
@@ -694,9 +702,9 @@ const submitLogic: SubmissionHandler = async (formValues, _actions) => {
     payload.columns_schema[0].required = true;
   }
 
-  emit('save', payload);
+  emit('save', { ...payload, mode: internalMode.value });
   message.success(`Lookup group '${payload.title}' saved successfully.`);
-  visible.value = false;
+  addGroupModalApi.close();
 };
 
 const onSave = handleSubmit(submitLogic);
