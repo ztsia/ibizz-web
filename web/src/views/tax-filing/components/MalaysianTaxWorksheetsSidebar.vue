@@ -473,6 +473,11 @@
                           <CP204BFormTemplate
                             v-else-if="selectedWorksheet.code === 'CP-204B'"
                           />
+                          <PaymentInstalmentsTemplate
+                            v-else-if="
+                              selectedWorksheet.code === 'CP204-PAYMENT'
+                            "
+                          />
                           <OtherParticularsMainTemplate
                             v-else-if="selectedWorksheet.code === 'OP-MAIN'"
                           />
@@ -552,6 +557,7 @@ import OtherParticularsMainTemplate from './forms/OtherParticularsMainTemplate.v
 import ControlledTransactionsTemplate from './forms/ControlledTransactionsTemplate.vue';
 import LabuanDetailsTemplate from './forms/LabuanDetailsTemplate.vue';
 import CbcrTemplate from './forms/CbcrTemplate.vue';
+import PaymentInstalmentsTemplate from './forms/PaymentInstalmentsTemplate.vue';
 import { usePdfExport } from '#/composables/usePdfExport';
 import { usePdfExportContext } from '#/composables/usePdfExportContext';
 
@@ -1023,10 +1029,10 @@ watch(
 .tax-form-input-container {
   position: relative;
   display: grid;
-  place-items: center;
 
   /* Ensure proper text baseline alignment */
   place-content: center stretch;
+  place-items: center;
   width: 100%;
   min-height: 32px;
 }

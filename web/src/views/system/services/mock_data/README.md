@@ -171,7 +171,7 @@ The `"fixed_table"` input type provides a highly flexible and dynamic table stru
   - `inputType` (String, Required): The input type for cells in this column (e.g., `"text"`, `"number"`, `"currency"`, `"select"`). This reuses the rendering logic of other `inputType`s.
   - `readonly` (Boolean, Optional): If `true`, cells in this column will be read-only regardless of edit mode or if they contain a formula.
   - `defaultValue` (Any, Optional): The default value for new cells created in this column (e.g., when adding a new row). This can also be a formula object (see **Formulas** below).
-- **`fixedRows` (Array<Row Data Object>, Optional):** An array of data objects, each representing a row that is _permanently_ part of the table. These rows cannot be removed by the user. Each object should have keys matching the `id`s of the `columns`. Cell values in `fixedRows` can also be formula objects.
+- **`fixedRows` (Array<Row Data Object>, Optional):** An array of data objects, each representing a row that is _permanently_ part of the table. These rows cannot be removed by the user. Each object should have keys matching the `id`s of the `columns`. Cell values can be formula objects. To render a cell in a fixed row as a blank, non-interactive space, set its value to `null` in the JSON definition.
 - **`allowAddRow` (Boolean, Optional):** If `true`, an "Add Row" button will be displayed, allowing users to append new rows to the table. Defaults to `false`.
 - **`initialRows` (Number, Optional):** If no `fixedRows` are defined and no existing data is provided for the field, this specifies how many empty rows should be displayed initially. Defaults to `0`.
 
@@ -185,6 +185,9 @@ Cells within a `fixed_table` can have their values dynamically calculated using 
 - **Columnar Formulas**: Perform aggregate calculations based on values in the same column.
   - **Syntax**: `SUM(ABOVE)`
   - **Description**: Calculates the sum of all numeric values in the cells directly above the current cell within the same column. Useful for running totals or subtotals.
+- **External Data Formulas**: Perform lookups against the main form data, outside of the current table.
+  - **Syntax**: `FALLBACK(fieldId1, fieldId2, ...)`
+  - **Description**: Looks up each `fieldId` in the main form data object in order and returns the value of the first field that exists and has a value. This is useful for creating fallback chains (e.g., use a revised value if present, otherwise use the original).
 
 **Example `fixed_table` Field:**
 
@@ -218,9 +221,9 @@ Cells within a `fixed_table` can have their values dynamically calculated using 
       { "item": "Software Licenses", "cost": 2500, "tax_rate": 10 },
       {
         "item": "Sub-total (fixed)",
-        "cost": { "formula": "SUM(ABOVE)" }, // Sum of costs in fixed rows
+        "cost": { "formula": "SUM(ABOVE)" },
         "tax_rate": null,
-        "total_cost": { "formula": "SUM(ABOVE)" } // Sum of total_cost in fixed rows
+        "total_cost": { "formula": "SUM(ABOVE)" }
       }
     ]
   }

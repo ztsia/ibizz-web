@@ -864,6 +864,13 @@ const defaultWorksheets: MalaysianTaxWorksheet[] = [
     lastUpdated: new Date(),
   },
   {
+    code: 'CP204-PAYMENT',
+    description: 'Payment Schedule for Tax Instalments',
+    section: 'supporting-forms',
+    status: 'pending',
+    lastUpdated: new Date(),
+  },
+  {
     code: 'OP-MAIN',
     description: 'Other Particulars - Main',
     section: 'supporting-forms',

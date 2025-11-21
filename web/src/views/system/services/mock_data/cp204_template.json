@@ -412,18 +412,78 @@
                     { "id": "bill", "label": "Bill", "inputType": "text" }
                   ],
                   "fixedRows": [
-                    { "instalment_no": "1" },
-                    { "instalment_no": "2" },
-                    { "instalment_no": "3" },
-                    { "instalment_no": "4" },
-                    { "instalment_no": "5" },
-                    { "instalment_no": "6" },
-                    { "instalment_no": "7" },
-                    { "instalment_no": "8" },
-                    { "instalment_no": "9" },
-                    { "instalment_no": "10" },
-                    { "instalment_no": "11" },
-                    { "instalment_no": "12" },
+                    {
+                      "instalment_no": "1",
+                      "amount_rm": {
+                        "formula": "FALLBACK(installments_1_to_11)"
+                      }
+                    },
+                    {
+                      "instalment_no": "2",
+                      "amount_rm": {
+                        "formula": "FALLBACK(installments_1_to_11)"
+                      }
+                    },
+                    {
+                      "instalment_no": "3",
+                      "amount_rm": {
+                        "formula": "FALLBACK(installments_1_to_11)"
+                      }
+                    },
+                    {
+                      "instalment_no": "4",
+                      "amount_rm": {
+                        "formula": "FALLBACK(installments_1_to_11)"
+                      }
+                    },
+                    {
+                      "instalment_no": "5",
+                      "amount_rm": {
+                        "formula": "FALLBACK(installments_1_to_11)"
+                      }
+                    },
+                    {
+                      "instalment_no": "6",
+                      "amount_rm": {
+                        "formula": "FALLBACK(revision_1_revised_installment_6_11, installments_1_to_11)"
+                      }
+                    },
+                    {
+                      "instalment_no": "7",
+                      "amount_rm": {
+                        "formula": "FALLBACK(revision_1_revised_installment_6_11, installments_1_to_11)"
+                      }
+                    },
+                    {
+                      "instalment_no": "8",
+                      "amount_rm": {
+                        "formula": "FALLBACK(revision_1_revised_installment_6_11, installments_1_to_11)"
+                      }
+                    },
+                    {
+                      "instalment_no": "9",
+                      "amount_rm": {
+                        "formula": "FALLBACK(revision_2_revised_installment_9_11, revision_1_revised_installment_6_11, installments_1_to_11)"
+                      }
+                    },
+                    {
+                      "instalment_no": "10",
+                      "amount_rm": {
+                        "formula": "FALLBACK(revision_2_revised_installment_9_11, revision_1_revised_installment_6_11, installments_1_to_11)"
+                      }
+                    },
+                    {
+                      "instalment_no": "11",
+                      "amount_rm": {
+                        "formula": "FALLBACK(revision_3_revised_installment_11, revision_2_revised_installment_9_11, revision_1_revised_installment_6_11, installments_1_to_11)"
+                      }
+                    },
+                    {
+                      "instalment_no": "12",
+                      "amount_rm": {
+                        "formula": "FALLBACK(revision_3_final_installment, revision_2_final_installment, revision_1_final_installment, final_installment)"
+                      }
+                    },
                     {
                       "instalment_no": "TOTAL",
                       "amount_rm": { "formula": "SUM(ABOVE)" },

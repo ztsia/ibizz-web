@@ -103,7 +103,8 @@ const props = defineProps<{
 const emit = defineEmits(['update:field']);
 
 const rawTableData = ref<TableData>([]);
-const { displayTableData } = useFormulaEngine(rawTableData);
+const formDataRef = toRef(props, 'formData');
+const { displayTableData } = useFormulaEngine(rawTableData, formDataRef);
 
 const formId = toRef(props.field, 'id');
 

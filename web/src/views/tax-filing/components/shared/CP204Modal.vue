@@ -7,7 +7,7 @@
           <span>{{ template?.formName || 'CP204 Form' }}</span>
         </div>
         <!-- Manual Tab Navigator -->
-        <div class="mt-4 grid w-full grid-cols-4 bg-muted p-1 rounded-md">
+        <div class="bg-muted mt-4 grid w-full grid-cols-4 rounded-md p-1">
           <button
             v-for="page in pages"
             :key="page.id"
