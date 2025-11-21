@@ -33,7 +33,7 @@ const formulaCalculators: Record<
     const colIds = formula.match(/\{\w+\}/g) || [];
 
     for (const placeholder of colIds) {
-      const colId = placeholder.slice(1, placeholder.length - 1);
+      const colId = placeholder.slice(1, -1);
       const value = Number.parseFloat(row[colId] as string) || 0;
       // Use a regex with 'g' flag to replace all occurrences if a col is used multiple times
       expression = expression.replaceAll(
