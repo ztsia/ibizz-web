@@ -380,7 +380,62 @@
         "id": "page_payment",
         "title": "PAYMENT",
         "show_if": null,
-        "sections": []
+        "sections": [
+          {
+            "part": "CP204_Payments",
+            "title": "Payment Instalments",
+            "show_if": null,
+            "fields": [
+              {
+                "id": "payment_installments",
+                "label": "Payment Instalments",
+                "inputType": "fixed_table",
+                "options": {
+                  "allowAddRow": false,
+                  "columns": [
+                    {
+                      "id": "instalment_no",
+                      "label": "Instalment",
+                      "inputType": "text",
+                      "readonly": true
+                    },
+                    {
+                      "id": "amount_rm",
+                      "label": "Amount (RM)",
+                      "inputType": "currency"
+                    },
+                    {
+                      "id": "due_date",
+                      "label": "Due Date Payable",
+                      "inputType": "date"
+                    },
+                    { "id": "bill", "label": "Bill", "inputType": "text" }
+                  ],
+                  "fixedRows": [
+                    { "instalment_no": "1" },
+                    { "instalment_no": "2" },
+                    { "instalment_no": "3" },
+                    { "instalment_no": "4" },
+                    { "instalment_no": "5" },
+                    { "instalment_no": "6" },
+                    { "instalment_no": "7" },
+                    { "instalment_no": "8" },
+                    { "instalment_no": "9" },
+                    { "instalment_no": "10" },
+                    { "instalment_no": "11" },
+                    { "instalment_no": "12" },
+                    {
+                      "instalment_no": "TOTAL",
+                      "amount_rm": { "formula": "SUM(ABOVE)" },
+                      "due_date": null,
+                      "bill": null
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
       }
     ]
   }

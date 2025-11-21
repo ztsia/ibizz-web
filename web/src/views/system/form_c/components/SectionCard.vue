@@ -5,14 +5,14 @@
   >
     <h3 class="mb-4 text-xl font-semibold">{{ section.title }}</h3>
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      <div v-for="field in section.fields" :key="field.id" class="w-full">
-        <FormField
-          :field="field"
-          :form-data="formData"
-          :is-edit-mode="isEditMode"
-          @update:field="onUpdateField"
-        />
-      </div>
+      <FormField
+        v-for="field in section.fields"
+        :key="field.id"
+        :field="field"
+        :form-data="formData"
+        :is-edit-mode="isEditMode"
+        @update:field="onUpdateField"
+      />
     </div>
   </div>
 </template>

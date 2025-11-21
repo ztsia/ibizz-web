@@ -32,7 +32,11 @@ export type InputType =
   | 'countries'
   | 'states'
   | 'itemList'
-  | 'lookup';
+  | 'lookup'
+  | 'fixed_table'
+  | 'placeholder'
+  | 'boolean'
+  | 'currency';
 
 export interface FormTemplateField {
   id: string;

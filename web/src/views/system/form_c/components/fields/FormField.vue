@@ -6,20 +6,22 @@
       'sm:col-span-2':
         field.inputType === 'lookup' ||
         field.inputType === 'itemList' ||
+        field.inputType === 'fixed_table' ||
         field.inputType === 'placeholder',
     }"
   >
     <template v-if="field.inputType !== 'placeholder'">
       <div
         v-if="
-          !['lookup', 'boolean'].includes(field.inputType) && !props.compact
+          !['lookup', 'boolean', 'fixed_table'].includes(field.inputType) &&
+          !props.compact
         "
         class="mb-2 min-h-[24px]"
       >
         <Label
           v-if="
             !field.isLabelHidden &&
-            !['lookup', 'boolean'].includes(field.inputType)
+            !['lookup', 'boolean', 'fixed_table'].includes(field.inputType)
           "
           :for="field.id"
           >{{ field.label }}</Label
@@ -45,6 +47,19 @@
         :class="{ 'border-destructive rounded-md border': error }"
       >
         <FormItemList
+          :field="field"
+          :form-data="formData"
+          :is-edit-mode="isEditMode"
+          @update:field="onUpdateField"
+        />
+      </div>
+
+      <!-- FixedTable (handle both edit/view modes internally) -->
+      <div
+        v-else-if="field.inputType === 'fixed_table'"
+        :class="{ 'border-destructive rounded-md border': error }"
+      >
+        <FormFixedTable
           :field="field"
           :form-data="formData"
           :is-edit-mode="isEditMode"
@@ -83,6 +98,7 @@
             :id="field.id"
             :type="field.inputType"
             v-model="fieldValue"
+            class="w-full"
             :class="{ 'border-destructive': error }"
           />
 
@@ -212,6 +228,7 @@ import {
   FormLookupInput,
   ReadonlyNoteField,
   FormItemList,
+  FormFixedTable,
 } from './';
 import { LookupSelect } from '../../../shared_components';
 import {
@@ -238,8 +255,8 @@ const props = defineProps<{
 
 watch(
   () => props.field,
-  (newField) => {
-    console.log('FormField received field:', newField);
+  (_newField) => {
+    // console.log('FormField received field:', _newField);
   },
   { immediate: true, deep: true },
 );

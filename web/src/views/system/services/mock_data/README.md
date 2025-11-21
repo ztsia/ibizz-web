@@ -47,7 +47,7 @@ This is the most important object, defining a single form input and its behavior
 - **`required` (Boolean, Optional):** If `true`, the field must have a value for the form to be valid.
 - **`isLabelHidden` (Boolean, Optional):** If `true`, the `<label>` element will not be rendered. Useful for layout purposes, like subsequent lines of an address field.
 - **`show_if` (Object | null, Optional):** If `null`, the field is always shown (within its parent section/page). If an object, it defines the condition for this field to appear.
-- **`options` (Array<Object>, Optional):** Required for `select`, `radio`, and `checkbox` types. This is an array of `{ label: String, value: String }` objects.
+- **`options` (Object, Optional):** This object is used to configure complex input types such as `select`, `radio`, `checkbox`, `itemList`, and `fixed_table`. Its structure depends on the `inputType`.
 - **`itemStructure` (Object, Optional):** **Required only for `inputType: "itemList"`**. Defines the columns and behavior of the list.
 - **`allowRepeating` (Boolean, Optional):** **Used only with `inputType: "itemList"`**. If `true`, the same option from the `key` dropdown can be selected in multiple rows. If `false` or omitted, each key can only be used once.
 
@@ -156,6 +156,74 @@ The `"itemList"` input type is for creating a table-like structure where users c
       }
     }
   ]
+}
+```
+
+### Complex Input: `fixed_table`
+
+The `"fixed_table"` input type provides a highly flexible and dynamic table structure, allowing for fixed rows, dynamic rows, and powerful cell-level formulas.
+
+**`options` Object for `fixed_table`:**
+
+- **`columns` (Array<Column Definition>, Required):** An array of objects, where each object defines a table column and behaves like a simplified Field Object for the cells within that column.
+  - `id` (String, Required): The unique identifier for the column. This is used as the key for data within each row object.
+  - `label` (String, Required): The header text for the column.
+  - `inputType` (String, Required): The input type for cells in this column (e.g., `"text"`, `"number"`, `"currency"`, `"select"`). This reuses the rendering logic of other `inputType`s.
+  - `readonly` (Boolean, Optional): If `true`, cells in this column will be read-only regardless of edit mode or if they contain a formula.
+  - `defaultValue` (Any, Optional): The default value for new cells created in this column (e.g., when adding a new row). This can also be a formula object (see **Formulas** below).
+- **`fixedRows` (Array<Row Data Object>, Optional):** An array of data objects, each representing a row that is _permanently_ part of the table. These rows cannot be removed by the user. Each object should have keys matching the `id`s of the `columns`. Cell values in `fixedRows` can also be formula objects.
+- **`allowAddRow` (Boolean, Optional):** If `true`, an "Add Row" button will be displayed, allowing users to append new rows to the table. Defaults to `false`.
+- **`initialRows` (Number, Optional):** If no `fixedRows` are defined and no existing data is provided for the field, this specifies how many empty rows should be displayed initially. Defaults to `0`.
+
+**Formulas in `fixed_table`:**
+
+Cells within a `fixed_table` can have their values dynamically calculated using formulas. A formula is defined by placing a special object `{ "formula": "FORMULA_STRING" }` as the cell's value in either `fixedRows` data or a column's `defaultValue`. Formula cells are always rendered as read-only.
+
+- **Intra-row Formulas**: Perform calculations using values from other cells within the same row.
+  - **Syntax**: Use column `id`s enclosed in curly braces to reference values.
+  - **Example**: `"{quantity} * {price}"` (calculates the product of the 'quantity' and 'price' in the current row).
+- **Columnar Formulas**: Perform aggregate calculations based on values in the same column.
+  - **Syntax**: `SUM(ABOVE)`
+  - **Description**: Calculates the sum of all numeric values in the cells directly above the current cell within the same column. Useful for running totals or subtotals.
+
+**Example `fixed_table` Field:**
+
+```json
+{
+  "id": "project_expenses",
+  "label": "Project Expenses Breakdown",
+  "inputType": "fixed_table",
+  "options": {
+    "allowAddRow": true,
+    "initialRows": 1,
+    "columns": [
+      { "id": "item", "label": "Expense Item", "inputType": "text" },
+      { "id": "cost", "label": "Cost (RM)", "inputType": "currency" },
+      {
+        "id": "tax_rate",
+        "label": "Tax Rate (%)",
+        "inputType": "number",
+        "defaultValue": 6
+      },
+      {
+        "id": "total_cost",
+        "label": "Total Cost (RM)",
+        "inputType": "currency",
+        "readonly": true,
+        "defaultValue": { "formula": "{cost} * (1 + {tax_rate} / 100)" }
+      }
+    ],
+    "fixedRows": [
+      { "item": "Consulting Fees", "cost": 5000, "tax_rate": 0 },
+      { "item": "Software Licenses", "cost": 2500, "tax_rate": 10 },
+      {
+        "item": "Sub-total (fixed)",
+        "cost": { "formula": "SUM(ABOVE)" }, // Sum of costs in fixed rows
+        "tax_rate": null,
+        "total_cost": { "formula": "SUM(ABOVE)" } // Sum of total_cost in fixed rows
+      }
+    ]
+  }
 }
 ```
 
