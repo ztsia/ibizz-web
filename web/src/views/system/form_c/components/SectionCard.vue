@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="isVisible"
-    class="mb-4 rounded-xl border border-gray-200 bg-white p-6 shadow-sm"
+    class="mb-4 rounded-xl border border-border bg-card p-6 shadow-sm"
   >
     <h3 class="mb-4 text-xl font-semibold">{{ section.title }}</h3>
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">

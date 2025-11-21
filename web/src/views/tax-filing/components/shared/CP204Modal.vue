@@ -7,16 +7,16 @@
           <span>{{ template?.formName || 'CP204 Form' }}</span>
         </div>
         <!-- Manual Tab Navigator -->
-        <div class="mt-4 grid w-full grid-cols-4">
+        <div class="mt-4 grid w-full grid-cols-4 bg-muted p-1 rounded-md">
           <button
             v-for="page in pages"
             :key="page.id"
             @click="currentTab = page.id"
             :class="[
-              'ring-offset-background focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+              'ring-offset-background focus-visible:ring-ring inline-flex items-center justify-center whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
               currentTab === page.id
-                ? 'bg-background text-foreground shadow-sm'
-                : 'hover:bg-muted/50',
+                ? 'bg-primary text-primary-foreground shadow-sm'
+                : 'text-muted-foreground hover:bg-background',
             ]"
           >
             {{ page.title }}
