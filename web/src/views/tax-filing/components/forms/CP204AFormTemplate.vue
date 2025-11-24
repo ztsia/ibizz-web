@@ -14,7 +14,11 @@
       <h3 class="mb-4 border-b text-lg font-semibold">1st Revision</h3>
       <div class="space-y-4">
         <div class="flex items-center">
-          <Checkbox :checked="false" disabled class="h-4 w-4 border-2 border-gray-700" />
+          <Checkbox
+            :checked="false"
+            disabled
+            class="h-4 w-4 border-2 border-gray-700"
+          />
           <label class="ml-2 font-medium"
             >Application made before the 15th day of the sixth month</label
           >
@@ -30,7 +34,11 @@
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm">DD/MM/YYYY</div>
+            <div
+              class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"
+            >
+              DD/MM/YYYY
+            </div>
           </template>
         </div>
         <div class="flex items-center">
@@ -40,11 +48,15 @@
               type="number"
               readonly
               placeholder="0.00"
-              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+            <div
+              class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+            >
+              0.00
+            </div>
           </template>
         </div>
         <div class="flex items-center">
@@ -54,11 +66,15 @@
               type="number"
               readonly
               placeholder="0.00"
-              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+            <div
+              class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+            >
+              0.00
+            </div>
           </template>
         </div>
         <div class="flex items-center">
@@ -68,11 +84,15 @@
               type="number"
               readonly
               placeholder="0.00"
-              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+            <div
+              class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+            >
+              0.00
+            </div>
           </template>
         </div>
         <div class="flex items-center">
@@ -84,11 +104,15 @@
               type="number"
               readonly
               placeholder="0.00"
-              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+            <div
+              class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+            >
+              0.00
+            </div>
           </template>
         </div>
         <div class="flex items-center">
@@ -98,11 +122,15 @@
               type="number"
               readonly
               placeholder="0.00"
-              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+            <div
+              class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+            >
+              0.00
+            </div>
           </template>
         </div>
       </div>
@@ -113,7 +141,11 @@
       <h3 class="mb-4 border-b text-lg font-semibold">2nd Revision</h3>
       <div class="space-y-4">
         <div class="flex items-center">
-          <Checkbox :checked="false" disabled class="h-4 w-4 border-2 border-gray-700" />
+          <Checkbox
+            :checked="false"
+            disabled
+            class="h-4 w-4 border-2 border-gray-700"
+          />
           <label class="ml-2 font-medium"
             >Application made before the 15th day of the ninth month</label
           >
@@ -129,7 +161,11 @@
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm">DD/MM/YYYY</div>
+            <div
+              class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"
+            >
+              DD/MM/YYYY
+            </div>
           </template>
         </div>
         <div class="flex items-center">
@@ -139,11 +175,15 @@
               type="number"
               readonly
               placeholder="0.00"
-              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+            <div
+              class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+            >
+              0.00
+            </div>
           </template>
         </div>
         <div class="flex items-center">
@@ -153,11 +193,15 @@
               type="number"
               readonly
               placeholder="0.00"
-              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+            <div
+              class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+            >
+              0.00
+            </div>
           </template>
         </div>
         <div class="flex items-center">
@@ -167,11 +211,15 @@
               type="number"
               readonly
               placeholder="0.00"
-              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+            <div
+              class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+            >
+              0.00
+            </div>
           </template>
         </div>
         <div class="flex items-center">
@@ -183,11 +231,15 @@
               type="number"
               readonly
               placeholder="0.00"
-              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+            <div
+              class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+            >
+              0.00
+            </div>
           </template>
         </div>
         <div class="flex items-center">
@@ -197,11 +249,15 @@
               type="number"
               readonly
               placeholder="0.00"
-              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+            <div
+              class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+            >
+              0.00
+            </div>
           </template>
         </div>
       </div>
@@ -212,7 +268,11 @@
       <h3 class="mb-4 border-b text-lg font-semibold">3rd Revision</h3>
       <div class="space-y-4">
         <div class="flex items-center">
-          <Checkbox :checked="false" disabled class="h-4 w-4 border-2 border-gray-700" />
+          <Checkbox
+            :checked="false"
+            disabled
+            class="h-4 w-4 border-2 border-gray-700"
+          />
           <label class="ml-2 font-medium"
             >Application made before the 15th day of the eleventh month</label
           >
@@ -228,7 +288,11 @@
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm">DD/MM/YYYY</div>
+            <div
+              class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"
+            >
+              DD/MM/YYYY
+            </div>
           </template>
         </div>
         <div class="flex items-center">
@@ -238,11 +302,15 @@
               type="number"
               readonly
               placeholder="0.00"
-              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+            <div
+              class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+            >
+              0.00
+            </div>
           </template>
         </div>
         <div class="flex items-center">
@@ -252,11 +320,15 @@
               type="number"
               readonly
               placeholder="0.00"
-              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+            <div
+              class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+            >
+              0.00
+            </div>
           </template>
         </div>
         <div class="flex items-center">
@@ -266,11 +338,15 @@
               type="number"
               readonly
               placeholder="0.00"
-              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+            <div
+              class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+            >
+              0.00
+            </div>
           </template>
         </div>
         <div class="flex items-center">
@@ -282,11 +358,15 @@
               type="number"
               readonly
               placeholder="0.00"
-              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+            <div
+              class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+            >
+              0.00
+            </div>
           </template>
         </div>
         <div class="flex items-center">
@@ -296,11 +376,15 @@
               type="number"
               readonly
               placeholder="0.00"
-              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+            <div
+              class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+            >
+              0.00
+            </div>
           </template>
         </div>
       </div>

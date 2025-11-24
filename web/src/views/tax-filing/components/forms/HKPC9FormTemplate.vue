@@ -13,7 +13,7 @@
       <div class="mb-4">
         <div class="flex items-center">
           <label class="mr-2 w-16 font-medium">Name</label>
-          <div class="flex-1 ml-0">
+          <div class="ml-0 flex-1">
             <template v-if="!isPdfExport">
               <input
                 type="text"
@@ -23,7 +23,11 @@
               />
             </template>
             <template v-else>
-              <div class="pdf-text-only w-full border border-gray-400 px-3 py-2 text-sm">Enter name</div>
+              <div
+                class="pdf-text-only w-full border border-gray-400 px-3 py-2 text-sm"
+              >
+                Enter name
+              </div>
             </template>
           </div>
         </div>
@@ -44,7 +48,11 @@
               />
             </template>
             <template v-else>
-              <div class="pdf-text-only w-full border border-gray-400 px-3 py-2 text-sm">Enter TIN</div>
+              <div
+                class="pdf-text-only w-full border border-gray-400 px-3 py-2 text-sm"
+              >
+                Enter TIN
+              </div>
             </template>
           </div>
         </div>
@@ -61,7 +69,11 @@
               />
             </template>
             <template v-else>
-              <div class="pdf-text-only w-full border border-gray-400 px-3 py-2 text-sm">Enter registration number</div>
+              <div
+                class="pdf-text-only w-full border border-gray-400 px-3 py-2 text-sm"
+              >
+                Enter registration number
+              </div>
             </template>
           </div>
         </div>
@@ -81,7 +93,11 @@
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only w-24 border border-gray-400 px-3 py-2 text-sm">YYYY</div>
+            <div
+              class="pdf-text-only w-24 border border-gray-400 px-3 py-2 text-sm"
+            >
+              YYYY
+            </div>
           </template>
         </div>
       </div>
@@ -146,7 +162,11 @@
                 />
               </template>
               <template v-else>
-                <div class="pdf-text-only w-full border border-gray-400 bg-white text-right text-xs px-1">0.00</div>
+                <div
+                  class="pdf-text-only w-full border border-gray-400 bg-white px-1 text-right text-xs"
+                >
+                  0.00
+                </div>
               </template>
             </td>
             <td class="border border-gray-400 p-1">
@@ -159,7 +179,11 @@
                 />
               </template>
               <template v-else>
-                <div class="pdf-text-only w-full border border-gray-400 bg-white text-right text-xs px-1">0.00</div>
+                <div
+                  class="pdf-text-only w-full border border-gray-400 bg-white px-1 text-right text-xs"
+                >
+                  0.00
+                </div>
               </template>
             </td>
             <td class="border border-gray-400 p-1">
@@ -172,7 +196,11 @@
                 />
               </template>
               <template v-else>
-                <div class="pdf-text-only w-full border border-gray-400 bg-white text-right text-xs px-1">0.00</div>
+                <div
+                  class="pdf-text-only w-full border border-gray-400 bg-white px-1 text-right text-xs"
+                >
+                  0.00
+                </div>
               </template>
             </td>
             <td class="border border-gray-400 p-1">
@@ -185,7 +213,11 @@
                 />
               </template>
               <template v-else>
-                <div class="pdf-text-only w-full border border-gray-400 bg-white text-right text-xs px-1">0.00</div>
+                <div
+                  class="pdf-text-only w-full border border-gray-400 bg-white px-1 text-right text-xs"
+                >
+                  0.00
+                </div>
               </template>
             </td>
             <td class="border border-gray-400 p-1">
@@ -198,7 +230,11 @@
                 />
               </template>
               <template v-else>
-                <div class="pdf-text-only w-full border border-gray-400 bg-white text-right text-xs px-1">0.00</div>
+                <div
+                  class="pdf-text-only w-full border border-gray-400 bg-white px-1 text-right text-xs"
+                >
+                  0.00
+                </div>
               </template>
             </td>
             <td class="border border-gray-400 p-1">
@@ -1511,33 +1547,12 @@ const { isPdfExport } = usePdfExportContext();
 </script>
 
 <style scoped>
-.form-container {
-  max-width: 210mm;
-  margin: 0 auto;
-  background: white;
-  font-family: Arial, sans-serif;
-}
-
-.page-break {
-  page-break-before: always;
-  border-top: 2px dashed #ccc;
-  margin: 2rem 0;
-  padding-top: 2rem;
-}
-
 @media print {
   .page-break {
-    border-top: none;
-    margin: 0;
     padding-top: 0;
+    margin: 0;
+    border-top: none;
   }
-}
-
-/* PDF export helper class */
-.pdf-text-only {
-  display: inline-block;
-  line-height: 1.4;
-  color: #000;
 }
 
 @media print {
@@ -1549,5 +1564,26 @@ const { isPdfExport } = usePdfExportContext();
   .border-gray-400 {
     border-color: #000 !important;
   }
+}
+
+.form-container {
+  max-width: 210mm;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  background: white;
+}
+
+.page-break {
+  padding-top: 2rem;
+  margin: 2rem 0;
+  border-top: 2px dashed #ccc;
+  page-break-before: always;
+}
+
+/* PDF export helper class */
+.pdf-text-only {
+  display: inline-block;
+  line-height: 1.4;
+  color: #000;
 }
 </style>

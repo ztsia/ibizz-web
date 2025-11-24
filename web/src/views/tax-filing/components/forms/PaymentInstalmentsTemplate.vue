@@ -102,17 +102,6 @@ const { isPdfExport } = usePdfExportContext();
 </script>
 
 <style scoped>
-.payment-instalments-template {
-  line-height: 1.4;
-}
-
-/* PDF export helper class */
-.pdf-text-only {
-  display: inline-block;
-  line-height: 1.4;
-  color: #000;
-}
-
 /* Ensure borders are visible in PDF export */
 @media print {
   .pdf-text-only {
@@ -123,5 +112,16 @@ const { isPdfExport } = usePdfExportContext();
   .border-gray-400 {
     border-color: #000 !important;
   }
+}
+
+.payment-instalments-template {
+  line-height: 1.4;
+}
+
+/* PDF export helper class */
+.pdf-text-only {
+  display: inline-block;
+  line-height: 1.4;
+  color: #000;
 }
 </style>

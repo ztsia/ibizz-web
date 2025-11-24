@@ -1558,6 +1558,18 @@ const { isPdfExport } = usePdfExportContext();
 </script>
 
 <style scoped>
+/* Ensure borders are visible in PDF export */
+@media print {
+  .pdf-text-only {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .border-gray-400 {
+    border-color: #000 !important;
+  }
+}
+
 .form-container {
   font-family: Arial, sans-serif;
 }
@@ -1571,17 +1583,5 @@ const { isPdfExport } = usePdfExportContext();
   display: inline-block;
   line-height: 1.4;
   color: #000;
-}
-
-/* Ensure borders are visible in PDF export */
-@media print {
-  .pdf-text-only {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .border-gray-400 {
-    border-color: #000 !important;
-  }
 }
 </style>

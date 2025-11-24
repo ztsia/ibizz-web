@@ -13,7 +13,12 @@
         SCHEDULE 7A ALLOWANCE DURING THE QUALIFYING PERIOD
       </div>
 
-      <table :class="['w-full border-collapse border border-gray-400 text-sm', isPdfExport ? 'pdf-text-only' : '']">
+      <table
+        :class="[
+          'w-full border-collapse border border-gray-400 text-sm',
+          isPdfExport ? 'pdf-text-only' : '',
+        ]"
+      >
         <thead>
           <tr class="bg-gray-200">
             <th class="w-32 border border-gray-400 p-2 text-center">
@@ -57,7 +62,12 @@
             <td class="border border-gray-400 p-2 font-medium">
               * (ORDINARY / PENJANA)
             </td>
-            <td :class="['border border-gray-400 p-1', isPdfExport ? 'pdf-text-only' : '']">
+            <td
+              :class="[
+                'border border-gray-400 p-1',
+                isPdfExport ? 'pdf-text-only' : '',
+              ]"
+            >
               <template v-if="!isPdfExport">
                 <input
                   type="number"
@@ -67,7 +77,9 @@
                 />
               </template>
               <template v-else>
-                <div class="pdf-text-only w-full px-1 py-1 text-right text-xs">0.00</div>
+                <div class="pdf-text-only w-full px-1 py-1 text-right text-xs">
+                  0.00
+                </div>
               </template>
             </td>
             <td class="border border-gray-400 p-1">
@@ -139,7 +151,12 @@
         </div>
       </div>
 
-      <table :class="['w-full border-collapse border border-gray-400 text-sm', isPdfExport ? 'pdf-text-only' : '']">
+      <table
+        :class="[
+          'w-full border-collapse border border-gray-400 text-sm',
+          isPdfExport ? 'pdf-text-only' : '',
+        ]"
+      >
         <thead>
           <tr class="bg-gray-200">
             <th class="w-24 border border-gray-400 p-2 text-center">
@@ -648,9 +665,9 @@ const { isPdfExport } = usePdfExportContext();
 
 <style scoped>
 .hke1-form-template {
-  font-family: 'Arial', sans-serif;
   max-width: 100%;
   overflow-x: auto;
+  font-family: Arial, sans-serif;
 }
 
 .hke1-form-template table {

@@ -23,7 +23,11 @@
           />
         </template>
         <template v-else>
-          <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm">DD/MM/YYYY</div>
+          <div
+            class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"
+          >
+            DD/MM/YYYY
+          </div>
         </template>
       </div>
       <!-- Row 2 -->
@@ -40,7 +44,11 @@
           />
         </template>
         <template v-else>
-          <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+          <div
+            class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+          >
+            0.00
+          </div>
         </template>
       </div>
       <!-- Row 3 -->
@@ -57,7 +65,11 @@
           />
         </template>
         <template v-else>
-          <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+          <div
+            class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+          >
+            0.00
+          </div>
         </template>
       </div>
       <!-- Row 4 -->
@@ -78,7 +90,11 @@
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm">DD/MM/YYYY</div>
+            <div
+              class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm"
+            >
+              DD/MM/YYYY
+            </div>
           </template>
           <span class="mx-2 font-medium">To</span>
           <template v-if="!isPdfExport">
@@ -90,7 +106,11 @@
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm">DD/MM/YYYY</div>
+            <div
+              class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm"
+            >
+              DD/MM/YYYY
+            </div>
           </template>
         </div>
       </div>
@@ -107,7 +127,11 @@
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm">DD/MM/YYYY</div>
+            <div
+              class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm"
+            >
+              DD/MM/YYYY
+            </div>
           </template>
           <span class="mx-2 font-medium">To</span>
           <template v-if="!isPdfExport">
@@ -119,7 +143,11 @@
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm">DD/MM/YYYY</div>
+            <div
+              class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm"
+            >
+              DD/MM/YYYY
+            </div>
           </template>
         </div>
       </div>
@@ -137,7 +165,11 @@
           />
         </template>
         <template v-else>
-          <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm">DD/MM/YYYY</div>
+          <div
+            class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"
+          >
+            DD/MM/YYYY
+          </div>
         </template>
       </div>
       <!-- Row 8 -->
@@ -155,7 +187,11 @@
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm">YYYY</div>
+            <div
+              class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm"
+            >
+              YYYY
+            </div>
           </template>
           <span class="mx-2 font-medium">To</span>
           <template v-if="!isPdfExport">
@@ -167,7 +203,11 @@
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm">YYYY</div>
+            <div
+              class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm"
+            >
+              YYYY
+            </div>
           </template>
         </div>
       </div>
@@ -183,7 +223,11 @@
           />
         </template>
         <template v-else>
-          <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm">DD/MM/YYYY</div>
+          <div
+            class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"
+          >
+            DD/MM/YYYY
+          </div>
         </template>
       </div>
       <!-- Row 10 -->
@@ -198,7 +242,11 @@
           />
         </template>
         <template v-else>
-          <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+          <div
+            class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+          >
+            0.00
+          </div>
         </template>
       </div>
       <!-- Row 11 -->
@@ -213,7 +261,11 @@
           />
         </template>
         <template v-else>
-          <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+          <div
+            class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+          >
+            0.00
+          </div>
         </template>
       </div>
     </div>
@@ -239,7 +291,11 @@
               />
             </template>
             <template v-else>
-              <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm">DD/MM/YYYY</div>
+              <div
+                class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm"
+              >
+                DD/MM/YYYY
+              </div>
             </template>
             <span class="mx-2 font-medium">To</span>
             <template v-if="!isPdfExport">
@@ -251,7 +307,11 @@
               />
             </template>
             <template v-else>
-              <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm">DD/MM/YYYY</div>
+              <div
+                class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm"
+              >
+                DD/MM/YYYY
+              </div>
             </template>
           </div>
         </div>
@@ -267,7 +327,11 @@
               />
             </template>
             <template v-else>
-              <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm">DD/MM/YYYY</div>
+              <div
+                class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm"
+              >
+                DD/MM/YYYY
+              </div>
             </template>
             <span class="mx-2 font-medium">To</span>
             <template v-if="!isPdfExport">
@@ -279,7 +343,11 @@
               />
             </template>
             <template v-else>
-              <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm">DD/MM/YYYY</div>
+              <div
+                class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm"
+              >
+                DD/MM/YYYY
+              </div>
             </template>
           </div>
         </div>
@@ -300,6 +368,23 @@ const { isPdfExport } = usePdfExportContext();
 </script>
 
 <style scoped>
+/* Ensure borders are visible in PDF export */
+@media print {
+  .cp204-form-template {
+    font-size: 12px;
+    color: black;
+  }
+
+  .pdf-text-only {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .border-gray-400 {
+    border-color: #000 !important;
+  }
+}
+
 .cp204-form-template {
   line-height: 1.4;
 }
@@ -322,22 +407,4 @@ const { isPdfExport } = usePdfExportContext();
   line-height: 1.4;
   color: #000;
 }
-
-/* Ensure borders are visible in PDF export */
-@media print {
-  .cp204-form-template {
-    font-size: 12px;
-    color: black;
-  }
-  
-  .pdf-text-only {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-  
-  .border-gray-400 {
-    border-color: #000 !important;
-  }
-}
 </style>
-

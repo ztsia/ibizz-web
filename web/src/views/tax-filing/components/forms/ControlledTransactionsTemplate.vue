@@ -12,7 +12,12 @@
             Pricing Documentation?</label
           >
           <template v-if="!isPdfExport">
-            <input type="text" readonly class="form-input-readonly flex-1" placeholder="Enter details" />
+            <input
+              type="text"
+              readonly
+              class="form-input-readonly flex-1"
+              placeholder="Enter details"
+            />
           </template>
           <template v-else>
             <div
@@ -54,7 +59,12 @@
             >Characterization of manufacturing activity</label
           >
           <template v-if="!isPdfExport">
-            <input type="text" readonly class="form-input-readonly flex-1" placeholder="Enter characterization" />
+            <input
+              type="text"
+              readonly
+              class="form-input-readonly flex-1"
+              placeholder="Enter characterization"
+            />
           </template>
           <template v-else>
             <div
@@ -96,7 +106,12 @@
             >Characterization of distribution activity</label
           >
           <template v-if="!isPdfExport">
-            <input type="text" readonly class="form-input-readonly flex-1" placeholder="Enter characterization" />
+            <input
+              type="text"
+              readonly
+              class="form-input-readonly flex-1"
+              placeholder="Enter characterization"
+            />
           </template>
           <template v-else>
             <div
@@ -136,7 +151,12 @@
             >Characterization of service activity</label
           >
           <template v-if="!isPdfExport">
-            <input type="text" readonly class="form-input-readonly flex-1" placeholder="Enter characterization" />
+            <input
+              type="text"
+              readonly
+              class="form-input-readonly flex-1"
+              placeholder="Enter characterization"
+            />
           </template>
           <template v-else>
             <div
@@ -178,7 +198,12 @@
             >State the nature of business restructuring</label
           >
           <template v-if="!isPdfExport">
-            <input type="text" readonly class="form-input-readonly flex-1" placeholder="Enter nature of restructuring" />
+            <input
+              type="text"
+              readonly
+              class="form-input-readonly flex-1"
+              placeholder="Enter nature of restructuring"
+            />
           </template>
           <template v-else>
             <div
@@ -220,7 +245,12 @@
             >State the types of R&D activity</label
           >
           <template v-if="!isPdfExport">
-            <input type="text" readonly class="form-input-readonly flex-1" placeholder="Enter types of R&D" />
+            <input
+              type="text"
+              readonly
+              class="form-input-readonly flex-1"
+              placeholder="Enter types of R&D"
+            />
           </template>
           <template v-else>
             <div
@@ -679,6 +709,18 @@ const { isPdfExport } = usePdfExportContext();
 </script>
 
 <style scoped>
+/* Ensure borders are visible in PDF export */
+@media print {
+  .pdf-text-only {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .border-gray-400 {
+    border-color: #000 !important;
+  }
+}
+
 .form-container {
   font-family: Arial, sans-serif;
 }
@@ -692,17 +734,5 @@ const { isPdfExport } = usePdfExportContext();
   display: inline-block;
   line-height: 1.4;
   color: #000;
-}
-
-/* Ensure borders are visible in PDF export */
-@media print {
-  .pdf-text-only {
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .border-gray-400 {
-    border-color: #000 !important;
-  }
 }
 </style>

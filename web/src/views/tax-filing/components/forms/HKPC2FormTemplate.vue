@@ -27,7 +27,11 @@
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only w-full border border-gray-400 bg-white px-3 py-2 text-sm">Enter business name</div>
+            <div
+              class="pdf-text-only w-full border border-gray-400 bg-white px-3 py-2 text-sm"
+            >
+              Enter business name
+            </div>
           </template>
         </div>
       </div>
@@ -47,7 +51,11 @@
               />
             </template>
             <template v-else>
-              <div class="pdf-text-only w-32 border border-gray-400 bg-white px-3 py-2 text-center text-sm">TIN Number</div>
+              <div
+                class="pdf-text-only w-32 border border-gray-400 bg-white px-3 py-2 text-center text-sm"
+              >
+                TIN Number
+              </div>
             </template>
           </div>
         </div>
@@ -64,7 +72,11 @@
               />
             </template>
             <template v-else>
-              <div class="pdf-text-only w-40 border border-gray-400 bg-white px-3 py-2 text-center text-sm">Registration Number</div>
+              <div
+                class="pdf-text-only w-40 border border-gray-400 bg-white px-3 py-2 text-center text-sm"
+              >
+                Registration Number
+              </div>
             </template>
           </div>
         </div>
@@ -100,7 +112,9 @@
           />
         </template>
         <template v-else>
-          <div class="mr-4 h-6 w-6 border border-gray-400 bg-white pdf-text-only"></div>
+          <div
+            class="pdf-text-only mr-4 h-6 w-6 border border-gray-400 bg-white"
+          ></div>
         </template>
         <span class="font-medium text-blue-600"
           >100% EXEMPTION ON ADJUSTED INCOME</span
@@ -123,7 +137,9 @@
             />
           </template>
           <template v-else>
-            <div class="mr-4 h-6 w-6 border border-gray-400 bg-white pdf-text-only"></div>
+            <div
+              class="pdf-text-only mr-4 h-6 w-6 border border-gray-400 bg-white"
+            ></div>
           </template>
           <span class="font-medium text-blue-600"
             >100% EXEMPTION ON STATUTORY INCOME</span
@@ -138,7 +154,9 @@
             />
           </template>
           <template v-else>
-            <div class="mr-4 h-6 w-6 border border-gray-400 bg-white pdf-text-only"></div>
+            <div
+              class="pdf-text-only mr-4 h-6 w-6 border border-gray-400 bg-white"
+            ></div>
           </template>
           <span class="font-medium text-blue-600"
             >85% EXEMPTION ON STATUTORY INCOME</span
@@ -153,7 +171,9 @@
             />
           </template>
           <template v-else>
-            <div class="mr-4 h-6 w-6 border border-gray-400 bg-white pdf-text-only"></div>
+            <div
+              class="pdf-text-only mr-4 h-6 w-6 border border-gray-400 bg-white"
+            ></div>
           </template>
           <span class="font-medium text-blue-600"
             >70% EXEMPTION ON STATUTORY INCOME</span
@@ -178,7 +198,11 @@
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only w-full border border-gray-400 bg-white px-3 py-2 text-sm">Enter promoted activity/product type</div>
+            <div
+              class="pdf-text-only w-full border border-gray-400 bg-white px-3 py-2 text-sm"
+            >
+              Enter promoted activity/product type
+            </div>
           </template>
         </div>
       </div>
@@ -189,7 +213,7 @@
       <div class="flex items-center justify-between">
         <div class="flex items-center">
           <label class="font-medium">Business</label>
-            <div class="ml-4 flex space-x-2">
+          <div class="ml-4 flex space-x-2">
             <div v-for="i in 5" :key="i" class="flex flex-col items-center">
               <template v-if="!isPdfExport">
                 <input
@@ -199,7 +223,9 @@
                 />
               </template>
               <template v-else>
-                <div class="h-6 w-6 border border-gray-400 bg-white pdf-text-only"></div>
+                <div
+                  class="pdf-text-only h-6 w-6 border border-gray-400 bg-white"
+                ></div>
               </template>
               <span class="mt-1 text-xs">{{ i }}</span>
             </div>
@@ -223,7 +249,11 @@
               />
             </template>
             <template v-else>
-              <div class="pdf-text-only w-16 border border-gray-400 bg-white px-3 py-2 text-center text-sm">YYYY</div>
+              <div
+                class="pdf-text-only w-16 border border-gray-400 bg-white px-3 py-2 text-center text-sm"
+              >
+                YYYY
+              </div>
             </template>
           </div>
         </div>
@@ -242,7 +272,11 @@
               />
             </template>
             <template v-else>
-              <div class="pdf-text-only w-80 border border-gray-400 bg-white px-3 py-2 text-sm">Business activity description</div>
+              <div
+                class="pdf-text-only w-80 border border-gray-400 bg-white px-3 py-2 text-sm"
+              >
+                Business activity description
+              </div>
             </template>
           </div>
         </div>
@@ -259,7 +293,11 @@
               />
             </template>
             <template v-else>
-              <div class="pdf-text-only w-20 border border-gray-400 bg-white px-3 py-2 text-center text-sm">Code</div>
+              <div
+                class="pdf-text-only w-20 border border-gray-400 bg-white px-3 py-2 text-center text-sm"
+              >
+                Code
+              </div>
             </template>
           </div>
         </div>
@@ -285,7 +323,11 @@
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only h-8 w-32 border border-gray-400 bg-white px-3 py-2 text-right text-sm">0.00</div>
+            <div
+              class="pdf-text-only h-8 w-32 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+            >
+              0.00
+            </div>
           </template>
         </div>
         <div class="ml-8 mt-2 text-xs text-gray-600">
@@ -309,7 +351,11 @@
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only h-8 w-32 border border-gray-400 bg-white px-3 py-2 text-right text-sm">0.00</div>
+            <div
+              class="pdf-text-only h-8 w-32 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+            >
+              0.00
+            </div>
           </template>
         </div>
         <div class="mb-4 flex items-center justify-between">
@@ -323,7 +369,11 @@
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only h-8 w-32 border border-gray-400 bg-white px-3 py-2 text-right text-sm">0.00</div>
+            <div
+              class="pdf-text-only h-8 w-32 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+            >
+              0.00
+            </div>
           </template>
         </div>
         <div class="mb-2">
@@ -334,7 +384,7 @@
 
     <!-- Section B: Capital Allowance -->
     <div class="mb-6">
-        <div class="flex items-center justify-between border-b border-black pb-2">
+      <div class="flex items-center justify-between border-b border-black pb-2">
         <div class="flex items-center">
           <span class="mr-4 font-bold">B.</span>
           <span class="font-medium">Capital Allowance absorbed</span>
@@ -348,7 +398,11 @@
           />
         </template>
         <template v-else>
-          <div class="pdf-text-only h-8 w-32 border border-gray-400 bg-white px-3 py-2 text-right text-sm">0.00</div>
+          <div
+            class="pdf-text-only h-8 w-32 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+          >
+            0.00
+          </div>
         </template>
       </div>
       <div class="ml-8 mt-2 text-xs text-gray-600">
@@ -358,7 +412,7 @@
 
     <!-- Section C: Statutory Income -->
     <div class="mb-6">
-        <div class="flex items-center justify-between border-b border-black pb-2">
+      <div class="flex items-center justify-between border-b border-black pb-2">
         <div class="flex items-center">
           <span class="mr-4 font-bold">C.</span>
           <span class="font-medium">STATUTORY INCOME (A3 - B)</span>
@@ -372,7 +426,11 @@
           />
         </template>
         <template v-else>
-          <div class="pdf-text-only h-8 w-32 border border-gray-400 bg-white px-3 py-2 text-right text-sm">0.00</div>
+          <div
+            class="pdf-text-only h-8 w-32 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+          >
+            0.00
+          </div>
         </template>
       </div>
     </div>
@@ -406,7 +464,11 @@
               />
             </template>
             <template v-else>
-              <div class="pdf-text-only mx-2 h-6 w-12 border border-gray-400 bg-white px-2 py-1 text-center text-sm">0</div>
+              <div
+                class="pdf-text-only mx-2 h-6 w-12 border border-gray-400 bg-white px-2 py-1 text-center text-sm"
+              >
+                0
+              </div>
             </template>
             <span>%</span>
             <span class="mx-2">x</span>
@@ -420,7 +482,11 @@
               />
             </template>
             <template v-else>
-              <div class="pdf-text-only mx-2 h-6 w-24 border border-gray-400 bg-white px-2 py-1 text-right text-sm">0.00</div>
+              <div
+                class="pdf-text-only mx-2 h-6 w-24 border border-gray-400 bg-white px-2 py-1 text-right text-sm"
+              >
+                0.00
+              </div>
             </template>
             <span>=</span>
           </div>
@@ -433,7 +499,11 @@
             />
           </template>
           <template v-else>
-            <div class="pdf-text-only h-8 w-32 border border-gray-400 bg-white px-3 py-2 text-right text-sm">0.00</div>
+            <div
+              class="pdf-text-only h-8 w-32 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+            >
+              0.00
+            </div>
           </template>
         </div>
 
@@ -725,23 +795,12 @@ const { isPdfExport } = usePdfExportContext();
 </script>
 
 <style scoped>
-.hk-pc2-form-template {
-  /* Ensure consistent spacing and typography */
-  line-height: 1.4;
-}
-
 /* Print-friendly styles */
 @media print {
   .hk-pc2-form-template {
     font-size: 12px;
     color: black;
   }
-}
-
-.pdf-text-only {
-  display: inline-block;
-  line-height: 1.4;
-  color: #000;
 }
 
 @media print {
@@ -753,5 +812,16 @@ const { isPdfExport } = usePdfExportContext();
   .border-gray-400 {
     border-color: #000 !important;
   }
+}
+
+.hk-pc2-form-template {
+  /* Ensure consistent spacing and typography */
+  line-height: 1.4;
+}
+
+.pdf-text-only {
+  display: inline-block;
+  line-height: 1.4;
+  color: #000;
 }
 </style>

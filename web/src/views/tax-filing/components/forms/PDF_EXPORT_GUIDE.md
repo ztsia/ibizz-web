@@ -19,6 +19,7 @@ const { isPdfExport } = usePdfExportContext();
 ### 2. Wrap Each Input Field (Template Section)
 
 **Before (not visible in PDF):**
+
 ```vue
 <input
   type="text"
@@ -29,6 +30,7 @@ const { isPdfExport } = usePdfExportContext();
 ```
 
 **After (visible in PDF with borders):**
+
 ```vue
 <template v-if="!isPdfExport">
   <input
@@ -39,59 +41,82 @@ const { isPdfExport } = usePdfExportContext();
   />
 </template>
 <template v-else>
-  <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm">Enter value</div>
+  <div
+    class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"
+  >
+    Enter value
+  </div>
 </template>
 ```
 
 ### 3. Field Type Examples
 
 #### Text Input (Left-aligned)
+
 ```vue
 <template v-if="!isPdfExport">
   <input type="text" readonly class="form-input" />
 </template>
 <template v-else>
-  <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-left"></div>
+  <div
+    class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-left text-sm"
+  ></div>
 </template>
 ```
 
 #### Number Input (Right-aligned)
+
 ```vue
 <template v-if="!isPdfExport">
   <input type="number" readonly placeholder="0.00" class="form-input" />
 </template>
 <template v-else>
-  <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+  <div
+    class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+  >
+    0.00
+  </div>
 </template>
 ```
 
 #### Date Input
+
 ```vue
 <template v-if="!isPdfExport">
   <input type="text" readonly placeholder="DD/MM/YYYY" class="form-input" />
 </template>
 <template v-else>
-  <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm">DD/MM/YYYY</div>
+  <div
+    class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"
+  >
+    DD/MM/YYYY
+  </div>
 </template>
 ```
 
 #### Small/Centered Input (e.g., in table cells)
+
 ```vue
 <template v-if="!isPdfExport">
   <input type="text" readonly class="small-input" />
 </template>
 <template v-else>
-  <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm"></div>
+  <div
+    class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm"
+  ></div>
 </template>
 ```
 
 #### Input with Specific Width
+
 ```vue
 <template v-if="!isPdfExport">
   <input type="text" readonly class="w-32 border border-gray-400 px-2" />
 </template>
 <template v-else>
-  <div class="pdf-text-only w-32 border border-gray-400 bg-white px-2 text-sm"></div>
+  <div
+    class="pdf-text-only w-32 border border-gray-400 bg-white px-2 text-sm"
+  ></div>
 </template>
 ```
 
@@ -114,7 +139,7 @@ Add this to your component's `<style scoped>` section:
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
-  
+
   .border-gray-400 {
     border-color: #000 !important;
   }
@@ -125,6 +150,7 @@ Add this to your component's `<style scoped>` section:
 ## Important Rules
 
 ### ✅ DO:
+
 - Use `pdf-text-only` class on all PDF divs (required for export tool recognition)
 - Use **inline Tailwind classes** for borders: `border border-gray-400`
 - Use `bg-white` to ensure white background
@@ -133,6 +159,7 @@ Add this to your component's `<style scoped>` section:
 - Use `flex-1` for full-width fields or specific width classes like `w-32`
 
 ### ❌ DON'T:
+
 - Don't use custom CSS classes for borders (won't render in PDF)
 - Don't leave PDF divs empty (include placeholder/default content)
 - Don't use `@apply` in scoped styles (use inline Tailwind classes instead)
@@ -153,10 +180,16 @@ Add this to your component's `<style scoped>` section:
     <div class="flex items-center">
       <label class="w-1/3 font-medium">Company Name</label>
       <template v-if="!isPdfExport">
-        <input type="text" readonly class="flex-1 border border-gray-400 bg-white px-3 py-2 text-sm" />
+        <input
+          type="text"
+          readonly
+          class="flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"
+        />
       </template>
       <template v-else>
-        <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"></div>
+        <div
+          class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"
+        ></div>
       </template>
     </div>
 
@@ -164,10 +197,19 @@ Add this to your component's `<style scoped>` section:
     <div class="flex items-center">
       <label class="w-1/3 font-medium">Amount</label>
       <template v-if="!isPdfExport">
-        <input type="number" readonly placeholder="0.00" class="flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right" />
+        <input
+          type="number"
+          readonly
+          placeholder="0.00"
+          class="flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+        />
       </template>
       <template v-else>
-        <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+        <div
+          class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-right text-sm"
+        >
+          0.00
+        </div>
       </template>
     </div>
 
@@ -176,17 +218,35 @@ Add this to your component's `<style scoped>` section:
       <label class="w-1/3 font-medium">Period</label>
       <div class="flex flex-1 items-center gap-2">
         <template v-if="!isPdfExport">
-          <input type="text" readonly placeholder="DD/MM/YYYY" class="flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm" />
+          <input
+            type="text"
+            readonly
+            placeholder="DD/MM/YYYY"
+            class="flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm"
+          />
         </template>
         <template v-else>
-          <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm">DD/MM/YYYY</div>
+          <div
+            class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm"
+          >
+            DD/MM/YYYY
+          </div>
         </template>
         <span class="font-medium">To</span>
         <template v-if="!isPdfExport">
-          <input type="text" readonly placeholder="DD/MM/YYYY" class="flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm" />
+          <input
+            type="text"
+            readonly
+            placeholder="DD/MM/YYYY"
+            class="flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm"
+          />
         </template>
         <template v-else>
-          <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm">DD/MM/YYYY</div>
+          <div
+            class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-center text-sm"
+          >
+            DD/MM/YYYY
+          </div>
         </template>
       </div>
     </div>
@@ -215,7 +275,7 @@ const { isPdfExport } = usePdfExportContext();
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
-  
+
   .border-gray-400 {
     border-color: #000 !important;
   }
@@ -226,17 +286,20 @@ const { isPdfExport } = usePdfExportContext();
 ## Troubleshooting
 
 ### Fields Not Visible in PDF
+
 1. **Check `isPdfExport` is imported** - Verify script has `usePdfExportContext`
 2. **Check class name** - Must use `pdf-text-only` (not `pdf-text-standard` or custom names)
 3. **Check inline classes** - Borders must be inline Tailwind classes, not CSS
 4. **Check for nested templates** - Each input should have ONE `v-if` and ONE `v-else`
 
 ### Borders Not Showing
+
 1. **Use inline classes** - `border border-gray-400` in the div markup
 2. **Add print CSS** - Include `@media print` rules for `.border-gray-400`
 3. **Check scoped styles** - PDF classes should be in scoped style section
 
 ### Content Cut Off
+
 1. **Add page break control** - Use `page-break-inside: avoid` on container
 2. **Reduce content height** - Split long forms into multiple pages
 3. **Adjust PDF margins** - Check `usePdfExport.ts` margin settings
@@ -244,6 +307,7 @@ const { isPdfExport } = usePdfExportContext();
 ## Testing
 
 After implementing:
+
 1. Open form in worksheet preview
 2. Click PDF export button
 3. Verify all fields show with visible borders
@@ -253,6 +317,7 @@ After implementing:
 ## Reference Files
 
 Working examples:
+
 - `web/src/views/tax-filing/components/forms/CbcrTemplate.vue`
 - `web/src/views/tax-filing/components/forms/CP204FormTemplate.vue`
 - `Reference/HKPC1FormTemplate.vue`
