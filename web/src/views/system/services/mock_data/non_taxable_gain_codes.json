@@ -1,0 +1,1545 @@
+[
+  {
+    "code": 506,
+    "type_of_tax_exempt_income": "Income of a venture capital company",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 75/2005",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 420/2006",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 159/2009",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 115/2022",
+        "amendment_note": "[Revokes P.U.(A) 75/2005]"
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Venture capital company"
+    ],
+    "start_date": "2003-01-01",
+    "end_date": null
+  },
+  {
+    "code": 507,
+    "type_of_tax_exempt_income": "Income of a venture capital management company",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 77/2005",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 116/2022",
+        "amendment_note": "[Revokes P.U.(A) 75/2005]"
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Venture capital management company"
+    ],
+    "start_date": "2003-01-01",
+    "end_date": "2026-12-31"
+  },
+  {
+    "code": 508,
+    "type_of_tax_exempt_income": "Income of an operational headquarters company",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 307/2005",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 260/2007",
+        "amendment_note": "[Amendments to P.U.(A) 307/2005]"
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2003-01-01",
+    "end_date": null
+  },
+  {
+    "code": 509,
+    "type_of_tax_exempt_income": "Income of an international procurement centre company",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 309/2005",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 262/2007",
+        "amendment_note": "[Amendments to P.U.(A) 309/2005]"
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2003-01-01",
+    "end_date": null
+  },
+  {
+    "code": 510,
+    "type_of_tax_exempt_income": "Income of a regional distribution centre company",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 308/2005",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 261/2007",
+        "amendment_note": "[Amendments of P.U.(A) 308/2005]"
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2003-01-01",
+    "end_date": null
+  },
+  {
+    "code": 513,
+    "type_of_tax_exempt_income": "Income from a tour operating business which provides a domestic tour package for travel within Malaysia",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 58/2002 & P.U.(A) 59/2002",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U.(A) 137/2007 & P.U.(A) 138/2007",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U.(A) 451/2012",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U.(A) 7/2013",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 345/2016 & P.U. (A) 346/2016",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 144/2017",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 412/2017",
+        "amendment_note": "[Amendments to P.U.(A) 345/2016]"
+      },
+      {
+        "publication_number": "P.U. (A) 413/2017",
+        "amendment_note": "[Amendments to P.U.(A) 346/2016]"
+      },
+      {
+        "publication_number": "P.U. (A) 344/2021",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2002-01-01",
+    "end_date": "2022-12-31"
+  },
+  {
+    "code": 517,
+    "type_of_tax_exempt_income": "Income from organizing international trade exhibition in Malaysia",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 113/2002",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company",
+      "Association or organisation"
+    ],
+    "start_date": "2002-01-01",
+    "end_date": null
+  },
+  {
+    "code": 518,
+    "type_of_tax_exempt_income": "Income from offshore trading through a website in Malaysia",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 152/2003",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Offshore trading company"
+    ],
+    "start_date": "2001-10-20",
+    "end_date": null
+  },
+  {
+    "code": 519,
+    "type_of_tax_exempt_income": "Income from the provision of chartering services of luxury yacht",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 209/2002",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2001-10-20",
+    "end_date": null
+  },
+  {
+    "code": 520,
+    "type_of_tax_exempt_income": "Income in relation to approved new food production project and expansion project",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 51/2006",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 166/2011",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 373/2020",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company",
+      "Co-operative society",
+      "Farmer’s organization",
+      "Fishermen’s association",
+      "Agro based co-operative society",
+      "Area/Federal/State Farmer’s Association",
+      "Area/Federal/State Fishermen’s Association",
+      "Sole proprietorship/partnership/association – solely engaged in agriculture/fishery"
+    ],
+    "start_date": "2001-01-01",
+    "end_date": null
+  },
+  {
+    "code": 521,
+    "type_of_tax_exempt_income": "Income derived from organizing conferences held in Malaysia",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 500/2000",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U.(A) 195/2021",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [],
+    "start_date": "1997-01-01",
+    "end_date": null
+  },
+  {
+    "code": 522,
+    "type_of_tax_exempt_income": "Income of a BioNexus status company",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 371/2007 & P.U.(A) 372/2007",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U.(A) 156/2009",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 395/2018",
+        "amendment_note": "Paragraph 1(2): W.e.f 16.10.2017"
+      },
+      {
+        "publication_number": "P.U. (A) 381/2018",
+        "amendment_note": "Paragraph 1(3): W.e.f 01.05.2005"
+      },
+      {
+        "publication_number": "P.U. (A) 382/2023",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 383/2023",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 384/2023",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 208/2024",
+        "amendment_note": "W.e.f 01.01.2023"
+      },
+      {
+        "publication_number": "P.U.(A) 382/2023",
+        "amendment_note": "[Amendments to P.U.(A) 382/2023]"
+      },
+      {
+        "publication_number": "P.U. (A) 209/2024",
+        "amendment_note": "[Amendments to P.U.(A) 383/2023]"
+      }
+    ],
+    "categories_entitled_for_claim": [],
+    "start_date": "2005-05-01",
+    "end_date": null
+  },
+  {
+    "code": 523,
+    "type_of_tax_exempt_income": "Income of a bank derived from its branch or investee company which is located outside Malaysia",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 278/2007",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 413/2009",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 90/2010",
+        "amendment_note": "[Amendments to P.U.(A) 413/2009]"
+      }
+    ],
+    "categories_entitled_for_claim": [],
+    "start_date": "2006-09-02",
+    "end_date": null
+  },
+  {
+    "code": 524,
+    "type_of_tax_exempt_income": "Income derived from Islamic banking and takaful business carried on in any currency other than Ringgit Malaysia",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 154/2007",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "International Islamic Bank",
+      "International Takaful Operator",
+      "International Currency Business Unit"
+    ],
+    "start_date": "2007-01-01",
+    "end_date": "2016-12-31"
+  },
+  {
+    "code": 525,
+    "type_of_tax_exempt_income": "Income derived from a business of providing fund management services in accordance with Syariah principle to: i. foreign investors in Malaysia ii. local investors in Malaysia iii. business trust/real-estate investment trust in Malaysia",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 199/2007",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 105/2016",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "[Amendments to P.U.(A) 255/2008]",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 282/2021",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 283/2021",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 284/2021",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 107/2024",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "[Amendments to P.U.(A) 282/2021]",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 108/2024",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "[Amendments to P.U.(A) 283/2021]",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 109/2024",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "[Amendments to P.U.(A) 284/2021]",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2007-01-01",
+    "end_date": "2027-12-31"
+  },
+  {
+    "code": 527,
+    "type_of_tax_exempt_income": "Income derived from the regulated activity of dealing in securities relating to the business of dealing in sukuk",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 393/2008",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Holder of a Capital Markets Service License or a registered person or a specified person under Capital Market and Services Act 2007"
+    ],
+    "start_date": "2009-01-01",
+    "end_date": "2011-12-31"
+  },
+  {
+    "code": 528,
+    "type_of_tax_exempt_income": "Income derived from the regulated activity of dealing in securities and advising on corporate finance relating to the arranging, underwriting and distributing of sukuk",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 394/2008",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Holder of a Capital Markets Service License or a registered person or a specified person under Capital Market and Services Act 2007"
+    ],
+    "start_date": "2009-01-01",
+    "end_date": "2011-12-31"
+  },
+  {
+    "code": 529,
+    "type_of_tax_exempt_income": "Income of a developer/development manager in the Iskandar Development Region",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 417/2007",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 148/2024",
+        "amendment_note": "[Amendments to P.U.(A) 417/2007]"
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2007-01-01",
+    "end_date": null
+  },
+  {
+    "code": 530,
+    "type_of_tax_exempt_income": "Income of an IDR - status (‘Iskandar Development Region’) company from a qualifying activity",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 418/2007 & P.U. (A) 382/2018",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "[Amendments to P.U.(A) 418/2007]",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "Paragraph 1(2):",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "Paragraph 1(3):",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "Paragraph 1(4):",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2007-01-01",
+    "end_date": null
+  },
+  {
+    "code": 531,
+    "type_of_tax_exempt_income": "Income derived from a branch of the company/investee company which carries on insurance/takaful business; and which is located outside Malaysia",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 411/2009",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2009-10-24",
+    "end_date": null
+  },
+  {
+    "code": 532,
+    "type_of_tax_exempt_income": "Income in respect of qualifying expenditure for the purpose of obtaining a green building index certificate",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 325/2011",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Person"
+    ],
+    "start_date": "2009-01-01",
+    "end_date": null
+  },
+  {
+    "code": 533,
+    "type_of_tax_exempt_income": "Income derived from a consolidation of management project (smallholding and idle land)",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 415/2009",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Resident Person"
+    ],
+    "start_date": "2003-01-01",
+    "end_date": null
+  },
+  {
+    "code": 534,
+    "type_of_tax_exempt_income": "Income derived from a healthcare services business given to a foreign client",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 412/2009",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U.(A) 501/2021",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Resident Person"
+    ],
+    "start_date": "2010-01-01",
+    "end_date": "2022-12-31"
+  },
+  {
+    "code": 535,
+    "type_of_tax_exempt_income": "Income derived from a business in relation to the carrying on of a commercialisation project",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 294/2013",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 448/2021",
+        "amendment_note": "[Amendments to P.U.(A) 294/2013]"
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2003-01-01",
+    "end_date": null
+  },
+  {
+    "code": 536,
+    "type_of_tax_exempt_income": "Increased exports allowance for Malaysian International Trading Company",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 60/2002",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 181/2003",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2002-01-01",
+    "end_date": null
+  },
+  {
+    "code": 537,
+    "type_of_tax_exempt_income": "Value of increased export of qualifying services",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 154/2001",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 57/2002",
+        "amendment_note": "[Amendments to P.U.(A) 154/2001]"
+      },
+      {
+        "publication_number": "P.U. (A) 275/2006",
+        "amendment_note": "[Amendments to P.U.(A) 154/2001]"
+      },
+      {
+        "publication_number": "P.U. (A) 269/2020",
+        "amendment_note": "[Amendments to P.U.(A) 57/2002]"
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Person"
+    ],
+    "start_date": "1998-01-01",
+    "end_date": null
+  },
+  {
+    "code": 538,
+    "type_of_tax_exempt_income": "Income pertaining to increase in export sales of agricultural produce or product from manufacturing base on the value of increase in export sales",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 44/2011",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 161/2019",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 158/2005",
+        "amendment_note": "Revokes"
+      },
+      {
+        "publication_number": "P.U. (A) 12/2025",
+        "amendment_note": "Amendments to P.U.(A) 161/2019"
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2010-01-01",
+    "end_date": null
+  },
+  {
+    "code": 539,
+    "type_of_tax_exempt_income": "Income derived from an approved business under a special incentive scheme (pre-package)",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 112/2006",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "1998-01-01",
+    "end_date": null
+  },
+  {
+    "code": 540,
+    "type_of_tax_exempt_income": "Income equivalent to the amount of qualifying capital expenditure derived from an approved business under a special incentive scheme (pre-package)",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 113/2006",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "1998-01-01",
+    "end_date": null
+  },
+  {
+    "code": 541,
+    "type_of_tax_exempt_income": "Income derived from carrying out a qualifying activity in RAPID complex",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 166/2014",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2011-01-01",
+    "end_date": null
+  },
+  {
+    "code": 542,
+    "type_of_tax_exempt_income": "Income of a Multimedia Super Corridor company from a qualifying activity.",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 50/2015",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 396/2018",
+        "amendment_note": "Amendments to P.U.(A) 50/2015"
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2015-01-01",
+    "end_date": null
+  },
+  {
+    "code": 543,
+    "type_of_tax_exempt_income": "Income derived from a business of providing fund management services in accordance with Syariah principles",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 150/2014",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 106/2016",
+        "amendment_note": "Amendments to P.U.(A) 150/2014"
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2014-01-01",
+    "end_date": "2020-12-31"
+  },
+  {
+    "code": 544,
+    "type_of_tax_exempt_income": "East Coast Economic Region – Income from a qualifying activity equivalent to 100% of the qualifying capital expenditure",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 157/2016",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 88/2022",
+        "amendment_note": "Amendments to P.U.(A) 157/2016"
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company",
+      "Co-operative society",
+      "Farmer’s organization",
+      "Fishermen’s association"
+    ],
+    "start_date": "2008-06-13",
+    "end_date": "2024-12-31"
+  },
+  {
+    "code": 545,
+    "type_of_tax_exempt_income": "East Coast Economic Region - Income from a special qualifying activity equivalent to 60% - 100% of the qualifying capital expenditure",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 158/2016",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 89/2022",
+        "amendment_note": "Amendments to P.U.(A) 158/2016"
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company",
+      "Co-operative society",
+      "Farmer’s organization",
+      "Fishermen’s association"
+    ],
+    "start_date": "2008-06-13",
+    "end_date": "2024-12-31"
+  },
+  {
+    "code": 546,
+    "type_of_tax_exempt_income": "East Coast Economic Region - Income from a qualifying activity",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 159/2016",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 90/2022",
+        "amendment_note": "Amendments to P.U.(A) 159/2016"
+      },
+      {
+        "publication_number": "P.U. (A) 346/2023",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company",
+      "Co-operative society",
+      "Farmer’s organization"
+    ],
+    "start_date": "2008-06-13",
+    "end_date": "2024-12-31"
+  },
+  {
+    "code": 547,
+    "type_of_tax_exempt_income": "East Coast Economic Region - Income from a special qualifying activity at the rate of 60% - 100% as may be specified by the Minister",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 160/2016",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 91/2022",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 347/2023",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 394/2018",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company",
+      "Co-operative society",
+      "Farmer’s organization",
+      "Fishermen’s association"
+    ],
+    "start_date": "2008-06-13",
+    "end_date": null
+  },
+  {
+    "code": 548,
+    "type_of_tax_exempt_income": "East Coast Economic Region – Income of an approved developer",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 161/2016",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 92/2022",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 348/2023",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2008-06-13",
+    "end_date": "2024-12-31"
+  },
+  {
+    "code": 549,
+    "type_of_tax_exempt_income": "East Coast Economic Region – Income of a development manager or park manager from carrying on a qualifying activity",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 162/2016",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 124/2022",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 349/2023",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2008-06-13",
+    "end_date": "2024-12-31"
+  },
+  {
+    "code": 550,
+    "type_of_tax_exempt_income": "Incremental amount of chargeable income from business",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 117/2017",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company",
+      "Limited liability",
+      "Partnership",
+      "Executor/receiver"
+    ],
+    "start_date": "2017-01-01",
+    "end_date": "2018-12-31"
+  },
+  {
+    "code": 551,
+    "type_of_tax_exempt_income": "Income from a business of providing private healthcare services equivalent to the amount of qualifying capital expenditure",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 22/2012",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 203/2017",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 141/2020",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 245/2021",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "[Amendments to P.U.(A) 141/2020]",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2010-01-01",
+    "end_date": null
+  },
+  {
+    "code": 552,
+    "type_of_tax_exempt_income": "Income of an operator from a qualifying activity in the Waste Eco Park",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 235/2017",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 236/2017",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 237/2017",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 238/2017",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2016-01-01",
+    "end_date": null
+  },
+  {
+    "code": 553,
+    "type_of_tax_exempt_income": "Income equivalent to 100% of the amount of allowance for a qualifying company under the Income Tax (Accelerated Capital Allowance) (Automation Equipment) Rules 2017.",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 253/2017",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "[Refer to P.U. (A) 252/2017]",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 172/2020",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "[Amendments to P.U.(A) 253/2017]",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "[Refer to P.U. (A) 173/2020]",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "[Amendments to P.U.(A) 252/2017]",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2015-01-01",
+    "end_date": null
+  },
+  {
+    "code": 554,
+    "type_of_tax_exempt_income": "Income from a source of business consisting of a Malaysian ship",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 38/2018",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 48/2018",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 312/2022",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 184/2024",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Person"
+    ],
+    "start_date": "2014-01-01",
+    "end_date": "2026-12-31"
+  },
+  {
+    "code": 555,
+    "type_of_tax_exempt_income": "Income from the business of the qualifying person and the qualifying ringgit account",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 251/2018",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "International Islamic Bank",
+      "International Takaful Operator",
+      "International Currency Business Unit"
+    ],
+    "start_date": "2017-01-01",
+    "end_date": "2020-12-31"
+  },
+  {
+    "code": 556,
+    "type_of_tax_exempt_income": "Exemption for a member institution in respect of statutory income equivalent to the first levi/annual levi paid from the shareholders’ fund to the Malaysia Deposit Insurance Corporation",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 310/2018",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Takaful operator",
+      "Insurance company"
+    ],
+    "start_date": "2018-01-01",
+    "end_date": null
+  },
+  {
+    "code": 557,
+    "type_of_tax_exempt_income": "Income from a business of providing fund management services for Sustainable and Responsible Investment Fund in Malaysia",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 356/2018",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 209/2021",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 106/2024",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "[Amendments to P.U.(A) 253/2017]",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2018-01-01",
+    "end_date": "2027-12-31"
+  },
+  {
+    "code": 558,
+    "type_of_tax_exempt_income": "Exemption for a principal hub in respect of income derived from core income generating activities",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 385/2018",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 386/2018",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 387/2018",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 41/2019",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "[Amendments to P.U.(A) 385/2018]",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 42/2019",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "[Amendments to P.U.(A) 386/2018]",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 43/2019",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "[Amendments to P.U.(A) 387/2018]",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 251/2023",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 252/2023",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2018-01-01",
+    "end_date": null
+  },
+  {
+    "code": 559,
+    "type_of_tax_exempt_income": "Income from a qualifying activity that has obtained annual verification from the Malaysian Green Technology Corporation",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 388/2018",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2018-01-01",
+    "end_date": null
+  },
+  {
+    "code": 560,
+    "type_of_tax_exempt_income": "Income of a Multimedia Super Corridor company from core income generating activities",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 389/2018",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 84/2024",
+        "amendment_note": "[Amendments to P.U.(A) 389/2018]"
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2019-01-01",
+    "end_date": null
+  },
+  {
+    "code": 561,
+    "type_of_tax_exempt_income": "Income from a qualifying activity in the Sabah Development Corridor. (Application from 20.11.2012 – 31.12.2022)",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 390/2018",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 75/2022",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2012-11-20",
+    "end_date": null
+  },
+  {
+    "code": 562,
+    "type_of_tax_exempt_income": "Income in relation to the issuance of Malaysia Japanese Yen Bonds – Series A (2019) guaranteed by Japan Bank for International Cooperation (for qualified institutional investors only)",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 53/2019",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Non-resident person (for 10 years)"
+    ],
+    "start_date": "2019-01-01",
+    "end_date": null
+  },
+  {
+    "code": 563,
+    "type_of_tax_exempt_income": "Income pertaining to increase in export sales of agricultural produce or product from manufacturing of a qualifying company with at least sixty per cent of its issued share capital directly owned by Malaysian citizen",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 162/2019",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 14/2025",
+        "amendment_note": "Amendments to P.U.(A) 162/2019"
+      },
+      {
+        "publication_number": "P.U.(A) 128/1999",
+        "amendment_note": "Revoked"
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2016-01-01",
+    "end_date": null
+  },
+  {
+    "code": 564,
+    "type_of_tax_exempt_income": "Income pertaining to increase in export sales of agricultural produce or product from manufacturing of a qualifying company with paid-up share capital in respect of its ordinary shares not exceeding two million five hundred thousand ringgit at the beginning of the basis period for a year of assessment",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 163/2019",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2016-01-01",
+    "end_date": "2020-12-31"
+  },
+  {
+    "code": 565,
+    "type_of_tax_exempt_income": "Income from a business in relation to the provision and maintenance of a registered kindergarten",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 13/2013",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Person"
+    ],
+    "start_date": "2013-01-01",
+    "end_date": null
+  },
+  {
+    "code": 565,
+    "type_of_tax_exempt_income": "Income from a business in respect of the provision and maintenance of a child care centre",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 3/2013",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Person"
+    ],
+    "start_date": "2013-01-01",
+    "end_date": null
+  },
+  {
+    "code": 566,
+    "type_of_tax_exempt_income": "Income of religious institutions or organization operating a place of worship registered as company limited by guarantee under Company Act 2016",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 139/2020",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company limited by guarantee"
+    ],
+    "start_date": "2020-01-01",
+    "end_date": null
+  },
+  {
+    "code": 567,
+    "type_of_tax_exempt_income": "Income of any person related to the fund given by the Federal Government or the State Government in the form of a grant or a subsidy; and Income of a statutory authority received in respect of an amount chargeable to and collected from any person in accordance with the provisions of the Act governing that statutory authority or any donation received.",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 207/2006",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Person",
+      "Statutory authority"
+    ],
+    "start_date": "2006-01-01",
+    "end_date": null
+  },
+  {
+    "code": 568,
+    "type_of_tax_exempt_income": "Gains or profits derived, in lieu of interest from sukuk wakala, issued by the Wakala Global Sukuk Berhad",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 205/2011",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Person"
+    ],
+    "start_date": "2011-01-01",
+    "end_date": null
+  },
+  {
+    "code": 569,
+    "type_of_tax_exempt_income": "Exemption of statutory income from a qualifying project equivalent to 50% of the qualifying capital expenditure for qualifying company engaged in manufacturing activity in the electrical and electronic sector",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 370/2021",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2020-01-01",
+    "end_date": "2021-12-31"
+  },
+  {
+    "code": 570,
+    "type_of_tax_exempt_income": "Income of approved developer in Tun Razak Exchange area",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 477/2021",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2013-01-01",
+    "end_date": null
+  },
+  {
+    "code": 571,
+    "type_of_tax_exempt_income": "Exemption of income tax from the organization for any arts or cultural activities, sports or recreational competition of international standard",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 478/2021",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company",
+      "Society",
+      "Organization"
+    ],
+    "start_date": "2020-01-01",
+    "end_date": "2025-12-31"
+  },
+  {
+    "code": 572,
+    "type_of_tax_exempt_income": "Income arising from outside Malaysia which is brought into Malaysia",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 96/2022",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Companies incorporated or registered under the Companies Act 2016 and resident in Malaysia"
+    ],
+    "start_date": "2022-01-01",
+    "end_date": "2022-12-31"
+  },
+  {
+    "code": 573,
+    "type_of_tax_exempt_income": "Gains or profits received from the disposal of shares of a company incorporated in Malaysia not listed on the stock exchange.",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 410/2023",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company",
+      "Limited liability partnership"
+    ],
+    "start_date": "2024-01-01",
+    "end_date": "2024-02-29"
+  },
+  {
+    "code": 574,
+    "type_of_tax_exempt_income": "Gains or profits from the disposal of capital asset arising from outside Malaysia which is received in Malaysia",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 75/2024",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company",
+      "Limited liability partnership",
+      "Trust Body",
+      "Co-operative society resident in Malaysia"
+    ],
+    "start_date": "2024-01-01",
+    "end_date": "2026-12-31"
+  },
+  {
+    "code": 575,
+    "type_of_tax_exempt_income": "Statutory income derived from its business, which is equivalent to the amount of qualifying capital expenditure incurred by the qualifying company for the purchase of a green technology asset (Green Technology Incentive Asset)",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 243/2024",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Application from 01.01.2022 – 31.12.2023 (rainwater harvesting system)"
+    ],
+    "start_date": "2013-10-25",
+    "end_date": null
+  },
+  {
+    "code": 576,
+    "type_of_tax_exempt_income": "Statutory income derived from a qualifying activity or activity other than a qualifying activity, which is equivalent to the amount of qualifying capital expenditure incurred by the qualifying company (Green Technology Incentive - Project)",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 244/2024",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Exemption for 3 consecutive years",
+      "Application Period w.e.f 01.01.2020 – 31.12.2023"
+    ],
+    "start_date": "2020-01-01",
+    "end_date": null
+  },
+  {
+    "code": 577,
+    "type_of_tax_exempt_income": "Statutory income derived from its business, which is equivalent to the amount of qualifying expenditure incurred by the qualifying company (Green Technology Incentive - Green Building)",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 245/2024",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Exemption for 3 consecutive years Application from 01.01.2020 – 31.12.2023"
+    ],
+    "start_date": "2020-01-01",
+    "end_date": null
+  },
+  {
+    "code": 578,
+    "type_of_tax_exempt_income": "Exemption of a qualifying company in respect of 70% of its statutory income derived from a qualifying activity (Green Technology Incentive - Services)",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 246/2024",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Exemption for 3 consecutive years of assessment",
+      "Application from 01.01.2020 – 31.12.2023"
+    ],
+    "start_date": "2020-01-01",
+    "end_date": null
+  },
+  {
+    "code": 579,
+    "type_of_tax_exempt_income": "Exemption of a qualifying company in respect of 70% of its statutory income derived from a qualifying activity (Green Technology Incentive - Solar Photovoltaic System Leasing)",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 247/2024",
+        "amendment_note": null
+      },
+      {
+        "publication_number": "P.U. (A) 445/2024",
+        "amendment_note": "Amendments to P.U.(A) 247/2024"
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Company"
+    ],
+    "start_date": "2020-01-01",
+    "end_date": null
+  },
+  {
+    "code": 580,
+    "type_of_tax_exempt_income": "Gains or profit received from the disposal of shares of a company incorporated in Malaysia which is not listed on the stock exchange and from the disposal of shares under section 15C of the ITA 1967",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 249/2024",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Unit trust which is not include a Real Estate Investment Trust or Property Trust Fund listed on Bursa Malaysia"
+    ],
+    "start_date": "2024-01-01",
+    "end_date": "2028-12-31"
+  },
+  {
+    "code": 580,
+    "type_of_tax_exempt_income": "Gross income from all sources of income under section 4 of the ITA 1967 which is received in Malaysia from outside Malaysia",
+    "references": [
+      {
+        "publication_number": "P.U.(A) 250/2024",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [],
+    "start_date": "2024-01-01",
+    "end_date": "2026-12-31"
+  },
+  {
+    "code": 581,
+    "type_of_tax_exempt_income": "Exemption of a qualifying company in respect of statutory income derived from a qualifying activity, which is equivalent to the amount of the qualifying capital expenditure made by the qualifying company in the basis period for that year of assessment.",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 240/2023",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "\"existing company\" which (a) is incorporated under the Companies Act 2016 and resident in Malaysia; (b) has an existing manufacturing operation in Malaysia; and (c) relocate its manufacturing operations to Malaysia for a new business where the product from the new business is not an expansion project for the existing product;"
+    ],
+    "start_date": "2021-01-01",
+    "end_date": null
+  },
+  {
+    "code": 582,
+    "type_of_tax_exempt_income": "Exemption of any approved supplier and approved user from the payment of income tax in the basis period for a year of assessment in respect of the statutory income derived from an Islamic security selling and buying negotiated transaction other than structured payments",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 444/2024",
+        "amendment_note": null
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Person"
+    ],
+    "start_date": "2024-01-01",
+    "end_date": null
+  },
+  {
+    "code": 583,
+    "type_of_tax_exempt_income": "Exemption in respect of chargeable income from dividends/interest/royalties/distributions/distributions of profit/amount received",
+    "references": [
+      {
+        "publication_number": "P.U. (A) 59/2025",
+        "amendment_note": "Revokes P.U. (A) 437/2007"
+      }
+    ],
+    "categories_entitled_for_claim": [
+      "Labuan company",
+      "Any person",
+      "A non-resident person",
+      "Beneficiary of Labuan trust/Labuan Islamic trust",
+      "A partner",
+      "A member of a Labuan foundation"
+    ],
+    "start_date": "2023-01-01",
+    "end_date": "2027-12-31"
+  }
+]
