@@ -14,66 +14,96 @@
       <h3 class="mb-4 border-b text-lg font-semibold">1st Revision</h3>
       <div class="space-y-4">
         <div class="flex items-center">
-          <Checkbox :checked="false" disabled class="print-checkbox" />
+          <Checkbox :checked="false" disabled class="h-4 w-4 border-2 border-gray-700" />
           <label class="ml-2 font-medium"
             >Application made before the 15th day of the sixth month</label
           >
         </div>
         <div class="flex items-center">
           <label class="w-48 font-medium">CP204A Date</label>
-          <input
-            type="text"
-            readonly
-            placeholder="DD/MM/YYYY"
-            class="field-value-input"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="text"
+              readonly
+              placeholder="DD/MM/YYYY"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm">DD/MM/YYYY</div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-48 font-medium">Revised estimated tax payable</label>
-          <input
-            type="number"
-            readonly
-            placeholder="0.00"
-            class="field-value-input"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="number"
+              readonly
+              placeholder="0.00"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-48 font-medium">Less Tax paid to date</label>
-          <input
-            type="number"
-            readonly
-            placeholder="0.00"
-            class="field-value-input"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="number"
+              readonly
+              placeholder="0.00"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-48 font-medium">Balance estimated tax payable</label>
-          <input
-            type="number"
-            readonly
-            placeholder="0.00"
-            class="field-value-input"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="number"
+              readonly
+              placeholder="0.00"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-48 font-medium"
             >Revised installment tax payment 6th to 11th installment @</label
           >
-          <input
-            type="number"
-            readonly
-            placeholder="0.00"
-            class="field-value-input"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="number"
+              readonly
+              placeholder="0.00"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-48 font-medium">Final Installment</label>
-          <input
-            type="number"
-            readonly
-            placeholder="0.00"
-            class="field-value-input"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="number"
+              readonly
+              placeholder="0.00"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+          </template>
         </div>
       </div>
     </div>
@@ -83,66 +113,96 @@
       <h3 class="mb-4 border-b text-lg font-semibold">2nd Revision</h3>
       <div class="space-y-4">
         <div class="flex items-center">
-          <Checkbox :checked="false" disabled class="print-checkbox" />
+          <Checkbox :checked="false" disabled class="h-4 w-4 border-2 border-gray-700" />
           <label class="ml-2 font-medium"
             >Application made before the 15th day of the ninth month</label
           >
         </div>
         <div class="flex items-center">
           <label class="w-48 font-medium">CP204A Date</label>
-          <input
-            type="text"
-            readonly
-            placeholder="DD/MM/YYYY"
-            class="field-value-input"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="text"
+              readonly
+              placeholder="DD/MM/YYYY"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm">DD/MM/YYYY</div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-48 font-medium">Revised estimated tax payable</label>
-          <input
-            type="number"
-            readonly
-            placeholder="0.00"
-            class="field-value-input"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="number"
+              readonly
+              placeholder="0.00"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-48 font-medium">Less Tax paid to date</label>
-          <input
-            type="number"
-            readonly
-            placeholder="0.00"
-            class="field-value-input"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="number"
+              readonly
+              placeholder="0.00"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-48 font-medium">Balance estimated tax payable</label>
-          <input
-            type="number"
-            readonly
-            placeholder="0.00"
-            class="field-value-input"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="number"
+              readonly
+              placeholder="0.00"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-48 font-medium"
             >Revised installment tax payment 9th to 11th installment @</label
           >
-          <input
-            type="number"
-            readonly
-            placeholder="0.00"
-            class="field-value-input"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="number"
+              readonly
+              placeholder="0.00"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-48 font-medium">Final Installment</label>
-          <input
-            type="number"
-            readonly
-            placeholder="0.00"
-            class="field-value-input"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="number"
+              readonly
+              placeholder="0.00"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+          </template>
         </div>
       </div>
     </div>
@@ -152,66 +212,96 @@
       <h3 class="mb-4 border-b text-lg font-semibold">3rd Revision</h3>
       <div class="space-y-4">
         <div class="flex items-center">
-          <Checkbox :checked="false" disabled class="print-checkbox" />
+          <Checkbox :checked="false" disabled class="h-4 w-4 border-2 border-gray-700" />
           <label class="ml-2 font-medium"
             >Application made before the 15th day of the eleventh month</label
           >
         </div>
         <div class="flex items-center">
           <label class="w-48 font-medium">CP204A Date</label>
-          <input
-            type="text"
-            readonly
-            placeholder="DD/MM/YYYY"
-            class="field-value-input"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="text"
+              readonly
+              placeholder="DD/MM/YYYY"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm">DD/MM/YYYY</div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-48 font-medium">Revised estimated tax payable</label>
-          <input
-            type="number"
-            readonly
-            placeholder="0.00"
-            class="field-value-input"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="number"
+              readonly
+              placeholder="0.00"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-48 font-medium">Less Tax paid to date</label>
-          <input
-            type="number"
-            readonly
-            placeholder="0.00"
-            class="field-value-input"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="number"
+              readonly
+              placeholder="0.00"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-48 font-medium">Balance estimated tax payable</label>
-          <input
-            type="number"
-            readonly
-            placeholder="0.00"
-            class="field-value-input"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="number"
+              readonly
+              placeholder="0.00"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-48 font-medium"
             >Revised installment tax payment 11th installment @</label
           >
-          <input
-            type="number"
-            readonly
-            placeholder="0.00"
-            class="field-value-input"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="number"
+              readonly
+              placeholder="0.00"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-48 font-medium">Final Installment</label>
-          <input
-            type="number"
-            readonly
-            placeholder="0.00"
-            class="field-value-input"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="number"
+              readonly
+              placeholder="0.00"
+              class="ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm text-right">0.00</div>
+          </template>
         </div>
       </div>
     </div>
@@ -224,6 +314,9 @@
 
 <script lang="ts" setup>
 import { Checkbox } from '@vben-core/shadcn-ui';
+import { usePdfExportContext } from '#/composables/usePdfExportContext';
+
+const { isPdfExport } = usePdfExportContext();
 </script>
 
 <style scoped>
@@ -231,18 +324,25 @@ import { Checkbox } from '@vben-core/shadcn-ui';
   line-height: 1.4;
 }
 
-.field-value-input {
-  @apply ml-4 flex-1 border border-gray-400 bg-white px-3 py-2 text-sm;
-}
-
-.print-checkbox {
-  @apply h-4 w-4 border-2 border-gray-700;
+.pdf-text-only {
+  display: inline-block;
+  line-height: 1.4;
+  color: #000;
 }
 
 @media print {
   .cp204a-form-template {
     font-size: 12px;
     color: black;
+  }
+
+  .pdf-text-only {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .border-gray-400 {
+    border-color: #000 !important;
   }
 }
 </style>

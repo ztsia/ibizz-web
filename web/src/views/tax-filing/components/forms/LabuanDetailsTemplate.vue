@@ -19,22 +19,178 @@
         </thead>
         <tbody>
           <tr>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-left"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-left text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-left"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-left text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-left"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-left text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-left"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-left text-sm"
+                ></div>
+              </template>
+            </td>
           </tr>
           <tr>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-left"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-left text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-left"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-left text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-left"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-left text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-left"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-left text-sm"
+                ></div>
+              </template>
+            </td>
           </tr>
           <tr>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-left"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-left text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-left"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-left text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-left"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-left text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-left"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-left text-sm"
+                ></div>
+              </template>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -67,28 +223,262 @@
         </thead>
         <tbody>
           <tr>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-left"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-left text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-left"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-left text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-right"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-right text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-right"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-right text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-right"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-right text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-right"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-right text-sm"
+                ></div>
+              </template>
+            </td>
           </tr>
           <tr>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-left"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-left text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-left"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-left text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-right"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-right text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-right"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-right text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-right"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-right text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-right"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-right text-sm"
+                ></div>
+              </template>
+            </td>
           </tr>
           <tr>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
-            <td class="h-8 border border-gray-400 p-1"></td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-left"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-left text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-left"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-left text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-right"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-right text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-right"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-right text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-right"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-right text-sm"
+                ></div>
+              </template>
+            </td>
+            <td class="h-8 border border-gray-400 p-1">
+              <template v-if="!isPdfExport">
+                <input
+                  type="text"
+                  readonly
+                  class="w-full bg-transparent p-1 text-right"
+                />
+              </template>
+              <template v-else>
+                <div
+                  class="pdf-text-only h-full w-full bg-white p-1 text-right text-sm"
+                ></div>
+              </template>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -97,11 +487,32 @@
 </template>
 
 <script lang="ts" setup>
-// This component is a read-only visual template.
+import { usePdfExportContext } from '#/composables/usePdfExportContext';
+
+const { isPdfExport } = usePdfExportContext();
 </script>
 
 <style scoped>
 .form-container {
   font-family: Arial, sans-serif;
+}
+
+/* PDF export helper class */
+.pdf-text-only {
+  display: inline-block;
+  line-height: 1.4;
+  color: #000;
+}
+
+/* Ensure borders are visible in PDF export */
+@media print {
+  .pdf-text-only {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .border-gray-400 {
+    border-color: #000 !important;
+  }
 }
 </style>

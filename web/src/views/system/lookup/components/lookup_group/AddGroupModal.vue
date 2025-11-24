@@ -595,12 +595,12 @@ function open(
   setInternalMode(effectiveMode);
 
   // Set local state for column editing permission
-    isColumnEditingAllowed.value =
-      effectiveMode === 'add'
-        ? true
-        : allowEditColumnsParam ?? props.allowEditColumns ?? false;
-  
-    if (internalMode.value === 'edit') {
+  isColumnEditingAllowed.value =
+    effectiveMode === 'add'
+      ? true
+      : (allowEditColumnsParam ?? props.allowEditColumns ?? false);
+
+  if (internalMode.value === 'edit') {
     // addGroupModalApi.setTitle('Edit Lookup Group'); // REMOVED
   } else {
     // addGroupModalApi.setTitle('Add Lookup Group'); // REMOVED

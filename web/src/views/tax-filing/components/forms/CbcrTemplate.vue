@@ -8,59 +8,109 @@
       <div class="space-y-4">
         <div class="flex items-center">
           <label class="w-1/3 font-medium">Name of company</label>
-          <input type="text" readonly class="form-input-readonly" />
+          <template v-if="!isPdfExport">
+            <input type="text" readonly class="form-input-readonly" placeholder="Company Name" />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"></div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium"
             >Reference no. (Registration no.)</label
           >
-          <input type="text" readonly class="form-input-readonly" />
+          <template v-if="!isPdfExport">
+            <input type="text" readonly class="form-input-readonly" placeholder="Registration No." />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"></div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium">TIN</label>
-          <input type="text" readonly class="form-input-readonly" />
+          <template v-if="!isPdfExport">
+            <input type="text" readonly class="form-input-readonly" placeholder="TIN" />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"></div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium">CbCR e-mail</label>
-          <input type="email" readonly class="form-input-readonly" />
+          <template v-if="!isPdfExport">
+            <input type="email" readonly class="form-input-readonly" placeholder="email@example.com" />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"></div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium">Name of MNE Group</label>
-          <input type="text" readonly class="form-input-readonly" />
+          <template v-if="!isPdfExport">
+            <input type="text" readonly class="form-input-readonly" placeholder="MNE Group Name" />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"></div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium">Accounting period from</label>
-          <input
-            type="text"
-            readonly
-            class="form-input-readonly"
-            placeholder="DD/MM/YYYY"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="text"
+              readonly
+              class="form-input-readonly"
+              placeholder="DD/MM/YYYY"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm">DD/MM/YYYY</div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium">Accounting period to</label>
-          <input
-            type="text"
-            readonly
-            class="form-input-readonly"
-            placeholder="DD/MM/YYYY"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="text"
+              readonly
+              class="form-input-readonly"
+              placeholder="DD/MM/YYYY"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm">DD/MM/YYYY</div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium"
             >Number of constituent entities in Malaysia</label
           >
-          <input type="number" readonly class="form-input-readonly" />
+          <template v-if="!isPdfExport">
+            <input type="number" readonly class="form-input-readonly" placeholder="0" />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"></div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium"
             >Number of constituent entities outside Malaysia</label
           >
-          <input type="number" readonly class="form-input-readonly" />
+          <template v-if="!isPdfExport">
+            <input type="number" readonly class="form-input-readonly" placeholder="0" />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"></div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium">Status of reporting entity</label>
-          <input type="text" readonly class="form-input-readonly" />
+          <template v-if="!isPdfExport">
+            <input type="text" readonly class="form-input-readonly" placeholder="Status" />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"></div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium"
@@ -81,11 +131,21 @@
           <label class="w-1/3 font-medium"
             >Name of ultimate holding entity</label
           >
-          <input type="text" readonly class="form-input-readonly" />
+          <template v-if="!isPdfExport">
+            <input type="text" readonly class="form-input-readonly" placeholder="Ultimate Holding Entity Name" />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"></div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium">Country of residence</label>
-          <input type="text" readonly class="form-input-readonly" />
+          <template v-if="!isPdfExport">
+            <input type="text" readonly class="form-input-readonly" placeholder="Country" />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"></div>
+          </template>
         </div>
       </div>
     </div>
@@ -98,21 +158,41 @@
       <div class="space-y-4">
         <div class="flex items-center">
           <label class="w-1/3 font-medium">Name of company</label>
-          <input type="text" readonly class="form-input-readonly" />
+          <template v-if="!isPdfExport">
+            <input type="text" readonly class="form-input-readonly" placeholder="Company Name" />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"></div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium"
             >Reference no. (Registration no.)</label
           >
-          <input type="text" readonly class="form-input-readonly" />
+          <template v-if="!isPdfExport">
+            <input type="text" readonly class="form-input-readonly" placeholder="Registration No." />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"></div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium">TIN</label>
-          <input type="text" readonly class="form-input-readonly" />
+          <template v-if="!isPdfExport">
+            <input type="text" readonly class="form-input-readonly" placeholder="TIN" />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"></div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium">E-mail</label>
-          <input type="email" readonly class="form-input-readonly" />
+          <template v-if="!isPdfExport">
+            <input type="email" readonly class="form-input-readonly" placeholder="email@example.com" />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"></div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium"
@@ -130,45 +210,80 @@
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium">Name of reporting entity</label>
-          <input type="text" readonly class="form-input-readonly" />
+          <template v-if="!isPdfExport">
+            <input type="text" readonly class="form-input-readonly" placeholder="Reporting Entity Name" />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"></div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium">Country of residence</label>
-          <input type="text" readonly class="form-input-readonly" />
+          <template v-if="!isPdfExport">
+            <input type="text" readonly class="form-input-readonly" placeholder="Country" />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"></div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium">TIN</label>
-          <input type="text" readonly class="form-input-readonly" />
+          <template v-if="!isPdfExport">
+            <input type="text" readonly class="form-input-readonly" placeholder="TIN" />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"></div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium"
             >Accounting period of reporting entity from</label
           >
-          <input
-            type="text"
-            readonly
-            class="form-input-readonly"
-            placeholder="DD/MM/YYYY"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="text"
+              readonly
+              class="form-input-readonly"
+              placeholder="DD/MM/YYYY"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm">DD/MM/YYYY</div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium"
             >Accounting period of reporting entity to</label
           >
-          <input
-            type="text"
-            readonly
-            class="form-input-readonly"
-            placeholder="DD/MM/YYYY"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="text"
+              readonly
+              class="form-input-readonly"
+              placeholder="DD/MM/YYYY"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm">DD/MM/YYYY</div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium">Name of MNE Group</label>
-          <input type="text" readonly class="form-input-readonly" />
+          <template v-if="!isPdfExport">
+            <input type="text" readonly class="form-input-readonly" placeholder="MNE Group Name" />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"></div>
+          </template>
         </div>
         <div class="flex items-center">
           <label class="w-1/3 font-medium">Status of reporting entity</label>
-          <input type="text" readonly class="form-input-readonly" />
+          <template v-if="!isPdfExport">
+            <input type="text" readonly class="form-input-readonly" placeholder="Status" />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only flex-1 border border-gray-400 bg-white px-3 py-2 text-sm"></div>
+          </template>
         </div>
       </div>
     </div>
@@ -177,6 +292,9 @@
 
 <script lang="ts" setup>
 // This component is a read-only visual template.
+import { usePdfExportContext } from '#/composables/usePdfExportContext';
+
+const { isPdfExport } = usePdfExportContext();
 </script>
 
 <style scoped>
@@ -187,4 +305,24 @@
 .form-input-readonly {
   @apply flex-1 border border-gray-400 bg-white px-3 py-2 text-sm;
 }
+
+/* PDF export helper class */
+.pdf-text-only {
+  display: inline-block;
+  line-height: 1.4;
+  color: #000;
+}
+
+/* Ensure borders are visible in PDF export */
+@media print {
+  .pdf-text-only {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  
+  .border-gray-400 {
+    border-color: #000 !important;
+  }
+}
 </style>
+

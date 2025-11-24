@@ -1,5 +1,5 @@
-import { ref, provide, inject, readonly } from 'vue';
-import type { InjectionKey } from 'vue';
+import { ref, provide, inject, readonly, computed } from 'vue';
+import type { InjectionKey, ComputedRef } from 'vue';
 
 /**
  * PDF Export Context for managing PDF rendering mode
@@ -8,7 +8,7 @@ import type { InjectionKey } from 'vue';
  */
 
 export interface PdfExportContext {
-  isPdfExport: boolean;
+  isPdfExport: ComputedRef<boolean>;
   enablePdfMode: () => void;
   disablePdfMode: () => void;
 }
@@ -33,7 +33,7 @@ export function providePdfExportContext() {
   };
 
   const context: PdfExportContext = {
-    isPdfExport: readonly(isPdfExport).value,
+    isPdfExport: computed(() => isPdfExport.value),
     enablePdfMode,
     disablePdfMode,
   };
@@ -57,7 +57,7 @@ export function usePdfExportContext() {
   if (!context) {
     // Return default context if not provided
     return {
-      isPdfExport: ref(false),
+      isPdfExport: computed(() => false),
       enablePdfMode: () => {},
       disablePdfMode: () => {},
     };

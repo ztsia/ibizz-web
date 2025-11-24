@@ -22,14 +22,19 @@
       <!-- Name Field -->
       <div class="flex items-center">
         <label class="w-16 font-medium">Name</label>
-        <div class="ml-4 flex-1">
-          <input
-            type="text"
-            readonly
-            class="w-full border border-gray-400 bg-white px-2 py-1 text-sm focus:outline-none"
-            placeholder="Enter company name"
-          />
-        </div>
+          <div class="ml-4 flex-1">
+            <template v-if="!isPdfExport">
+              <input
+                type="text"
+                readonly
+                class="w-full border border-gray-400 bg-white px-2 py-1 text-sm focus:outline-none"
+                placeholder="Enter company name"
+              />
+            </template>
+            <template v-else>
+              <div class="pdf-text-only w-full border border-gray-400 bg-white px-2 py-1 text-sm">Enter company name</div>
+            </template>
+          </div>
       </div>
 
       <!-- TIN and Registration No -->
@@ -37,25 +42,35 @@
         <div class="flex items-center">
           <label class="w-16 font-medium">TIN</label>
           <div class="ml-4">
-            <input
-              type="text"
-              readonly
-              maxlength="12"
-              class="w-32 border border-gray-400 bg-white px-2 py-1 text-center text-sm focus:outline-none"
-              placeholder="TIN Number"
-            />
+            <template v-if="!isPdfExport">
+              <input
+                type="text"
+                readonly
+                maxlength="12"
+                class="w-32 border border-gray-400 bg-white px-2 py-1 text-center text-sm focus:outline-none"
+                placeholder="TIN Number"
+              />
+            </template>
+            <template v-else>
+              <div class="pdf-text-only w-32 border border-gray-400 bg-white px-2 py-1 text-center text-sm">TIN Number</div>
+            </template>
           </div>
         </div>
         <div class="flex items-center">
           <label class="font-medium">Registration No.</label>
           <div class="ml-4">
-            <input
-              type="text"
-              readonly
-              maxlength="15"
-              class="w-40 border border-gray-400 bg-white px-2 py-1 text-center text-sm focus:outline-none"
-              placeholder="Registration Number"
-            />
+            <template v-if="!isPdfExport">
+              <input
+                type="text"
+                readonly
+                maxlength="15"
+                class="w-40 border border-gray-400 bg-white px-2 py-1 text-center text-sm focus:outline-none"
+                placeholder="Registration Number"
+              />
+            </template>
+            <template v-else>
+              <div class="pdf-text-only w-40 border border-gray-400 bg-white px-2 py-1 text-center text-sm">Registration Number</div>
+            </template>
           </div>
         </div>
       </div>
@@ -64,13 +79,18 @@
       <div class="flex items-center justify-between">
         <div class="flex items-center">
           <label class="font-medium">Business</label>
-          <div class="ml-4 flex space-x-2">
+            <div class="ml-4 flex space-x-2">
             <div v-for="i in 5" :key="i" class="flex flex-col items-center">
-              <input
-                type="checkbox"
-                disabled
-                class="h-4 w-4 border border-gray-400"
-              />
+              <template v-if="!isPdfExport">
+                <input
+                  type="checkbox"
+                  disabled
+                  class="h-4 w-4 border border-gray-400"
+                />
+              </template>
+              <template v-else>
+                <div class="pdf-text-only h-4 w-4 border border-gray-400"></div>
+              </template>
               <span class="mt-1 text-xs">{{ i }}</span>
             </div>
           </div>
@@ -78,13 +98,18 @@
         <div class="flex items-center">
           <label class="font-medium">Year of Assessment</label>
           <div class="ml-4">
-            <input
-              type="text"
-              readonly
-              maxlength="4"
-              class="w-16 border border-gray-400 bg-white px-2 py-1 text-center text-sm focus:outline-none"
-              placeholder="Year"
-            />
+            <template v-if="!isPdfExport">
+              <input
+                type="text"
+                readonly
+                maxlength="4"
+                class="w-16 border border-gray-400 bg-white px-2 py-1 text-center text-sm focus:outline-none"
+                placeholder="Year"
+              />
+            </template>
+            <template v-else>
+              <div class="pdf-text-only w-16 border border-gray-400 bg-white px-2 py-1 text-center text-sm">Year</div>
+            </template>
           </div>
         </div>
       </div>
@@ -94,24 +119,34 @@
         <div class="flex items-center">
           <label class="font-medium">Type of<br />Business Activity</label>
           <div class="ml-4">
-            <input
-              type="text"
-              readonly
-              class="w-80 border border-gray-400 bg-white px-2 py-1 text-sm focus:outline-none"
-              placeholder="Business Activity"
-            />
+            <template v-if="!isPdfExport">
+              <input
+                type="text"
+                readonly
+                class="w-80 border border-gray-400 bg-white px-2 py-1 text-sm focus:outline-none"
+                placeholder="Business Activity"
+              />
+            </template>
+            <template v-else>
+              <div class="pdf-text-only w-80 border border-gray-400 bg-white px-2 py-1 text-sm">Business Activity</div>
+            </template>
           </div>
         </div>
         <div class="flex items-center">
           <label class="font-medium">Business Code</label>
           <div class="ml-4">
-            <input
-              type="text"
-              readonly
-              maxlength="5"
-              class="w-20 border border-gray-400 bg-white px-2 py-1 text-center text-sm focus:outline-none"
-              placeholder="Code"
-            />
+            <template v-if="!isPdfExport">
+              <input
+                type="text"
+                readonly
+                maxlength="5"
+                class="w-20 border border-gray-400 bg-white px-2 py-1 text-center text-sm focus:outline-none"
+                placeholder="Code"
+              />
+            </template>
+            <template v-else>
+              <div class="pdf-text-only w-20 border border-gray-400 bg-white px-2 py-1 text-center text-sm">Code</div>
+            </template>
           </div>
         </div>
       </div>
@@ -128,12 +163,17 @@
             <span class="font-medium">1. Adjusted Business Income</span>
           </div>
           <div>
-            <input
-              type="number"
-              readonly
-              class="w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm focus:outline-none"
-              placeholder="0.00"
-            />
+            <template v-if="!isPdfExport">
+              <input
+                type="number"
+                readonly
+                class="w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm focus:outline-none"
+                placeholder="0.00"
+              />
+            </template>
+            <template v-else>
+              <div class="pdf-text-only w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm">0.00</div>
+            </template>
           </div>
         </div>
         <div class="ml-8 mt-2 text-xs text-gray-600">
@@ -149,23 +189,33 @@
         <div class="mb-4 flex items-center justify-between">
           <span>2. Balancing Charge</span>
           <div>
-            <input
-              type="number"
-              readonly
-              class="w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm focus:outline-none"
-              placeholder="0.00"
-            />
+            <template v-if="!isPdfExport">
+              <input
+                type="number"
+                readonly
+                class="w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm focus:outline-none"
+                placeholder="0.00"
+              />
+            </template>
+            <template v-else>
+              <div class="pdf-text-only w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm">0.00</div>
+            </template>
           </div>
         </div>
         <div class="mb-4 flex items-center justify-between">
           <span>3. TOTAL (A1 + A2)</span>
           <div>
-            <input
-              type="number"
-              readonly
-              class="w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm focus:outline-none"
-              placeholder="0.00"
-            />
+            <template v-if="!isPdfExport">
+              <input
+                type="number"
+                readonly
+                class="w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm focus:outline-none"
+                placeholder="0.00"
+              />
+            </template>
+            <template v-else>
+              <div class="pdf-text-only w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm">0.00</div>
+            </template>
           </div>
         </div>
         <div class="mb-2">
@@ -182,12 +232,17 @@
           <span class="font-medium">Capital Allowance absorbed</span>
         </div>
         <div>
-          <input
-            type="number"
-            readonly
-            class="w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm focus:outline-none"
-            placeholder="0.00"
-          />
+          <template v-if="!isPdfExport">
+            <input
+              type="number"
+              readonly
+              class="w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm focus:outline-none"
+              placeholder="0.00"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm">0.00</div>
+          </template>
         </div>
       </div>
       <div class="ml-8 mt-2 text-xs text-gray-600">
@@ -292,25 +347,35 @@
               >change in shareholding (if relevant)</span
             >
           </div>
-          <div>
-            <input
-              type="number"
-              readonly
-              class="w-24 border border-gray-400 bg-white px-2 py-1 text-right text-sm focus:outline-none"
-              placeholder="0.00"
-            />
-          </div>
+            <div>
+              <template v-if="!isPdfExport">
+                <input
+                  type="number"
+                  readonly
+                  class="w-24 border border-gray-400 bg-white px-2 py-1 text-right text-sm focus:outline-none"
+                  placeholder="0.00"
+                />
+              </template>
+              <template v-else>
+                <div class="pdf-text-only w-24 border border-gray-400 bg-white px-2 py-1 text-right text-sm">0.00</div>
+              </template>
+            </div>
         </div>
 
         <div class="flex items-center justify-between">
           <span>3. TOTAL (F1 - F2)</span>
           <div>
-            <input
-              type="number"
-              readonly
-              class="w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm focus:outline-none"
-              placeholder="0.00"
-            />
+            <template v-if="!isPdfExport">
+              <input
+                type="number"
+                readonly
+                class="w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm focus:outline-none"
+                placeholder="0.00"
+              />
+            </template>
+            <template v-else>
+              <div class="pdf-text-only w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm">0.00</div>
+            </template>
           </div>
         </div>
 
@@ -321,36 +386,51 @@
         <div class="flex items-center justify-between">
           <span>4. Balancing Allowance</span>
           <div>
-            <input
-              type="number"
-              readonly
-              class="w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm focus:outline-none"
-              placeholder="0.00"
-            />
+            <template v-if="!isPdfExport">
+              <input
+                type="number"
+                readonly
+                class="w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm focus:outline-none"
+                placeholder="0.00"
+              />
+            </template>
+            <template v-else>
+              <div class="pdf-text-only w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm">0.00</div>
+            </template>
           </div>
         </div>
 
         <div class="flex items-center justify-between">
           <span>5. Capital Allowance</span>
           <div>
-            <input
-              type="number"
-              readonly
-              class="w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm focus:outline-none"
-              placeholder="0.00"
-            />
+            <template v-if="!isPdfExport">
+              <input
+                type="number"
+                readonly
+                class="w-24 border border-gray-400 bg-white px-2 py-1 text-right text-sm focus:outline-none"
+                placeholder="0.00"
+              />
+            </template>
+            <template v-else>
+              <div class="pdf-text-only w-24 border border-gray-400 bg-white px-2 py-1 text-right text-sm">0.00</div>
+            </template>
           </div>
         </div>
 
         <div class="flex items-center justify-between">
           <span>6. TOTAL (F3 + F4 + F5)</span>
           <div>
-            <input
-              type="number"
-              readonly
-              class="w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm focus:outline-none"
-              placeholder="0.00"
-            />
+            <template v-if="!isPdfExport">
+              <input
+                type="number"
+                readonly
+                class="w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm focus:outline-none"
+                placeholder="0.00"
+              />
+            </template>
+            <template v-else>
+              <div class="pdf-text-only w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm">0.00</div>
+            </template>
           </div>
         </div>
 
@@ -364,12 +444,17 @@
             <span class="ml-4 text-xs text-gray-600">(amount from B)</span>
           </div>
           <div>
-            <input
-              type="number"
-              readonly
-              class="w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm focus:outline-none"
-              placeholder="0.00"
-            />
+            <template v-if="!isPdfExport">
+              <input
+                type="number"
+                readonly
+                class="w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm focus:outline-none"
+                placeholder="0.00"
+              />
+            </template>
+            <template v-else>
+              <div class="pdf-text-only w-32 border border-gray-400 bg-white px-2 py-1 text-right text-sm">0.00</div>
+            </template>
           </div>
         </div>
 
@@ -398,6 +483,9 @@
 // HK-PC7 Form Template - Computation of Statutory Income for Shipping Business
 // Carried on by a Resident Company - Shipping Operation Section 54a ITA 1967
 // This is a non-editable visual representation of the official form
+import { usePdfExportContext } from '../../../../composables/usePdfExportContext';
+
+const { isPdfExport } = usePdfExportContext();
 </script>
 
 <style scoped>
@@ -406,11 +494,24 @@
   line-height: 1.4;
 }
 
+/* Helper for showing text-only fields during PDF export */
+.pdf-text-only {
+  display: inline-block;
+  line-height: 1.4;
+  color: #000;
+}
+
 /* Print-friendly styles */
 @media print {
   .hk-pc7-form-template {
     font-size: 12px;
     color: black;
+  }
+}
+
+@media print {
+  .border-gray-400 {
+    border-color: #000 !important;
   }
 }
 </style>

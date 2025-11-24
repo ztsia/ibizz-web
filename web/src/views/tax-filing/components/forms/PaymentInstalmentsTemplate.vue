@@ -20,38 +20,72 @@
         <tr v-for="i in 12" :key="i">
           <td class="border border-gray-400 p-2">{{ i }}</td>
           <td class="border border-gray-400 p-1">
-            <input
-              type="text"
-              readonly
-              class="w-full border-0 bg-transparent px-1 py-1 text-right focus:outline-none"
-              placeholder="0.00"
-            />
+            <template v-if="!isPdfExport">
+              <input
+                type="text"
+                readonly
+                class="w-full border-0 bg-transparent px-1 py-1 text-right focus:outline-none"
+                placeholder="0.00"
+              />
+            </template>
+            <template v-else>
+              <div
+                class="pdf-text-only h-full w-full bg-white p-1 text-right text-sm"
+              >
+                0.00
+              </div>
+            </template>
           </td>
           <td class="border border-gray-400 p-1">
-            <input
-              type="text"
-              readonly
-              class="w-full border-0 bg-transparent px-1 py-1 text-center focus:outline-none"
-              placeholder="DD/MM/YYYY"
-            />
+            <template v-if="!isPdfExport">
+              <input
+                type="text"
+                readonly
+                class="w-full border-0 bg-transparent px-1 py-1 text-center focus:outline-none"
+                placeholder="DD/MM/YYYY"
+              />
+            </template>
+            <template v-else>
+              <div
+                class="pdf-text-only h-full w-full bg-white p-1 text-center text-sm"
+              >
+                DD/MM/YYYY
+              </div>
+            </template>
           </td>
           <td class="border border-gray-400 p-1">
-            <input
-              type="text"
-              readonly
-              class="w-full border-0 bg-transparent px-1 py-1 focus:outline-none"
-            />
+            <template v-if="!isPdfExport">
+              <input
+                type="text"
+                readonly
+                class="w-full border-0 bg-transparent px-1 py-1 focus:outline-none"
+              />
+            </template>
+            <template v-else>
+              <div
+                class="pdf-text-only h-full w-full bg-white p-1 text-left text-sm"
+              ></div>
+            </template>
           </td>
         </tr>
         <tr class="bg-gray-100 font-semibold">
           <td class="border border-gray-400 p-2">TOTAL</td>
           <td class="border border-gray-400 p-1">
-            <input
-              type="text"
-              readonly
-              class="w-full border-0 bg-transparent px-1 py-1 text-right focus:outline-none"
-              placeholder="0.00"
-            />
+            <template v-if="!isPdfExport">
+              <input
+                type="text"
+                readonly
+                class="w-full border-0 bg-transparent px-1 py-1 text-right focus:outline-none"
+                placeholder="0.00"
+              />
+            </template>
+            <template v-else>
+              <div
+                class="pdf-text-only h-full w-full bg-white p-1 text-right text-sm"
+              >
+                0.00
+              </div>
+            </template>
           </td>
           <td class="border border-gray-400 p-2"></td>
           <td class="border border-gray-400 p-2"></td>
@@ -62,11 +96,32 @@
 </template>
 
 <script lang="ts" setup>
-// This is a view-only template for the Payment Instalments table.
+import { usePdfExportContext } from '#/composables/usePdfExportContext';
+
+const { isPdfExport } = usePdfExportContext();
 </script>
 
 <style scoped>
 .payment-instalments-template {
   line-height: 1.4;
+}
+
+/* PDF export helper class */
+.pdf-text-only {
+  display: inline-block;
+  line-height: 1.4;
+  color: #000;
+}
+
+/* Ensure borders are visible in PDF export */
+@media print {
+  .pdf-text-only {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .border-gray-400 {
+    border-color: #000 !important;
+  }
 }
 </style>

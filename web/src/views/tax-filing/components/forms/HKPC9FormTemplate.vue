@@ -13,12 +13,19 @@
       <div class="mb-4">
         <div class="flex items-center">
           <label class="mr-2 w-16 font-medium">Name</label>
-          <input
-            type="text"
-            readonly
-            placeholder="Enter name"
-            class="flex-1 border border-gray-400 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-          />
+          <div class="flex-1 ml-0">
+            <template v-if="!isPdfExport">
+              <input
+                type="text"
+                readonly
+                placeholder="Enter name"
+                class="w-full border border-gray-400 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+              />
+            </template>
+            <template v-else>
+              <div class="pdf-text-only w-full border border-gray-400 px-3 py-2 text-sm">Enter name</div>
+            </template>
+          </div>
         </div>
       </div>
 
@@ -26,36 +33,57 @@
       <div class="mb-4 grid grid-cols-2 gap-4">
         <div class="flex items-center">
           <label class="mr-2 w-8 font-medium">TIN</label>
-          <input
-            type="text"
-            readonly
-            maxlength="12"
-            placeholder="Enter TIN"
-            class="flex-1 border border-gray-400 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-          />
+          <div class="flex-1">
+            <template v-if="!isPdfExport">
+              <input
+                type="text"
+                readonly
+                maxlength="12"
+                placeholder="Enter TIN"
+                class="w-full border border-gray-400 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+              />
+            </template>
+            <template v-else>
+              <div class="pdf-text-only w-full border border-gray-400 px-3 py-2 text-sm">Enter TIN</div>
+            </template>
+          </div>
         </div>
         <div class="flex items-center">
           <label class="mr-2 font-medium">Registration No.</label>
-          <input
-            type="text"
-            readonly
-            maxlength="15"
-            placeholder="Enter registration number"
-            class="flex-1 border border-gray-400 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-          />
+          <div class="flex-1">
+            <template v-if="!isPdfExport">
+              <input
+                type="text"
+                readonly
+                maxlength="15"
+                placeholder="Enter registration number"
+                class="w-full border border-gray-400 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+              />
+            </template>
+            <template v-else>
+              <div class="pdf-text-only w-full border border-gray-400 px-3 py-2 text-sm">Enter registration number</div>
+            </template>
+          </div>
         </div>
       </div>
 
       <!-- Year of Assessment -->
       <div class="mb-4 flex items-center">
         <label class="mr-2 font-medium">Year of Assessment</label>
-        <input
-          type="text"
-          readonly
-          maxlength="4"
-          placeholder="YYYY"
-          class="w-24 border border-gray-400 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-        />
+        <div>
+          <template v-if="!isPdfExport">
+            <input
+              type="text"
+              readonly
+              maxlength="4"
+              placeholder="YYYY"
+              class="w-24 border border-gray-400 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+          </template>
+          <template v-else>
+            <div class="pdf-text-only w-24 border border-gray-400 px-3 py-2 text-sm">YYYY</div>
+          </template>
+        </div>
       </div>
     </div>
 
@@ -109,44 +137,69 @@
               A1. Adjusted<br />Income
             </td>
             <td class="border border-gray-400 p-1">
-              <input
-                type="number"
-                readonly
-                placeholder="0.00"
-                class="w-full border-0 text-right text-xs focus:outline-none"
-              />
+              <template v-if="!isPdfExport">
+                <input
+                  type="number"
+                  readonly
+                  placeholder="0.00"
+                  class="w-full border-0 text-right text-xs focus:outline-none"
+                />
+              </template>
+              <template v-else>
+                <div class="pdf-text-only w-full border border-gray-400 bg-white text-right text-xs px-1">0.00</div>
+              </template>
             </td>
             <td class="border border-gray-400 p-1">
-              <input
-                type="number"
-                readonly
-                placeholder="0.00"
-                class="w-full border-0 text-right text-xs focus:outline-none"
-              />
+              <template v-if="!isPdfExport">
+                <input
+                  type="number"
+                  readonly
+                  placeholder="0.00"
+                  class="w-full border-0 text-right text-xs focus:outline-none"
+                />
+              </template>
+              <template v-else>
+                <div class="pdf-text-only w-full border border-gray-400 bg-white text-right text-xs px-1">0.00</div>
+              </template>
             </td>
             <td class="border border-gray-400 p-1">
-              <input
-                type="number"
-                readonly
-                placeholder="0.00"
-                class="w-full border-0 text-right text-xs focus:outline-none"
-              />
+              <template v-if="!isPdfExport">
+                <input
+                  type="number"
+                  readonly
+                  placeholder="0.00"
+                  class="w-full border-0 text-right text-xs focus:outline-none"
+                />
+              </template>
+              <template v-else>
+                <div class="pdf-text-only w-full border border-gray-400 bg-white text-right text-xs px-1">0.00</div>
+              </template>
             </td>
             <td class="border border-gray-400 p-1">
-              <input
-                type="number"
-                readonly
-                placeholder="0.00"
-                class="w-full border-0 text-right text-xs focus:outline-none"
-              />
+              <template v-if="!isPdfExport">
+                <input
+                  type="number"
+                  readonly
+                  placeholder="0.00"
+                  class="w-full border-0 text-right text-xs focus:outline-none"
+                />
+              </template>
+              <template v-else>
+                <div class="pdf-text-only w-full border border-gray-400 bg-white text-right text-xs px-1">0.00</div>
+              </template>
             </td>
             <td class="border border-gray-400 p-1">
-              <input
-                type="number"
-                readonly
-                placeholder="0.00"
-                class="w-full border-0 text-right text-xs focus:outline-none"
-              />
+              <template v-if="!isPdfExport">
+                <input
+                  type="number"
+                  readonly
+                  placeholder="0.00"
+                  class="w-full border-0 text-right text-xs focus:outline-none"
+                />
+              </template>
+              <template v-else>
+                <div class="pdf-text-only w-full border border-gray-400 bg-white text-right text-xs px-1">0.00</div>
+              </template>
             </td>
             <td class="border border-gray-400 p-1">
               <input
@@ -1452,6 +1505,9 @@
 
 <script setup lang="ts">
 // HK-PC9 Form Template for Insurance Business
+import { usePdfExportContext } from '../../../../composables/usePdfExportContext';
+
+const { isPdfExport } = usePdfExportContext();
 </script>
 
 <style scoped>
@@ -1474,6 +1530,24 @@
     border-top: none;
     margin: 0;
     padding-top: 0;
+  }
+}
+
+/* PDF export helper class */
+.pdf-text-only {
+  display: inline-block;
+  line-height: 1.4;
+  color: #000;
+}
+
+@media print {
+  .pdf-text-only {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .border-gray-400 {
+    border-color: #000 !important;
   }
 }
 </style>
