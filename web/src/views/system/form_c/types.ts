@@ -7,30 +7,20 @@ export interface Option {
 export interface ShowIf {
   fieldId?: string;
   operator:
-    | 'equals'
-    | 'not_equals'
-    | 'or'
-    | 'and'
-    | 'gt'
-    | 'gte'
-    | 'lt'
-    | 'lte';
+  | 'equals'
+  | 'not_equals'
+  | 'or'
+  | 'and'
+  | 'gt'
+  | 'gte'
+  | 'lt'
+  | 'lte';
   value?: any;
   valueFromField?: string;
   conditions?: ShowIf[];
 }
 
-export interface ItemStructureValue {
-  id: string;
-  label: string;
-  inputType: string;
-  options?: Option[];
-}
 
-export interface ItemStructure {
-  key: null | { id: string; label: string; options: Option[] };
-  values: Array<ItemStructureValue>;
-}
 
 export type InputType =
   | 'text'
@@ -43,7 +33,6 @@ export type InputType =
   | 'readonly_note'
   | 'countries'
   | 'states'
-  | 'itemList'
   | 'lookup'
   | 'fixed_table'
   | 'placeholder'
@@ -57,7 +46,6 @@ export interface FormTemplateField {
   required?: boolean;
   show_if?: any;
   options?: Record<string, any>;
-  itemStructure?: ItemStructure;
   lookupSlug?: string;
   isLabelHidden?: boolean;
   multiline?: boolean;
@@ -70,6 +58,8 @@ export interface FormTemplateField {
   formula?: string;
   selectable?: boolean;
   allowRepeating?: boolean;
+  unique?: boolean;
+  defaultValue?: any;
 }
 
 export interface FormTemplateSection {

@@ -11,6 +11,7 @@
         >Open Adjustment and Claims Modal</Button
       >
       <Button @click="openFormulaTestModal">Open Formula Test Modal</Button>
+      <Button @click="openFixedTableTestModal">Open Fixed Table Test Modal</Button>
     </div>
 
     <!-- Render the CP204Modal component, but keep it hidden initially -->
@@ -18,6 +19,7 @@
     <OtherParticularsModal ref="otherParticularsModalRef" />
     <AdjustmentClaimsModal ref="adjustmentClaimsModalRef" />
     <FormulaTestModal ref="formulaTestModalRef" />
+    <FixedTableTestModal ref="fixedTableTestModalRef" />
   </div>
 </template>
 
@@ -28,6 +30,7 @@ import CP204Modal from '../../tax-filing/components/shared/CP204Modal.vue';
 import OtherParticularsModal from '../../tax-filing/components/shared/OtherParticularsModal.vue';
 import AdjustmentClaimsModal from './components/AdjustmentClaimsModal.vue';
 import FormulaTestModal from './components/FormulaTestModal.vue';
+import FixedTableTestModal from './components/FixedTableTestModal.vue';
 
 // Ref to access the CP204Modal component instance
 const cp204ModalRef = ref<InstanceType<typeof CP204Modal> | null>(null);
@@ -68,6 +71,17 @@ const formulaTestModalRef = ref<InstanceType<typeof FormulaTestModal> | null>(
 const openFormulaTestModal = () => {
   if (formulaTestModalRef.value) {
     formulaTestModalRef.value.open();
+  }
+};
+
+// Ref to access the FixedTableTestModal component instance
+const fixedTableTestModalRef = ref<InstanceType<
+  typeof FixedTableTestModal
+> | null>(null);
+
+const openFixedTableTestModal = () => {
+  if (fixedTableTestModalRef.value) {
+    fixedTableTestModalRef.value.open();
   }
 };
 </script>

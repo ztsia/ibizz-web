@@ -26,14 +26,14 @@
               />
             </th>
             <th
-              v-for="column in field.options.columns"
+              v-for="column in field.options?.columns"
               :key="column.id"
               class="text-muted-foreground px-4 py-3 text-left font-medium"
             >
               {{ column.label }}
             </th>
             <th
-              v-if="isEditMode && field.options.allowAddRow"
+              v-if="isEditMode && field.options?.allowAddRow"
               class="w-[50px] px-4 py-3"
             >
               <span class="sr-only">Actions</span>
@@ -66,13 +66,13 @@
                 />
               </td>
               <td
-                v-for="column in field.options.columns"
+                v-for="column in field.options?.columns"
                 :key="column.id"
                 class="px-4 py-3 align-top"
               >
                 <FormField
                   v-if="isCellRendered(rowIndex, column.id)"
-                  :field="createCellField(column)"
+                  :field="createCellField(column, rowIndex)"
                   :form-data="row"
                   :is-edit-mode="isCellEditable(rowIndex, column.id)"
                   :compact="true"
@@ -84,7 +84,7 @@
               </td>
 
               <td
-                v-if="isEditMode && field.options.allowAddRow"
+                v-if="isEditMode && field.options?.allowAddRow"
                 class="px-4 py-3 text-center align-middle"
               >
                 <Button
@@ -103,8 +103,8 @@
           <tr v-else>
             <td
               :colspan="
-                (field.options.columns?.length || 0) +
-                (isEditMode && field.options.allowAddRow ? 1 : 0) +
+                (field.options?.columns?.length || 0) +
+                (isEditMode && field.options?.allowAddRow ? 1 : 0) +
                 (isEditMode && selectable ? 1 : 0)
               "
               class="text-muted-foreground p-6 text-center"
@@ -116,7 +116,7 @@
       </table>
     </div>
 
-    <div v-if="isEditMode && field.options.allowAddRow">
+    <div v-if="isEditMode && field.options?.allowAddRow">
       <Button variant="outline" @click="addRow">
         <Plus class="mr-1 h-4 w-4" />
         Add Row
@@ -132,7 +132,8 @@ import { X, Plus } from 'lucide-vue-next';
 import FormField from './FormField.vue';
 import { useFormulaEngine } from '../../composables';
 import type { TableData, RowData } from '../../composables';
-import type { FormTemplateField } from '../../types';
+import type { FormTemplateField, Option } from '../../types';
+import { notifyError } from '../../../lookup/utils/notifications';
 
 const props = defineProps<{
   field: FormTemplateField;
@@ -151,7 +152,7 @@ const formId = toRef(props.field, 'id');
 
 const createEmptyRow = (): RowData => {
   const newRow: RowData = {};
-  props.field.options?.columns?.forEach((col) => {
+  props.field.options?.columns?.forEach((col: FormTemplateField) => {
     newRow[col.id] = col.defaultValue ?? null;
   });
   return newRow;
@@ -194,7 +195,7 @@ watch(
 
     // Ensure all rows have all columns to prevent reactivity issues
     initialData.forEach((row) => {
-      props.field.options?.columns?.forEach((col) => {
+      props.field.options?.columns?.forEach((col: FormTemplateField) => {
         if (!(col.id in row)) {
           row[col.id] = col.defaultValue ?? null;
         }
@@ -208,11 +209,70 @@ watch(
   { immediate: true, deep: true },
 );
 
-const createCellField = (column: any): FormTemplateField => {
-  return {
-    ...column,
-    isLabelHidden: true, // Labels are always hidden in table cells
-  };
+const createCellField = (
+  column: FormTemplateField,
+  rowIndex: number,
+): FormTemplateField => {
+  // eslint-disable-next-line unicorn/prefer-structured-clone
+  const cellField = JSON.parse(JSON.stringify(column));
+  cellField.isLabelHidden = true; // Labels are always hidden in table cells
+
+  // Handle unique columns (like 'key' in FormItemList)
+  if (column.unique && column.options) {
+    cellField.options = getAvailableOptions(rowIndex, column);
+  }
+  return cellField;
+};
+
+const getAvailableOptions = (
+  rowIndex: number,
+  column: FormTemplateField,
+): Option[] => {
+  const options = column.options as Option[];
+  if (!options || !Array.isArray(options)) return [];
+
+  // If repeating is allowed globally for the table, we might still want to respect 'unique' on a specific column
+  // But usually 'unique' implies no repeating for that column.
+  // If the column is explicitly marked unique, we filter.
+  if (!column.unique) {
+    return options;
+  }
+
+  const usedValues = new Set();
+  rawTableData.value.forEach((row, index) => {
+    if (index !== rowIndex) {
+      const val = row[column.id];
+      if (val) {
+        usedValues.add(val);
+      }
+    }
+  });
+
+  return options.filter((opt) => !usedValues.has(opt.value));
+};
+
+const isFieldDisabled = (rowIndex: number, colId: string): boolean => {
+  const row = rawTableData.value[rowIndex];
+  if (!row) return false;
+
+  // Check all other columns to see if their selected value disables this column
+  for (const column of props.field.options?.columns || []) {
+    if (column.id === colId) continue; // Don't check self
+
+    const val = row[column.id];
+    if (val && column.options && Array.isArray(column.options)) {
+      const selectedOption = (column.options as Option[]).find(
+        (opt) => opt.value === val,
+      );
+      if (
+        selectedOption?.disabledFields &&
+        selectedOption.disabledFields.includes(colId)
+      ) {
+        return true;
+      }
+    }
+  }
+  return false;
 };
 
 const isFormula = (rowIndex: number, colId: string): boolean => {
@@ -223,8 +283,15 @@ const isFormula = (rowIndex: number, colId: string): boolean => {
 };
 
 const isCellEditable = (rowIndex: number, colId: string): boolean => {
-  const column = props.field.options?.columns?.find((c) => c.id === colId);
-  if (!props.isEditMode || column?.readonly || isFormula(rowIndex, colId)) {
+  const column = props.field.options?.columns?.find(
+    (c: FormTemplateField) => c.id === colId,
+  );
+  if (
+    !props.isEditMode ||
+    column?.readonly ||
+    isFormula(rowIndex, colId) ||
+    isFieldDisabled(rowIndex, colId)
+  ) {
     return false;
   }
   return true;
@@ -271,6 +338,17 @@ const onCellUpdate = (
 };
 
 const addRow = () => {
+  // Validation: Check if any unique column has exhausted its options
+  const columns = props.field.options?.columns || [];
+  for (const column of columns) {
+    if (column.unique && column.options && Array.isArray(column.options)) {
+      if (rawTableData.value.length >= column.options.length) {
+        notifyError(`All options for ${column.label} have been used.`);
+        return;
+      }
+    }
+  }
+
   rawTableData.value.push(createEmptyRow());
   const currentPropValue = props.formData[formId.value] || [];
   if (JSON.stringify(rawTableData.value) !== JSON.stringify(currentPropValue)) {

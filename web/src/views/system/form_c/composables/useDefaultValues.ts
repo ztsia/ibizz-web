@@ -32,9 +32,6 @@ export function useDefaultValues(template: FormTemplate) {
       case 'lookup': {
         return null;
       }
-      case 'itemList': {
-        return [];
-      }
       case 'readonly_note': {
         return undefined;
       }

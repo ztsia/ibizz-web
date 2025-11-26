@@ -5,7 +5,6 @@
     :class="{
       'sm:col-span-2':
         field.inputType === 'lookup' ||
-        field.inputType === 'itemList' ||
         field.inputType === 'fixed_table' ||
         field.inputType === 'placeholder',
     }"
@@ -37,20 +36,6 @@
           :field="field"
           :form-data="formData"
           :is-edit-mode="isEditMode"
-          @update:field="onUpdateField"
-        />
-      </div>
-
-      <!-- ItemList (handle both edit/view modes internally) -->
-      <div
-        v-else-if="field.inputType === 'itemList'"
-        :class="{ 'border-destructive rounded-md border': error }"
-      >
-        <FormItemList
-          :field="field"
-          :form-data="formData"
-          :is-edit-mode="isEditMode"
-          :selectable="field.selectable"
           @update:field="onUpdateField"
         />
       </div>
@@ -122,9 +107,25 @@
             :id="field.id"
             v-model:value="fieldValue"
             :formatter="
-              (value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+              (value) => {
+                if (!value) return '';
+                if (value === '-') return '-';
+                const valStr = `${value}`;
+                const isNegative = valStr.includes('-');
+                const cleanVal = valStr.replace('-', '');
+                const formatted = cleanVal.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                return isNegative ? `(${formatted})` : formatted;
+              }
             "
-            :parser="(value) => value.replace(/\$\s?|(,*)/g, '')"
+            :parser="
+              (value) => {
+                if (value === '-') return '-';
+                const isNegative = value.includes('(') || value.includes('-');
+                const clean = value.replace(/[^\d.]/g, '');
+                if (isNegative && !clean) return '-';
+                return isNegative ? `-${clean}` : clean;
+              }
+            "
             style="width: 100%"
             class="h-10"
             :class="{ 'border-destructive': error }"
@@ -251,7 +252,6 @@ import {
   ViewField,
   FormLookupInput,
   ReadonlyNoteField,
-  FormItemList,
   FormFixedTable,
 } from './';
 import { LookupSelect } from '../../../shared_components';

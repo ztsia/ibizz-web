@@ -25,6 +25,18 @@ const props = defineProps<{
 
 const rawValue = computed(() => props.formData[props.field.id]);
 
+const safeString = (val: any) => {
+  try {
+    if (typeof val === 'object' && val !== null) {
+      return JSON.stringify(val);
+    }
+    return String(val);
+  } catch (e) {
+    console.error('Error converting to string:', val, e);
+    return '';
+  }
+};
+
 const displayValue = computed(() => {
   const field = props.field as any;
   const v = rawValue.value;
@@ -34,7 +46,7 @@ const displayValue = computed(() => {
     (field.inputType === 'radio' || field.inputType === 'select') &&
     Array.isArray(field.options)
   ) {
-    const opt = field.options.find((o: any) => String(o.value) === String(v));
+    const opt = field.options.find((o: any) => safeString(o.value) === safeString(v));
     return opt ? opt.label : (v ?? '');
   }
 
@@ -46,21 +58,29 @@ const displayValue = computed(() => {
   ) {
     const labels = v.map((val: any) => {
       const opt = field.options.find(
-        (o: any) => String(o.value) === String(val),
+        (o: any) => safeString(o.value) === safeString(val),
       );
-      return opt ? opt.label : String(val);
+      return opt ? opt.label : safeString(val);
     });
     return labels.join(', ');
   }
 
-  // Currency and numbers: format with thousand separators
-  if (field.inputType === 'currency' || field.inputType === 'number') {
+  // Currency: format with thousand separators and parentheses for negative
+  if (field.inputType === 'currency') {
+    const num = Number(v);
+    if (Number.isNaN(num)) return safeString(v);
+    const absVal = Math.abs(num).toLocaleString('en-US');
+    return num < 0 ? `(${absVal})` : absVal;
+  }
+
+  // Numbers: format with thousand separators
+  if (field.inputType === 'number') {
     return formatNumber(v);
   }
 
   // Fallback: show raw value
   if (v === null || v === undefined || v === '') return '';
   if (Array.isArray(v)) return v.join(', ');
-  return String(v);
+  return safeString(v);
 });
 </script>

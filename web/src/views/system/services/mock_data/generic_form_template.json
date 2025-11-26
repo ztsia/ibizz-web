@@ -1,5 +1,62 @@
 [
     {
+        "id": "fixed_table_test_form",
+        "formName": "Fixed Table Test",
+        "yearOfAssessment": 2025,
+        "pages": [
+            {
+                "id": "page_1",
+                "title": "Test Page",
+                "sections": [
+                    {
+                        "part": "part_1",
+                        "title": "Fixed Table Test",
+                        "fields": [
+                            {
+                                "id": "test_table",
+                                "label": "Test Table",
+                                "inputType": "fixed_table",
+                                "options": {
+                                    "allowAddRow": true,
+                                    "columns": [
+                                        {
+                                            "id": "col_unique",
+                                            "label": "Unique Column",
+                                            "inputType": "select",
+                                            "unique": true,
+                                            "options": [
+                                                {
+                                                    "label": "Option A (Disables Col B)",
+                                                    "value": "a",
+                                                    "disabledFields": [
+                                                        "col_b"
+                                                    ]
+                                                },
+                                                {
+                                                    "label": "Option B",
+                                                    "value": "b"
+                                                },
+                                                {
+                                                    "label": "Option C",
+                                                    "value": "c"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "col_b",
+                                            "label": "Column B",
+                                            "inputType": "text"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "id": "adjustment_claims_form",
         "formName": "Adjustment and Claims",
         "yearOfAssessment": 2025,
