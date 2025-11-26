@@ -24,6 +24,7 @@
         :selection-disabled="!isEditMode"
         :has-pager="true"
         :per-page="5"
+        :add-form="props.field.addForm"
         @update:selection="handleSelectionChange"
       />
       <GeneratePdfControl

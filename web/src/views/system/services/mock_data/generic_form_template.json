@@ -1,0 +1,3974 @@
+[
+    {
+        "id": "adjustment_claims_form",
+        "formName": "Adjustment and Claims",
+        "yearOfAssessment": 2025,
+        "pages": [
+            {
+                "id": "page_main",
+                "title": "Adjustment and Claims",
+                "sections": [
+                    {
+                        "part": "header_info",
+                        "title": "Company Information",
+                        "fields": [
+                            {
+                                "id": "year",
+                                "label": "Year",
+                                "inputType": "text",
+                                "readonly": true,
+                                "defaultValue": "2025"
+                            },
+                            {
+                                "id": "company_no",
+                                "label": "Company No.",
+                                "inputType": "text",
+                                "readonly": true,
+                                "defaultValue": "202407075678"
+                            },
+                            {
+                                "id": "company_name",
+                                "label": "Name",
+                                "inputType": "text",
+                                "readonly": true,
+                                "defaultValue": "ABCD SDN BHD"
+                            },
+                            {
+                                "id": "nature_of_business",
+                                "label": "Nature of Business",
+                                "inputType": "text",
+                                "readonly": true,
+                                "defaultValue": "Pembuatan produk tenusu lain t.t.t.l."
+                            }
+                        ]
+                    },
+                    {
+                        "part": "financial_info",
+                        "title": "Financial Information",
+                        "fields": [
+                            {
+                                "id": "surplus_recovered_expenditure",
+                                "label": "Surplus recovered expenditure",
+                                "inputType": "currency"
+                            },
+                            {
+                                "id": "mining_allowance",
+                                "label": "Mining allowance",
+                                "inputType": "currency"
+                            },
+                            {
+                                "id": "surplus_residual_expenditure",
+                                "label": "Surplus residual expenditure (mining)",
+                                "inputType": "currency"
+                            }
+                        ]
+                    },
+                    {
+                        "part": "claims_list_part",
+                        "title": "Claims List",
+                        "fields": [
+                            {
+                                "id": "claims_table",
+                                "label": "claims",
+                                "inputType": "lookup",
+                                "addForm": "adjustment_item_form"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "adjustment_item_form",
+        "formName": "Add Adjustment/Claim",
+        "yearOfAssessment": 2025,
+        "pages": [
+            {
+                "id": "page_item",
+                "title": "Item Details",
+                "sections": [
+                    {
+                        "part": "item_info",
+                        "title": "Item Information",
+                        "fields": [
+                            {
+                                "id": "print_sequence",
+                                "label": "Print Sequence",
+                                "inputType": "text"
+                            },
+                            {
+                                "id": "type",
+                                "label": "Type",
+                                "inputType": "select",
+                                "options": [
+                                    {
+                                        "label": "Disallowable Loss",
+                                        "value": "disallowable_loss"
+                                    },
+                                    {
+                                        "label": "Non-Taxable Gain",
+                                        "value": "non_taxable_gain"
+                                    },
+                                    {
+                                        "label": "Chargeable Gain not in P&L",
+                                        "value": "chargeable_gain_not_in_pnl"
+                                    },
+                                    {
+                                        "label": "Allowable Expenses not in P&L",
+                                        "value": "allowable_expenses_not_in_pnl"
+                                    },
+                                    {
+                                        "label": "Disallowable Expenses",
+                                        "value": "disallowable_expenses"
+                                    },
+                                    {
+                                        "label": "Claim on Deduction",
+                                        "value": "claim_on_deduction"
+                                    }
+                                ]
+                            },
+                            {
+                                "id": "type_of_tax_exempt",
+                                "label": "Type of Tax Exempt",
+                                "inputType": "lookup_select",
+                                "show_if": {
+                                    "fieldId": "type",
+                                    "operator": "equals",
+                                    "value": "non_taxable_gain"
+                                },
+                                "lookupSlug": "lookup_non_taxable_gain",
+                                "fetchFromGenericService": true,
+                                "displayFormat": "{code} - {type_of_tax_exempt_income}",
+                                "itemFilter": {
+                                    "operator": "and",
+                                    "conditions": [
+                                        {
+                                            "fieldId": "year",
+                                            "operator": "gte",
+                                            "valueFromField": "start_date"
+                                        },
+                                        {
+                                            "fieldId": "year",
+                                            "operator": "lte",
+                                            "valueFromField": "end_date"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "id": "claim_type",
+                                "label": "Claim Type",
+                                "inputType": "lookup_select",
+                                "show_if": {
+                                    "fieldId": "type",
+                                    "operator": "equals",
+                                    "value": "claim_on_deduction"
+                                },
+                                "lookupSlug": "lookup_claim_section",
+                                "fetchFromGenericService": true,
+                                "displayFormat": "{section_number} - {section_title}",
+                                "valueKey": "section_number"
+                            },
+                            {
+                                "id": "description",
+                                "label": "Code",
+                                "inputType": "lookup_select",
+                                "show_if": {
+                                    "fieldId": "type",
+                                    "operator": "equals",
+                                    "value": "claim_on_deduction"
+                                },
+                                "lookupSlug": "lookup_claim_code",
+                                "fetchFromGenericService": true,
+                                "displayFormat": "{code} - {type_of_expenditure}",
+                                "itemFilter": {
+                                    "operator": "and",
+                                    "conditions": [
+                                        {
+                                            "fieldId": "claim_type",
+                                            "operator": "equals",
+                                            "valueFromField": "section_number"
+                                        },
+                                        {
+                                            "fieldId": "year",
+                                            "operator": "gte",
+                                            "valueFromField": "start_date"
+                                        },
+                                        {
+                                            "fieldId": "year",
+                                            "operator": "lte",
+                                            "valueFromField": "end_date"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "id": "description",
+                                "label": "Description",
+                                "inputType": "text",
+                                "show_if": {
+                                    "fieldId": "type",
+                                    "operator": "not_equals",
+                                    "value": "claim_on_deduction"
+                                }
+                            },
+                            {
+                                "id": "amount",
+                                "label": "Amount",
+                                "inputType": "currency"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "lookup_non_taxable_gain",
+        "type": "lookup_data",
+        "data": [
+            {
+                "code": 506,
+                "type_of_tax_exempt_income": "Income of a venture capital company",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 75/2005",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 420/2006",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 159/2009",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 115/2022",
+                        "amendment_note": "[Revokes P.U.(A) 75/2005]"
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Venture capital company"
+                ],
+                "start_date": "2003-01-01",
+                "end_date": null
+            },
+            {
+                "code": 507,
+                "type_of_tax_exempt_income": "Income of a venture capital management company",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 77/2005",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 116/2022",
+                        "amendment_note": "[Revokes P.U.(A) 75/2005]"
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Venture capital management company"
+                ],
+                "start_date": "2003-01-01",
+                "end_date": "2026-12-31"
+            },
+            {
+                "code": 508,
+                "type_of_tax_exempt_income": "Income of an operational headquarters company",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 307/2005",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 260/2007",
+                        "amendment_note": "[Amendments to P.U.(A) 307/2005]"
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2003-01-01",
+                "end_date": null
+            },
+            {
+                "code": 509,
+                "type_of_tax_exempt_income": "Income of an international procurement centre company",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 309/2005",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 262/2007",
+                        "amendment_note": "[Amendments to P.U.(A) 309/2005]"
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2003-01-01",
+                "end_date": null
+            },
+            {
+                "code": 510,
+                "type_of_tax_exempt_income": "Income of a regional distribution centre company",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 308/2005",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 261/2007",
+                        "amendment_note": "[Amendments of P.U.(A) 308/2005]"
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2003-01-01",
+                "end_date": null
+            },
+            {
+                "code": 513,
+                "type_of_tax_exempt_income": "Income from a tour operating business which provides a domestic tour package for travel within Malaysia",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 58/2002 & P.U.(A) 59/2002",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U.(A) 137/2007 & P.U.(A) 138/2007",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U.(A) 451/2012",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U.(A) 7/2013",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 345/2016 & P.U. (A) 346/2016",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 144/2017",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 412/2017",
+                        "amendment_note": "[Amendments to P.U.(A) 345/2016]"
+                    },
+                    {
+                        "publication_number": "P.U. (A) 413/2017",
+                        "amendment_note": "[Amendments to P.U.(A) 346/2016]"
+                    },
+                    {
+                        "publication_number": "P.U. (A) 344/2021",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2002-01-01",
+                "end_date": "2022-12-31"
+            },
+            {
+                "code": 517,
+                "type_of_tax_exempt_income": "Income from organizing international trade exhibition in Malaysia",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 113/2002",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company",
+                    "Association or organisation"
+                ],
+                "start_date": "2002-01-01",
+                "end_date": null
+            },
+            {
+                "code": 518,
+                "type_of_tax_exempt_income": "Income from offshore trading through a website in Malaysia",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 152/2003",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Offshore trading company"
+                ],
+                "start_date": "2001-10-20",
+                "end_date": null
+            },
+            {
+                "code": 519,
+                "type_of_tax_exempt_income": "Income from the provision of chartering services of luxury yacht",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 209/2002",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2001-10-20",
+                "end_date": null
+            },
+            {
+                "code": 520,
+                "type_of_tax_exempt_income": "Income in relation to approved new food production project and expansion project",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 51/2006",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 166/2011",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 373/2020",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company",
+                    "Co-operative society",
+                    "Farmer’s organization",
+                    "Fishermen’s association",
+                    "Agro based co-operative society",
+                    "Area/Federal/State Farmer’s Association",
+                    "Area/Federal/State Fishermen’s Association",
+                    "Sole proprietorship/partnership/association – solely engaged in agriculture/fishery"
+                ],
+                "start_date": "2001-01-01",
+                "end_date": null
+            },
+            {
+                "code": 521,
+                "type_of_tax_exempt_income": "Income derived from organizing conferences held in Malaysia",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 500/2000",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U.(A) 195/2021",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [],
+                "start_date": "1997-01-01",
+                "end_date": null
+            },
+            {
+                "code": 522,
+                "type_of_tax_exempt_income": "Income of a BioNexus status company",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 371/2007 & P.U.(A) 372/2007",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U.(A) 156/2009",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 395/2018",
+                        "amendment_note": "Paragraph 1(2): W.e.f 16.10.2017"
+                    },
+                    {
+                        "publication_number": "P.U. (A) 381/2018",
+                        "amendment_note": "Paragraph 1(3): W.e.f 01.05.2005"
+                    },
+                    {
+                        "publication_number": "P.U. (A) 382/2023",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 383/2023",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 384/2023",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 208/2024",
+                        "amendment_note": "W.e.f 01.01.2023"
+                    },
+                    {
+                        "publication_number": "P.U.(A) 382/2023",
+                        "amendment_note": "[Amendments to P.U.(A) 382/2023]"
+                    },
+                    {
+                        "publication_number": "P.U. (A) 209/2024",
+                        "amendment_note": "[Amendments to P.U.(A) 383/2023]"
+                    }
+                ],
+                "categories_entitled_for_claim": [],
+                "start_date": "2005-05-01",
+                "end_date": null
+            },
+            {
+                "code": 523,
+                "type_of_tax_exempt_income": "Income of a bank derived from its branch or investee company which is located outside Malaysia",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 278/2007",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 413/2009",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 90/2010",
+                        "amendment_note": "[Amendments to P.U.(A) 413/2009]"
+                    }
+                ],
+                "categories_entitled_for_claim": [],
+                "start_date": "2006-09-02",
+                "end_date": null
+            },
+            {
+                "code": 524,
+                "type_of_tax_exempt_income": "Income derived from Islamic banking and takaful business carried on in any currency other than Ringgit Malaysia",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 154/2007",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "International Islamic Bank",
+                    "International Takaful Operator",
+                    "International Currency Business Unit"
+                ],
+                "start_date": "2007-01-01",
+                "end_date": "2016-12-31"
+            },
+            {
+                "code": 525,
+                "type_of_tax_exempt_income": "Income derived from a business of providing fund management services in accordance with Syariah principle to: i. foreign investors in Malaysia ii. local investors in Malaysia iii. business trust/real-estate investment trust in Malaysia",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 199/2007",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 105/2016",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "[Amendments to P.U.(A) 255/2008]",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 282/2021",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 283/2021",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 284/2021",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 107/2024",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "[Amendments to P.U.(A) 282/2021]",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 108/2024",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "[Amendments to P.U.(A) 283/2021]",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 109/2024",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "[Amendments to P.U.(A) 284/2021]",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2007-01-01",
+                "end_date": "2027-12-31"
+            },
+            {
+                "code": 527,
+                "type_of_tax_exempt_income": "Income derived from the regulated activity of dealing in securities relating to the business of dealing in sukuk",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 393/2008",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Holder of a Capital Markets Service License or a registered person or a specified person under Capital Market and Services Act 2007"
+                ],
+                "start_date": "2009-01-01",
+                "end_date": "2011-12-31"
+            },
+            {
+                "code": 528,
+                "type_of_tax_exempt_income": "Income derived from the regulated activity of dealing in securities and advising on corporate finance relating to the arranging, underwriting and distributing of sukuk",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 394/2008",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Holder of a Capital Markets Service License or a registered person or a specified person under Capital Market and Services Act 2007"
+                ],
+                "start_date": "2009-01-01",
+                "end_date": "2011-12-31"
+            },
+            {
+                "code": 529,
+                "type_of_tax_exempt_income": "Income of a developer/development manager in the Iskandar Development Region",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 417/2007",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 148/2024",
+                        "amendment_note": "[Amendments to P.U.(A) 417/2007]"
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2007-01-01",
+                "end_date": null
+            },
+            {
+                "code": 530,
+                "type_of_tax_exempt_income": "Income of an IDR - status (‘Iskandar Development Region’) company from a qualifying activity",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 418/2007 & P.U. (A) 382/2018",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "[Amendments to P.U.(A) 418/2007]",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "Paragraph 1(2):",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "Paragraph 1(3):",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "Paragraph 1(4):",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2007-01-01",
+                "end_date": null
+            },
+            {
+                "code": 531,
+                "type_of_tax_exempt_income": "Income derived from a branch of the company/investee company which carries on insurance/takaful business; and which is located outside Malaysia",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 411/2009",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2009-10-24",
+                "end_date": null
+            },
+            {
+                "code": 532,
+                "type_of_tax_exempt_income": "Income in respect of qualifying expenditure for the purpose of obtaining a green building index certificate",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 325/2011",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Person"
+                ],
+                "start_date": "2009-01-01",
+                "end_date": null
+            },
+            {
+                "code": 533,
+                "type_of_tax_exempt_income": "Income derived from a consolidation of management project (smallholding and idle land)",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 415/2009",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Resident Person"
+                ],
+                "start_date": "2003-01-01",
+                "end_date": null
+            },
+            {
+                "code": 534,
+                "type_of_tax_exempt_income": "Income derived from a healthcare services business given to a foreign client",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 412/2009",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U.(A) 501/2021",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Resident Person"
+                ],
+                "start_date": "2010-01-01",
+                "end_date": "2022-12-31"
+            },
+            {
+                "code": 535,
+                "type_of_tax_exempt_income": "Income derived from a business in relation to the carrying on of a commercialisation project",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 294/2013",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 448/2021",
+                        "amendment_note": "[Amendments to P.U.(A) 294/2013]"
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2003-01-01",
+                "end_date": null
+            },
+            {
+                "code": 536,
+                "type_of_tax_exempt_income": "Increased exports allowance for Malaysian International Trading Company",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 60/2002",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 181/2003",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2002-01-01",
+                "end_date": null
+            },
+            {
+                "code": 537,
+                "type_of_tax_exempt_income": "Value of increased export of qualifying services",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 154/2001",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 57/2002",
+                        "amendment_note": "[Amendments to P.U.(A) 154/2001]"
+                    },
+                    {
+                        "publication_number": "P.U. (A) 275/2006",
+                        "amendment_note": "[Amendments to P.U.(A) 154/2001]"
+                    },
+                    {
+                        "publication_number": "P.U. (A) 269/2020",
+                        "amendment_note": "[Amendments to P.U.(A) 57/2002]"
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Person"
+                ],
+                "start_date": "1998-01-01",
+                "end_date": null
+            },
+            {
+                "code": 538,
+                "type_of_tax_exempt_income": "Income pertaining to increase in export sales of agricultural produce or product from manufacturing base on the value of increase in export sales",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 44/2011",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 161/2019",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 158/2005",
+                        "amendment_note": "Revokes"
+                    },
+                    {
+                        "publication_number": "P.U. (A) 12/2025",
+                        "amendment_note": "Amendments to P.U.(A) 161/2019"
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2010-01-01",
+                "end_date": null
+            },
+            {
+                "code": 539,
+                "type_of_tax_exempt_income": "Income derived from an approved business under a special incentive scheme (pre-package)",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 112/2006",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "1998-01-01",
+                "end_date": null
+            },
+            {
+                "code": 540,
+                "type_of_tax_exempt_income": "Income equivalent to the amount of qualifying capital expenditure derived from an approved business under a special incentive scheme (pre-package)",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 113/2006",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "1998-01-01",
+                "end_date": null
+            },
+            {
+                "code": 541,
+                "type_of_tax_exempt_income": "Income derived from carrying out a qualifying activity in RAPID complex",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 166/2014",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2011-01-01",
+                "end_date": null
+            },
+            {
+                "code": 542,
+                "type_of_tax_exempt_income": "Income of a Multimedia Super Corridor company from a qualifying activity.",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 50/2015",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 396/2018",
+                        "amendment_note": "Amendments to P.U.(A) 50/2015"
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2015-01-01",
+                "end_date": null
+            },
+            {
+                "code": 543,
+                "type_of_tax_exempt_income": "Income derived from a business of providing fund management services in accordance with Syariah principles",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 150/2014",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 106/2016",
+                        "amendment_note": "Amendments to P.U.(A) 150/2014"
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2014-01-01",
+                "end_date": "2020-12-31"
+            },
+            {
+                "code": 544,
+                "type_of_tax_exempt_income": "East Coast Economic Region – Income from a qualifying activity equivalent to 100% of the qualifying capital expenditure",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 157/2016",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 88/2022",
+                        "amendment_note": "Amendments to P.U.(A) 157/2016"
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company",
+                    "Co-operative society",
+                    "Farmer’s organization",
+                    "Fishermen’s association"
+                ],
+                "start_date": "2008-06-13",
+                "end_date": "2024-12-31"
+            },
+            {
+                "code": 545,
+                "type_of_tax_exempt_income": "East Coast Economic Region - Income from a special qualifying activity equivalent to 60% - 100% of the qualifying capital expenditure",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 158/2016",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 89/2022",
+                        "amendment_note": "Amendments to P.U.(A) 158/2016"
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company",
+                    "Co-operative society",
+                    "Farmer’s organization",
+                    "Fishermen’s association"
+                ],
+                "start_date": "2008-06-13",
+                "end_date": "2024-12-31"
+            },
+            {
+                "code": 546,
+                "type_of_tax_exempt_income": "East Coast Economic Region - Income from a qualifying activity",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 159/2016",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 90/2022",
+                        "amendment_note": "Amendments to P.U.(A) 159/2016"
+                    },
+                    {
+                        "publication_number": "P.U. (A) 346/2023",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company",
+                    "Co-operative society",
+                    "Farmer’s organization"
+                ],
+                "start_date": "2008-06-13",
+                "end_date": "2024-12-31"
+            },
+            {
+                "code": 547,
+                "type_of_tax_exempt_income": "East Coast Economic Region - Income from a special qualifying activity at the rate of 60% - 100% as may be specified by the Minister",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 160/2016",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 91/2022",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 347/2023",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 394/2018",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company",
+                    "Co-operative society",
+                    "Farmer’s organization",
+                    "Fishermen’s association"
+                ],
+                "start_date": "2008-06-13",
+                "end_date": null
+            },
+            {
+                "code": 548,
+                "type_of_tax_exempt_income": "East Coast Economic Region – Income of an approved developer",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 161/2016",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 92/2022",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 348/2023",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2008-06-13",
+                "end_date": "2024-12-31"
+            },
+            {
+                "code": 549,
+                "type_of_tax_exempt_income": "East Coast Economic Region – Income of a development manager or park manager from carrying on a qualifying activity",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 162/2016",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 124/2022",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 349/2023",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2008-06-13",
+                "end_date": "2024-12-31"
+            },
+            {
+                "code": 550,
+                "type_of_tax_exempt_income": "Incremental amount of chargeable income from business",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 117/2017",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company",
+                    "Limited liability",
+                    "Partnership",
+                    "Executor/receiver"
+                ],
+                "start_date": "2017-01-01",
+                "end_date": "2018-12-31"
+            },
+            {
+                "code": 551,
+                "type_of_tax_exempt_income": "Income from a business of providing private healthcare services equivalent to the amount of qualifying capital expenditure",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 22/2012",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 203/2017",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 141/2020",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 245/2021",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "[Amendments to P.U.(A) 141/2020]",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2010-01-01",
+                "end_date": null
+            },
+            {
+                "code": 552,
+                "type_of_tax_exempt_income": "Income of an operator from a qualifying activity in the Waste Eco Park",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 235/2017",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 236/2017",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 237/2017",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 238/2017",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2016-01-01",
+                "end_date": null
+            },
+            {
+                "code": 553,
+                "type_of_tax_exempt_income": "Income equivalent to 100% of the amount of allowance for a qualifying company under the Income Tax (Accelerated Capital Allowance) (Automation Equipment) Rules 2017.",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 253/2017",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "[Refer to P.U. (A) 252/2017]",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 172/2020",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "[Amendments to P.U.(A) 253/2017]",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "[Refer to P.U. (A) 173/2020]",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "[Amendments to P.U.(A) 252/2017]",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2015-01-01",
+                "end_date": null
+            },
+            {
+                "code": 554,
+                "type_of_tax_exempt_income": "Income from a source of business consisting of a Malaysian ship",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 38/2018",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 48/2018",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 312/2022",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 184/2024",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Person"
+                ],
+                "start_date": "2014-01-01",
+                "end_date": "2026-12-31"
+            },
+            {
+                "code": 555,
+                "type_of_tax_exempt_income": "Income from the business of the qualifying person and the qualifying ringgit account",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 251/2018",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "International Islamic Bank",
+                    "International Takaful Operator",
+                    "International Currency Business Unit"
+                ],
+                "start_date": "2017-01-01",
+                "end_date": "2020-12-31"
+            },
+            {
+                "code": 556,
+                "type_of_tax_exempt_income": "Exemption for a member institution in respect of statutory income equivalent to the first levi/annual levi paid from the shareholders’ fund to the Malaysia Deposit Insurance Corporation",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 310/2018",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Takaful operator",
+                    "Insurance company"
+                ],
+                "start_date": "2018-01-01",
+                "end_date": null
+            },
+            {
+                "code": 557,
+                "type_of_tax_exempt_income": "Income from a business of providing fund management services for Sustainable and Responsible Investment Fund in Malaysia",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 356/2018",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 209/2021",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 106/2024",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "[Amendments to P.U.(A) 253/2017]",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2018-01-01",
+                "end_date": "2027-12-31"
+            },
+            {
+                "code": 558,
+                "type_of_tax_exempt_income": "Exemption for a principal hub in respect of income derived from core income generating activities",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 385/2018",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 386/2018",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 387/2018",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 41/2019",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "[Amendments to P.U.(A) 385/2018]",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 42/2019",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "[Amendments to P.U.(A) 386/2018]",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 43/2019",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "[Amendments to P.U.(A) 387/2018]",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 251/2023",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 252/2023",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2018-01-01",
+                "end_date": null
+            },
+            {
+                "code": 559,
+                "type_of_tax_exempt_income": "Income from a qualifying activity that has obtained annual verification from the Malaysian Green Technology Corporation",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 388/2018",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2018-01-01",
+                "end_date": null
+            },
+            {
+                "code": 560,
+                "type_of_tax_exempt_income": "Income of a Multimedia Super Corridor company from core income generating activities",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 389/2018",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 84/2024",
+                        "amendment_note": "[Amendments to P.U.(A) 389/2018]"
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2019-01-01",
+                "end_date": null
+            },
+            {
+                "code": 561,
+                "type_of_tax_exempt_income": "Income from a qualifying activity in the Sabah Development Corridor. (Application from 20.11.2012 – 31.12.2022)",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 390/2018",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 75/2022",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2012-11-20",
+                "end_date": null
+            },
+            {
+                "code": 562,
+                "type_of_tax_exempt_income": "Income in relation to the issuance of Malaysia Japanese Yen Bonds – Series A (2019) guaranteed by Japan Bank for International Cooperation (for qualified institutional investors only)",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 53/2019",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Non-resident person (for 10 years)"
+                ],
+                "start_date": "2019-01-01",
+                "end_date": null
+            },
+            {
+                "code": 563,
+                "type_of_tax_exempt_income": "Income pertaining to increase in export sales of agricultural produce or product from manufacturing of a qualifying company with at least sixty per cent of its issued share capital directly owned by Malaysian citizen",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 162/2019",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 14/2025",
+                        "amendment_note": "Amendments to P.U.(A) 162/2019"
+                    },
+                    {
+                        "publication_number": "P.U.(A) 128/1999",
+                        "amendment_note": "Revoked"
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2016-01-01",
+                "end_date": null
+            },
+            {
+                "code": 564,
+                "type_of_tax_exempt_income": "Income pertaining to increase in export sales of agricultural produce or product from manufacturing of a qualifying company with paid-up share capital in respect of its ordinary shares not exceeding two million five hundred thousand ringgit at the beginning of the basis period for a year of assessment",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 163/2019",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2016-01-01",
+                "end_date": "2020-12-31"
+            },
+            {
+                "code": 565,
+                "type_of_tax_exempt_income": "Income from a business in relation to the provision and maintenance of a registered kindergarten",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 13/2013",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Person"
+                ],
+                "start_date": "2013-01-01",
+                "end_date": null
+            },
+            {
+                "code": 565,
+                "type_of_tax_exempt_income": "Income from a business in respect of the provision and maintenance of a child care centre",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 3/2013",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Person"
+                ],
+                "start_date": "2013-01-01",
+                "end_date": null
+            },
+            {
+                "code": 566,
+                "type_of_tax_exempt_income": "Income of religious institutions or organization operating a place of worship registered as company limited by guarantee under Company Act 2016",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 139/2020",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company limited by guarantee"
+                ],
+                "start_date": "2020-01-01",
+                "end_date": null
+            },
+            {
+                "code": 567,
+                "type_of_tax_exempt_income": "Income of any person related to the fund given by the Federal Government or the State Government in the form of a grant or a subsidy; and Income of a statutory authority received in respect of an amount chargeable to and collected from any person in accordance with the provisions of the Act governing that statutory authority or any donation received.",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 207/2006",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Person",
+                    "Statutory authority"
+                ],
+                "start_date": "2006-01-01",
+                "end_date": null
+            },
+            {
+                "code": 568,
+                "type_of_tax_exempt_income": "Gains or profits derived, in lieu of interest from sukuk wakala, issued by the Wakala Global Sukuk Berhad",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 205/2011",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Person"
+                ],
+                "start_date": "2011-01-01",
+                "end_date": null
+            },
+            {
+                "code": 569,
+                "type_of_tax_exempt_income": "Exemption of statutory income from a qualifying project equivalent to 50% of the qualifying capital expenditure for qualifying company engaged in manufacturing activity in the electrical and electronic sector",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 370/2021",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2020-01-01",
+                "end_date": "2021-12-31"
+            },
+            {
+                "code": 570,
+                "type_of_tax_exempt_income": "Income of approved developer in Tun Razak Exchange area",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 477/2021",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2013-01-01",
+                "end_date": null
+            },
+            {
+                "code": 571,
+                "type_of_tax_exempt_income": "Exemption of income tax from the organization for any arts or cultural activities, sports or recreational competition of international standard",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 478/2021",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company",
+                    "Society",
+                    "Organization"
+                ],
+                "start_date": "2020-01-01",
+                "end_date": "2025-12-31"
+            },
+            {
+                "code": 572,
+                "type_of_tax_exempt_income": "Income arising from outside Malaysia which is brought into Malaysia",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 96/2022",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Companies incorporated or registered under the Companies Act 2016 and resident in Malaysia"
+                ],
+                "start_date": "2022-01-01",
+                "end_date": "2022-12-31"
+            },
+            {
+                "code": 573,
+                "type_of_tax_exempt_income": "Gains or profits received from the disposal of shares of a company incorporated in Malaysia not listed on the stock exchange.",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 410/2023",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company",
+                    "Limited liability partnership"
+                ],
+                "start_date": "2024-01-01",
+                "end_date": "2024-02-29"
+            },
+            {
+                "code": 574,
+                "type_of_tax_exempt_income": "Gains or profits from the disposal of capital asset arising from outside Malaysia which is received in Malaysia",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 75/2024",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company",
+                    "Limited liability partnership",
+                    "Trust Body",
+                    "Co-operative society resident in Malaysia"
+                ],
+                "start_date": "2024-01-01",
+                "end_date": "2026-12-31"
+            },
+            {
+                "code": 575,
+                "type_of_tax_exempt_income": "Statutory income derived from its business, which is equivalent to the amount of qualifying capital expenditure incurred by the qualifying company for the purchase of a green technology asset (Green Technology Incentive Asset)",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 243/2024",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Application from 01.01.2022 – 31.12.2023 (rainwater harvesting system)"
+                ],
+                "start_date": "2013-10-25",
+                "end_date": null
+            },
+            {
+                "code": 576,
+                "type_of_tax_exempt_income": "Statutory income derived from a qualifying activity or activity other than a qualifying activity, which is equivalent to the amount of qualifying capital expenditure incurred by the qualifying company (Green Technology Incentive - Project)",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 244/2024",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Exemption for 3 consecutive years",
+                    "Application Period w.e.f 01.01.2020 – 31.12.2023"
+                ],
+                "start_date": "2020-01-01",
+                "end_date": null
+            },
+            {
+                "code": 577,
+                "type_of_tax_exempt_income": "Statutory income derived from its business, which is equivalent to the amount of qualifying expenditure incurred by the qualifying company (Green Technology Incentive - Green Building)",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 245/2024",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Exemption for 3 consecutive years Application from 01.01.2020 – 31.12.2023"
+                ],
+                "start_date": "2020-01-01",
+                "end_date": null
+            },
+            {
+                "code": 578,
+                "type_of_tax_exempt_income": "Exemption of a qualifying company in respect of 70% of its statutory income derived from a qualifying activity (Green Technology Incentive - Services)",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 246/2024",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Exemption for 3 consecutive years of assessment",
+                    "Application from 01.01.2020 – 31.12.2023"
+                ],
+                "start_date": "2020-01-01",
+                "end_date": null
+            },
+            {
+                "code": 579,
+                "type_of_tax_exempt_income": "Exemption of a qualifying company in respect of 70% of its statutory income derived from a qualifying activity (Green Technology Incentive - Solar Photovoltaic System Leasing)",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 247/2024",
+                        "amendment_note": null
+                    },
+                    {
+                        "publication_number": "P.U. (A) 445/2024",
+                        "amendment_note": "Amendments to P.U.(A) 247/2024"
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Company"
+                ],
+                "start_date": "2020-01-01",
+                "end_date": null
+            },
+            {
+                "code": 580,
+                "type_of_tax_exempt_income": "Gains or profit received from the disposal of shares of a company incorporated in Malaysia which is not listed on the stock exchange and from the disposal of shares under section 15C of the ITA 1967",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 249/2024",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Unit trust which is not include a Real Estate Investment Trust or Property Trust Fund listed on Bursa Malaysia"
+                ],
+                "start_date": "2024-01-01",
+                "end_date": "2028-12-31"
+            },
+            {
+                "code": 580,
+                "type_of_tax_exempt_income": "Gross income from all sources of income under section 4 of the ITA 1967 which is received in Malaysia from outside Malaysia",
+                "references": [
+                    {
+                        "publication_number": "P.U.(A) 250/2024",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [],
+                "start_date": "2024-01-01",
+                "end_date": "2026-12-31"
+            },
+            {
+                "code": 581,
+                "type_of_tax_exempt_income": "Exemption of a qualifying company in respect of statutory income derived from a qualifying activity, which is equivalent to the amount of the qualifying capital expenditure made by the qualifying company in the basis period for that year of assessment.",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 240/2023",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "\"existing company\" which (a) is incorporated under the Companies Act 2016 and resident in Malaysia; (b) has an existing manufacturing operation in Malaysia; and (c) relocate its manufacturing operations to Malaysia for a new business where the product from the new business is not an expansion project for the existing product;"
+                ],
+                "start_date": "2021-01-01",
+                "end_date": null
+            },
+            {
+                "code": 582,
+                "type_of_tax_exempt_income": "Exemption of any approved supplier and approved user from the payment of income tax in the basis period for a year of assessment in respect of the statutory income derived from an Islamic security selling and buying negotiated transaction other than structured payments",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 444/2024",
+                        "amendment_note": null
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Person"
+                ],
+                "start_date": "2024-01-01",
+                "end_date": null
+            },
+            {
+                "code": 583,
+                "type_of_tax_exempt_income": "Exemption in respect of chargeable income from dividends/interest/royalties/distributions/distributions of profit/amount received",
+                "references": [
+                    {
+                        "publication_number": "P.U. (A) 59/2025",
+                        "amendment_note": "Revokes P.U. (A) 437/2007"
+                    }
+                ],
+                "categories_entitled_for_claim": [
+                    "Labuan company",
+                    "Any person",
+                    "A non-resident person",
+                    "Beneficiary of Labuan trust/Labuan Islamic trust",
+                    "A partner",
+                    "A member of a Labuan foundation"
+                ],
+                "start_date": "2023-01-01",
+                "end_date": "2027-12-31"
+            }
+        ]
+    },
+    {
+        "id": "lookup_claim_section",
+        "type": "lookup_data",
+        "data": [
+            {
+                "section_number": "1",
+                "section_title": "Special Deduction and Other Claims"
+            },
+            {
+                "section_number": "2",
+                "section_title": "Further Deductions"
+            },
+            {
+                "section_number": "3",
+                "section_title": "Double Deductions"
+            }
+        ]
+    },
+    {
+        "id": "lookup_claim_code",
+        "type": "lookup_data",
+        "data": [
+            {
+                "code": "101",
+                "type_of_expenditure": "Equipment for disabled employees; or expenditure on the alteration or renovation of premises for the benefit of disabled employees",
+                "references": [
+                    "Paragraph 34(6)(e) ITA 1967"
+                ],
+                "effective_periods": [],
+                "categories_entitled_to_claim": [
+                    "Person"
+                ],
+                "section_number": "1",
+                "start_date": null,
+                "end_date": null
+            },
+            {
+                "code": "102",
+                "type_of_expenditure": "Translation into or publication in the national language of books approved by Dewan Bahasa dan Pustaka",
+                "references": [
+                    "Paragraph 34(6)(f) ITA 1967"
+                ],
+                "effective_periods": [],
+                "categories_entitled_to_claim": [
+                    "Person"
+                ],
+                "section_number": "1",
+                "start_date": null,
+                "end_date": null
+            },
+            {
+                "code": "103",
+                "type_of_expenditure": "Provision of library facilities or contributions to libraries not exceeding RM100,000",
+                "references": [
+                    "Paragraph 34(6)(g) ITA 1967"
+                ],
+                "effective_periods": [],
+                "categories_entitled_to_claim": [
+                    "Person"
+                ],
+                "section_number": "1",
+                "start_date": null,
+                "end_date": null
+            },
+            {
+                "code": "104",
+                "type_of_expenditure": "Provision of services, public amenities and contributions to a charity or community project pertaining to education, health, housing, conservation or preservation of environment, enhancement of income of the poor, infrastructure and information and communication technology; approved by the Minister.",
+                "references": [
+                    "Paragraph 34(6)(h) ITA 1967"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2020"
+                ],
+                "categories_entitled_to_claim": [
+                    "Person"
+                ],
+                "effective_start_date": "2020-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2020-01-01",
+                "end_date": null
+            },
+            {
+                "code": "105",
+                "type_of_expenditure": "Revenue expenditure on the provision and maintenance of childcare centre for employees’ benefit",
+                "references": [
+                    "Paragraph 34(6)(i) ITA 1967"
+                ],
+                "effective_periods": [],
+                "categories_entitled_to_claim": [
+                    "Person"
+                ],
+                "section_number": "1",
+                "start_date": null,
+                "end_date": null
+            },
+            {
+                "code": "106",
+                "type_of_expenditure": "Establishment and management of approved musical or cultural groups",
+                "references": [
+                    "Paragraph 34(6)(j) ITA 1967"
+                ],
+                "effective_periods": [],
+                "categories_entitled_to_claim": [
+                    "Person"
+                ],
+                "section_number": "1",
+                "start_date": null,
+                "end_date": null
+            },
+            {
+                "code": "107",
+                "type_of_expenditure": "Expenditure incurred in sponsoring any approved local and foreign arts, cultural or heritage activity: - not exceeding RM300,000 for sponsoring foreign arts, cultural or heritage activity - not exceeding RM1,000,000 in aggregate",
+                "references": [
+                    "Paragraph 34(6)(k) ITA 1967"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2020"
+                ],
+                "categories_entitled_to_claim": [
+                    "Person"
+                ],
+                "effective_start_date": "2020-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2020-01-01",
+                "end_date": null
+            },
+            {
+                "code": "108",
+                "type_of_expenditure": "Provision of scholarship to a student receiving full-time instruction leading to an award of diploma/degree (including Masters/Doctorate)",
+                "references": [
+                    "Paragraph 34(6)(l) ITA 1967"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2001"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2001-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2001-01-01",
+                "end_date": null
+            },
+            {
+                "code": "109",
+                "type_of_expenditure": "Capital expenditure incurred in obtaining accreditation for a laboratory or as a certification body",
+                "references": [
+                    "Paragraph 34(6)(m) ITA 1967"
+                ],
+                "effective_periods": [
+                    "Amended W.e.f YA 2004"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2004-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2004-01-01",
+                "end_date": null
+            },
+            {
+                "code": "110",
+                "type_of_expenditure": "Revenue expenditure on scientific research directly undertaken and related to the business",
+                "references": [
+                    "Subsection 34(7) ITA 1967"
+                ],
+                "effective_periods": [],
+                "categories_entitled_to_claim": [
+                    "Person"
+                ],
+                "section_number": "1",
+                "start_date": null,
+                "end_date": null
+            },
+            {
+                "code": "111",
+                "type_of_expenditure": "Incorporation expenses",
+                "references": [
+                    "P.U. (A) 475/2003",
+                    "[Revokes P.U. (A) 134/1974]",
+                    "P.U. (A) 472/2005",
+                    "[Amendments to P.U. (A) 475/2003]"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2004"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2004-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2004-01-01",
+                "end_date": null
+            },
+            {
+                "code": "112",
+                "type_of_expenditure": "Cost of acquisition of proprietary rights",
+                "references": [
+                    "P.U. (A) 63/2002",
+                    "[Revokes P.U. (A) 127/1999]"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2002"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2002-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2002-01-01",
+                "end_date": null
+            },
+            {
+                "code": "113",
+                "type_of_expenditure": "Corporate debt restructuring expenditure",
+                "references": [
+                    "P.U. (A) 49/2000",
+                    "P.U. (A) 294/2001",
+                    "P.U. (A) 306/2002"
+                ],
+                "effective_periods": [
+                    "W.e.f 30.10.1999",
+                    "W.e.f 01.01.2001",
+                    "W.e.f 01.01.2002"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "1999-10-30",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "1999-10-30",
+                "end_date": null
+            },
+            {
+                "code": "115",
+                "type_of_expenditure": "Pre-commencement of business training expenses incurred within one year prior to the commencement of business",
+                "references": [
+                    "P.U. (A) 160/1996"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 1996"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "1996-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "1996-01-01",
+                "end_date": null
+            },
+            {
+                "code": "116",
+                "type_of_expenditure": "Contribution to an approved benevolent fund/trust account in respect of individuals suffering from serious diseases",
+                "references": [
+                    "Subsection 44(6) ITA 1967"
+                ],
+                "effective_periods": [],
+                "categories_entitled_to_claim": [
+                    "Person"
+                ],
+                "section_number": "1",
+                "start_date": null,
+                "end_date": null
+            },
+            {
+                "code": "117",
+                "type_of_expenditure": "Provision of practical training in Malaysia to resident individuals who are not own employees",
+                "references": [
+                    "Paragraph 34(6)(n) ITA 1967"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2002"
+                ],
+                "categories_entitled_to_claim": [
+                    "Person"
+                ],
+                "effective_start_date": "2002-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2002-01-01",
+                "end_date": null
+            },
+            {
+                "code": "118",
+                "type_of_expenditure": "Promotion of exports - registration of patents, trademarks and product licensing overseas",
+                "references": [
+                    "P.U. (A) 116/2002",
+                    "P.U. (A) 355/2002",
+                    "[Amendments to P.U. (A) 116/2002]"
+                ],
+                "effective_periods": [
+                    "YA 2002 - YA 2005"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2002-01-01",
+                "effective_end_date": "2005-12-31",
+                "section_number": "1",
+                "start_date": "2002-01-01",
+                "end_date": "2005-12-31"
+            },
+            {
+                "code": "119",
+                "type_of_expenditure": "Implementation of RosettaNet",
+                "references": [
+                    "P.U. (A) 405/2011",
+                    "[Revokes P.U. (A) 8/2004]"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2012"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2012-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2012-01-01",
+                "end_date": null
+            },
+            {
+                "code": "120",
+                "type_of_expenditure": "Investment in a venture company",
+                "references": [
+                    "P.U. (A) 76/2005",
+                    "[Revokes P.U. (A) 212/2001]",
+                    "P.U. (A) 117/2022",
+                    "[Revokes P.U. (A) 76/2005]"
+                ],
+                "effective_periods": [
+                    "YA 2003 - YA 2017",
+                    "W.e.f YA 2018"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2003-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2003-01-01",
+                "end_date": null
+            },
+            {
+                "code": "121",
+                "type_of_expenditure": "Deduction for gifts of new personal computers to employees",
+                "references": [
+                    "P.U. (A) 504/2000",
+                    "P.U. (A) 192/2008"
+                ],
+                "effective_periods": [
+                    "YA 2001 - YA 2003",
+                    "YA 2008 - YA 2010"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company",
+                    "Resident person"
+                ],
+                "effective_start_date": "2001-01-01",
+                "effective_end_date": "2010-12-31",
+                "section_number": "1",
+                "start_date": "2001-01-01",
+                "end_date": "2010-12-31"
+            },
+            {
+                "code": "122",
+                "type_of_expenditure": "Cost of developing website",
+                "references": [
+                    "P.U. (A) 101/2003",
+                    "[Revokes P.U. (A) 447/2002]"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2002"
+                ],
+                "categories_entitled_to_claim": [
+                    "Resident person"
+                ],
+                "effective_start_date": "2002-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2002-01-01",
+                "end_date": null
+            },
+            {
+                "code": "124",
+                "type_of_expenditure": "Cost on acquisition of a foreign owned company",
+                "references": [
+                    "P.U. (A) 310/2003",
+                    "P.U. (A) 81/2008",
+                    "[Amendments to P.U. (A) 310/2003]"
+                ],
+                "effective_periods": [
+                    "W.e.f 21.09.2002",
+                    "W.e.f YA 2005"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2002-09-21",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2002-09-21",
+                "end_date": null
+            },
+            {
+                "code": "125",
+                "type_of_expenditure": "Investment in a project of commercialisation of research and development findings",
+                "references": [
+                    "P.U. (A) 269/2005"
+                ],
+                "effective_periods": [
+                    "W.e.f 11.09.2005"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2005-09-11",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2005-09-11",
+                "end_date": null
+            },
+            {
+                "code": "126",
+                "type_of_expenditure": "Promotion of exports - hotel accommodation and sustenance provided to potential importers",
+                "references": [
+                    "P.U. (A) 117/2002"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2002"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2002-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2002-01-01",
+                "end_date": null
+            },
+            {
+                "code": "127",
+                "type_of_expenditure": "Expenditure on issuance of Islamic securities/Cost of issuance of Islamic securities",
+                "references": [
+                    "P.U. (A) 320/2005",
+                    "P.U. (A) 6/2007",
+                    "P.U. (A) 176/2007",
+                    "P.U. (A) 420/2009 & P.U. (A) 296/2010",
+                    "P.U. (A) 355/2011"
+                ],
+                "effective_periods": [
+                    "W.e.f 03.07.2004",
+                    "YA 2007 – YA 2010",
+                    "W.e.f YA 2007",
+                    "YA 2011 – YA 2015"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2004-07-03",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2004-07-03",
+                "end_date": null
+            },
+            {
+                "code": "128",
+                "type_of_expenditure": "Expenditure on issuance of asset backed securities",
+                "references": [
+                    "P.U. (A) 321/2005"
+                ],
+                "effective_periods": [
+                    "W.e.f 03.07.2004"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2004-07-03",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2004-07-03",
+                "end_date": null
+            },
+            {
+                "code": "129",
+                "type_of_expenditure": "Expenditure on issuance of Islamic securities pursuant to Istisna’ principle",
+                "references": [
+                    "P.U. (A) 322/2005"
+                ],
+                "effective_periods": [
+                    "W.e.f 03.07.2004"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2004-07-03",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2004-07-03",
+                "end_date": null
+            },
+            {
+                "code": "130",
+                "type_of_expenditure": "Cash contribution and sponsor of a cultural or arts show held in Federal Territory Kuala Lumpur",
+                "references": [
+                    "P.U. (A) 380/2005"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2005"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2005-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2005-01-01",
+                "end_date": null
+            },
+            {
+                "code": "131",
+                "type_of_expenditure": "Investment in an approved new food production project and expansion project",
+                "references": [
+                    "P.U. (A) 55/2006",
+                    "P.U. (A) 167/2011",
+                    "P.U. (A) 374/2020",
+                    "P.U. (A) 351/2022"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2001",
+                    "W.e.f 01.10.2005",
+                    "From 01.01.2016 (Application between 01.01.2016 – 31.12.2020)",
+                    "From 01.01.2021 (Application between 01.01.2021 – 31.12.2022)"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2001-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2001-01-01",
+                "end_date": null
+            },
+            {
+                "code": "132",
+                "type_of_expenditure": "Audit expenditure",
+                "references": [
+                    "P.U. (A) 129/2006"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2006"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2006-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2006-01-01",
+                "end_date": null
+            },
+            {
+                "code": "133",
+                "type_of_expenditure": "Expenditure incurred for the development and compliance of new courses by private higher education institutions",
+                "references": [
+                    "P.U. (A) 184/2006"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2006"
+                ],
+                "categories_entitled_to_claim": [
+                    "Private higher education institution"
+                ],
+                "effective_start_date": "2006-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2006-01-01",
+                "end_date": null
+            },
+            {
+                "code": "134",
+                "type_of_expenditure": "Expenditure for establishment of an Islamic stock broking business",
+                "references": [
+                    "P.U. (A) 65/2007",
+                    "P.U. (A) 401/2009"
+                ],
+                "effective_periods": [
+                    "W.e.f 02.09.2006",
+                    "W.e.f 01.01.2010"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2006-09-02",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2006-09-02",
+                "end_date": null
+            },
+            {
+                "code": "135",
+                "type_of_expenditure": "Expenditure incurred for participating in international standardization activities approved by the Department of Standards Malaysia",
+                "references": [
+                    "Paragraph 34(6)(o) ITA 1967"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2004"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2004-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2004-01-01",
+                "end_date": null
+            },
+            {
+                "code": "136",
+                "type_of_expenditure": "Expenditure incurred on the provision of infrastructure in relation to its business which is available for public use, subject to the prior approval of the Minister",
+                "references": [
+                    "Paragraph 34(6)(ha) ITA 1967"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2008"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2008-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2008-01-01",
+                "end_date": null
+            },
+            {
+                "code": "137",
+                "type_of_expenditure": "Deduction for investment in a BioNexus status company",
+                "references": [
+                    "P.U. (A) 306/2016",
+                    "[Revokes P.U. (A) 373/2007]",
+                    "P.U. (A) 212/2022",
+                    "[Amendments to P.U. (A) 306/2016]",
+                    "P.U. (A) 23/2024",
+                    "[Amendments to P.U. (A) 306/2016]"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2016",
+                    "(Investment made from 01.01.2016 – 31.12.2020)",
+                    "W.e.f 01.01.2021",
+                    "(Investment made from 01.01.2021 – 31.12.2022)",
+                    "W.e.f 01.01.2023",
+                    "(Investment made from 01.01.2023 – 31.12.2024)"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company",
+                    "Individual who is a Malaysian citizen, resident and has business income source"
+                ],
+                "effective_start_date": "2016-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2016-01-01",
+                "end_date": null
+            },
+            {
+                "code": "138",
+                "type_of_expenditure": "Deduction for cost of spectrum assignment",
+                "references": [
+                    "P.U. (A) 447/2007"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2007"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2007-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2007-01-01",
+                "end_date": null
+            },
+            {
+                "code": "139",
+                "type_of_expenditure": "Deduction for cost of obtaining Chain of Custody Certification from Malaysian Timber Certification Council",
+                "references": [
+                    "P.U. (A) 42/2008"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2007"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2007-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2007-01-01",
+                "end_date": null
+            },
+            {
+                "code": "140",
+                "type_of_expenditure": "Deduction of pre-commencement of business expenses relating to employee recruitment",
+                "references": [
+                    "P.U. (A) 361/2008"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2009"
+                ],
+                "categories_entitled_to_claim": [
+                    "Resident person"
+                ],
+                "effective_start_date": "2009-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2009-01-01",
+                "end_date": null
+            },
+            {
+                "code": "141",
+                "type_of_expenditure": "Deduction for benefit and gift from employer to employee",
+                "references": [
+                    "P.U. (A) 153/2009",
+                    "P.U. (A) 226/2009",
+                    "[Amendments to P.U. (A) 153/2009]"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2008"
+                ],
+                "categories_entitled_to_claim": [
+                    "Resident person"
+                ],
+                "effective_start_date": "2008-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2008-01-01",
+                "end_date": null
+            },
+            {
+                "code": "142",
+                "type_of_expenditure": "Deduction for investment in an approved consolidation of management of smallholding and idle land project",
+                "references": [
+                    "P.U. (A) 417/2009",
+                    "P.U. (A) 294/2010",
+                    "[Amendments to P.U. (A) 417/2009]"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2002"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company",
+                    "Co-operative society",
+                    "Partnership",
+                    "Individual"
+                ],
+                "effective_start_date": "2002-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2002-01-01",
+                "end_date": null
+            },
+            {
+                "code": "143",
+                "type_of_expenditure": "Deduction for cost of preparation of corporate knowledge - based master plan",
+                "references": [
+                    "P.U. (A) 419/2009",
+                    "P.U. (A) 295/2010",
+                    "[Amendments to P.U. (A) 419/2009]"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2003"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2003-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2003-01-01",
+                "end_date": null
+            },
+            {
+                "code": "144",
+                "type_of_expenditure": "Expenditure on registration of patent and trademark",
+                "references": [
+                    "P.U. (A) 418/2009"
+                ],
+                "effective_periods": [
+                    "YA 2010 - YA 2014"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company",
+                    "Enterprise"
+                ],
+                "effective_start_date": "2010-01-01",
+                "effective_end_date": "2014-12-31",
+                "section_number": "1",
+                "start_date": "2010-01-01",
+                "end_date": "2014-12-31"
+            },
+            {
+                "code": "145",
+                "type_of_expenditure": "Deduction for contribution to retirement fund in relation to a member of the public service (of pensionable status) seconded with approval by the Public Service Department to serve in a company",
+                "references": [
+                    "P.U. (A) 31/2010"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2003"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2003-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2003-01-01",
+                "end_date": null
+            },
+            {
+                "code": "146",
+                "type_of_expenditure": "Deduction for contribution to Universal Service Provision Fund (USP Fund)",
+                "references": [
+                    "P.U. (A) 158/2011"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2002"
+                ],
+                "categories_entitled_to_claim": [
+                    "Licensee * who is resident"
+                ],
+                "effective_start_date": "2002-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2002-01-01",
+                "end_date": null
+            },
+            {
+                "code": "147",
+                "type_of_expenditure": "Deduction for payment of premium to Malaysia Deposit Insurance Corporation",
+                "references": [
+                    "P.U. (A) 131/2013",
+                    "P.U. (A) 311/2018"
+                ],
+                "effective_periods": [
+                    "Paragraph 36(1)(a): YA 2005 – YA 2010",
+                    "W.e.f YA 2018"
+                ],
+                "categories_entitled_to_claim": [
+                    "Financial institution (member institution to the Malaysia Deposit Insurance Corporation)"
+                ],
+                "effective_start_date": "2005-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2005-01-01",
+                "end_date": null
+            },
+            {
+                "code": "148",
+                "type_of_expenditure": "Deduction for expenditure on franchise fee",
+                "references": [
+                    "P.U. (A) 76/2012"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2012"
+                ],
+                "categories_entitled_to_claim": [
+                    "Person who is resident and is a franchisee *"
+                ],
+                "effective_start_date": "2012-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2012-01-01",
+                "end_date": null
+            },
+            {
+                "code": "149",
+                "type_of_expenditure": "Deduction for expenditure to obtain the 1-InnoCERT certification",
+                "references": [
+                    "P.U. (A) 109/2012 & P.U. (A) 168/2016"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2010",
+                    "W.e.f YA 2015"
+                ],
+                "categories_entitled_to_claim": [
+                    "Resident person (person in the manufacturing industry, services, primary agriculture, construction or mining and quarrying industry)"
+                ],
+                "effective_start_date": "2010-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2010-01-01",
+                "end_date": null
+            },
+            {
+                "code": "150",
+                "type_of_expenditure": "Deduction for promotion of international or private school",
+                "references": [
+                    "P.U. (A) 110/2012"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2012"
+                ],
+                "categories_entitled_to_claim": [
+                    "International or private school which is a company or society resident and registered with the Ministry of Education Malaysia"
+                ],
+                "effective_start_date": "2012-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2012-01-01",
+                "end_date": null
+            },
+            {
+                "code": "151",
+                "type_of_expenditure": "Deduction for pre-commencement expenses in relation to Refinery and Petrochemical Integrated Development",
+                "references": [
+                    "P.U. (A) 43/2013",
+                    "P.U. (A) 183/2015"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2010"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2010-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2010-01-01",
+                "end_date": null
+            },
+            {
+                "code": "152",
+                "type_of_expenditure": "Deduction for investment in a project of commercialisation of research and development findings",
+                "references": [
+                    "P.U. (A) 51/2013",
+                    "P.U. (A) 3/2022"
+                ],
+                "effective_periods": [
+                    "W.e.f 29.09.2012",
+                    "W.e.f 07.11.2020",
+                    "(Application from 07.11.2020 – 31.12.2025)"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2012-09-29",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2012-09-29",
+                "end_date": null
+            },
+            {
+                "code": "153",
+                "type_of_expenditure": "Deduction for expenditure on issuance of retail debenture and retail sukuk",
+                "references": [
+                    "P.U. (A) 71/2013 & P.U. (A) 142/2013",
+                    "P.U. (A) 117/2019"
+                ],
+                "effective_periods": [
+                    "YA 2012 - YA 2015",
+                    "YA 2019 - YA 2020"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2012-01-01",
+                "effective_end_date": "2020-12-31",
+                "section_number": "1",
+                "start_date": "2012-01-01",
+                "end_date": "2020-12-31"
+            },
+            {
+                "code": "154",
+                "type_of_expenditure": "Deduction for expenses in relation to interest and incidental cost in acquiring loan for abandoned projects",
+                "references": [
+                    "P.U. (A) 89/2013"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2013"
+                ],
+                "categories_entitled_to_claim": [
+                    "Resident person (Rescuing contractor or developer who is appointed or approved by the Minister of Housing and Local Government or liquidator)"
+                ],
+                "effective_start_date": "2013-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2013-01-01",
+                "end_date": null
+            },
+            {
+                "code": "156",
+                "type_of_expenditure": "Deduction for relocation costs for Tun Razak Exchange Marquee Status Company",
+                "references": [
+                    "P.U. (A) 30/2013",
+                    "P.U. (A) 475/2021"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2014",
+                    "W.e.f YA 2021"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2014-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2014-01-01",
+                "end_date": null
+            },
+            {
+                "code": "157",
+                "type_of_expenditure": "Deduction for expenses in relation to secretarial fee and tax filing fee",
+                "references": [
+                    "P.U. (A) 162/2020",
+                    "[Revokes P.U. (A) 336/2014]",
+                    "P.U. (A) 471/2021"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2020",
+                    "W.e.f YA 2022"
+                ],
+                "categories_entitled_to_claim": [
+                    "Resident person"
+                ],
+                "effective_start_date": "2020-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2020-01-01",
+                "end_date": null
+            },
+            {
+                "code": "158",
+                "type_of_expenditure": "Deduction for expenditure on issuance of sukuk",
+                "references": [
+                    "P.U. (A) 318/2015",
+                    "P.U. (A) 118/2019"
+                ],
+                "effective_periods": [
+                    "YA 2016 - YA 2018",
+                    "YA 2019 - YA 2020"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2016-01-01",
+                "effective_end_date": "2020-12-31",
+                "section_number": "1",
+                "start_date": "2016-01-01",
+                "end_date": "2020-12-31"
+            },
+            {
+                "code": "159",
+                "type_of_expenditure": "Deduction for the sponsorship of hallmark event",
+                "references": [
+                    "P.U. (A) 126/2022",
+                    "[Amendments to P.U. (A) 165/2016]",
+                    "P.U. (A) 351/2023",
+                    "[Amendments to P.U. (A) 165/2016]"
+                ],
+                "effective_periods": [
+                    "W.e.f 13.06.2008 – 31.12.2024"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company",
+                    "Individual who is resident and has business source"
+                ],
+                "effective_start_date": "2008-06-13",
+                "effective_end_date": "2024-12-31",
+                "section_number": "1",
+                "start_date": "2008-06-13",
+                "end_date": "2024-12-31"
+            },
+            {
+                "code": "160",
+                "type_of_expenditure": "Deduction for investment in qualifying activity",
+                "references": [
+                    "P.U. (A) 125/2022",
+                    "[Amendments to P.U. (A) 166/2016]",
+                    "P.U. (A) 352/2023",
+                    "[Amendments to P.U. (A) 166/2016]"
+                ],
+                "effective_periods": [
+                    "W.e.f 13.06.2008 – 31.12.2024"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2008-06-13",
+                "effective_end_date": "2024-12-31",
+                "section_number": "1",
+                "start_date": "2008-06-13",
+                "end_date": "2024-12-31"
+            },
+            {
+                "code": "161",
+                "type_of_expenditure": "Deduction for expenses in relation to National Greenhouse Gas Reporting Programme",
+                "references": [
+                    "P.U. (A) 295/2016"
+                ],
+                "effective_periods": [
+                    "YA 2015 - YA 2017"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2015-01-01",
+                "effective_end_date": "2017-12-31",
+                "section_number": "1",
+                "start_date": "2015-01-01",
+                "end_date": "2017-12-31"
+            },
+            {
+                "code": "162",
+                "type_of_expenditure": "Deduction for expenditure on issuance of retail debenture and retail sukuk",
+                "references": [
+                    "P.U. (A) 347/2016"
+                ],
+                "effective_periods": [
+                    "YA 2016 - YA 2018"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2016-01-01",
+                "effective_end_date": "2018-12-31",
+                "section_number": "1",
+                "start_date": "2016-01-01",
+                "end_date": "2018-12-31"
+            },
+            {
+                "code": "163",
+                "type_of_expenditure": "Deduction for expenditure on issuance or offering of sustainable and responsible investment sukuk",
+                "references": [
+                    "P.U. (A) 221/2017"
+                ],
+                "effective_periods": [
+                    "YA 2016 - YA 2020"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2016-01-01",
+                "effective_end_date": "2020-12-31",
+                "section_number": "1",
+                "start_date": "2016-01-01",
+                "end_date": "2020-12-31"
+            },
+            {
+                "code": "164",
+                "type_of_expenditure": "Deduction for payment of educational loan of Perbadanan Tabung Pendidikan Tinggi Nasional by employers on behalf of employees",
+                "references": [
+                    "P.U. (A) 206/2019",
+                    "P.U. (A) 415/2019"
+                ],
+                "effective_periods": [
+                    "YA 2019 - YA 2020",
+                    "YA 2019 - YA 2022"
+                ],
+                "categories_entitled_to_claim": [
+                    "Employer"
+                ],
+                "effective_start_date": "2019-01-01",
+                "effective_end_date": "2022-12-31",
+                "section_number": "1",
+                "start_date": "2019-01-01",
+                "end_date": "2022-12-31"
+            },
+            {
+                "code": "165",
+                "type_of_expenditure": "Deduction for expenses in relation to listing on Access, Certainty, Efficiency (ACE) Market or Leading Entrepreneur Acceleration Platform (LEAP) Market of Bursa Malaysia",
+                "references": [
+                    "P.U. (A) 263/2020",
+                    "P.U. (A) 235/2023"
+                ],
+                "effective_periods": [
+                    "YA 2020 – YA 2022",
+                    "YA 2023 – YA 2025"
+                ],
+                "categories_entitled_to_claim": [
+                    "A technology-based company"
+                ],
+                "effective_start_date": "2020-01-01",
+                "effective_end_date": "2025-12-31",
+                "section_number": "1",
+                "start_date": "2020-01-01",
+                "end_date": "2025-12-31"
+            },
+            {
+                "code": "166",
+                "type_of_expenditure": "Deduction for expenditure on Industry4WRD Readiness Assessment",
+                "references": [
+                    "P.U. (A) 272/2020",
+                    "P.U. (A) 325/2021"
+                ],
+                "effective_periods": [
+                    "YA 2019 – YA 2026"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company resident in Malaysia"
+                ],
+                "effective_start_date": "2019-01-01",
+                "effective_end_date": "2026-12-31",
+                "section_number": "1",
+                "start_date": "2019-01-01",
+                "end_date": "2026-12-31"
+            },
+            {
+                "code": "167",
+                "type_of_expenditure": "Deduction for cost of renovation and refurbishment of business premise subject to the maximum amount of RM300,000",
+                "references": [
+                    "P.U. (A) 381/2020",
+                    "P.U. (A) 481/2021",
+                    "[Amendments to P.U. (A) 381/2020]"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2020",
+                    "W.e.f YA 2022"
+                ],
+                "categories_entitled_to_claim": [
+                    "Person"
+                ],
+                "effective_start_date": "2020-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2020-01-01",
+                "end_date": null
+            },
+            {
+                "code": "168",
+                "type_of_expenditure": "Deduction by employer for the value for benefit to acquire smartphone, tablet or personal computer given to his employee.",
+                "references": [
+                    "P.U. (A) 31/2021",
+                    "P.U. (A) 133/2021",
+                    "[Amendments to P.U. (A) 21/2021]"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2020"
+                ],
+                "categories_entitled_to_claim": [
+                    "Employer"
+                ],
+                "effective_start_date": "2020-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2020-01-01",
+                "end_date": null
+            },
+            {
+                "code": "169",
+                "type_of_expenditure": "Deduction by employer for expenses in relation to the cost of the personal protective equipment for the purpose of prevention and protection of its workers from Coronavirus Disease 2019 (COVID-19).",
+                "references": [
+                    "P.U. (A) 269/2021"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2020",
+                    "(Expenditure date starting 01.03.2020)"
+                ],
+                "categories_entitled_to_claim": [
+                    "Employer"
+                ],
+                "effective_start_date": "2020-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2020-01-01",
+                "end_date": null
+            },
+            {
+                "code": "170",
+                "type_of_expenditure": "Special deduction for reduction of rental to a small and medium enterprise",
+                "references": [
+                    "P.U. (A) 353/2021",
+                    "P.U. (A) 479/2021",
+                    "[Amendments to P.U. (A) 353/2021]"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2020",
+                    "W.e.f 01.01.2022"
+                ],
+                "categories_entitled_to_claim": [
+                    "Person"
+                ],
+                "effective_start_date": "2020-01-01",
+                "effective_end_date": null,
+                "section_number": "1",
+                "start_date": "2020-01-01",
+                "end_date": null
+            },
+            {
+                "code": "171",
+                "type_of_expenditure": "Deduction for expenses on the issuance of sukuk and retail sukuk structured according to the Wakalah Principle",
+                "references": [
+                    "P.U. (A) 5/2021"
+                ],
+                "effective_periods": [
+                    "YA 2021 - YA 2025"
+                ],
+                "categories_entitled_to_claim": [
+                    "Companies resident in Malaysia",
+                    "incorporated under the Companies Act 2016 or the Labuan Companies Act 1990"
+                ],
+                "effective_start_date": "2021-01-01",
+                "effective_end_date": "2025-12-31",
+                "section_number": "1",
+                "start_date": "2021-01-01",
+                "end_date": "2025-12-31"
+            },
+            {
+                "code": "201",
+                "type_of_expenditure": "Premiums paid for the import of cargo insured with an insurance company incorporated in Malaysia",
+                "references": [
+                    "P.U. (A) 220/2012",
+                    "[Revokes P.U. (A) 72/1982]"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 1982 - YA 2015",
+                    "(Revoked w.e.f YA 2016)"
+                ],
+                "categories_entitled_to_claim": [
+                    "Person"
+                ],
+                "effective_start_date": "1982-01-01",
+                "effective_end_date": null,
+                "section_number": "2",
+                "start_date": "1982-01-01",
+                "end_date": null
+            },
+            {
+                "code": "202",
+                "type_of_expenditure": "Remuneration of disabled employees",
+                "references": [
+                    "P.U. (A) 73/1982",
+                    "P.U. (A) 204/2019",
+                    "[Amendments to P.U. (A) 73/1982]"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 1982",
+                    "W.e.f YA 2019"
+                ],
+                "categories_entitled_to_claim": [
+                    "Person"
+                ],
+                "effective_start_date": "1982-01-01",
+                "effective_end_date": null,
+                "section_number": "2",
+                "start_date": "1982-01-01",
+                "end_date": null
+            },
+            {
+                "code": "203",
+                "type_of_expenditure": "Expenditure on approved training of employees for companies in manufacturing, non-manufacturing sector, hotel or tour operating business",
+                "references": [
+                    "P.U. (A) 61/1992 & P.U. (A) 212/1992",
+                    "[Amendments to P.U. (A) 61/1992]",
+                    "P.U. (A) 111/1995",
+                    "[Amendments to P.U. (A) 61/1992]"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 1991",
+                    "W.e.f YA 1992"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "1991-01-01",
+                "effective_end_date": null,
+                "section_number": "2",
+                "start_date": "1991-01-01",
+                "end_date": null
+            },
+            {
+                "code": "204",
+                "type_of_expenditure": "Premiums paid for the export of cargo insured with an insurance company incorporated in Malaysia",
+                "references": [
+                    "P.U. (A) 219/2012",
+                    "[Revokes P.U. (A) 79/1995]"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 1995 - YA 2015",
+                    "(Revoked w.e.f YA 2016)"
+                ],
+                "categories_entitled_to_claim": [
+                    "Person"
+                ],
+                "effective_start_date": "1995-01-01",
+                "effective_end_date": null,
+                "section_number": "2",
+                "start_date": "1995-01-01",
+                "end_date": null
+            },
+            {
+                "code": "205",
+                "type_of_expenditure": "Freight charges incurred for the export of rattan and wood-based products (excluding veneer and sawn timber)",
+                "references": [
+                    "P.U. (A) 218/2012",
+                    "[Revokes P.U. (A) 422/1990]",
+                    "P.U. (A) 54/2013",
+                    "[Amendments to P.U. (A) 422/1990]"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2016",
+                    "W.e.f YA 2013"
+                ],
+                "categories_entitled_to_claim": [
+                    "Person"
+                ],
+                "effective_start_date": "2013-01-01",
+                "effective_end_date": null,
+                "section_number": "2",
+                "start_date": "2013-01-01",
+                "end_date": null
+            },
+            {
+                "code": "206",
+                "type_of_expenditure": "Overseas expenses for promotion of tourism",
+                "references": [
+                    "P.U. (A) 412/1991",
+                    "P.U.(A) 263/2003",
+                    "[Amendments to P.U. (A) 412/1991]"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 1991",
+                    "W.e.f YA 2002"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "1991-01-01",
+                "effective_end_date": null,
+                "section_number": "2",
+                "start_date": "1991-01-01",
+                "end_date": null
+            },
+            {
+                "code": "207",
+                "type_of_expenditure": "Expenditure incurred for participating in an approved international trade fair held in Malaysia for promotion of exports",
+                "references": [
+                    "P.U. (A) 361/1991"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 1992"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "1992-01-01",
+                "effective_end_date": null,
+                "section_number": "2",
+                "start_date": "1992-01-01",
+                "end_date": null
+            },
+            {
+                "code": "208",
+                "type_of_expenditure": "Premiums paid on export credit insurance",
+                "references": [
+                    "P.U. (A) 526/1985"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 1986"
+                ],
+                "categories_entitled_to_claim": [
+                    "Person"
+                ],
+                "effective_start_date": "1986-01-01",
+                "effective_end_date": null,
+                "section_number": "2",
+                "start_date": "1986-01-01",
+                "end_date": null
+            },
+            {
+                "code": "209",
+                "type_of_expenditure": "Advertising expenditure on Malaysian brand name goods",
+                "references": [
+                    "P.U. (A) 62/2002",
+                    "[Revokes P.U. (A) 129/1999]",
+                    "P.U. (A) 171/2007",
+                    "[Amendments to P.U. (A) 62/2002]"
+                ],
+                "effective_periods": [
+                    "Paragraph 3(a): W.e.f YA 1998",
+                    "Paragraph 3(b): W.e.f YA 2002",
+                    "W.e.f YA 2007"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "1998-01-01",
+                "effective_end_date": null,
+                "section_number": "2",
+                "start_date": "1998-01-01",
+                "end_date": null
+            },
+            {
+                "code": "210",
+                "type_of_expenditure": "Promotion of exports",
+                "references": [
+                    "Section 41 APP 1986"
+                ],
+                "effective_periods": [],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "section_number": "2",
+                "start_date": null,
+                "end_date": null
+            },
+            {
+                "code": "211",
+                "type_of_expenditure": "Promotion of export of services",
+                "references": [
+                    "P.U. (A) 193/1999",
+                    "P.U.(A) 262/2003",
+                    "[Amendments to P.U. (A) 193/1999]"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 1996",
+                    "W.e.f YA 2002"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "1996-01-01",
+                "effective_end_date": null,
+                "section_number": "2",
+                "start_date": "1996-01-01",
+                "end_date": null
+            },
+            {
+                "code": "212",
+                "type_of_expenditure": "Freight charges for shipping goods from Sabah/Sarawak to Peninsular Malaysia",
+                "references": [
+                    "P.U. (A) 50/2000"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2000 (current year)"
+                ],
+                "categories_entitled_to_claim": [
+                    "Person"
+                ],
+                "effective_start_date": "2000-01-01",
+                "effective_end_date": null,
+                "section_number": "2",
+                "start_date": "2000-01-01",
+                "end_date": null
+            },
+            {
+                "code": "213",
+                "type_of_expenditure": "Promotion of export of services",
+                "references": [
+                    "P.U.(A) 114/2002",
+                    "P.U. (A) 272/2005"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2002",
+                    "W.e.f YA 2005"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2002-01-01",
+                "effective_end_date": null,
+                "section_number": "2",
+                "start_date": "2002-01-01",
+                "end_date": null
+            },
+            {
+                "code": "214",
+                "type_of_expenditure": "Expenses in respect of promotion of exports related to participation in a virtual trade show, trade portal and maintaining warehouse overseas",
+                "references": [
+                    "P.U.(A) 115/2002"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2002"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2002-01-01",
+                "effective_end_date": null,
+                "section_number": "2",
+                "start_date": "2002-01-01",
+                "end_date": null
+            },
+            {
+                "code": "215",
+                "type_of_expenditure": "Promotion of export of higher education",
+                "references": [
+                    "P.U.(A) 185/2001",
+                    "P.U.(A) 261/2003"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 1996",
+                    "W.e.f YA 2002"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "1996-01-01",
+                "effective_end_date": null,
+                "section_number": "2",
+                "start_date": "1996-01-01",
+                "end_date": null
+            },
+            {
+                "code": "216",
+                "type_of_expenditure": "Deduction for promotion of Malaysia International Islamic Financial Centre",
+                "references": [
+                    "P.U.(A) 307/2008",
+                    "P.U. (A) 416/2009",
+                    "P.U. (A) 293/2010"
+                ],
+                "effective_periods": [
+                    "YA 2008 - YA 2010",
+                    "YA 2011 - YA 2015"
+                ],
+                "categories_entitled_to_claim": [
+                    "Resident person"
+                ],
+                "effective_start_date": "2008-01-01",
+                "effective_end_date": "2015-12-31",
+                "section_number": "2",
+                "start_date": "2008-01-01",
+                "end_date": "2015-12-31"
+            },
+            {
+                "code": "217",
+                "type_of_expenditure": "Deduction for expenses relating to remuneration of employee",
+                "references": [
+                    "P.U. (A) 110/2009"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2009"
+                ],
+                "categories_entitled_to_claim": [
+                    "Resident person"
+                ],
+                "effective_start_date": "2009-01-01",
+                "effective_end_date": null,
+                "section_number": "2",
+                "start_date": "2009-01-01",
+                "end_date": null
+            },
+            {
+                "code": "218",
+                "type_of_expenditure": "Deduction for cost of training for employees",
+                "references": [
+                    "P.U. (A) 261/2009"
+                ],
+                "effective_periods": [
+                    "YA 2009 - YA 2012"
+                ],
+                "categories_entitled_to_claim": [
+                    "Resident person"
+                ],
+                "effective_start_date": "2009-01-01",
+                "effective_end_date": "2012-12-31",
+                "section_number": "2",
+                "start_date": "2009-01-01",
+                "end_date": "2012-12-31"
+            },
+            {
+                "code": "219",
+                "type_of_expenditure": "Deduction for premium for export credit insurance based on takaful concept",
+                "references": [
+                    "P.U. (A) 428/2010"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2011"
+                ],
+                "categories_entitled_to_claim": [
+                    "Person"
+                ],
+                "effective_start_date": "2011-01-01",
+                "effective_end_date": null,
+                "section_number": "2",
+                "start_date": "2011-01-01",
+                "end_date": null
+            },
+            {
+                "code": "220",
+                "type_of_expenditure": "Deduction for participation in an approved career fair",
+                "references": [
+                    "P.U. (A) 129/2012"
+                ],
+                "effective_periods": [
+                    "YA 2012 - YA 2016"
+                ],
+                "categories_entitled_to_claim": [
+                    "Resident person (person who participates in an approved career fair)"
+                ],
+                "effective_start_date": "2012-01-01",
+                "effective_end_date": "2016-12-31",
+                "section_number": "2",
+                "start_date": "2012-01-01",
+                "end_date": "2016-12-31"
+            },
+            {
+                "code": "221",
+                "type_of_expenditure": "Deduction for the provision of childcare centre",
+                "references": [
+                    "P.U. (A) 15/2013"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2013"
+                ],
+                "categories_entitled_to_claim": [
+                    "Resident person *"
+                ],
+                "effective_start_date": "2013-01-01",
+                "effective_end_date": null,
+                "section_number": "2",
+                "start_date": "2013-01-01",
+                "end_date": null
+            },
+            {
+                "code": "222",
+                "type_of_expenditure": "Deduction for rental payments for Tun Razak Exchange Marquee Status Company",
+                "references": [
+                    "P.U. (A) 31/2013",
+                    "P.U. (A) 473/2021",
+                    "P.U. (A) 476/2021"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2014",
+                    "W.e.f YA 2021"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2014-01-01",
+                "effective_end_date": null,
+                "section_number": "2",
+                "start_date": "2014-01-01",
+                "end_date": null
+            },
+            {
+                "code": "223",
+                "type_of_expenditure": "Deduction for expenditure in relation to minimum wages",
+                "references": [
+                    "P.U. (A) 206/2014"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2014"
+                ],
+                "categories_entitled_to_claim": [
+                    "Small and medium enterprise",
+                    "Co-operative society",
+                    "Society who is resident"
+                ],
+                "effective_start_date": "2014-01-01",
+                "effective_end_date": null,
+                "section_number": "2",
+                "start_date": "2014-01-01",
+                "end_date": null
+            },
+            {
+                "code": "224",
+                "type_of_expenditure": "Deduction for cost relating to training for employees for the implementation of Goods and Services Tax",
+                "references": [
+                    "P.U. (A) 334/2014"
+                ],
+                "effective_periods": [
+                    "YA 2014 - YA 2015"
+                ],
+                "categories_entitled_to_claim": [
+                    "Resident person [registered person or taxable person as defined in the Goods and Services Tax Act 2014 [Act 762]]"
+                ],
+                "effective_start_date": "2014-01-01",
+                "effective_end_date": "2015-12-31",
+                "section_number": "2",
+                "start_date": "2014-01-01",
+                "end_date": "2015-12-31"
+            },
+            {
+                "code": "225",
+                "type_of_expenditure": "Deduction for employment of senior citizen, ex-convict, parolee, supervised person and ex-drug dependant",
+                "references": [
+                    "P.U. (A) 47/2021"
+                ],
+                "effective_periods": [
+                    "YA 2019 - YA 2025"
+                ],
+                "categories_entitled_to_claim": [
+                    "Employer [Amendments to P.U. (A) 164/2019]"
+                ],
+                "effective_start_date": "2019-01-01",
+                "effective_end_date": "2025-12-31",
+                "section_number": "2",
+                "start_date": "2019-01-01",
+                "end_date": "2025-12-31"
+            },
+            {
+                "code": "226",
+                "type_of_expenditure": "Deduction for expenses in relation to the cost of detection test of coronavirus disease 2019 (Covid - 19) for employees",
+                "references": [
+                    "P.U. (A) 404/2021"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2021"
+                ],
+                "categories_entitled_to_claim": [
+                    "Employer [Amendments to P.U. (A) 404/2021]"
+                ],
+                "effective_start_date": "2021-01-01",
+                "effective_end_date": null,
+                "section_number": "2",
+                "start_date": "2021-01-01",
+                "end_date": null
+            },
+            {
+                "code": "227",
+                "type_of_expenditure": "Deduction for expenditure on provision of employees’ accommodation",
+                "references": [
+                    "P.U. (A) 470/2021"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2021"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2021-01-01",
+                "effective_end_date": null,
+                "section_number": "2",
+                "start_date": "2021-01-01",
+                "end_date": null
+            },
+            {
+                "code": "301",
+                "type_of_expenditure": "Revenue expenditure incurred on approved research",
+                "references": [
+                    "Section 34A ITA 1967"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 1991"
+                ],
+                "categories_entitled_to_claim": [
+                    "Person"
+                ],
+                "effective_start_date": "1991-01-01",
+                "effective_end_date": null,
+                "section_number": "3",
+                "start_date": "1991-01-01",
+                "end_date": null
+            },
+            {
+                "code": "302",
+                "type_of_expenditure": "Cash contributions to an approved research institute or payment for the use of services of an approved research institute/company, a research and development company or contract research and development company",
+                "references": [
+                    "Section 34B ITA 1967"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 1991"
+                ],
+                "categories_entitled_to_claim": [
+                    "Person"
+                ],
+                "effective_start_date": "1991-01-01",
+                "effective_end_date": null,
+                "section_number": "3",
+                "start_date": "1991-01-01",
+                "end_date": null
+            },
+            {
+                "code": "303",
+                "type_of_expenditure": "Expenditure on approved training of employees for manufacturing companies which have not commenced business; and approved training of handicapped persons who are not employees of the company",
+                "references": [
+                    "P.U. (A) 61/1992",
+                    "P.U. (A) 212/1992",
+                    "[Amendments to P.U. (A) 61/1992]",
+                    "P.U. (A) 111/1995",
+                    "[Amendments to P.U. (A) 61/1992]"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 1991",
+                    "W.e.f YA 1992"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "1991-01-01",
+                "effective_end_date": null,
+                "section_number": "3",
+                "start_date": "1991-01-01",
+                "end_date": null
+            },
+            {
+                "code": "306",
+                "type_of_expenditure": "Promotion of export of professional services",
+                "references": [
+                    "P.U. (A) 124/2003",
+                    "P.U. (A) 270/2005",
+                    "[Amendments to P.U. (A) 124/2003]"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2003",
+                    "W.e.f YA 2005"
+                ],
+                "categories_entitled_to_claim": [
+                    "Resident person"
+                ],
+                "effective_start_date": "2003-01-01",
+                "effective_end_date": null,
+                "section_number": "3",
+                "start_date": "2003-01-01",
+                "end_date": null
+            },
+            {
+                "code": "307",
+                "type_of_expenditure": "Professional fees incurred in packaging design",
+                "references": [
+                    "P.U. (A) 170/2001"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2001"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2001-01-01",
+                "effective_end_date": null,
+                "section_number": "3",
+                "start_date": "2001-01-01",
+                "end_date": null
+            },
+            {
+                "code": "308",
+                "type_of_expenditure": "Expenditure incurred for the purpose of obtaining certification for recognized quality systems and standards, and halal certification",
+                "references": [
+                    "Paragraph 34(6)(ma) ITA 1967"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2005"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2005-01-01",
+                "effective_end_date": null,
+                "section_number": "3",
+                "start_date": "2005-01-01",
+                "end_date": null
+            },
+            {
+                "code": "310",
+                "type_of_expenditure": "Unemployed graduates’ allowances. Deduction for allowances paid to a trainee for undergoing training programme.",
+                "references": [
+                    "P.U. (A) 387/2005"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2004",
+                    "W.e.f 01.02.2004 - 31.01.2007"
+                ],
+                "categories_entitled_to_claim": [
+                    "Banking institution, insurance company or takaful operator who is resident"
+                ],
+                "effective_start_date": "2004-01-01",
+                "effective_end_date": null,
+                "section_number": "3",
+                "start_date": "2004-01-01",
+                "end_date": null
+            },
+            {
+                "code": "311",
+                "type_of_expenditure": "Allowances under the Capital Market Training Scheme for unemployed graduates",
+                "references": [
+                    "P.U. (A) 172/2007 (Revokes P.U. (A) 203/2006)"
+                ],
+                "effective_periods": [
+                    "W.e.f 02.09.2006"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2006-09-02",
+                "effective_end_date": null,
+                "section_number": "3",
+                "start_date": "2006-09-02",
+                "end_date": null
+            },
+            {
+                "code": "312",
+                "type_of_expenditure": "Promotion of exports - registration of patents, trademarks and product licensing overseas",
+                "references": [
+                    "P.U. (A) 14/2007"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2006"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2006-01-01",
+                "effective_end_date": null,
+                "section_number": "3",
+                "start_date": "2006-01-01",
+                "end_date": null
+            },
+            {
+                "code": "313",
+                "type_of_expenditure": "Deduction for expenditure incurred for the provision of an approved internship programme",
+                "references": [
+                    "P.U. (A) 130/2012",
+                    "P.U. (A) 398/2019",
+                    "Paragraph 2 (a):",
+                    "Paragraph 2 (b):",
+                    "P.U. (A) 188/2023",
+                    "[Amendments to P.U. (A) 398/2019]"
+                ],
+                "effective_periods": [
+                    "YA 2012 - YA 2016",
+                    "YA 2015 - YA 2016",
+                    "YA 2017 - YA 2021",
+                    "W.e.f YA 2022"
+                ],
+                "categories_entitled_to_claim": [
+                    "Resident person (person who is approved by Talentcorp Corporation Malaysia Berhad to conduct an approved internship programme)"
+                ],
+                "effective_start_date": "2012-01-01",
+                "effective_end_date": null,
+                "section_number": "3",
+                "start_date": "2012-01-01",
+                "end_date": null
+            },
+            {
+                "code": "314",
+                "type_of_expenditure": "Deduction for the sponsorship of scholarship to student of higher educational institution",
+                "references": [
+                    "P.U. (A) 228/2012"
+                ],
+                "effective_periods": [
+                    "YA 2011 - YA 2016"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2011-01-01",
+                "effective_end_date": "2016-12-31",
+                "section_number": "3",
+                "start_date": "2011-01-01",
+                "end_date": "2016-12-31"
+            },
+            {
+                "code": "315",
+                "type_of_expenditure": "Deduction for contribution by licensed insurers to the Malaysian Motor Insurance Pool",
+                "references": [
+                    "P.U. (A) 419/2012"
+                ],
+                "effective_periods": [
+                    "YA 2011 - YA 2015"
+                ],
+                "categories_entitled_to_claim": [
+                    "Licensed insurer"
+                ],
+                "effective_start_date": "2011-01-01",
+                "effective_end_date": "2015-12-31",
+                "section_number": "3",
+                "start_date": "2011-01-01",
+                "end_date": "2015-12-31"
+            },
+            {
+                "code": "316",
+                "type_of_expenditure": "Deduction for expenditure on issuance of Agro Sukuk",
+                "references": [
+                    "P.U. (A) 305/2013"
+                ],
+                "effective_periods": [
+                    "YA 2013 - YA 2015"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2013-01-01",
+                "effective_end_date": "2015-12-31",
+                "section_number": "3",
+                "start_date": "2013-01-01",
+                "end_date": "2015-12-31"
+            },
+            {
+                "code": "317",
+                "type_of_expenditure": "Deduction for cash contribution to Bantuan Pelajar Miskin 1Malaysia Fund",
+                "references": [
+                    "P.U. (A) 340/2013"
+                ],
+                "effective_periods": [
+                    "YA 2012 - YA 2017"
+                ],
+                "categories_entitled_to_claim": [
+                    "Resident person",
+                    "Company",
+                    "Limited liability partnership",
+                    "Co-operative society"
+                ],
+                "effective_start_date": "2012-01-01",
+                "effective_end_date": "2017-12-31",
+                "section_number": "3",
+                "start_date": "2012-01-01",
+                "end_date": "2017-12-31"
+            },
+            {
+                "code": "318",
+                "type_of_expenditure": "Deduction for expenditure in relation to Vendor Development Programme",
+                "references": [
+                    "P.U. (A) 169/2014",
+                    "P.U. (A) 73/2017",
+                    "[Amendments to P.U. (A) 169/2014]",
+                    "P.U. (A) 2/2022"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2014",
+                    "W.e.f YA 2017",
+                    "W.e.f YA 2021",
+                    "(MOU signed from 01.01.2021 – 31.12.2025)"
+                ],
+                "categories_entitled_to_claim": [
+                    "Anchor company"
+                ],
+                "effective_start_date": "2014-01-01",
+                "effective_end_date": null,
+                "section_number": "3",
+                "start_date": "2014-01-01",
+                "end_date": null
+            },
+            {
+                "code": "319",
+                "type_of_expenditure": "Deduction for consultation and training costs for the implementation of flexible work arrangements",
+                "references": [
+                    "P.U. (A) 134/2015",
+                    "P.U. (A) 377/2021"
+                ],
+                "effective_periods": [
+                    "W.e.f YA 2014",
+                    "W.e.f YA 2020",
+                    "Application period: 01.07.2021 – 31.12.2022"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company",
+                    "Limited liability partnership",
+                    "Partnership"
+                ],
+                "effective_start_date": "2014-01-01",
+                "effective_end_date": null,
+                "section_number": "3",
+                "start_date": "2014-01-01",
+                "end_date": null
+            },
+            {
+                "code": "320",
+                "type_of_expenditure": "Deduction for training costs under: i. Skim Latihan 1 Malaysia for unemployed graduates ii. Professional Training and Education for Growing Entrepreneurs (PROTÉGÉ - Ready To Work (RTW) Programme 2021) iii. National Dual Training System (NDTS)",
+                "references": [
+                    "P.U. (A) 260/2013",
+                    "P.U. (A) 53/2015",
+                    "P.U. (A) 228/2021",
+                    "P.U. (A) 390/2021"
+                ],
+                "effective_periods": [
+                    "Approval date from 01.06.2012 – 31.12.2016",
+                    "W.e.f YA 2015",
+                    "Approval date from 11.09.2019 – 31.12.2025",
+                    "W.e.f YA 2019",
+                    "Approval date from 01.01.2019 – 31.12.2021"
+                ],
+                "categories_entitled_to_claim": [
+                    "Company"
+                ],
+                "effective_start_date": "2012-06-01",
+                "effective_end_date": null,
+                "section_number": "3",
+                "start_date": "2012-06-01",
+                "end_date": null
+            },
+            {
+                "code": "321",
+                "type_of_expenditure": "Deduction for expenses on the issuance of sukuk and sukuk structured in accordance with the Wakalah Principle [additional expenses – paragraph (1)(b)]",
+                "references": [
+                    "P.U. (A) 5/2021"
+                ],
+                "effective_periods": [
+                    "YA 2021 - YA 2025"
+                ],
+                "categories_entitled_to_claim": [
+                    "Companies resident in Malaysia incorporated under the Companies Act 2016 or the Labuan Companies Act 1990"
+                ],
+                "effective_start_date": "2021-01-01",
+                "effective_end_date": "2025-12-31",
+                "section_number": "3",
+                "start_date": "2021-01-01",
+                "end_date": "2025-12-31"
+            }
+        ]
+    }
+]

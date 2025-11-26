@@ -5,8 +5,17 @@ export interface Option {
 
 export interface ShowIf {
   fieldId?: string;
-  operator: 'equals' | 'not_equals' | 'or' | 'and';
+  operator:
+    | 'equals'
+    | 'not_equals'
+    | 'or'
+    | 'and'
+    | 'gt'
+    | 'gte'
+    | 'lt'
+    | 'lte';
   value?: any;
+  valueFromField?: string;
   conditions?: ShowIf[];
 }
 
@@ -40,14 +49,21 @@ export type InputType =
 
 export interface FormTemplateField {
   id: string;
-  label: string;
-  inputType: InputType;
+  label?: string;
+  inputType: string;
   required?: boolean;
-  show_if?: ShowIf;
-  options?: Option[];
+  show_if?: any;
+  options?: any[];
   itemStructure?: ItemStructure;
   lookupSlug?: string;
   isLabelHidden?: boolean;
+  multiline?: boolean;
+  addForm?: string;
+  readonly?: boolean;
+  itemFilter?: ShowIf;
+  displayFormat?: string;
+  fetchFromGenericService?: boolean;
+  valueKey?: string;
 }
 
 export interface FormTemplateSection {

@@ -25,7 +25,7 @@
         </Button>
       </div>
     </PopoverTrigger>
-    <PopoverContent class="z-[999] w-[--radix-popover-trigger-width] p-0">
+    <PopoverContent class="z-[3000] w-[--radix-popover-trigger-width] p-0">
       <div class="max-h-60 overflow-y-auto">
         <div v-if="filteredItems.length === 0" class="py-6 text-center text-sm">
           No results found.
@@ -44,7 +44,7 @@
           }"
           @click="handleSelect(item)"
         >
-          {{ item.columns[displayKey] }}
+          {{ formatItemDisplay(item) }}
         </div>
       </div>
     </PopoverContent>
@@ -54,6 +54,7 @@
 <script lang="ts" setup>
 import { ref, onMounted, computed, watch } from 'vue';
 import * as lookupService from '../services';
+import { getLookupData } from '../services/generic_form_service';
 import { ChevronsUpDown } from 'lucide-vue-next';
 import {
   Button,
@@ -62,17 +63,82 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@vben-core/shadcn-ui';
+import type { ShowIf } from '../form_c/types';
+import { evaluateShowIfCondition } from '../form_c/composables/useShowIfEngine';
 
 const props = defineProps<{
   modelValue: any;
   lookupSlug: string;
+  itemFilter?: ShowIf;
+  displayFormat?: string;
+  fetchFromGenericService?: boolean;
+  formData?: Record<string, any>;
+  valueKey?: string; // Add valueKey to props
 }>();
 
 const emit = defineEmits(['update:modelValue', 'lookup-error']);
 
-const items = ref<any[]>([]);
-const displayKey = ref('value');
-const valueKey = ref('value');
+const rawData = ref<any[]>([]);
+
+// Make valueKey reactive to props.valueKey changes
+const valueKey = computed(() => {
+  if (props.valueKey) {
+    return props.valueKey;
+  }
+
+  // Fallback heuristics if no prop provided
+  if (rawData.value.length === 0) return 'id';
+
+  const sampleItem = rawData.value[0].columns || rawData.value[0];
+  const keys = Object.keys(sampleItem || {});
+
+  return (
+    keys.find((k) => k.toLowerCase() === 'code') ||
+    keys.find((k) => k.toLowerCase() === 'id') ||
+    keys[0] ||
+    'id'
+  );
+});
+
+const displayKey = computed(() => {
+  if (rawData.value.length === 0) return 'id';
+
+  const sampleItem = rawData.value[0].columns || rawData.value[0];
+  const keys = Object.keys(sampleItem || {});
+
+  const rankedKeywords = [
+    'name',
+    'title',
+    'label',
+    'display',
+    'description',
+    'desc',
+    'value',
+    'code',
+  ];
+
+  for (const keyword of rankedKeywords) {
+    const foundKey = keys.find((key) => key.toLowerCase().includes(keyword));
+    if (foundKey) return foundKey;
+  }
+
+  return keys[0] || 'id';
+});
+
+// Map items reactively based on current valueKey
+const items = computed(() => {
+  if (rawData.value.length === 0) return [];
+
+  return rawData.value.map((item: any) => {
+    const columns = item.columns || item;
+    const id =
+      columns[valueKey.value] || item.id || item.code || JSON.stringify(item);
+    return {
+      id: String(id),
+      columns,
+    };
+  });
+});
 const open = ref(false);
 
 // The value displayed in the input. Can be user input or a highlighted item's label.
@@ -83,31 +149,85 @@ const internalSearchQuery = ref('');
 const highlightedIndex = ref(-1);
 const itemRefs = ref<HTMLElement[]>([]);
 
+// Helper to format item display
+const formatItemDisplay = (item: any) => {
+  if (props.displayFormat) {
+    return props.displayFormat.replaceAll(/\{(\w+)\}/g, (_, key) => {
+      return item.columns[key] || '';
+    });
+  }
+  return item.columns[displayKey.value];
+};
+
 // Sync displayedValue with modelValue when the component loads or modelValue changes externally
 watch(
   () => props.modelValue,
   (newValue) => {
-    displayedValue.value = newValue;
+    // If we have items, try to find the selected item to display its formatted label
+    if (items.value.length > 0) {
+      const selectedItem = items.value.find(
+        (item) => item.columns[valueKey.value] === newValue,
+      );
+      displayedValue.value = selectedItem
+        ? formatItemDisplay(selectedItem)
+        : newValue;
+    } else {
+      displayedValue.value = newValue;
+    }
     internalSearchQuery.value = ''; // Reset internal search
   },
   { immediate: true },
 );
 
+// When items load, re-sync displayed value if we have a modelValue
+watch(items, () => {
+  if (props.modelValue) {
+    const selectedItem = items.value.find(
+      (item) => item.columns[valueKey.value] === props.modelValue,
+    );
+    if (selectedItem) {
+      displayedValue.value = formatItemDisplay(selectedItem);
+    }
+  }
+});
+
 // When popover closes, reset state
 watch(open, (isOpen) => {
   if (!isOpen) {
     highlightedIndex.value = -1;
-    // Revert the displayed value to the last saved value
-    displayedValue.value = props.modelValue;
+    // Revert the displayed value to the last saved value (formatted)
+    if (props.modelValue && items.value.length > 0) {
+      const selectedItem = items.value.find(
+        (item) => item.columns[valueKey.value] === props.modelValue,
+      );
+      displayedValue.value = selectedItem
+        ? formatItemDisplay(selectedItem)
+        : props.modelValue;
+    } else {
+      displayedValue.value = props.modelValue;
+    }
   }
 });
 
 const filteredItems = computed(() => {
-  if (!internalSearchQuery.value) {
-    return items.value;
+  let result = items.value;
+
+  // Apply item filter if present
+  if (props.itemFilter) {
+    result = result.filter((item) =>
+      evaluateShowIfCondition(props.itemFilter!, {
+        ...props.formData,
+        ...item.columns,
+      }),
+    );
   }
-  return items.value.filter((item) => {
-    const value = item.columns[displayKey.value];
+
+  if (!internalSearchQuery.value) {
+    return result;
+  }
+
+  return result.filter((item) => {
+    const value = formatItemDisplay(item);
     return (
       value &&
       typeof value === 'string' &&
@@ -126,7 +246,7 @@ watch(highlightedIndex, (newIndex) => {
   if (newIndex > -1) {
     const highlightedItem = filteredItems.value[newIndex];
     if (highlightedItem) {
-      displayedValue.value = highlightedItem.columns[displayKey.value];
+      displayedValue.value = formatItemDisplay(highlightedItem);
       itemRefs.value[newIndex]?.scrollIntoView({ block: 'nearest' });
     }
   }
@@ -143,7 +263,7 @@ function handleTyping(event: Event) {
 function handleSelect(item: any) {
   const selectedValue = item.columns[valueKey.value];
   emit('update:modelValue', selectedValue);
-  displayedValue.value = selectedValue;
+  displayedValue.value = formatItemDisplay(item);
   internalSearchQuery.value = '';
   open.value = false;
 }
@@ -182,39 +302,16 @@ function handleEscape() {
 
 onMounted(async () => {
   try {
-    const result = await lookupService.listItems(props.lookupSlug, {
-      perPage: 1000,
-    });
-    const fetchedItems = Array.isArray(result) ? result : result?.items || [];
-
-    if (fetchedItems.length > 0) {
-      const keys = Object.keys(fetchedItems[0].columns || {});
-      const rankedKeywords = [
-        'name',
-        'title',
-        'label',
-        'display',
-        'description',
-        'desc',
-        'value',
-      ];
-      let descriptiveKey = '';
-      for (const keyword of rankedKeywords) {
-        const foundKey = keys.find((key) =>
-          key.toLowerCase().includes(keyword),
-        );
-        if (foundKey) {
-          descriptiveKey = foundKey;
-          break;
-        }
-      }
-      if (!descriptiveKey) {
-        descriptiveKey = keys[0] || 'id';
-      }
-      displayKey.value = descriptiveKey;
-      valueKey.value = descriptiveKey;
+    if (props.fetchFromGenericService) {
+      const data = await getLookupData(props.lookupSlug);
+      rawData.value = data || [];
+    } else {
+      const result = await lookupService.listItems(props.lookupSlug, {
+        perPage: 1000,
+      });
+      const fetchedItems = Array.isArray(result) ? result : result?.items || [];
+      rawData.value = fetchedItems;
     }
-    items.value = fetchedItems;
   } catch (error) {
     console.error(
       `[LookupSelect] Failed to load items for lookup slug "${props.lookupSlug}":`,

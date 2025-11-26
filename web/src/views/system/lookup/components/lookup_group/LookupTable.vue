@@ -184,6 +184,7 @@
     />
 
     <lookup-item-form ref="lookupItemFormRef" @save="handleCreateOrUpdate" />
+    <GenericFormModal ref="genericFormModalRef" @save="handleGenericSave" />
   </div>
 </template>
 
@@ -191,8 +192,14 @@
 import { ref, computed, watch, onMounted, getCurrentInstance } from 'vue';
 import { DeleteConfirm } from '../../../shared_components';
 import { LookupItemForm, GroupActions } from '..';
+import GenericFormModal from '../../../form_c/components/GenericFormModal.vue';
 import * as lookupService from '../../../services';
-import { notifySuccess, notifyError, formatNumber } from '../../utils';
+import {
+  notifySuccess,
+  notifyError,
+  formatNumber,
+  normalizeString,
+} from '../../utils';
 import { Button, Input } from '@vben-core/shadcn-ui';
 import { X } from '@vben/icons';
 
@@ -209,6 +216,7 @@ const props = withDefaults(
     selection?: string[];
     showActions?: boolean;
     selectionDisabled?: boolean;
+    addForm?: string;
   }>(),
   {
     columns: () => [],
@@ -218,6 +226,7 @@ const props = withDefaults(
     selection: () => [],
     showActions: true,
     selectionDisabled: false,
+    addForm: undefined,
   },
 );
 
@@ -234,6 +243,7 @@ const emit = defineEmits<{
 
 // Reactive state
 const lookupItemFormRef = ref<any>(null);
+const genericFormModalRef = ref<any>(null);
 const localItems = ref<any[]>((props.items && [...props.items]) || []);
 const page = ref(1);
 const pageInput = ref(1);
@@ -256,6 +266,10 @@ const visibleItemIds = computed(
 const getFormattedValue = (value: any, column: any): string => {
   if (column.type === 'currency' || column.type === 'number') {
     return formatNumber(value);
+  }
+  // If it's a string value and not explicitly marked as raw, normalize it
+  if (typeof value === 'string' && column.type !== 'raw') {
+    return normalizeString(value);
   }
   return value || '';
 };
@@ -511,12 +525,16 @@ function cancelDelete() {
  * Open the item form in "add" mode.
  */
 function openAdd() {
-  lookupItemFormRef.value?.open({
-    initial: null,
-    columns: columns.value,
-    group: props.group || effectiveAttr('group') || null,
-    groupId: effectiveGroupId(),
-  });
+  if (props.addForm) {
+    genericFormModalRef.value?.open(props.addForm);
+  } else {
+    lookupItemFormRef.value?.open({
+      initial: null,
+      columns: columns.value,
+      group: props.group || effectiveAttr('group') || null,
+      groupId: effectiveGroupId(),
+    });
+  }
 }
 
 /**
@@ -529,6 +547,10 @@ function openEdit(item: any) {
     group: props.group || effectiveAttr('group') || null,
     groupId: effectiveGroupId(),
   });
+}
+
+function handleGenericSave(data: any) {
+  handleCreateOrUpdate({ columns: data });
 }
 
 /**

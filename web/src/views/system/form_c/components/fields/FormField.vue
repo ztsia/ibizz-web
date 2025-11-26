@@ -81,13 +81,25 @@
           <!-- Countries/States with LookupSelect -->
           <LookupSelect
             v-if="
-              field.inputType === 'countries' || field.inputType === 'states'
+              field.inputType === 'countries' ||
+              field.inputType === 'states' ||
+              field.inputType === 'lookup_select'
             "
             v-model="fieldValue"
             :lookup-slug="
-              field.inputType === 'countries' ? 'country-code' : 'state-code'
+              field.inputType === 'countries'
+                ? 'country-code'
+                : field.inputType === 'states'
+                  ? 'state-code'
+                  : field.lookupSlug || ''
             "
             :class="{ 'border-destructive': error }"
+            :disabled="field.readonly"
+            :item-filter="field.itemFilter"
+            :display-format="field.displayFormat"
+            :fetch-from-generic-service="field.fetchFromGenericService"
+            :form-data="formData"
+            :value-key="field.valueKey"
           />
 
           <!-- Text, Number, Email, Date -->
@@ -100,6 +112,7 @@
             v-model="fieldValue"
             class="w-full"
             :class="{ 'border-destructive': error }"
+            :disabled="field.readonly"
           />
 
           <InputNumber
@@ -113,6 +126,7 @@
             style="width: 100%"
             class="h-10"
             :class="{ 'border-destructive': error }"
+            :disabled="field.readonly"
           />
 
           <!-- Radio buttons -->
@@ -121,7 +135,7 @@
             class="rounded-md"
             :class="{ 'border-destructive border p-2': error }"
           >
-            <RadioGroup v-model="fieldValue">
+            <RadioGroup v-model="fieldValue" :disabled="field.readonly">
               <div :class="radioLayoutClass">
                 <div
                   class="flex items-center space-x-2"
@@ -131,6 +145,7 @@
                   <RadioGroupItem
                     :value="option.value"
                     :id="`${field.id}-${option.value}`"
+                    :disabled="field.readonly"
                   />
                   <Label
                     :for="`${field.id}-${option.value}`"
@@ -158,6 +173,7 @@
                 @update:checked="
                   (checked) => onCheckboxChange(option.value, checked)
                 "
+                :disabled="field.readonly"
               />
               <Label
                 :for="`${field.id}-${option.value}`"
@@ -176,13 +192,18 @@
               :checked="fieldValue"
               @update:checked="fieldValue = $event"
               :class="{ 'border-destructive': error }"
+              :disabled="field.readonly"
             />
             <Label :for="field.id" class="cursor-pointer font-normal">{{
               field.label
             }}</Label>
           </div>
           <!-- Select dropdown -->
-          <Select v-else-if="field.inputType === 'select'" v-model="fieldValue">
+          <Select
+            v-else-if="field.inputType === 'select'"
+            v-model="fieldValue"
+            :disabled="field.readonly"
+          >
             <SelectTrigger
               :id="field.id"
               :class="{ 'border-destructive': error }"
@@ -256,7 +277,7 @@ const props = defineProps<{
 watch(
   () => props.field,
   (_newField) => {
-    // console.log('FormField received field:', _newField);
+    // Reserved for future field change handling
   },
   { immediate: true, deep: true },
 );

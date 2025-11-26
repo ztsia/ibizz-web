@@ -91,12 +91,13 @@ function normalizeRow(r: any) {
  * @param {any} [opts] - Options object: { page, perPage, q, count }.
  * @returns {Promise<Array<any> | {items: Array<any>, total: number}>} An array of items or an object with items and total count.
  *
+ * @endpoint GET /api/lookup/data/:slug
  * @backend_implementation
- * This function should query the specific table for the given `groupId` (e.g., `lookup_countries`).
- * - `page` & `perPage`: Implement pagination using `LIMIT` and `OFFSET`.
- * - `q`: Implement full-text search across all relevant text/JSON columns. The original used `ilike` with wildcards.
- * - `count`: If true, the response must include the total number of matching records, typically via a `Content-Range` header or in the response body.
- * Original Supabase/PostgREST URL: `/rest/v1/lookup_my_group?limit=10&offset=0&or=(col1.ilike.*search*,col2.ilike.*search*)`
+ * Query `lookup_tables` collection with Aggregation Pipeline.
+ * Match by `slug`.
+ * Project `rows` with `$filter` for search (`q`).
+ * Slice `rows` for pagination (`page`, `perPage`).
+ * See `migration_guide.md` for details.
  */
 export async function listItems(groupId: string | null, opts: any = {}) {
   await delay();
@@ -161,12 +162,10 @@ export async function findItemsByCode(groupId: string | null, code: any) {
  * Insert a new item into the group's table. The mock assigns an `id`
  * when none is provided and returns the normalized result.
  *
- * Backend guidance:
- * - Validate the payload server-side. Do not trust client-supplied ids or
- *   other invariant fields.
- * - To enforce uniqueness (e.g., unique `code`), use a database unique
- *   constraint and surface a clear 409 Conflict when the constraint is
- *   violated.
+ * @endpoint POST /api/lookup/data/:slug
+ * @backend_implementation
+ * Update `lookup_tables` document.
+ * `$push` new item to `rows` array.
  */
 export async function createItem(groupId: string | null, item: any) {
   await delay();
@@ -188,18 +187,11 @@ export async function createItem(groupId: string | null, item: any) {
  * treat updates as atomic operations and consider optimistic concurrency
  * when multiple actors may modify the same row.
  *
- * Backend guidance (optimistic concurrency):
- * - Prefer a single atomic update that includes a concurrency predicate
- *   in the filter. Examples:
- *   - SQL: `UPDATE ... WHERE id = :id AND version = :clientVersion` and
- *     check affected rows.
- *   - MongoDB: `findOneAndUpdate({ _id: id, version: clientVersion }, { $set: ..., $inc: { version: 1 } }, { returnDocument: 'after' })`.
- * - If the update affects no document, return 409 Conflict (client has a
- *   stale copy).
- * - Ensure the server sets `updated_at` and increments `version` (server-
- *   authoritative values) rather than relying on client-supplied values.
- * - Keep update payload validation strict and ignore or reject writes to
- *   view-only columns where appropriate.
+ * @endpoint PUT /api/lookup/data/:slug/row/:rowId
+ * @backend_implementation
+ * Update `lookup_tables` document.
+ * Match `slug` and `rows.id`.
+ * Use `$set` to update specific fields in `rows.$`.
  */
 export async function updateItem(
   groupId: string | null,
@@ -241,10 +233,9 @@ export async function deleteItem(groupId: string | null, itemId: any) {
  * should be driven by the database schema (information_schema) or a
  * documented schema store rather than ad-hoc JSON.
  *
- * Backend guidance:
- * - Expose stable metadata for client-side form generation and validation.
- * - Consider caching or a lightweight schema registry for performance
- *   rather than querying database system tables on every request.
+ * @backend_implementation
+ * Query `lookup_tables` collection.
+ * Return `metadata.columns_schema`.
  */
 export async function getTableColumns(groupSlug: string | null) {
   await delay();
@@ -271,12 +262,8 @@ export async function getTableColumns(groupSlug: string | null) {
  * group. In the mock this simply ensures there's an array on `db` for the
  * derived table name.
  *
- * Backend guidance:
- * - Creating/dropping tables is a privileged operation and should be
- *   guarded. Consider migrations and schema versioning when supporting
- *   dynamic table creation.
- * - The production implementation may use a transactional step or a
- *   provisioning job to create the table and any required indexes.
+ * @backend_implementation
+ * No-op in MongoDB single-collection design as the document creation handles it.
  */
 export async function ensureTableForGroup(group: any) {
   await delay();

@@ -13,11 +13,12 @@ import { db, delay, genId } from './';
  * @param {string} categoryId - The ID/slug of the category to filter by.
  * @returns {Promise<Array<any>>} A promise that resolves to an array of group objects.
  *
+ * @endpoint GET /api/lookup/groups?category_id={categoryId}
  * @backend_implementation
- * This function should query the `lookup_groups` table.
- * It should filter the results where `category_id` matches the provided `categoryId`.
- * The results should be ordered alphabetically by `title` (`order=title.asc`).
- * Original Supabase/PostgREST URL: `/rest/v1/lookup_groups?category_id=eq.{categoryId}&order=title.asc`
+ * Query `lookup_tables` collection.
+ * Filter by `metadata.category_id` if provided.
+ * Project `metadata` field.
+ * See `migration_guide.md` for details.
  */
 export async function listGroups(categoryId: string) {
   await delay();
@@ -32,10 +33,11 @@ export async function listGroups(categoryId: string) {
  * @param {string} slug - The unique slug of the group.
  * @returns {Promise<object|null>} A promise that resolves to the matched group object, or null if not found.
  *
+ * @endpoint GET /api/lookup/groups/:slug
  * @backend_implementation
- * This function should query the `lookup_groups` table for a single record.
- * It needs to filter by both `category_id` and `slug` for a unique match.
- * Original Supabase/PostgREST URL: `/rest/v1/lookup_groups?category_id=eq.{categoryId}&slug=eq.{slug}`
+ * Query `lookup_tables` collection.
+ * Find one document where `slug` matches.
+ * Return `metadata` only (exclude `rows`).
  */
 export async function getGroup(categoryId: string, slug: string) {
   await delay();
@@ -54,13 +56,10 @@ export async function getGroup(categoryId: string, slug: string) {
  * @param {any} group - The group data to create.
  * @returns {Promise<object>} A promise that resolves to the newly created group object.
  *
+ * @endpoint POST /api/lookup/groups
  * @backend_implementation
- * This function should insert a new row into the `lookup_groups` table.
- * After creating the group record, it must also provision a new data table for the group's items.
- * The table name is typically derived from the group's slug (e.g., `lookup_my_group`).
- * The schema for this new table is defined by the `columns_schema` property of the group.
- * The original implementation used a Supabase RPC function `create_lookup_group` to handle both the insert and the table creation in a single transaction.
- * The API should return the full representation of the newly created group.
+ * Insert new document into `lookup_tables`.
+ * Structure: `{ slug, metadata: group, rows: [] }`.
  */
 export async function createGroup(group: any) {
   await delay();
@@ -109,11 +108,10 @@ function ensureLookupTableForGroup(slug: string) {
  * @param {any} updates - An object containing the fields to update.
  * @returns {Promise<object|null>} A promise that resolves to the updated group object, or null if not found.
  *
+ * @endpoint PUT /api/lookup/groups/:slug
  * @backend_implementation
- * This function should update a record in the `lookup_groups` table identified by its `id`.
- * If the `columns_schema` is being changed, the backend should first verify that the associated data table is empty.
- * The original implementation used a Supabase RPC function `update_lookup_group` to handle these checks and updates.
- * The RPC function took parameters like `p_group_id`, `p_title`, `p_columns`, etc.
+ * Update document in `lookup_tables` where `metadata.id` matches.
+ * Update fields within `metadata` object.
  */
 export async function updateGroup(id: string, updates: any) {
   await delay();
@@ -142,19 +140,14 @@ export async function updateGroup(id: string, updates: any) {
     if (db[oldTable]) {
       // rename by moving the array value
       db[newTable] = db[oldTable];
-      db[oldTable] = undefined;
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+      delete db[oldTable];
     }
     // update slug in the existing metadata row (will be persisted below)
     existing.slug = newSlug;
   }
 
   // Prepare resulting columns/code_format for ensure step
-  let v_cols = existing.columns_schema;
-  let v_code_fmt = existing.code_format;
-  if (updates && updates.columns_schema !== undefined)
-    v_cols = updates.columns_schema;
-  if (updates && updates.code_format !== undefined)
-    v_code_fmt = updates.code_format;
 
   // Persist metadata updates (apply partial updates similar to SQL)
   const updated = Object.assign({}, existing, {
@@ -206,10 +199,9 @@ export async function updateGroup(id: string, updates: any) {
  * @param {string} id - The UUID of the group to delete.
  * @returns {Promise<object|null>} A promise that resolves to the removed group object, or null if not found.
  *
+ * @endpoint DELETE /api/lookup/groups/:slug
  * @backend_implementation
- * This function should delete a record from the `lookup_groups` table.
- * It must also drop the associated data table (e.g., `lookup_my_group`).
- * The original implementation used a Supabase RPC function `delete_lookup_group` which accepted `p_group_id` and a boolean `p_drop_table` to handle this atomically.
+ * Delete document from `lookup_tables` where `metadata.id` matches.
  */
 export async function deleteGroup(id: string) {
   await delay();
