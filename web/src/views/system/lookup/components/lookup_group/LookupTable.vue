@@ -27,6 +27,14 @@
           </Button>
         </div>
       </div>
+      <Button
+        v-if="props.selection.length > 0"
+        variant="destructive"
+        data-test="delete-selected"
+        @click="confirmBulkDelete"
+      >
+        Delete Selected
+      </Button>
       <Button v-if="props.showActions" data-test="add-item" @click="openAdd">
         Add Item
       </Button>
@@ -36,13 +44,13 @@
       <table data-test="lookup-table" class="w-full text-sm">
         <thead class="bg-background">
           <tr>
-            <th v-if="props.selectable" class="w-12 px-4 py-3 text-center">
+            <th class="w-12 px-4 py-3 text-center">
               <input
                 ref="selectAllCheckbox"
                 type="checkbox"
                 class="border-input text-primary focus:ring-primary h-4 w-4 rounded disabled:opacity-50"
                 :checked="isAllSelected"
-                :disabled="props.selectionDisabled"
+                :disabled="props.selectionDisabled || localItems.length === 0"
                 title="Select All"
                 @change="toggleSelectAll"
               />
@@ -65,18 +73,14 @@
         <tbody>
           <tr v-if="!loadingPage && localItems && localItems.length === 0">
             <td
-              :colspan="
-                columns.length +
-                (props.selectable ? 1 : 0) +
-                (props.showActions ? 1 : 0)
-              "
+              :colspan="columns.length + 1 + (props.showActions ? 1 : 0)"
               class="border-t px-4 py-3 text-center"
             >
               No records found.
             </td>
           </tr>
           <tr v-for="item in localItems" :key="item.id" class="border-t">
-            <td v-if="props.selectable" class="px-4 py-3 text-center">
+            <td class="px-4 py-3 text-center">
               <input
                 type="checkbox"
                 class="border-input text-primary focus:ring-primary h-4 w-4 rounded disabled:opacity-50"
@@ -212,7 +216,6 @@ const props = withDefaults(
     groupId?: string | null;
     group?: any | null;
     hasPager?: boolean;
-    selectable?: boolean;
     selection?: string[];
     showActions?: boolean;
     selectionDisabled?: boolean;
@@ -222,7 +225,6 @@ const props = withDefaults(
     columns: () => [],
     items: () => [],
     hasPager: true,
-    selectable: false,
     selection: () => [],
     showActions: true,
     selectionDisabled: false,
@@ -256,6 +258,7 @@ const searchQuery = ref('');
 let _searchTimer: any = null;
 const showDeleteModal = ref(false);
 const deleteTarget = ref<any | null>(null);
+const isBulkDelete = ref(false);
 const selectAllCheckbox = ref<HTMLInputElement | null>(null);
 
 // Computed properties for the "Select All" checkbox state
@@ -360,6 +363,9 @@ const effectiveGroupId = () =>
  * or the fallback stringified id.
  */
 const deleteTargetLabel = computed(() => {
+  if (isBulkDelete.value) {
+    return `${props.selection.length} items`;
+  }
   const t = deleteTarget.value;
   if (!t) return '';
   return (
@@ -492,6 +498,12 @@ function clearSearch() {
  */
 function confirmDelete(item: any) {
   deleteTarget.value = item;
+  isBulkDelete.value = false;
+  showDeleteModal.value = true;
+}
+
+function confirmBulkDelete() {
+  isBulkDelete.value = true;
   showDeleteModal.value = true;
 }
 
@@ -502,6 +514,16 @@ function confirmDelete(item: any) {
  * `remove(item)`. Errors are caught and ignored to avoid UI interruption.
  */
 async function performDelete() {
+  if (isBulkDelete.value) {
+    showDeleteModal.value = false;
+    try {
+      await removeBulk(props.selection);
+    } catch {
+      /* ignore */
+    }
+    return;
+  }
+
   if (!deleteTarget.value) return;
   const item = deleteTarget.value;
   showDeleteModal.value = false;
@@ -610,6 +632,31 @@ async function handleCreateOrUpdate(payload: any) {
       console.error('Create failed:', error);
       notifyError('Failed to create item');
     }
+  }
+}
+
+/**
+ * Remove multiple items.
+ */
+async function removeBulk(ids: string[]) {
+  const before = [...localItems.value];
+  // Optimistic update
+  localItems.value = localItems.value.filter((i) => !ids.includes(i.id));
+
+  try {
+    await lookupService.deleteItems(effectiveGroupId() || 'unknown', ids);
+    notifySuccess('Items deleted');
+    emit('update:selection', []);
+    try {
+      // Refresh current page
+      await fetchPage(page.value);
+    } catch {
+      /* ignore */
+    }
+  } catch (error) {
+    localItems.value = before;
+    console.error('Bulk delete failed:', error);
+    notifyError('Failed to delete items');
   }
 }
 

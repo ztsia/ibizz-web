@@ -50,6 +50,7 @@
           :field="field"
           :form-data="formData"
           :is-edit-mode="isEditMode"
+          :selectable="field.selectable"
           @update:field="onUpdateField"
         />
       </div>
@@ -63,6 +64,7 @@
           :field="field"
           :form-data="formData"
           :is-edit-mode="isEditMode"
+          :selectable="field.selectable"
           @update:field="onUpdateField"
         />
       </div>
@@ -112,7 +114,7 @@
             v-model="fieldValue"
             class="w-full"
             :class="{ 'border-destructive': error }"
-            :disabled="field.readonly"
+            :disabled="field.readonly || !!field.formula"
           />
 
           <InputNumber
@@ -126,7 +128,7 @@
             style="width: 100%"
             class="h-10"
             :class="{ 'border-destructive': error }"
-            :disabled="field.readonly"
+            :disabled="field.readonly || !!field.formula"
           />
 
           <!-- Radio buttons -->
@@ -243,6 +245,7 @@
 import { computed, toRef, watch } from 'vue';
 import type { FormTemplateField } from '../../types';
 import { useShowIfEngine } from '../../composables';
+import { evaluateRowFormula } from '../../composables/useFormulaEngine';
 // SFC imports: some TS setups don't expose default export types for .vue files.
 import {
   ViewField,
@@ -291,6 +294,35 @@ const fieldValue = computed({
   get: () => props.formData[props.field.id],
   set: (value) => emit('update:field', { fieldId: props.field.id, value }),
 });
+
+// Formula Engine Integration
+const formulaDependencies = computed(() => {
+  if (!props.field.formula) return [];
+  // Extract all {fieldId} placeholders
+  const matches = props.field.formula.match(/\{\w+\}/g) || [];
+  return matches.map((match) => match.slice(1, -1));
+});
+
+// Watch dependencies and evaluate formula
+watch(
+  () => {
+    if (!props.field.formula) return [];
+    // Return an array of values for the dependent fields
+    return formulaDependencies.value.map((depId) => props.formData[depId]);
+  },
+  (_newValues) => {
+    if (!props.field.formula) return;
+
+    // Evaluate the formula using the current form data
+    const result = evaluateRowFormula(props.field.formula, props.formData);
+
+    // Only emit if the value has actually changed to avoid infinite loops
+    if (result !== fieldValue.value) {
+      emit('update:field', { fieldId: props.field.id, value: result });
+    }
+  },
+  { immediate: true, deep: true },
+);
 
 // Layout class for radio groups: two-option radios should render in a row
 const radioLayoutClass = computed(() => {

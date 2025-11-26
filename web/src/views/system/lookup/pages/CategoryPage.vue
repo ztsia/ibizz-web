@@ -81,6 +81,7 @@
     <!-- Lookup table for the active group -->
     <div v-if="activeGroup" class="mt-4">
       <LookupTable
+        v-model:selection="selectedItems"
         :group="activeGroup"
         :group-id="activeGroup.slug"
         :columns="activeGroupColumns"
@@ -190,6 +191,7 @@ const activeGroup = computed<LookupGroup | null>(
 );
 
 const items = ref<any[]>([]);
+const selectedItems = ref<string[]>([]);
 
 async function loadItems() {
   if (!activeGroup.value) return;
@@ -207,6 +209,7 @@ async function loadItems() {
 }
 
 watch(activeGroup, () => {
+  selectedItems.value = [];
   loadItems();
 });
 

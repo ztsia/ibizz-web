@@ -1,6 +1,7 @@
 export interface Option {
   value: string;
   label: string;
+  disabledFields?: string[];
 }
 
 export interface ShowIf {
@@ -19,14 +20,16 @@ export interface ShowIf {
   conditions?: ShowIf[];
 }
 
+export interface ItemStructureValue {
+  id: string;
+  label: string;
+  inputType: string;
+  options?: Option[];
+}
+
 export interface ItemStructure {
   key: null | { id: string; label: string; options: Option[] };
-  values: Array<{
-    id: string;
-    label: string;
-    inputType: string;
-    options?: Option[];
-  }>;
+  values: Array<ItemStructureValue>;
 }
 
 export type InputType =
@@ -53,7 +56,7 @@ export interface FormTemplateField {
   inputType: string;
   required?: boolean;
   show_if?: any;
-  options?: any[];
+  options?: Record<string, any>;
   itemStructure?: ItemStructure;
   lookupSlug?: string;
   isLabelHidden?: boolean;
@@ -64,6 +67,9 @@ export interface FormTemplateField {
   displayFormat?: string;
   fetchFromGenericService?: boolean;
   valueKey?: string;
+  formula?: string;
+  selectable?: boolean;
+  allowRepeating?: boolean;
 }
 
 export interface FormTemplateSection {
@@ -97,7 +103,7 @@ export interface FormSubmission {
 
 // ItemList Models
 export interface KeyedRow {
-  key: string;
+  key: string | null;
   values: Record<string, any>;
 }
 

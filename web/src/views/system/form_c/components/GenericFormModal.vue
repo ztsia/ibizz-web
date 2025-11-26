@@ -178,7 +178,8 @@ const load = async (formId: string) => {
     }
 
     formData.value = initialData;
-    originalFormData.value = structuredClone(initialData);
+    // eslint-disable-next-line unicorn/prefer-structured-clone
+    originalFormData.value = JSON.parse(JSON.stringify(initialData));
 
     if (pages.value.length > 0) {
       currentTab.value = pages.value[0].id;
@@ -203,7 +204,8 @@ const updateField = ({ fieldId, value }: { fieldId: string; value: any }) => {
 };
 
 const handleCancelAndClose = () => {
-  formData.value = structuredClone(originalFormData.value);
+  // eslint-disable-next-line unicorn/prefer-structured-clone
+  formData.value = JSON.parse(JSON.stringify(originalFormData.value));
   message.info('Changes cancelled.');
   modalApi.close();
 };
@@ -225,8 +227,10 @@ const onSave = async () => {
     };
     const savedSubmission = await saveFormSubmission(submissionToSave);
 
-    formData.value = structuredClone(savedSubmission.data);
-    originalFormData.value = structuredClone(savedSubmission.data);
+    // eslint-disable-next-line unicorn/prefer-structured-clone
+    formData.value = JSON.parse(JSON.stringify(savedSubmission.data));
+    // eslint-disable-next-line unicorn/prefer-structured-clone
+    originalFormData.value = JSON.parse(JSON.stringify(savedSubmission.data));
 
     message.success('Form saved successfully!');
     emit('save', savedSubmission.data);

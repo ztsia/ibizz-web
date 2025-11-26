@@ -3970,5 +3970,156 @@
                 "end_date": "2025-12-31"
             }
         ]
+    },
+    {
+        "id": "formula_test_form",
+        "formName": "Formula Test Form",
+        "yearOfAssessment": 2025,
+        "pages": [
+            {
+                "id": "page_1",
+                "title": "Formula Test",
+                "sections": [
+                    {
+                        "part": "part_1",
+                        "title": "Calculations",
+                        "fields": [
+                            {
+                                "id": "quantity",
+                                "label": "Quantity",
+                                "inputType": "number",
+                                "defaultValue": 10
+                            },
+                            {
+                                "id": "price",
+                                "label": "Price",
+                                "inputType": "currency",
+                                "defaultValue": 100
+                            },
+                            {
+                                "id": "total",
+                                "label": "Total (Qty * Price)",
+                                "inputType": "currency",
+                                "formula": "{quantity} * {price}"
+                            },
+                            {
+                                "id": "tax_rate",
+                                "label": "Tax Rate",
+                                "inputType": "number",
+                                "defaultValue": 0.06
+                            },
+                            {
+                                "id": "grand_total",
+                                "label": "Grand Total (Total * (1 + Tax))",
+                                "inputType": "currency",
+                                "formula": "{total} * (1 + {tax_rate})"
+                            }
+                        ]
+                    },
+                    {
+                        "part": "part_2",
+                        "title": "Bulk Selection Test",
+                        "fields": [
+                            {
+                                "id": "test_item_list",
+                                "label": "Test Item List",
+                                "inputType": "itemList",
+                                "selectable": true,
+                                "itemStructure": {
+                                    "values": [
+                                        {
+                                            "id": "col1",
+                                            "label": "Column 1",
+                                            "inputType": "text"
+                                        },
+                                        {
+                                            "id": "col2",
+                                            "label": "Column 2",
+                                            "inputType": "number"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "id": "test_fixed_table",
+                                "label": "Test Fixed Table",
+                                "inputType": "fixed_table",
+                                "selectable": true,
+                                "options": {
+                                    "allowAddRow": true,
+                                    "initialRows": 2,
+                                    "columns": [
+                                        {
+                                            "id": "col_a",
+                                            "label": "Column A",
+                                            "inputType": "text"
+                                        },
+                                        {
+                                            "id": "col_b",
+                                            "label": "Column B",
+                                            "inputType": "number"
+                                        }
+                                    ],
+                                    "fixedRows": [
+                                        {
+                                            "col_a": "Fixed Row 1",
+                                            "col_b": 100
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "id": "test_item_list_no_select",
+                                "label": "Test Item List (No Select)",
+                                "inputType": "itemList",
+                                "selectable": false,
+                                "itemStructure": {
+                                    "values": [
+                                        {
+                                            "id": "col1",
+                                            "label": "Column 1",
+                                            "inputType": "text"
+                                        },
+                                        {
+                                            "id": "col2",
+                                            "label": "Column 2",
+                                            "inputType": "number"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "id": "test_fixed_table_no_select",
+                                "label": "Test Fixed Table (No Select)",
+                                "inputType": "fixed_table",
+                                "selectable": false,
+                                "options": {
+                                    "allowAddRow": true,
+                                    "initialRows": 2,
+                                    "columns": [
+                                        {
+                                            "id": "col_a",
+                                            "label": "Column A",
+                                            "inputType": "text"
+                                        },
+                                        {
+                                            "id": "col_b",
+                                            "label": "Column B",
+                                            "inputType": "number"
+                                        }
+                                    ],
+                                    "fixedRows": [
+                                        {
+                                            "col_a": "Fixed Row 1",
+                                            "col_b": 100
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
     }
 ]

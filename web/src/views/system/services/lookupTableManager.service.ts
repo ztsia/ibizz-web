@@ -227,6 +227,32 @@ export async function deleteItem(groupId: string | null, itemId: any) {
 }
 
 /**
+ * deleteItems()
+ *
+ * Remove multiple items from the group's table.
+ *
+ * @param {string | null} groupId - The ID of the group.
+ * @param {any[]} itemIds - Array of item IDs to delete.
+ * @returns {Promise<number>} A promise that resolves to the count of deleted items.
+ */
+export async function deleteItems(groupId: string | null, itemIds: any[]) {
+  await delay();
+  const table = db[tableNameFor(groupId)] || [];
+  if (!itemIds || itemIds.length === 0) return 0;
+
+  const initialLength = table.length;
+  // Filter out items that are in the itemIds list
+  // We re-assign the table array in the db object to the filtered version
+  // Note: In a real DB, this would be a DELETE WHERE id IN (...) query
+  const newTable = table.filter(
+    (r: any) => !itemIds.some((id) => String(id) === String(r.id)),
+  );
+
+  db[tableNameFor(groupId)] = newTable;
+  return initialLength - newTable.length;
+}
+
+/**
  * getTableColumns()
  *
  * Return the column metadata for a group's table. In production this

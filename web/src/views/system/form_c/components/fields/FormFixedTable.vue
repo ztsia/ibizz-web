@@ -1,9 +1,30 @@
 <template>
   <div class="space-y-4">
+    <div
+      v-if="isEditMode && selectable && selectedIndices.size > 0"
+      class="flex justify-end"
+    >
+      <Button variant="destructive" size="sm" @click="deleteSelected">
+        Delete Selected ({{ selectedIndices.size }})
+      </Button>
+    </div>
     <div class="overflow-x-auto rounded-lg border">
       <table class="w-full table-fixed text-sm">
         <thead class="bg-muted/50 border-b">
           <tr>
+            <th
+              v-if="isEditMode && selectable"
+              class="w-[50px] px-4 py-3 text-center"
+            >
+              <input
+                type="checkbox"
+                class="border-input text-primary focus:ring-primary h-4 w-4 rounded disabled:opacity-50"
+                :checked="isAllSelected"
+                :disabled="removableRowsIndices.length === 0"
+                title="Select All"
+                @change="toggleSelectAll"
+              />
+            </th>
             <th
               v-for="column in field.options.columns"
               :key="column.id"
@@ -26,6 +47,24 @@
               :key="rowIndex"
               class="hover:bg-muted/50 border-b transition-colors"
             >
+              <td
+                v-if="isEditMode && selectable"
+                class="px-4 py-3 text-center align-middle"
+              >
+                <input
+                  v-if="isRowRemovable(rowIndex)"
+                  type="checkbox"
+                  class="border-input text-primary focus:ring-primary h-4 w-4 rounded"
+                  :checked="selectedIndices.has(rowIndex)"
+                  @change="
+                    (e) =>
+                      toggleRowSelection(
+                        rowIndex,
+                        (e.target as HTMLInputElement).checked,
+                      )
+                  "
+                />
+              </td>
               <td
                 v-for="column in field.options.columns"
                 :key="column.id"
@@ -65,7 +104,8 @@
             <td
               :colspan="
                 (field.options.columns?.length || 0) +
-                (isEditMode && field.options.allowAddRow ? 1 : 0)
+                (isEditMode && field.options.allowAddRow ? 1 : 0) +
+                (isEditMode && selectable ? 1 : 0)
               "
               class="text-muted-foreground p-6 text-center"
             >
@@ -86,7 +126,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, toRef } from 'vue';
+import { ref, watch, toRef, computed, nextTick } from 'vue';
 import { Button } from '@vben-core/shadcn-ui';
 import { X, Plus } from 'lucide-vue-next';
 import FormField from './FormField.vue';
@@ -98,6 +138,7 @@ const props = defineProps<{
   field: FormTemplateField;
   formData: Record<string, any>;
   isEditMode: boolean;
+  selectable?: boolean;
 }>();
 
 const emit = defineEmits(['update:field']);
@@ -160,7 +201,9 @@ watch(
       });
     });
 
-    rawTableData.value = initialData;
+    if (JSON.stringify(initialData) !== JSON.stringify(rawTableData.value)) {
+      rawTableData.value = initialData;
+    }
   },
   { immediate: true, deep: true },
 );
@@ -213,19 +256,97 @@ const onCellUpdate = (
 ) => {
   if (rawTableData.value[rowIndex]) {
     rawTableData.value[rowIndex][payload.fieldId] = payload.value;
-    emit('update:field', { fieldId: formId.value, value: rawTableData.value });
+    const currentPropValue = props.formData[formId.value] || [];
+    if (
+      JSON.stringify(rawTableData.value) !== JSON.stringify(currentPropValue)
+    ) {
+      nextTick(() => {
+        emit('update:field', {
+          fieldId: formId.value,
+          value: rawTableData.value,
+        });
+      });
+    }
   }
 };
 
 const addRow = () => {
   rawTableData.value.push(createEmptyRow());
-  emit('update:field', { fieldId: formId.value, value: rawTableData.value });
+  const currentPropValue = props.formData[formId.value] || [];
+  if (JSON.stringify(rawTableData.value) !== JSON.stringify(currentPropValue)) {
+    nextTick(() => {
+      emit('update:field', {
+        fieldId: formId.value,
+        value: rawTableData.value,
+      });
+    });
+  }
 };
 
 const removeRow = (rowIndex: number) => {
   rawTableData.value.splice(rowIndex, 1);
-  emit('update:field', { fieldId: formId.value, value: rawTableData.value });
+  const currentPropValue = props.formData[formId.value] || [];
+  if (JSON.stringify(rawTableData.value) !== JSON.stringify(currentPropValue)) {
+    nextTick(() => {
+      emit('update:field', {
+        fieldId: formId.value,
+        value: rawTableData.value,
+      });
+    });
+  }
 };
+
+const selectedIndices = ref<Set<number>>(new Set());
+
+const removableRowsIndices = computed(() => {
+  return rawTableData.value
+    .map((_, index) => index)
+    .filter((index) => isRowRemovable(index));
+});
+
+const isAllSelected = computed(() => {
+  const removable = removableRowsIndices.value;
+  return (
+    removable.length > 0 &&
+    removable.every((index) => selectedIndices.value.has(index))
+  );
+});
+
+function toggleSelectAll() {
+  const removable = removableRowsIndices.value;
+  if (isAllSelected.value) {
+    selectedIndices.value.clear();
+  } else {
+    removable.forEach((index) => selectedIndices.value.add(index));
+  }
+}
+
+function toggleRowSelection(index: number, checked: boolean) {
+  if (checked) {
+    selectedIndices.value.add(index);
+  } else {
+    selectedIndices.value.delete(index);
+  }
+}
+
+function deleteSelected() {
+  const indices = [...selectedIndices.value].sort((a, b) => b - a);
+  indices.forEach((index) => {
+    if (isRowRemovable(index)) {
+      rawTableData.value.splice(index, 1);
+    }
+  });
+  selectedIndices.value.clear();
+  const currentPropValue = props.formData[formId.value] || [];
+  if (JSON.stringify(rawTableData.value) !== JSON.stringify(currentPropValue)) {
+    nextTick(() => {
+      emit('update:field', {
+        fieldId: formId.value,
+        value: rawTableData.value,
+      });
+    });
+  }
+}
 </script>
 
 <style scoped>

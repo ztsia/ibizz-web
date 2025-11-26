@@ -10,12 +10,14 @@
       <Button @click="openGenericFormModal"
         >Open Adjustment and Claims Modal</Button
       >
+      <Button @click="openFormulaTestModal">Open Formula Test Modal</Button>
     </div>
 
     <!-- Render the CP204Modal component, but keep it hidden initially -->
     <CP204Modal ref="cp204ModalRef" />
     <OtherParticularsModal ref="otherParticularsModalRef" />
-    <GenericFormModal ref="genericFormModalRef" />
+    <AdjustmentClaimsModal ref="adjustmentClaimsModalRef" />
+    <FormulaTestModal ref="formulaTestModalRef" />
   </div>
 </template>
 
@@ -24,7 +26,8 @@ import { ref } from 'vue';
 import { Button } from '@vben-core/shadcn-ui';
 import CP204Modal from '../../tax-filing/components/shared/CP204Modal.vue';
 import OtherParticularsModal from '../../tax-filing/components/shared/OtherParticularsModal.vue';
-import GenericFormModal from './components/GenericFormModal.vue';
+import AdjustmentClaimsModal from './components/AdjustmentClaimsModal.vue';
+import FormulaTestModal from './components/FormulaTestModal.vue';
 
 // Ref to access the CP204Modal component instance
 const cp204ModalRef = ref<InstanceType<typeof CP204Modal> | null>(null);
@@ -46,14 +49,25 @@ const openOtherParticularsModal = () => {
   }
 };
 
-// Ref to access the GenericFormModal component instance
-const genericFormModalRef = ref<InstanceType<typeof GenericFormModal> | null>(
+// Ref to access the AdjustmentClaimsModal component instance
+const adjustmentClaimsModalRef = ref<InstanceType<
+  typeof AdjustmentClaimsModal
+> | null>(null);
+
+const openGenericFormModal = () => {
+  if (adjustmentClaimsModalRef.value) {
+    adjustmentClaimsModalRef.value.open();
+  }
+};
+
+// Ref to access the FormulaTestModal component instance
+const formulaTestModalRef = ref<InstanceType<typeof FormulaTestModal> | null>(
   null,
 );
 
-const openGenericFormModal = () => {
-  if (genericFormModalRef.value) {
-    genericFormModalRef.value.open('adjustment_claims_form');
+const openFormulaTestModal = () => {
+  if (formulaTestModalRef.value) {
+    formulaTestModalRef.value.open();
   }
 };
 </script>

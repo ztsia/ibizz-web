@@ -10,10 +10,28 @@
     </div>
 
     <!-- Display Table -->
+    <div v-if="isEditMode && isBulkDelete" class="flex justify-end">
+      <Button variant="destructive" size="sm" @click="deleteSelected">
+        Delete Selected ({{ selectedIndices.size }})
+      </Button>
+    </div>
     <div class="overflow-x-auto rounded-lg border">
       <table class="w-full table-fixed text-sm">
         <thead class="bg-muted/50 border-b">
           <tr>
+            <th
+              v-if="isEditMode && selectable"
+              class="w-[50px] px-4 py-3 text-center"
+            >
+              <input
+                type="checkbox"
+                class="border-input text-primary focus:ring-primary h-4 w-4 rounded disabled:opacity-50"
+                :checked="isAllSelected"
+                :disabled="items.length === 0"
+                title="Select All"
+                @change="toggleSelectAll"
+              />
+            </th>
             <th
               v-if="field.itemStructure.key"
               class="text-muted-foreground w-1/4 px-4 py-3 text-left font-medium"
@@ -40,6 +58,20 @@
               :key="index"
               class="hover:bg-muted/50 border-b transition-colors"
             >
+              <td v-if="isEditMode && selectable" class="px-4 py-3 text-center">
+                <input
+                  type="checkbox"
+                  class="border-input text-primary focus:ring-primary h-4 w-4 rounded"
+                  :checked="selectedIndices.has(index)"
+                  @change="
+                    (e) =>
+                      toggleRowSelection(
+                        index,
+                        (e.target as HTMLInputElement).checked,
+                      )
+                  "
+                />
+              </td>
               <td
                 v-if="field.itemStructure.key"
                 class="w-1/4 px-4 py-3 font-medium"
@@ -54,8 +86,8 @@
                 {{
                   getFormattedValue(
                     field.itemStructure.key
-                      ? item.values[valueField.id]
-                      : item[valueField.id],
+                      ? (item as KeyedRow).values[valueField.id]
+                      : (item as UnkeyedRow)[valueField.id],
                     valueField,
                   )
                 }}
@@ -66,7 +98,8 @@
                 :colspan="
                   (field.itemStructure.key ? 1 : 0) +
                   field.itemStructure.values.length +
-                  (isEditMode ? 1 : 0)
+                  (isEditMode ? 1 : 0) +
+                  (isEditMode && selectable ? 1 : 0)
                 "
                 class="text-muted-foreground border-t p-6 text-center"
               >
@@ -82,6 +115,20 @@
               :key="index"
               class="hover:bg-muted/50 border-b transition-colors"
             >
+              <td v-if="isEditMode && selectable" class="px-4 py-3 text-center">
+                <input
+                  type="checkbox"
+                  class="border-input text-primary focus:ring-primary h-4 w-4 rounded"
+                  :checked="selectedIndices.has(index)"
+                  @change="
+                    (e) =>
+                      toggleRowSelection(
+                        index,
+                        (e.target as HTMLInputElement).checked,
+                      )
+                  "
+                />
+              </td>
               <!-- Key Dropdown -->
               <td
                 v-if="field.itemStructure.key"
@@ -118,7 +165,11 @@
               >
                 <FormField
                   :field="logAndReturnField(valueField)"
-                  :form-data="item.values"
+                  :form-data="
+                    field.itemStructure.key
+                      ? (item as KeyedRow).values
+                      : (item as UnkeyedRow)
+                  "
                   :is-edit-mode="
                     !isFieldDisabled(item as KeyedRow, valueField.id)
                   "
@@ -126,7 +177,7 @@
                   @update:field="
                     (payload) =>
                       handleItemFieldUpdate(
-                        item as KeyedRow,
+                        item,
                         payload.fieldId,
                         payload.value,
                       )
@@ -161,7 +212,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, computed, inject } from 'vue';
+import { ref, watch, computed, inject, nextTick } from 'vue';
 import { Plus, X } from 'lucide-vue-next';
 import type {
   FormTemplateField,
@@ -192,6 +243,7 @@ const props = defineProps<{
   pdfHeaders?: any[];
   pdfLookupSlug?: string;
   pdfSelectedRowIds?: string[];
+  selectable?: boolean;
 }>();
 
 const emit = defineEmits(['update:field']);
@@ -206,18 +258,63 @@ const items = ref<Array<KeyedRow | UnkeyedRow>>(
   props.formData[props.field.id] || [],
 );
 
+const selectedIndices = ref<Set<number>>(new Set());
+
+const isAllSelected = computed(() => {
+  return (
+    items.value.length > 0 && selectedIndices.value.size === items.value.length
+  );
+});
+
+const isBulkDelete = computed(() => {
+  return props.selectable && selectedIndices.value.size > 0;
+});
+
+function toggleSelectAll() {
+  if (isAllSelected.value) {
+    selectedIndices.value.clear();
+  } else {
+    items.value.forEach((_, index) => selectedIndices.value.add(index));
+  }
+}
+
+function toggleRowSelection(index: number, checked: boolean) {
+  if (checked) {
+    selectedIndices.value.add(index);
+  } else {
+    selectedIndices.value.delete(index);
+  }
+}
+
+function deleteSelected() {
+  const indices = [...selectedIndices.value].sort((a, b) => b - a);
+  indices.forEach((index) => {
+    items.value.splice(index, 1);
+  });
+  selectedIndices.value.clear();
+}
+
 watch(
   () => props.formData[props.field.id],
   (newVal) => {
-    items.value = newVal || [];
+    const newData = newVal || [];
+    if (JSON.stringify(newData) !== JSON.stringify(items.value)) {
+      items.value = newData;
+    }
   },
 );
 
 watch(
   items,
   (newItems) => {
-    // Emit the current state, including empty rows, to the parent
-    emit('update:field', { fieldId: props.field.id, value: newItems });
+    // Only emit if the new items are different from what's in props
+    // This prevents the loop where props update triggers items update which triggers emit
+    const currentPropValue = props.formData[props.field.id] || [];
+    if (JSON.stringify(newItems) !== JSON.stringify(currentPropValue)) {
+      nextTick(() => {
+        emit('update:field', { fieldId: props.field.id, value: newItems });
+      });
+    }
   },
   { deep: true },
 );
@@ -227,9 +324,10 @@ watch(
   () => props.isEditMode,
   (isEditing, wasEditing) => {
     if (!isEditing && wasEditing) {
-      if (!props.field.itemStructure) return;
+      const itemStructure = props.field.itemStructure;
+      if (!itemStructure) return;
       items.value = items.value.filter((item) => {
-        if (props.field.itemStructure.key) {
+        if (itemStructure.key) {
           return (
             (item as KeyedRow).key !== null &&
             (item as KeyedRow).key !== undefined
@@ -319,11 +417,19 @@ const removeItem = (index: number) => {
   items.value.splice(index, 1);
 };
 
-const handleItemFieldUpdate = (item: KeyedRow, fieldId: string, value: any) => {
-  item.values[fieldId] = value;
+const handleItemFieldUpdate = (
+  item: KeyedRow | UnkeyedRow,
+  fieldId: string,
+  value: any,
+) => {
+  if (props.field.itemStructure?.key) {
+    (item as KeyedRow).values[fieldId] = value;
+  } else {
+    (item as UnkeyedRow)[fieldId] = value;
+  }
 };
 
-const logAndReturnField = (valueField) => {
+const logAndReturnField = (valueField: ItemStructureValue) => {
   const syntheticField = {
     ...valueField,
     inputType: valueField.inputType || 'text',
