@@ -207,6 +207,14 @@ import {
 import { Button, Input } from '@vben-core/shadcn-ui';
 import { X } from '@vben/icons';
 
+/**
+ * Open the item form in "edit" mode for the provided item.
+ */
+import {
+  getFormSubmission,
+  saveFormSubmission,
+} from '../../../services/generic_form_service';
+
 const props = withDefaults(
   defineProps<{
     title?: string;
@@ -559,27 +567,88 @@ function openAdd() {
   }
 }
 
+// ... (existing imports)
+
+// ... (existing code)
+
 /**
  * Open the item form in "edit" mode for the provided item.
  */
-function openEdit(item: any) {
-  lookupItemFormRef.value?.open({
-    initial: item,
-    columns: columns.value,
-    group: props.group || effectiveAttr('group') || null,
-    groupId: effectiveGroupId(),
-  });
+async function openEdit(item: any) {
+  let initialData = item;
+  if (item.columns && item.columns.submissionId) {
+    try {
+      const submission = await getFormSubmission(item.columns.submissionId);
+      if (submission) {
+        initialData = submission.data;
+      }
+    } catch (error) {
+      console.error('Failed to load submission data:', error);
+      notifyError('Failed to load full form data.');
+    }
+  }
+
+  if (props.addForm) {
+    genericFormModalRef.value?.open(props.addForm, { initialData });
+  } else {
+    lookupItemFormRef.value?.open({
+      initial: item,
+      columns: columns.value,
+      group: props.group || effectiveAttr('group') || null,
+      groupId: effectiveGroupId(),
+    });
+  }
 }
 
 function handleGenericSave(data: any) {
-  handleCreateOrUpdate({ columns: data });
+  // data is the full form submission data
+  handleCreateOrUpdate({ columns: data, isGenericSubmission: true });
 }
 
 /**
  * Handle item creation or update from the child form.
  */
 async function handleCreateOrUpdate(payload: any) {
+  let columnsToSave = payload.columns;
+  let submissionId = payload.id; // Use existing ID if updating
+
+  if (payload.isGenericSubmission && props.addForm) {
+    // 1. Save the full submission
+    try {
+      const submission = {
+        submissionId: payload.id || '', // Empty for new
+        templateId: props.addForm,
+        year: 2025, // TODO: Get from context or props
+        data: payload.columns,
+        updated_at: new Date().toISOString(),
+      };
+      const savedSubmission = await saveFormSubmission(submission);
+      submissionId = savedSubmission.submissionId;
+
+      // 2. Create summary for lookup table
+      // Extract fields that match the lookup columns
+      const summaryColumns: any = { submissionId };
+      props.columns?.forEach((col) => {
+        const key = col.key || col.name;
+        if (key && payload.columns[key] !== undefined) {
+          summaryColumns[key] = payload.columns[key];
+        }
+      });
+      columnsToSave = summaryColumns;
+    } catch (error) {
+      console.error('Failed to save generic submission:', error);
+      notifyError('Failed to save form data.');
+      return;
+    }
+  }
+
+  const itemPayload = {
+    id: payload.id, // This might need adjustment for new items vs updates
+    columns: columnsToSave,
+  };
+
   if (payload.id) {
+    // ... (existing update logic using itemPayload)
     const idx = localItems.value.findIndex((i) => i.id === payload.id);
     if (idx === -1) {
       notifyError('Item to update not found locally.');
@@ -589,13 +658,13 @@ async function handleCreateOrUpdate(payload: any) {
     const before = { ...originalItem };
     localItems.value.splice(idx, 1, {
       ...originalItem,
-      columns: payload.columns,
+      columns: columnsToSave,
     });
     try {
       const res = await lookupService.updateItem(
         effectiveGroupId() || 'unknown',
         payload.id,
-        payload,
+        itemPayload,
       );
       notifySuccess('Item updated');
       emit('update', res);
@@ -610,13 +679,14 @@ async function handleCreateOrUpdate(payload: any) {
       notifyError('Failed to update item');
     }
   } else {
+    // ... (existing create logic using itemPayload)
     const tempId = `tmp-${Date.now()}`;
-    const newItem = { id: tempId, columns: payload.columns };
+    const newItem = { id: tempId, columns: columnsToSave };
     localItems.value.unshift(newItem as any);
     try {
       const res = await lookupService.createItem(
         effectiveGroupId() || 'unknown',
-        payload,
+        itemPayload,
       );
       const idx = localItems.value.findIndex((i) => i.id === tempId);
       if (idx !== -1) localItems.value.splice(idx, 1, res);

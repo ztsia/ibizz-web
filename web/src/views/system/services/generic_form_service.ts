@@ -1,8 +1,14 @@
 import genericFormTemplates from './mock_data/generic_form_template.json';
+import genericFormSubmissions from './mock_data/generic_form_submission.json';
 import type { FormTemplate, FormSubmission } from '../form_c/types';
 
 // Simulate a database delay
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// In-memory store initialized from JSON
+const submissionsStore: FormSubmission[] = [
+  ...(genericFormSubmissions as any[]),
+];
 
 export async function getFormTemplate(formId: string): Promise<FormTemplate> {
   await delay(300);
@@ -30,10 +36,33 @@ export async function saveFormSubmission(
   submission: FormSubmission,
 ): Promise<FormSubmission> {
   await delay(500);
-  // In a real app, this would save to the backend.
-  // Here we just return the submission with an updated timestamp.
-  return {
+
+  const now = new Date().toISOString();
+  const newSubmission = {
     ...submission,
-    updated_at: new Date().toISOString(),
+    submissionId: submission.submissionId || `sub-${Date.now()}`,
+    updated_at: now,
   };
+
+  const existingIndex = submissionsStore.findIndex(
+    (s) => s.submissionId === newSubmission.submissionId,
+  );
+
+  if (existingIndex === -1) {
+    submissionsStore.push(newSubmission);
+  } else {
+    submissionsStore[existingIndex] = newSubmission;
+  }
+
+  return newSubmission;
+}
+
+export async function getFormSubmission(
+  submissionId: string,
+): Promise<FormSubmission | null> {
+  await delay(300);
+  const submission = submissionsStore.find(
+    (s) => s.submissionId === submissionId,
+  );
+  return submission || null;
 }

@@ -31,8 +31,8 @@ const safeString = (val: any) => {
       return JSON.stringify(val);
     }
     return String(val);
-  } catch (e) {
-    console.error('Error converting to string:', val, e);
+  } catch (error) {
+    console.error('Error converting to string:', val, error);
     return '';
   }
 };
@@ -46,7 +46,9 @@ const displayValue = computed(() => {
     (field.inputType === 'radio' || field.inputType === 'select') &&
     Array.isArray(field.options)
   ) {
-    const opt = field.options.find((o: any) => safeString(o.value) === safeString(v));
+    const opt = field.options.find(
+      (o: any) => safeString(o.value) === safeString(v),
+    );
     return opt ? opt.label : (v ?? '');
   }
 

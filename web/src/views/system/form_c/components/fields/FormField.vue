@@ -98,7 +98,11 @@
             :type="field.inputType"
             v-model="fieldValue"
             class="w-full"
-            :class="{ 'border-destructive': error }"
+            :class="{
+              'border-destructive': error,
+              '!text-foreground !cursor-default !opacity-100':
+                field.readonly || !!field.formula,
+            }"
             :disabled="field.readonly || !!field.formula"
           />
 
@@ -113,7 +117,10 @@
                 const valStr = `${value}`;
                 const isNegative = valStr.includes('-');
                 const cleanVal = valStr.replace('-', '');
-                const formatted = cleanVal.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                const formatted = cleanVal.replace(
+                  /\B(?=(\d{3})+(?!\d))/g,
+                  ',',
+                );
                 return isNegative ? `(${formatted})` : formatted;
               }
             "
@@ -128,7 +135,11 @@
             "
             style="width: 100%"
             class="h-10"
-            :class="{ 'border-destructive': error }"
+            :class="{
+              'border-destructive': error,
+              '!text-foreground !cursor-default !opacity-100':
+                field.readonly || !!field.formula,
+            }"
             :disabled="field.readonly || !!field.formula"
           />
 

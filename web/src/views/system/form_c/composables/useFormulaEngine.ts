@@ -1,28 +1,5 @@
 /**
  * @file This file contains the reactive formula engine for the FormFixedTable component.
- *
- * @usage
- * ```ts
- * import { useFormulaEngine } from './useFormulaEngine';
- *
- * const rawTableData = ref<TableData>([...]); // Raw data from the form, may contain formula objects
- * const formData = ref<Record<string, any>>({...}); // Main form data for external lookups
- *
- * const { displayTableData } = useFormulaEngine(rawTableData, formData);
- * // `displayTableData` is now a computed property that will automatically update
- * // whenever `rawTableData` or `formData` changes.
- * ```
- *
- * @how-it-works
- * The engine takes raw table data (which can contain formula objects like `{ formula: "SUM(ABOVE)" }`)
- * and returns a computed `displayTableData` where all formulas have been resolved to their final values.
- *
- * It works in multiple passes to resolve dependencies, for example, calculating all row totals
- * before calculating a grand total that depends on them.
- *
- * @adding-formulas
- * To add a new formula, add a new entry to the `formulaCalculators` object in this file.
- * See the documentation for `formulaCalculators` below for instructions.
  */
 
 import { computed } from 'vue';
@@ -34,35 +11,74 @@ export type RowData = Record<string, CellValue>;
 export type TableData = RowData[];
 
 /**
- * --- The Formula Calculator Registry ---
- * This object is the heart of the formula engine's extensibility.
- * To add a new formula, add a new key-value pair to this object.
- *
- * @key The name of the formula. This can be:
- *   1. A function name (e.g., 'FALLBACK'). The engine will match `FALLBACK(...)`.
- *   2. An exact string match (e.g., 'SUM(ABOVE)').
- *   3. A special internal key (e.g., 'INTRA_ROW').
- *
- * @value A function that performs the calculation.
- *   - It receives the full formula string and a context object.
- *   - The context object contains all possible data the formula might need:
- *     - `row`: The current row's data (for intra-row calculations).
- *     - `rowIndex`, `colId`, `table`: The cell's coordinates and the entire table (for positional calculations).
- *     - `formData`: The main form's data (for external lookups).
- *   - The function should return the calculated value (string | number) or `null`.
- *
- * @example Adding a new 'AVERAGE(ABOVE)' formula:
- * ```ts
- * 'AVG(ABOVE)': (formula, { rowIndex, colId, table }) => {
- *   if (rowIndex === undefined || !colId || !table || rowIndex === 0) return null;
- *   let sum = 0;
- *   for (let i = 0; i < rowIndex; i++) {
- *     sum += Number.parseFloat(table[i][colId] as string) || 0;
- *   }
- *   return sum / rowIndex;
- * },
- * ```
+ * Native implementations of formula functions.
+ * These can be injected into the Function scope.
  */
+const nativeFunctions = {
+  /**
+   * Sums values in a target column of a table where a check column matches a value.
+   */
+  SUMIF: (
+    tableData: any[],
+    checkColId: string,
+    checkValue: any,
+    sumColId: string,
+  ) => {
+    if (!Array.isArray(tableData)) return 0;
+    // eslint-disable-next-line unicorn/no-array-reduce
+    return tableData.reduce((sum, row) => {
+      // Loose equality check to handle string/number differences
+      // eslint-disable-next-line eqeqeq
+      if (String(row[checkColId]) == String(checkValue)) {
+        return sum + (Number.parseFloat(row[sumColId]) || 0);
+      }
+      return sum;
+    }, 0);
+  },
+
+  /**
+   * Sums all values in a target column of a table.
+   */
+  SUM: (tableData: any[], colId: string) => {
+    if (!Array.isArray(tableData)) return 0;
+    // eslint-disable-next-line unicorn/no-array-reduce
+    return tableData.reduce((sum, row) => {
+      return sum + (Number.parseFloat(row[colId]) || 0);
+    }, 0);
+  },
+
+  /**
+   * Sums positive values in a target column of a table.
+   */
+  SUM_POSITIVE: (tableData: any[], colId: string) => {
+    if (!Array.isArray(tableData)) return 0;
+    // eslint-disable-next-line unicorn/no-array-reduce
+    return tableData.reduce((sum, row) => {
+      const val = Number.parseFloat(row[colId]) || 0;
+      return val > 0 ? sum + val : sum;
+    }, 0);
+  },
+
+  /**
+   * Sums negative values in a target column of a table.
+   */
+  SUM_NEGATIVE: (tableData: any[], colId: string) => {
+    if (!Array.isArray(tableData)) return 0;
+    // eslint-disable-next-line unicorn/no-array-reduce
+    return tableData.reduce((sum, row) => {
+      const val = Number.parseFloat(row[colId]) || 0;
+      return val < 0 ? sum + val : sum;
+    }, 0);
+  },
+
+  /**
+   * Calculates the sum of all numeric values in the same column above the current row.
+   * Note: This requires context (table, rowIndex, colId) which is not easily passed in simple function calls.
+   * It is handled specially in processFormulas or via specific context injection if needed.
+   * For now, we keep it as a special case in formulaCalculators or handle it via replacement.
+   */
+};
+
 export function evaluateRowFormula(
   formula: string,
   row: Record<string, any>,
@@ -70,24 +86,37 @@ export function evaluateRowFormula(
   if (!row) return null;
 
   let expression = formula;
-  const colIds = formula.match(/\{\w+\}/g) || [];
 
+  // 1. Handle {colId} placeholders (intra-row values)
+  const colIds = formula.match(/\{\w+\}/g) || [];
   for (const placeholder of colIds) {
     const colId = placeholder.slice(1, -1);
     const value = Number.parseFloat(row[colId] as string) || 0;
-    // Use a regex with 'g' flag to replace all occurrences if a col is used multiple times
     expression = expression.replaceAll(
       new RegExp(placeholder, 'g'),
       value.toString(),
     );
   }
 
+  // 2. Prepare scope for the function execution
+  // We inject native functions and valid row keys as variables
+  const scope: Record<string, any> = { ...nativeFunctions };
+
+  // Inject row/formData properties that are valid identifiers
+  for (const [key, value] of Object.entries(row)) {
+    if (/^[a-z_$][\w$]*$/i.test(key)) {
+      scope[key] = value;
+    }
+  }
+
+  const keys = Object.keys(scope);
+  const values = Object.values(scope);
+
   try {
-    // WARNING: Using Function constructor is safer than eval(), but for a production
-    // environment, a dedicated math expression parser library (e.g., math.js) is recommended
-    // to prevent any potential for arbitrary code execution if formula definitions become complex.
+    // Create a function with the scope variables as arguments
     // eslint-disable-next-line no-new-func
-    const result = new Function(`return ${expression}`)();
+    const func = new Function(...keys, `return ${expression}`);
+    const result = func(...values);
     return Number.isNaN(result) ? null : result;
   } catch (error) {
     console.error(`Error evaluating formula "${formula}":`, error);
@@ -96,34 +125,8 @@ export function evaluateRowFormula(
 }
 
 /**
- * --- The Formula Calculator Registry ---
- * This object is the heart of the formula engine's extensibility.
- * To add a new formula, add a new key-value pair to this object.
- *
- * @key The name of the formula. This can be:
- *   1. A function name (e.g., 'FALLBACK'). The engine will match `FALLBACK(...)`.
- *   2. An exact string match (e.g., 'SUM(ABOVE)').
- *   3. A special internal key (e.g., 'INTRA_ROW').
- *
- * @value A function that performs the calculation.
- *   - It receives the full formula string and a context object.
- *   - The context object contains all possible data the formula might need:
- *     - `row`: The current row's data (for intra-row calculations).
- *     - `rowIndex`, `colId`, `table`: The cell's coordinates and the entire table (for positional calculations).
- *     - `formData`: The main form's data (for external lookups).
- *   - The function should return the calculated value (string | number) or `null`.
- *
- * @example Adding a new 'AVERAGE(ABOVE)' formula:
- * ```ts
- * 'AVG(ABOVE)': (formula, { rowIndex, colId, table }) => {
- *   if (rowIndex === undefined || !colId || !table || rowIndex === 0) return null;
- *   let sum = 0;
- *   for (let i = 0; i < rowIndex; i++) {
- *     sum += Number.parseFloat(table[i][colId] as string) || 0;
- *   }
- *   return sum / rowIndex;
- * },
- * ```
+ * Registry for special string-based formulas that might not be valid JS expressions
+ * or require complex parsing (like SUM(ABOVE)).
  */
 const formulaCalculators: Record<
   string,
@@ -138,19 +141,10 @@ const formulaCalculators: Record<
     },
   ) => number | null | string
 > = {
-  /**
-   * @description Handles intra-row formulas like "{quantity} * {price}".
-   * It replaces column IDs with their numeric values from the same row and evaluates the expression.
-   * @syntax "{colId1} * {colId2}"
-   */
   INTRA_ROW: (formula, { row }) => {
     return evaluateRowFormula(formula, row || {});
   },
 
-  /**
-   * @description Calculates the sum of all numeric values in the same column above the current row.
-   * @syntax "SUM(ABOVE)"
-   */
   'SUM(ABOVE)': (formula, { rowIndex, colId, table }) => {
     if (rowIndex === undefined || !colId || !table) return null;
     let sum = 0;
@@ -160,10 +154,6 @@ const formulaCalculators: Record<
     return sum;
   },
 
-  /**
-   * @description Parses a list of external field IDs and returns the value of the first one that exists and is not empty.
-   * @syntax "FALLBACK(fieldId1, fieldId2, ...)"
-   */
   FALLBACK: (formula, { formData }) => {
     if (!formData) return null;
     const fieldIds = formula
@@ -175,20 +165,34 @@ const formulaCalculators: Record<
     for (const fieldId of fieldIds) {
       const value = formData[fieldId];
       if (value !== null && value !== undefined && value !== '') {
-        // Return the first valid value found
         return value;
       }
     }
     return null;
   },
+
+  // We can map the native functions here too if we want to support the old string-parsing way,
+  // but evaluateRowFormula is more robust for complex expressions.
+  // We leave them out to force fallback to evaluateRowFormula for SUMIF etc.
 };
 
-/**
- * Processes a table of data containing formula definitions by iteratively calculating values.
- * @param rawData The raw data including user input and { formula: "..." } objects.
- * @param formData The main form data object for external field lookups.
- * @returns A new table with all formulas calculated.
- */
+export function evaluateGlobalFormula(
+  formula: string,
+  formData: Record<string, any>,
+): any {
+  const formulaType = formula.split('(')[0];
+
+  // Special handling for SUM(ABOVE) which is context-dependent and not global
+  if (formula === 'SUM(ABOVE)') return null;
+
+  if (formulaCalculators[formulaType]) {
+    return formulaCalculators[formulaType](formula, { formData });
+  }
+
+  const result = evaluateRowFormula(formula, formData);
+  return result;
+}
+
 function processFormulas(
   rawData: TableData,
   formData: Record<string, any>,
@@ -196,11 +200,10 @@ function processFormulas(
   if (!Array.isArray(rawData) || rawData.length === 0) {
     return [];
   }
-  // Start with a deep copy to avoid mutating the original raw data during calculation.
   // eslint-disable-next-line unicorn/prefer-structured-clone
   const displayData = JSON.parse(JSON.stringify(rawData));
 
-  const MAX_PASSES = 5; // Prevent infinite loops in case of circular dependencies
+  const MAX_PASSES = 5;
 
   for (let pass = 0; pass < MAX_PASSES; pass++) {
     let hasChanged = false;
@@ -209,7 +212,6 @@ function processFormulas(
       const row = displayData[rowIndex];
       for (const colId in row) {
         const cellValue = row[colId];
-        // Check if the raw data cell has a formula. We check the raw data, not the display data.
         const rawCell = rawData[rowIndex]?.[colId];
         if (
           typeof rawCell === 'object' &&
@@ -221,9 +223,7 @@ function processFormulas(
 
           const formulaType = formulaStr.split('(')[0];
 
-          // Check for registered keyword formulas first
           if (formulaCalculators[formulaStr]) {
-            // Exact match like 'SUM(ABOVE)'
             result = formulaCalculators[formulaStr](formulaStr, {
               rowIndex,
               colId,
@@ -231,15 +231,20 @@ function processFormulas(
               formData,
             });
           } else if (formulaCalculators[formulaType]) {
-            // Match function type like 'FALLBACK'
             result = formulaCalculators[formulaType](formulaStr, { formData });
-          }
-          // Otherwise, assume it's an intra-row formula
-          else if (/\{\w+\}/.test(formulaStr)) {
-            result = formulaCalculators.INTRA_ROW(formulaStr, { row });
+          } else if (/\{\w+\}/.test(formulaStr)) {
+            // Intra-row with placeholders
+            result = evaluateRowFormula(formulaStr, row);
+          } else {
+            // Try evaluating as a JS expression (e.g. SUMIF)
+            // We pass the current row as context, but also need formData?
+            // For fixed_table, 'row' is the row data. 'formData' is external.
+            // If the formula uses external data (like SUMIF on another table), it needs formData.
+            // We should merge them?
+            const context = { ...formData, ...row };
+            result = evaluateRowFormula(formulaStr, context);
           }
 
-          // If a calculation was made and the value is different, update the cell value
           if (cellValue !== result) {
             displayData[rowIndex][colId] = result;
             hasChanged = true;
@@ -247,19 +252,12 @@ function processFormulas(
         }
       }
     }
-    // If a full pass completes with no changes, the table is stable.
     if (!hasChanged) break;
   }
 
   return displayData;
 }
 
-/**
- * A Vue composable that provides a reactive, calculated table based on raw data with formulas.
- * @param rawTableData A Ref to the source table data, which may contain formula objects.
- * @param formData A Ref to the main form data for external lookups.
- * @returns An object containing `displayTableData`, a computed property with all formulas resolved.
- */
 export function useFormulaEngine(
   rawTableData: Ref<TableData>,
   formData: Ref<Record<string, any>>,

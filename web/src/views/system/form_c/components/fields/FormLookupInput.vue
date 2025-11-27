@@ -40,7 +40,7 @@
 
 <script lang="ts" setup>
 import { Info } from 'lucide-vue-next';
-import { ref, computed, onMounted, inject } from 'vue';
+import { ref, computed, onMounted, inject, watch } from 'vue';
 import type { FormTemplateField } from '../../types';
 import { LookupTable } from '../../../lookup/components';
 import * as lookupService from '../../../services';
@@ -136,4 +136,28 @@ onMounted(async () => {
     group.value = await lookupService.findGroupBySlug(tableSlug.value);
   }
 });
+
+watch(
+  () => fieldValue.value,
+  async (newIds) => {
+    if (!newIds || newIds.length === 0) {
+      // eslint-disable-next-line vue/no-mutating-props
+      props.formData[`${props.field.id}_data`] = [];
+      return;
+    }
+    if (tableSlug.value) {
+      try {
+        const items = await lookupService.getItems(tableSlug.value, newIds);
+        const mappedData = items.map((i: any) => i.columns);
+        // eslint-disable-next-line vue/no-mutating-props
+        props.formData[`${props.field.id}_data`] = mappedData;
+      } catch (error) {
+        console.error('Failed to fetch lookup items data:', error);
+        // eslint-disable-next-line vue/no-mutating-props
+        props.formData[`${props.field.id}_data`] = [];
+      }
+    }
+  },
+  { immediate: true },
+);
 </script>

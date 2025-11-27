@@ -5,3 +5,4 @@ export * from './usePerfMarkers';
 export * from './useShowIfEngine';
 export * from './useTelemetry';
 export * from './useVisibleFields';
+export * from './useGlobalFormulaEngine';

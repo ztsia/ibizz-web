@@ -141,6 +141,21 @@ export async function getItem(groupId: string | null, itemId: any) {
 }
 
 /**
+ * getItems()
+ *
+ * Return multiple normalized items from the group's backing table by their
+ * primary keys.
+ */
+export async function getItems(groupId: string | null, itemIds: any[]) {
+  await delay();
+  const table = db[tableNameFor(groupId)] || [];
+  const rows = table.filter((r: any) =>
+    itemIds.some((id) => String(id) === String(r.id)),
+  );
+  return rows.map((row: any) => normalizeRow(row));
+}
+
+/**
  * findItemsByCode()
  *
  * Look up items by their `code` column (exact match). Typically used to

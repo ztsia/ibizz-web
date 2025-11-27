@@ -85,7 +85,11 @@ import type { FormTemplate, FormSubmission } from '../types';
 // @ts-ignore
 import { CardPage } from '../components';
 import FormActionsBar from '../../shared_components/FormActionsBar.vue';
-import { useFormValidation, useVisibleFields } from '../composables';
+import {
+  useFormValidation,
+  useVisibleFields,
+  useGlobalFormulaEngine,
+} from '../composables';
 import { VbenSpinner } from '@vben-core/shadcn-ui';
 
 const emit = defineEmits<{
@@ -111,6 +115,7 @@ const currentFormId = ref<string | null>(null);
 
 // Composables
 const { visibleFieldIds } = useVisibleFields(template, formData);
+useGlobalFormulaEngine(template, formData);
 const { errors, validate } = useFormValidation(
   template,
   formData,
@@ -157,25 +162,23 @@ const load = async (formId: string) => {
     const tmpl = await getFormTemplate(formId);
     template.value = tmpl;
 
-    // Initialize form data with default values
+    // 2. Populate initialData with default values from template
     const initialData: Record<string, any> = {};
-
-    // Helper to traverse and set defaults
     tmpl.pages?.forEach((page) => {
       page.sections?.forEach((section) => {
         section.fields?.forEach((field) => {
-          if (field.defaultValue !== undefined) {
-            initialData[field.id] = field.defaultValue;
+          if (field.inputType === 'fixed_table') {
+            initialData[field.id] = [];
+          } else if (field.inputType === 'lookup') {
+            initialData[field.id] = [];
+            // Initialize _data field for formulas that reference lookup data
+            initialData[`${field.id}_data`] = [];
+          } else {
+            initialData[field.id] = field.defaultValue ?? null;
           }
         });
       });
     });
-
-    // Ensure year is set if not already (using yearOfAssessment as fallback or override)
-    if (tmpl.yearOfAssessment) {
-      // If there's a field named 'year', ensure it matches yearOfAssessment
-      initialData.year = String(tmpl.yearOfAssessment);
-    }
 
     formData.value = initialData;
     // eslint-disable-next-line unicorn/prefer-structured-clone
@@ -192,9 +195,16 @@ const load = async (formId: string) => {
   }
 };
 
-const open = async (formId: string) => {
+const open = async (formId: string, options?: { initialData?: any }) => {
   currentFormId.value = formId;
   await load(formId);
+
+  if (options?.initialData) {
+    formData.value = { ...options.initialData };
+    // eslint-disable-next-line unicorn/prefer-structured-clone
+    originalFormData.value = JSON.parse(JSON.stringify(options.initialData));
+  }
+
   modalApi.open();
 };
 

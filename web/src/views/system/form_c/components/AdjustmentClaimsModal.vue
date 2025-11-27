@@ -12,8 +12,8 @@ const emit = defineEmits<{
 
 const modalRef = ref<InstanceType<typeof GenericFormModal> | null>(null);
 
-const open = () => {
-  modalRef.value?.open('adjustment_claims_form');
+const open = (formId?: string) => {
+  modalRef.value?.open(formId || 'adjustment_claims_form');
 };
 
 const onSave = (payload: any) => {

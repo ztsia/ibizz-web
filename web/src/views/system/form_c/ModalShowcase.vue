@@ -10,8 +10,11 @@
       <Button @click="openGenericFormModal"
         >Open Adjustment and Claims Modal</Button
       >
+      <Button @click="openProvisionsModal">Open Provisions Modal</Button>
       <Button @click="openFormulaTestModal">Open Formula Test Modal</Button>
-      <Button @click="openFixedTableTestModal">Open Fixed Table Test Modal</Button>
+      <Button @click="openFixedTableTestModal"
+        >Open Fixed Table Test Modal</Button
+      >
     </div>
 
     <!-- Render the CP204Modal component, but keep it hidden initially -->
@@ -59,7 +62,13 @@ const adjustmentClaimsModalRef = ref<InstanceType<
 
 const openGenericFormModal = () => {
   if (adjustmentClaimsModalRef.value) {
-    adjustmentClaimsModalRef.value.open();
+    adjustmentClaimsModalRef.value.open('adjustment_claims_form');
+  }
+};
+
+const openProvisionsModal = () => {
+  if (adjustmentClaimsModalRef.value) {
+    adjustmentClaimsModalRef.value.open('provisions_form');
   }
 };
 

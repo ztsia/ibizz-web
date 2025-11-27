@@ -4178,5 +4178,182 @@
                 ]
             }
         ]
+    },
+    {
+        "id": "provisions_form",
+        "formName": "Provisions",
+        "yearOfAssessment": 2025,
+        "pages": [
+            {
+                "id": "page_main",
+                "title": "Provisions",
+                "sections": [
+                    {
+                        "part": "summary",
+                        "title": "Provisions",
+                        "fields": [
+                            {
+                                "id": "total_provisions",
+                                "label": "Total Provisions",
+                                "inputType": "currency",
+                                "readonly": true,
+                                "formula": "SUM(provisions_table_data, 'amount')"
+                            }
+                        ]
+                    },
+                    {
+                        "part": "details",
+                        "title": "Details",
+                        "fields": [
+                            {
+                                "id": "provisions_table",
+                                "label": "provisions",
+                                "inputType": "lookup",
+                                "addForm": "provisions_add_form",
+                                "displayFormat": "{provision} - {amount}"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "provisions_add_form",
+        "formName": "Add Provisions",
+        "yearOfAssessment": 2025,
+        "pages": [
+            {
+                "id": "page_add",
+                "title": "Add Provisions",
+                "sections": [
+                    {
+                        "part": "info",
+                        "title": "Information",
+                        "fields": [
+                            {
+                                "id": "provision",
+                                "label": "Title",
+                                "inputType": "text"
+                            },
+                            {
+                                "id": "ref",
+                                "label": "Link to Notes To Account",
+                                "inputType": "select",
+                                "options": [
+                                    {
+                                        "label": "Note 8 - Inventories in Audited Accounts",
+                                        "value": "note_8"
+                                    },
+                                    {
+                                        "label": "Note 9 - Sales Returns",
+                                        "value": "note_9"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "part": "breakdown",
+                        "title": "Breakdown",
+                        "fields": [
+                            {
+                                "id": "provisions_breakdown",
+                                "label": "Breakdown",
+                                "inputType": "fixed_table",
+                                "options": {
+                                    "allowAddRow": true,
+                                    "columns": [
+                                        {
+                                            "id": "year",
+                                            "label": "Year",
+                                            "inputType": "select",
+                                            "options": [
+                                                {
+                                                    "label": "2024",
+                                                    "value": "2024"
+                                                },
+                                                {
+                                                    "label": "2025",
+                                                    "value": "2025"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "description",
+                                            "label": "Description",
+                                            "inputType": "text"
+                                        },
+                                        {
+                                            "id": "treatment",
+                                            "label": "Treatment",
+                                            "inputType": "select",
+                                            "options": [
+                                                {
+                                                    "label": "Opening",
+                                                    "value": "Opening"
+                                                },
+                                                {
+                                                    "label": "Add Back",
+                                                    "value": "Add Back"
+                                                },
+                                                {
+                                                    "label": "Deduct",
+                                                    "value": "Deduct"
+                                                },
+                                                {
+                                                    "label": "Closing",
+                                                    "value": "Closing"
+                                                },
+                                                {
+                                                    "label": "Not Applicable",
+                                                    "value": "Not Applicable"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "id": "amount",
+                                            "label": "Amount (RM)",
+                                            "inputType": "currency",
+                                            "conditionalSign": {
+                                                "watchField": "treatment",
+                                                "negateWhen": [
+                                                    "Deduct"
+                                                ],
+                                                "positiveWhen": [
+                                                    "Add Back",
+                                                    "Opening",
+                                                    "Closing"
+                                                ]
+                                            },
+                                            "conditionalProperties": [
+                                                {
+                                                    "condition": {
+                                                        "fieldId": "treatment",
+                                                        "operator": "equals",
+                                                        "value": "Closing"
+                                                    },
+                                                    "readonly": true,
+                                                    "value": {
+                                                        "formula": "SUM(ABOVE)"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "id": "amount",
+                                "label": "Total Add Back/(Deduct)",
+                                "inputType": "currency",
+                                "readonly": true,
+                                "formula": "SUMIF(provisions_breakdown, 'treatment', 'Add Back', 'amount') + SUMIF(provisions_breakdown, 'treatment', 'Deduct', 'amount')"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
     }
 ]

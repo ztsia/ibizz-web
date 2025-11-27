@@ -74,7 +74,7 @@
                   v-if="isCellRendered(rowIndex, column.id)"
                   :field="createCellField(column, rowIndex)"
                   :form-data="row"
-                  :is-edit-mode="isCellEditable(rowIndex, column.id)"
+                  :is-edit-mode="isEditMode"
                   :compact="true"
                   @update:field="onCellUpdate(rowIndex, $event)"
                 />
@@ -209,6 +209,106 @@ watch(
   { immediate: true, deep: true },
 );
 
+const checkCondition = (condition: any, row: any) => {
+  if (!condition || !row) return false;
+  const val = row[condition.fieldId];
+  switch (condition.operator) {
+    case 'equals': {
+      return val === condition.value;
+    }
+    case 'not_equals': {
+      return val !== condition.value;
+    }
+    default: {
+      return false;
+    }
+  }
+};
+
+const getConditionalOverrides = (
+  column: FormTemplateField,
+  rowIndex: number,
+) => {
+  const row = rawTableData.value[rowIndex];
+  if (!row || !column.conditionalProperties) return {};
+
+  for (const prop of column.conditionalProperties) {
+    if (checkCondition(prop.condition, row)) {
+      const { condition: _condition, value: _value, ...overrides } = prop;
+      return overrides;
+    }
+  }
+  return {};
+};
+
+// Watch for conditional value updates
+watch(
+  () => rawTableData.value,
+  (newData) => {
+    newData.forEach((row) => {
+      props.field.options?.columns?.forEach((col: FormTemplateField) => {
+        if (col.conditionalProperties) {
+          col.conditionalProperties.forEach((prop: any) => {
+            const conditionMet = checkCondition(prop.condition, row);
+            if (conditionMet && prop.value !== undefined) {
+              // Only set if different
+              if (JSON.stringify(row[col.id]) !== JSON.stringify(prop.value)) {
+                row[col.id] = prop.value;
+              }
+            } else if (
+              !conditionMet &&
+              prop.value !== undefined && // Revert if it matches the conditional value
+              JSON.stringify(row[col.id]) === JSON.stringify(prop.value)
+            ) {
+              row[col.id] = col.defaultValue ?? null;
+            }
+          });
+        }
+
+        // Handle conditional sign (auto-negate for deduct, auto-positive for add back)
+        if (col.conditionalSign && col.conditionalSign.watchField) {
+          const watchFieldValue = row[col.conditionalSign.watchField];
+          const currentValue = row[col.id];
+
+          if (
+            currentValue !== null &&
+            currentValue !== undefined &&
+            currentValue !== ''
+          ) {
+            const numValue =
+              typeof currentValue === 'number'
+                ? currentValue
+                : Number.parseFloat(
+                    String(currentValue).replaceAll(/[^0-9.-]/g, ''),
+                  );
+
+            if (!Number.isNaN(numValue)) {
+              const { negateWhen = [], positiveWhen = [] } =
+                col.conditionalSign;
+
+              // Check if should be negative
+              if (negateWhen.includes(watchFieldValue)) {
+                const shouldBeNegative = -Math.abs(numValue);
+                if (row[col.id] !== shouldBeNegative) {
+                  row[col.id] = shouldBeNegative;
+                }
+              }
+              // Check if should be positive
+              else if (positiveWhen.includes(watchFieldValue)) {
+                const shouldBePositive = Math.abs(numValue);
+                if (row[col.id] !== shouldBePositive) {
+                  row[col.id] = shouldBePositive;
+                }
+              }
+            }
+          }
+        }
+      });
+    });
+  },
+  { deep: true },
+);
+
 const createCellField = (
   column: FormTemplateField,
   rowIndex: number,
@@ -221,6 +321,16 @@ const createCellField = (
   if (column.unique && column.options) {
     cellField.options = getAvailableOptions(rowIndex, column);
   }
+
+  // Apply conditional overrides
+  const overrides = getConditionalOverrides(column, rowIndex);
+  Object.assign(cellField, overrides);
+
+  // If field is disabled by another column's selection, mark it as readonly
+  if (isFieldDisabled(rowIndex, column.id)) {
+    cellField.readonly = true;
+  }
+
   return cellField;
 };
 
@@ -275,27 +385,7 @@ const isFieldDisabled = (rowIndex: number, colId: string): boolean => {
   return false;
 };
 
-const isFormula = (rowIndex: number, colId: string): boolean => {
-  const rawCell = rawTableData.value[rowIndex]?.[colId];
-  return (
-    typeof rawCell === 'object' && rawCell !== null && 'formula' in rawCell
-  );
-};
 
-const isCellEditable = (rowIndex: number, colId: string): boolean => {
-  const column = props.field.options?.columns?.find(
-    (c: FormTemplateField) => c.id === colId,
-  );
-  if (
-    !props.isEditMode ||
-    column?.readonly ||
-    isFormula(rowIndex, colId) ||
-    isFieldDisabled(rowIndex, colId)
-  ) {
-    return false;
-  }
-  return true;
-};
 
 const isCellRendered = (rowIndex: number, colId: string): boolean => {
   const fixedRows = props.field.options?.fixedRows;
@@ -341,11 +431,14 @@ const addRow = () => {
   // Validation: Check if any unique column has exhausted its options
   const columns = props.field.options?.columns || [];
   for (const column of columns) {
-    if (column.unique && column.options && Array.isArray(column.options)) {
-      if (rawTableData.value.length >= column.options.length) {
-        notifyError(`All options for ${column.label} have been used.`);
-        return;
-      }
+    if (
+      column.unique &&
+      column.options &&
+      Array.isArray(column.options) &&
+      rawTableData.value.length >= column.options.length
+    ) {
+      notifyError(`All options for ${column.label} have been used.`);
+      return;
     }
   }
 

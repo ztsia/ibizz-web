@@ -52,6 +52,10 @@ This is the most important object, defining a single form input and its behavior
 - **`addForm` (String, Optional):** Used with `inputType: "lookup"`. Specifies a form template ID to open in a modal when adding a new item.
 - **`readonly` (Boolean, Optional):** If `true`, the field is rendered in a read-only state.
 - **`defaultValue` (Any, Optional):** Sets the initial value of the field.
+- **`conditionalSign` (Object, Optional):** Used to automatically toggle the sign of a numeric value based on another field's value. _(Currently supported in `fixed_table` columns)_.
+  - `watchField` (String): The ID of the field to watch.
+  - `negateWhen` (Array<String>): Values of `watchField` that should cause this field's value to be negative.
+  - `positiveWhen` (Array<String>): Values of `watchField` that should cause this field's value to be positive.
 
 ---
 
@@ -81,8 +85,8 @@ These require an `options` array in the Field Object (or inside `options` proper
 - **`"currency"`**: Renders a numeric input (`InputNumber`) specifically for handling monetary values. It automatically formats the displayed value with thousand separators (e.g., "1,000,000") and handles parsing of the formatted string back to a number.
 - **`"countries"` / `"states"`**: These are special-purpose lookup slugs that render a pre-configured `LookupSelect` component for selecting countries or states.
 - **`"lookup"`**: Renders a generic, searchable `FormLookupInput` component.
-    - **`lookupSlug`**: The slug to fetch data from (e.g., `"labuan-entities"`).
-    - **`addForm`**: (Optional) ID of another form template to open in a modal for creating new entries.
+  - **`lookupSlug`**: The slug to fetch data from (e.g., `"labuan-entities"`).
+  - **`addForm`**: (Optional) ID of another form template to open in a modal for creating new entries.
 - **`"placeholder"`**: A special layout-only field. It renders an empty, invisible, full-width container. Its sole purpose is to act as a spacer to push subsequent fields to the next row in a multi-column layout.
 
 ### Complex Input: `fixed_table`
@@ -112,6 +116,11 @@ Cells within a `fixed_table` can have their values dynamically calculated using 
 - **Intra-row Formulas**: `"{quantity} * {price}"`
 - **Columnar Formulas**: `"SUM(ABOVE)"`
 - **External Data Formulas**: `"FALLBACK(fieldId1, fieldId2)"`
+- **Native Functions**:
+  - `SUM(tableData, colId)`: Sums all values in a column.
+  - `SUMIF(tableData, checkColId, checkValue, sumColId)`: Sums values where a condition is met.
+  - `SUM_POSITIVE(tableData, colId)`: Sums only positive values.
+  - `SUM_NEGATIVE(tableData, colId)`: Sums only negative values.
 
 **Example `fixed_table` Field:**
 
@@ -129,12 +138,24 @@ Cells within a `fixed_table` can have their values dynamically calculated using 
         "inputType": "select",
         "unique": true,
         "options": [
-          { "value": "sales", "label": "Sales", "disabledFields": ["purchases"] },
-          { "value": "purchases", "label": "Purchases", "disabledFields": ["sales"] }
+          {
+            "value": "sales",
+            "label": "Sales",
+            "disabledFields": ["purchases"]
+          },
+          {
+            "value": "purchases",
+            "label": "Purchases",
+            "disabledFields": ["sales"]
+          }
         ]
       },
       { "id": "sales", "label": "Sales Amount", "inputType": "currency" },
-      { "id": "purchases", "label": "Purchases Amount", "inputType": "currency" }
+      {
+        "id": "purchases",
+        "label": "Purchases Amount",
+        "inputType": "currency"
+      }
     ]
   }
 }
