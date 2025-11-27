@@ -643,6 +643,25 @@
           }
         ],
         "short_description": "Claims and adjustments table."
+      },
+      {
+        "id": "other-income-group-id",
+        "slug": "other-income",
+        "title": "Other Income",
+        "category_id": null,
+        "columns_schema": [
+          {
+            "key": "description",
+            "type": "string",
+            "label": "Description"
+          },
+          {
+            "key": "amount",
+            "type": "currency",
+            "label": "Amount"
+          }
+        ],
+        "short_description": "Other income sources."
       }
     ]
   },
@@ -1501,5 +1520,25 @@
   {
     "table_name": "lookup_provisions",
     "rows": []
+  },
+  {
+    "table_name": "lookup_other-income",
+    "rows": [
+      {
+        "id": 1,
+        "description": "Rental Income",
+        "amount": 5000
+      },
+      {
+        "id": 2,
+        "description": "Interest Income",
+        "amount": 1200
+      },
+      {
+        "id": 3,
+        "description": "Dividend Income",
+        "amount": 3000
+      }
+    ]
   }
 ]

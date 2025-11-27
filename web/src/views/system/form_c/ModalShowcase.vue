@@ -11,6 +11,7 @@
         >Open Adjustment and Claims Modal</Button
       >
       <Button @click="openProvisionsModal">Open Provisions Modal</Button>
+      <Button @click="openOtherIncomeModal">Open Other Income Modal</Button>
       <Button @click="openFormulaTestModal">Open Formula Test Modal</Button>
       <Button @click="openFixedTableTestModal"
         >Open Fixed Table Test Modal</Button
@@ -21,6 +22,8 @@
     <CP204Modal ref="cp204ModalRef" />
     <OtherParticularsModal ref="otherParticularsModalRef" />
     <AdjustmentClaimsModal ref="adjustmentClaimsModalRef" />
+    <ProvisionsModal ref="provisionsModalRef" />
+    <OtherIncomeModal ref="otherIncomeModalRef" />
     <FormulaTestModal ref="formulaTestModalRef" />
     <FixedTableTestModal ref="fixedTableTestModalRef" />
   </div>
@@ -32,6 +35,8 @@ import { Button } from '@vben-core/shadcn-ui';
 import CP204Modal from '../../tax-filing/components/shared/CP204Modal.vue';
 import OtherParticularsModal from '../../tax-filing/components/shared/OtherParticularsModal.vue';
 import AdjustmentClaimsModal from './components/AdjustmentClaimsModal.vue';
+import ProvisionsModal from './components/ProvisionsModal.vue';
+import OtherIncomeModal from './components/OtherIncomeModal.vue';
 import FormulaTestModal from './components/FormulaTestModal.vue';
 import FixedTableTestModal from './components/FixedTableTestModal.vue';
 
@@ -67,8 +72,24 @@ const openGenericFormModal = () => {
 };
 
 const openProvisionsModal = () => {
-  if (adjustmentClaimsModalRef.value) {
-    adjustmentClaimsModalRef.value.open('provisions_form');
+  if (provisionsModalRef.value) {
+    provisionsModalRef.value.open();
+  }
+};
+
+// Ref to access the ProvisionsModal component instance
+const provisionsModalRef = ref<InstanceType<typeof ProvisionsModal> | null>(
+  null,
+);
+
+// Ref to access the OtherIncomeModal component instance
+const otherIncomeModalRef = ref<InstanceType<typeof OtherIncomeModal> | null>(
+  null,
+);
+
+const openOtherIncomeModal = () => {
+  if (otherIncomeModalRef.value) {
+    otherIncomeModalRef.value.open();
   }
 };
 

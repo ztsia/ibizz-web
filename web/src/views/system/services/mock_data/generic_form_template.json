@@ -4355,5 +4355,63 @@
                 ]
             }
         ]
+    },
+    {
+        "id": "other_income_form",
+        "formName": "Other Income",
+        "yearOfAssessment": 2025,
+        "pages": [
+            {
+                "id": "page_main",
+                "title": "Other Income",
+                "sections": [
+                    {
+                        "part": "header_info",
+                        "title": "Company Information",
+                        "fields": [
+                            {
+                                "id": "year",
+                                "label": "Year",
+                                "inputType": "text",
+                                "readonly": true,
+                                "defaultValue": "2025"
+                            },
+                            {
+                                "id": "company_no",
+                                "label": "Company No.",
+                                "inputType": "text",
+                                "readonly": true,
+                                "defaultValue": "202407075678"
+                            },
+                            {
+                                "id": "company_name",
+                                "label": "Name",
+                                "inputType": "text",
+                                "readonly": true,
+                                "defaultValue": "ABCD SDN BHD"
+                            },
+                            {
+                                "id": "nature_of_business",
+                                "label": "Nature of Business",
+                                "inputType": "text",
+                                "readonly": true,
+                                "defaultValue": "Pembuatan produk tenusu lain t.t.t.l."
+                            }
+                        ]
+                    },
+                    {
+                        "part": "other_income_list_part",
+                        "title": "Other Income List",
+                        "fields": [
+                            {
+                                "id": "other_income_list",
+                                "label": "other-income",
+                                "inputType": "lookup"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
     }
 ]
