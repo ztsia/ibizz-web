@@ -41,7 +41,7 @@ const nativeFunctions = {
    */
   SUM: (tableData: any[], colId: string) => {
     if (!Array.isArray(tableData)) return 0;
-    // eslint-disable-next-line unicorn/no-array-reduce
+
     return tableData.reduce((sum, row) => {
       return sum + (Number.parseFloat(row[colId]) || 0);
     }, 0);

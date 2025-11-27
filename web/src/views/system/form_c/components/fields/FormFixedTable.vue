@@ -385,8 +385,6 @@ const isFieldDisabled = (rowIndex: number, colId: string): boolean => {
   return false;
 };
 
-
-
 const isCellRendered = (rowIndex: number, colId: string): boolean => {
   const fixedRows = props.field.options?.fixedRows;
   // If this row is a fixed row and its definition explicitly sets this cell to null, don't render.
