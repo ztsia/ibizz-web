@@ -84,6 +84,4 @@ const openOtherIncomeModal = () => {
     otherIncomeModalRef.value.open();
   }
 };
-
-
 </script>
