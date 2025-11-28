@@ -1522,22 +1522,25 @@
     "rows": []
   },
   {
-    "table_name": "lookup_other-income",
+    "table_name": "lookup_other_income",
     "rows": [
       {
         "id": 1,
         "description": "Rental Income",
-        "amount": 5000
+        "amount": 5000,
+        "gross_other_income_received": 6000
       },
       {
         "id": 2,
         "description": "Interest Income",
-        "amount": 1200
+        "amount": 1200,
+        "gross_other_income_received": 1500
       },
       {
         "id": 3,
         "description": "Dividend Income",
-        "amount": 3000
+        "amount": 3000,
+        "gross_other_income_received": 3200
       }
     ]
   }

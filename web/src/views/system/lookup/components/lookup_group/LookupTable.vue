@@ -268,6 +268,7 @@ const showDeleteModal = ref(false);
 const deleteTarget = ref<any | null>(null);
 const isBulkDelete = ref(false);
 const selectAllCheckbox = ref<HTMLInputElement | null>(null);
+const editingLookupItem = ref<any | null>(null);
 
 // Computed properties for the "Select All" checkbox state
 const visibleItemIds = computed(
@@ -575,8 +576,12 @@ function openAdd() {
  * Open the item form in "edit" mode for the provided item.
  */
 async function openEdit(item: any) {
+  editingLookupItem.value = item;
   let initialData = item;
+  let submissionId: string | undefined;
+  
   if (item.columns && item.columns.submissionId) {
+    submissionId = item.columns.submissionId;
     try {
       const submission = await getFormSubmission(item.columns.submissionId);
       if (submission) {
@@ -589,7 +594,7 @@ async function openEdit(item: any) {
   }
 
   if (props.addForm) {
-    genericFormModalRef.value?.open(props.addForm, { initialData });
+    genericFormModalRef.value?.open(props.addForm, { initialData, submissionId });
   } else {
     lookupItemFormRef.value?.open({
       initial: item,
@@ -600,9 +605,20 @@ async function openEdit(item: any) {
   }
 }
 
-function handleGenericSave(data: any) {
-  // data is the full form submission data
-  handleCreateOrUpdate({ columns: data, isGenericSubmission: true });
+function handleGenericSave(payload: any) {
+  // payload is { data, submissionId } from GenericFormModal
+  const data = payload.data || payload;
+  const submissionId = payload.submissionId;
+  
+  handleCreateOrUpdate({
+    columns: data,
+    id: editingLookupItem.value?.id,
+    submissionId: submissionId,
+    isGenericSubmission: true,
+    skipSubmissionSave: true,
+  });
+  
+  editingLookupItem.value = null;
 }
 
 /**
@@ -610,13 +626,13 @@ function handleGenericSave(data: any) {
  */
 async function handleCreateOrUpdate(payload: any) {
   let columnsToSave = payload.columns;
-  let submissionId = payload.id; // Use existing ID if updating
+  let submissionId = payload.submissionId;
 
-  if (payload.isGenericSubmission && props.addForm) {
-    // 1. Save the full submission
+  if (payload.isGenericSubmission && props.addForm && !payload.skipSubmissionSave) {
+    // 1. Save the full submission (only if not already saved)
     try {
       const submission = {
-        submissionId: payload.id || '', // Empty for new
+        submissionId: payload.submissionId || '', // Empty for new
         templateId: props.addForm,
         year: 2025, // TODO: Get from context or props
         data: payload.columns,
@@ -625,21 +641,17 @@ async function handleCreateOrUpdate(payload: any) {
       const savedSubmission = await saveFormSubmission(submission);
       submissionId = savedSubmission.submissionId;
 
-      // 2. Create summary for lookup table
-      // Extract fields that match the lookup columns
-      const summaryColumns: any = { submissionId };
-      props.columns?.forEach((col) => {
-        const key = col.key || col.name;
-        if (key && payload.columns[key] !== undefined) {
-          summaryColumns[key] = payload.columns[key];
-        }
-      });
-      columnsToSave = summaryColumns;
+      // Save all columns to support hidden fields for calculations
+      columnsToSave = { ...payload.columns, submissionId };
     } catch (error) {
       console.error('Failed to save generic submission:', error);
       notifyError('Failed to save form data.');
       return;
     }
+  } else if (payload.isGenericSubmission && payload.skipSubmissionSave) {
+    // Submission already saved by GenericFormModal, just prepare summary
+    // Save all columns to support hidden fields for calculations
+    columnsToSave = { ...payload.columns, submissionId };
   }
 
   const itemPayload = {

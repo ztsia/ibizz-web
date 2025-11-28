@@ -4196,9 +4196,120 @@
                         "title": "Other Income List",
                         "fields": [
                             {
+                                "id": "total_gross_other_income_received",
+                                "label": "Total gross other income received",
+                                "inputType": "currency",
+                                "readonly": true,
+                                "formula": "SUM(other_income_list_data, 'gross_other_income_received')"
+                            },
+                            {
+                                "id": "total_adjusted_income",
+                                "label": "Total Adjusted income from other income (RM)",
+                                "inputType": "currency",
+                                "readonly": true,
+                                "formula": "SUM(other_income_list_data, 'amount')"
+                            },
+                            {
                                 "id": "other_income_list",
                                 "label": "other-income",
-                                "inputType": "lookup"
+                                "inputType": "lookup",
+                                "addForm": "other_income_add_form",
+                                "defaultValue": [
+                                    1,
+                                    2,
+                                    3
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": "other_income_add_form",
+        "formName": "Add Other Income Item",
+        "yearOfAssessment": 2025,
+        "pages": [
+            {
+                "id": "page_add",
+                "title": "Add Other Income",
+                "sections": [
+                    {
+                        "part": "info",
+                        "title": "Information",
+                        "fields": [
+                            {
+                                "id": "description",
+                                "label": "Description",
+                                "inputType": "text",
+                                "required": true
+                            },
+                            {
+                                "id": "link_to_notes",
+                                "label": "Link to Notes To Account",
+                                "inputType": "select",
+                                "options": [
+                                    {
+                                        "label": "Note 1",
+                                        "value": "note_1"
+                                    },
+                                    {
+                                        "label": "Note 2",
+                                        "value": "note_2"
+                                    },
+                                    {
+                                        "label": "Note 3",
+                                        "value": "note_3"
+                                    }
+                                ]
+                            },
+                            {
+                                "id": "gross_other_income_received",
+                                "label": "Gross other income received",
+                                "inputType": "currency",
+                                "required": true
+                            }
+                        ]
+                    },
+                    {
+                        "part": "expenses",
+                        "title": "Direct Expenses",
+                        "fields": [
+                            {
+                                "id": "direct_expenses_table",
+                                "label": "Direct Expenses",
+                                "inputType": "fixed_table",
+                                "defaultValue": [],
+                                "options": {
+                                    "allowAddRow": true,
+                                    "columns": [
+                                        {
+                                            "id": "expense_description",
+                                            "label": "Less: Direct expenses",
+                                            "inputType": "text"
+                                        },
+                                        {
+                                            "id": "expense_amount",
+                                            "label": "Amount",
+                                            "inputType": "currency"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "id": "total_direct_expenses",
+                                "label": "Total Direct Expenses",
+                                "inputType": "currency",
+                                "readonly": true,
+                                "formula": "SUM(direct_expenses_table, 'expense_amount')"
+                            },
+                            {
+                                "id": "amount",
+                                "label": "Adjusted Income",
+                                "inputType": "currency",
+                                "readonly": true,
+                                "formula": "{gross_other_income_received} - {total_direct_expenses}"
                             }
                         ]
                     }

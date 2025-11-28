@@ -112,6 +112,7 @@ const loading = ref(true);
 const error = ref<string | null>(null);
 const currentTab = ref<string>('');
 const currentFormId = ref<string | null>(null);
+const currentSubmissionId = ref<string | null>(null);
 
 // Composables
 const { visibleFieldIds } = useVisibleFields(template, formData);
@@ -195,8 +196,9 @@ const load = async (formId: string) => {
   }
 };
 
-const open = async (formId: string, options?: { initialData?: any }) => {
+const open = async (formId: string, options?: { initialData?: any; submissionId?: string }) => {
   currentFormId.value = formId;
+  currentSubmissionId.value = options?.submissionId || null;
   await load(formId);
 
   if (options?.initialData) {
@@ -229,7 +231,7 @@ const onSave = async () => {
 
   try {
     const submissionToSave: FormSubmission = {
-      submissionId: '', // New submission
+      submissionId: currentSubmissionId.value || '', // Use existing submissionId if editing
       templateId: template.value._id || template.value.id || '',
       year: template.value.yearOfAssessment,
       data: formData.value,
@@ -243,7 +245,7 @@ const onSave = async () => {
     originalFormData.value = JSON.parse(JSON.stringify(savedSubmission.data));
 
     message.success('Form saved successfully!');
-    emit('save', savedSubmission.data);
+    emit('save', { data: savedSubmission.data, submissionId: savedSubmission.submissionId });
     modalApi.close();
   } catch (error_: any) {
     message.error(error_.message || 'Failed to save form.');
