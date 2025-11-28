@@ -92,7 +92,7 @@ const tableColumns = computed(() => {
       multiline: !!c.multiline,
     }));
   }
-  
+
   // Fallback to shared lookup group (Legacy Mode)
   const g = group.value;
   if (!g || !Array.isArray(g.columns_schema)) return [];

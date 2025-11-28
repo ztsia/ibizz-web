@@ -7,14 +7,14 @@ export interface Option {
 export interface ShowIf {
   fieldId?: string;
   operator:
-  | 'equals'
-  | 'not_equals'
-  | 'or'
-  | 'and'
-  | 'gt'
-  | 'gte'
-  | 'lt'
-  | 'lte';
+    | 'equals'
+    | 'not_equals'
+    | 'or'
+    | 'and'
+    | 'gt'
+    | 'gte'
+    | 'lt'
+    | 'lte';
   value?: any;
   valueFromField?: string;
   conditions?: ShowIf[];

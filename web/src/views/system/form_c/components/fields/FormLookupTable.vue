@@ -187,7 +187,10 @@
       @cancel="cancelDelete"
     />
 
-    <form-lookup-item-form ref="formLookupItemFormRef" @save="handleCreateOrUpdate" />
+    <form-lookup-item-form
+      ref="formLookupItemFormRef"
+      @save="handleCreateOrUpdate"
+    />
     <GenericFormModal ref="genericFormModalRef" @save="handleGenericSave" />
   </div>
 </template>
@@ -764,7 +767,10 @@ async function remove(item: any) {
   const before = [...localItems.value];
   localItems.value = localItems.value.filter((i) => i.id !== item.id);
   try {
-    await formLookupService.deleteItem(effectiveGroupId() || 'unknown', item.id);
+    await formLookupService.deleteItem(
+      effectiveGroupId() || 'unknown',
+      item.id,
+    );
     notifySuccess('Item deleted');
     emit('delete', item.id);
     try {
