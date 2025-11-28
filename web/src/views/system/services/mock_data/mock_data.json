@@ -163,6 +163,35 @@
         "short_description": "Malaysian Standard Industrial Classification codes."
       },
       {
+        "id": "provisions-group-id",
+        "slug": "provisions",
+        "title": "Provisions",
+        "code_regex": null,
+        "created_at": "2025-11-27T10:00:00.000000+00:00",
+        "updated_at": "2025-11-27T10:00:00.000000+00:00",
+        "category_id": "tax",
+        "code_format": null,
+        "columns_schema": [
+          {
+            "key": "provision",
+            "type": "string",
+            "label": "Provision",
+            "required": true
+          },
+          {
+            "key": "ref",
+            "type": "string",
+            "label": "Ref"
+          },
+          {
+            "key": "amount",
+            "type": "currency",
+            "label": "Amount (RM)"
+          }
+        ],
+        "short_description": "Provisions lookup table."
+      },
+      {
         "id": "984f3f5c-7cce-43b9-8281-1e32e0f9c620",
         "slug": "asset-type",
         "title": "Asset Type",
@@ -519,6 +548,39 @@
         "short_description": "Various job positions or roles."
       },
       {
+        "id": "5abf60d4-7b8b-480c-a0f1-dd59365e5e8a",
+        "slug": "labuan-entities",
+        "title": "Labuan Entities",
+        "category_id": null,
+        "columns_schema": [
+          {
+            "key": "name",
+            "type": "string",
+            "label": "Name of Company",
+            "required": true
+          },
+          {
+            "key": "registration_no",
+            "type": "string",
+            "label": "Registration No.",
+            "required": true
+          },
+          {
+            "key": "tin",
+            "type": "string",
+            "label": "Income Tax No",
+            "required": true
+          },
+          {
+            "key": "transaction_related",
+            "type": "boolean",
+            "label": "Transaction with Subsidiary Company/Related Entity(ies)",
+            "required": true
+          }
+        ],
+        "short_description": "List of subsidiary companies or related entities in Labuan."
+      },
+      {
         "id": "nested-items-group-id",
         "slug": "nested-items",
         "title": "Nested Items",
@@ -542,6 +604,64 @@
           }
         ],
         "short_description": "Mock table for nested lookup testing."
+      },
+      {
+        "id": "claims-group-id",
+        "slug": "claims",
+        "title": "Claims",
+        "category_id": null,
+        "columns_schema": [
+          {
+            "key": "print_sequence",
+            "type": "string",
+            "label": "Print Seq."
+          },
+          {
+            "key": "type",
+            "type": "string",
+            "label": "Type"
+          },
+          {
+            "key": "type_of_tax_exempt",
+            "type": "string",
+            "label": "Type of Tax Exempt"
+          },
+          {
+            "key": "claim_type",
+            "type": "string",
+            "label": "Claim Type"
+          },
+          {
+            "key": "description",
+            "type": "string",
+            "label": "Description"
+          },
+          {
+            "key": "amount",
+            "type": "double",
+            "label": "Amount"
+          }
+        ],
+        "short_description": "Claims and adjustments table."
+      },
+      {
+        "id": "other-income-group-id",
+        "slug": "other-income",
+        "title": "Other Income",
+        "category_id": null,
+        "columns_schema": [
+          {
+            "key": "description",
+            "type": "string",
+            "label": "Description"
+          },
+          {
+            "key": "amount",
+            "type": "currency",
+            "label": "Amount"
+          }
+        ],
+        "short_description": "Other income sources."
       }
     ]
   },

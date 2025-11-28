@@ -170,6 +170,8 @@ const load = async (formId: string) => {
         section.fields?.forEach((field) => {
           if (field.inputType === 'fixed_table') {
             initialData[field.id] = [];
+            // Initialize _data field for formulas that reference fixed_table data
+            initialData[`${field.id}_data`] = [];
           } else if (field.inputType === 'lookup') {
             initialData[field.id] = [];
             // Initialize _data field for formulas that reference lookup data

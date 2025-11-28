@@ -92,6 +92,7 @@ export async function listItems(groupId: string | null, opts: any = {}) {
 
 /**
  * Get a single item by ID.
+ * @endpoint GET /api/form-lookup/data/:slug/:id
  */
 export async function getItem(groupId: string | null, itemId: any) {
   initializeDB();
@@ -169,6 +170,7 @@ export async function updateItem(
 
 /**
  * Delete a single item.
+ * @endpoint DELETE /api/form-lookup/data/:slug/:id
  */
 export async function deleteItem(groupId: string | null, itemId: any) {
   initializeDB();
@@ -182,6 +184,8 @@ export async function deleteItem(groupId: string | null, itemId: any) {
 
 /**
  * Delete multiple items.
+ * @endpoint POST /api/form-lookup/data/:slug/batch-delete
+ * @payload { ids: [] }
  */
 export async function deleteItems(groupId: string | null, itemIds: any[]) {
   initializeDB();
@@ -201,6 +205,7 @@ export async function deleteItems(groupId: string | null, itemIds: any[]) {
 /**
  * Get table columns metadata.
  * This reads from the form_lookup_data.json schema.
+ * @endpoint GET /api/form-lookup/schema/:slug
  */
 export async function getTableColumns(groupSlug: string | null) {
   await delay();

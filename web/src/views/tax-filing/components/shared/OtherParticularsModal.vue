@@ -280,7 +280,7 @@ const scrollToTop = () => {
 async function load() {
   loading.value = true;
   try {
-    const context = await getFormContext();
+    const context = await getFormContext('other_particulars', { latest: true });
     template.value = context.template;
     if (context.submission) {
       // eslint-disable-next-line unicorn/prefer-structured-clone

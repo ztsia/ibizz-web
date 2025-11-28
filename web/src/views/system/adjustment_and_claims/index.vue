@@ -24,10 +24,18 @@ const formData = ref<Record<string, any>>({
 
 const claimField: FormTemplateField = {
   id: 'claims',
-  label: 'Adjustment and Claims', // This should match a lookup slug or be handled by the component
+  label: 'claims',
   inputType: 'lookup',
-  addForm: 'adjustment_claims_form', // This triggers the GenericFormModal
+  addForm: 'adjustment_claims_form',
   required: false,
+  columns: [
+    { key: 'print_sequence', type: 'string', label: 'Print Seq.' },
+    { key: 'type', type: 'string', label: 'Type' },
+    { key: 'type_of_tax_exempt', type: 'string', label: 'Type of Tax Exempt' },
+    { key: 'claim_type', type: 'string', label: 'Claim Type' },
+    { key: 'description', type: 'string', label: 'Description' },
+    { key: 'amount', type: 'double', label: 'Amount' },
+  ],
 };
 
 function handleFieldUpdate({

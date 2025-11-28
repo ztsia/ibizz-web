@@ -94,7 +94,7 @@ import { useVbenModal } from '@vben/common-ui';
 import {
   getFormContext,
   saveFormSubmission,
-} from '../../../system/services/cp204_service';
+} from '../../../system/services/generic_form_service';
 import type {
   FormTemplate,
   FormSubmission,
@@ -173,7 +173,7 @@ const load = async () => {
   loading.value = true;
   error.value = null;
   try {
-    const context = await getFormContext();
+    const context = await getFormContext('form_cp204_2024', { latest: true });
     template.value = context.template;
     if (context.submission) {
       // eslint-disable-next-line unicorn/prefer-structured-clone

@@ -185,3 +185,51 @@ The `show_if` object provides powerful conditional rendering for pages, sections
 ## 7. Form Submission Data
 
 The `form_submission.json` file stores the actual user-entered data. Its structure is a simple key-value map where the keys **must exactly match** the `id` attributes of the fields defined in the `form_template.json`.
+
+---
+
+## 8. System Architecture & Integration
+
+The form system is built on a centralized architecture that separates data (templates) from logic (services) and presentation (components).
+
+### Core Services
+
+1.  **`generic_form_service.ts`**: The primary entry point for form operations.
+    - **Purpose**: Manages form templates and submissions.
+    - **Key Functions**: `getFormContext(formId)`, `saveFormSubmission(data)`.
+    - **Integration**: Connects to the backend API to fetch JSON templates and persist user data.
+
+2.  **`formLookupManager.service.ts`**: Handles isolated lookup data.
+    - **Purpose**: Manages form-specific lookup tables (e.g., "Claims List", "Provisions").
+    - **Key Functions**: `listItems(slug)`, `createItem(slug, data)`.
+    - **Integration**: Connects to a dedicated lookup API to ensure form data is isolated from system-wide lookups.
+
+### Component Usage
+
+The **`GenericFormModal`** is the universal container for all forms.
+
+```vue
+<template>
+  <GenericFormModal ref="modalRef" />
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { GenericFormModal } from '@/views/system/form_c/components';
+
+const modalRef = ref(null);
+
+// Open any form by its ID
+function openForm() {
+  modalRef.value?.open('form_c_2025');
+}
+</script>
+```
+
+### Registering a New Form
+
+1.  **Define Template**: Add a new `FormTemplate` object to `generic_form_template.json`.
+2.  **Define ID**: Ensure the `id` (e.g., `"my_new_form"`) is unique.
+3.  **Open**: Call `GenericFormModal.open('my_new_form')`.
+
+No new Vue files are needed for standard forms! The system automatically renders pages, sections, and fields based on your JSON definition.

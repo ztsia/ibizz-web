@@ -17,9 +17,9 @@
     <!-- Render the CP204Modal component, but keep it hidden initially -->
     <CP204Modal ref="cp204ModalRef" />
     <OtherParticularsModal ref="otherParticularsModalRef" />
-    <AdjustmentClaimsModal ref="adjustmentClaimsModalRef" />
-    <ProvisionsModal ref="provisionsModalRef" />
-    <OtherIncomeModal ref="otherIncomeModalRef" />
+    <GenericFormModal ref="adjustmentClaimsModalRef" />
+    <GenericFormModal ref="provisionsModalRef" />
+    <GenericFormModal ref="otherIncomeModalRef" />
   </div>
 </template>
 
@@ -28,9 +28,7 @@ import { ref } from 'vue';
 import { Button } from '@vben-core/shadcn-ui';
 import CP204Modal from '../../tax-filing/components/shared/CP204Modal.vue';
 import OtherParticularsModal from '../../tax-filing/components/shared/OtherParticularsModal.vue';
-import AdjustmentClaimsModal from './components/AdjustmentClaimsModal.vue';
-import ProvisionsModal from './components/ProvisionsModal.vue';
-import OtherIncomeModal from './components/OtherIncomeModal.vue';
+import GenericFormModal from './components/GenericFormModal.vue';
 
 // Ref to access the CP204Modal component instance
 const cp204ModalRef = ref<InstanceType<typeof CP204Modal> | null>(null);
@@ -52,9 +50,9 @@ const openOtherParticularsModal = () => {
   }
 };
 
-// Ref to access the AdjustmentClaimsModal component instance
+// Ref to access the GenericFormModal component instance
 const adjustmentClaimsModalRef = ref<InstanceType<
-  typeof AdjustmentClaimsModal
+  typeof GenericFormModal
 > | null>(null);
 
 const openGenericFormModal = () => {
@@ -63,25 +61,25 @@ const openGenericFormModal = () => {
   }
 };
 
-const openProvisionsModal = () => {
-  if (provisionsModalRef.value) {
-    provisionsModalRef.value.open();
-  }
-};
-
 // Ref to access the ProvisionsModal component instance
-const provisionsModalRef = ref<InstanceType<typeof ProvisionsModal> | null>(
+const provisionsModalRef = ref<InstanceType<typeof GenericFormModal> | null>(
   null,
 );
 
+const openProvisionsModal = () => {
+  if (provisionsModalRef.value) {
+    provisionsModalRef.value.open('provisions_form');
+  }
+};
+
 // Ref to access the OtherIncomeModal component instance
-const otherIncomeModalRef = ref<InstanceType<typeof OtherIncomeModal> | null>(
+const otherIncomeModalRef = ref<InstanceType<typeof GenericFormModal> | null>(
   null,
 );
 
 const openOtherIncomeModal = () => {
   if (otherIncomeModalRef.value) {
-    otherIncomeModalRef.value.open();
+    otherIncomeModalRef.value.open('other_income_form');
   }
 };
 </script>
