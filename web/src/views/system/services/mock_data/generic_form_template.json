@@ -4214,6 +4214,20 @@
                                 "label": "other-income",
                                 "inputType": "lookup",
                                 "addForm": "other_income_add_form",
+                                "columns": [
+                                    {
+                                        "key": "description",
+                                        "label": "Description",
+                                        "type": "text",
+                                        "required": true
+                                    },
+                                    {
+                                        "key": "amount",
+                                        "label": "Adjusted Income (RM)",
+                                        "type": "currency",
+                                        "required": true
+                                    }
+                                ],
                                 "defaultValue": [
                                     1,
                                     2,

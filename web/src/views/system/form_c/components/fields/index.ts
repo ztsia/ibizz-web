@@ -4,3 +4,5 @@ export { default as ViewField } from './ViewField.vue';
 export { default as ReadonlyNoteField } from './ReadonlyNoteField.vue';
 export { default as UnknownField } from './UnknownField.vue';
 export { default as FormLookupInput } from './FormLookupInput.vue';
+export { default as FormLookupTable } from './FormLookupTable.vue';
+export { default as FormLookupItemForm } from './FormLookupItemForm.vue';

@@ -13,7 +13,8 @@
           form. Unchecked items will be ignored and not saved.
         </p>
       </div>
-      <LookupTable
+      <component
+        :is="isFormLookup ? FormLookupTable : LookupTable"
         :key="tableSlug"
         :group-id="tableSlug"
         :group="group"
@@ -43,7 +44,9 @@ import { Info } from 'lucide-vue-next';
 import { ref, computed, onMounted, inject, watch } from 'vue';
 import type { FormTemplateField } from '../../types';
 import { LookupTable } from '../../../lookup/components';
+import { FormLookupTable } from '.';
 import * as lookupService from '../../../services';
+import * as formLookupService from '../../services/formLookupManager.service';
 // @ts-ignore
 import { GeneratePdfControl } from '../';
 
@@ -68,9 +71,29 @@ const fieldValue = computed({
   set: (value) => emit('update:field', { fieldId: props.field.id, value }),
 });
 
-const tableSlug = computed(() => props.field.label);
+const isFormLookup = computed(() => !!props.field.columns);
+
+const tableSlug = computed(() => {
+  if (isFormLookup.value) {
+    return props.field.id; // Use field ID as the slug for form lookups
+  }
+  return props.field.label; // Legacy: use label for shared lookups
+});
 
 const tableColumns = computed(() => {
+  // Check if columns are defined inline (Form Lookup Mode)
+  if (isFormLookup.value && Array.isArray(props.field.columns)) {
+    return props.field.columns.map((c: any) => ({
+      key: c.key || c.name || c.label,
+      name: c.key || c.name || c.label,
+      label: c.label || c.key || c.name,
+      type: c.type || 'text',
+      required: !!c.required,
+      multiline: !!c.multiline,
+    }));
+  }
+  
+  // Fallback to shared lookup group (Legacy Mode)
   const g = group.value;
   if (!g || !Array.isArray(g.columns_schema)) return [];
   return g.columns_schema.map((c: any) => ({
@@ -88,8 +111,9 @@ function handleSelectionChange(newSelection: string[]) {
 }
 
 async function providePdfData(): Promise<Record<string, any>> {
+  const service = isFormLookup.value ? formLookupService : lookupService;
   // 1. Fetch fresh data
-  const result = await lookupService.listItems(tableSlug.value, {
+  const result = await service.listItems(tableSlug.value || null, {
     perPage: 9999,
   });
   const rawRows = Array.isArray(result) ? result : result?.items || [];
@@ -116,7 +140,7 @@ async function providePdfData(): Promise<Record<string, any>> {
     group.value?.slug ||
     props.field.label;
 
-  const headers = tableColumns.value.map((col) => ({
+  const headers = tableColumns.value.map((col: any) => ({
     key: col.key,
     label: col.label,
   }));
@@ -132,8 +156,18 @@ async function providePdfData(): Promise<Record<string, any>> {
 }
 
 onMounted(async () => {
-  if (tableSlug.value) {
-    group.value = await lookupService.findGroupBySlug(tableSlug.value);
+  if (isFormLookup.value) {
+    // Form Lookup Mode: create a virtual group object
+    group.value = {
+      slug: tableSlug.value,
+      title: props.field.label,
+      columns_schema: props.field.columns,
+    };
+  } else {
+    // Shared Lookup Mode: fetch from lookup service
+    if (tableSlug.value) {
+      group.value = await lookupService.findGroupBySlug(tableSlug.value);
+    }
   }
 });
 
@@ -147,7 +181,8 @@ watch(
     }
     if (tableSlug.value) {
       try {
-        const items = await lookupService.getItems(tableSlug.value, newIds);
+        const service = isFormLookup.value ? formLookupService : lookupService;
+        const items = await service.getItems(tableSlug.value, newIds);
         const mappedData = items.map((i: any) => i.columns);
         // eslint-disable-next-line vue/no-mutating-props
         props.formData[`${props.field.id}_data`] = mappedData;

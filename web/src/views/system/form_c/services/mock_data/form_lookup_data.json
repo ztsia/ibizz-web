@@ -1,0 +1,146 @@
+[
+    {
+        "id": "5abf60d4-7b8b-480c-a0f1-dd59365e5e8a",
+        "slug": "labuan-entities",
+        "title": "Labuan Entities",
+        "created_at": "2025-11-28T00:00:00.000000+00:00",
+        "updated_at": "2025-11-28T00:00:00.000000+00:00",
+        "category_id": null,
+        "columns_schema": [
+            {
+                "key": "name",
+                "type": "string",
+                "label": "Name of Company",
+                "required": true
+            },
+            {
+                "key": "registration_no",
+                "type": "string",
+                "label": "Registration No.",
+                "required": true
+            },
+            {
+                "key": "tin",
+                "type": "string",
+                "label": "Income Tax No",
+                "required": true
+            },
+            {
+                "key": "transaction_related",
+                "type": "boolean",
+                "label": "Transaction with Subsidiary Company/Related Entity(ies)",
+                "required": true
+            }
+        ],
+        "short_description": "List of subsidiary companies or related entities in Labuan.",
+        "validation": {
+            "code_regex": null,
+            "code_format": null
+        },
+        "rows": []
+    },
+    {
+        "id": "claims-group-id",
+        "slug": "claims",
+        "title": "Claims",
+        "created_at": "2025-11-28T00:00:00.000000+00:00",
+        "updated_at": "2025-11-28T00:00:00.000000+00:00",
+        "category_id": null,
+        "columns_schema": [
+            {
+                "key": "print_sequence",
+                "type": "string",
+                "label": "Print Seq."
+            },
+            {
+                "key": "type",
+                "type": "string",
+                "label": "Type"
+            },
+            {
+                "key": "type_of_tax_exempt",
+                "type": "string",
+                "label": "Type of Tax Exempt"
+            },
+            {
+                "key": "claim_type",
+                "type": "string",
+                "label": "Claim Type"
+            },
+            {
+                "key": "description",
+                "type": "string",
+                "label": "Description"
+            },
+            {
+                "key": "amount",
+                "type": "double",
+                "label": "Amount"
+            }
+        ],
+        "short_description": "Claims and adjustments table.",
+        "validation": {
+            "code_regex": null,
+            "code_format": null
+        },
+        "rows": []
+    },
+    {
+        "id": "other-income-group-id",
+        "slug": "other-income",
+        "title": "Other Income",
+        "created_at": "2025-11-28T00:00:00.000000+00:00",
+        "updated_at": "2025-11-28T00:00:00.000000+00:00",
+        "category_id": null,
+        "columns_schema": [
+            {
+                "key": "description",
+                "type": "string",
+                "label": "Description"
+            },
+            {
+                "key": "amount",
+                "type": "currency",
+                "label": "Amount"
+            }
+        ],
+        "short_description": "Other income sources.",
+        "validation": {
+            "code_regex": null,
+            "code_format": null
+        },
+        "rows": []
+    },
+    {
+        "id": "provisions-group-id",
+        "slug": "provisions",
+        "title": "Provisions",
+        "created_at": "2025-11-28T00:00:00.000000+00:00",
+        "updated_at": "2025-11-28T00:00:00.000000+00:00",
+        "category_id": null,
+        "columns_schema": [
+            {
+                "key": "provision",
+                "type": "string",
+                "label": "Provision",
+                "required": true
+            },
+            {
+                "key": "ref",
+                "type": "string",
+                "label": "Ref"
+            },
+            {
+                "key": "amount",
+                "type": "currency",
+                "label": "Amount (RM)"
+            }
+        ],
+        "short_description": "Provisions lookup table.",
+        "validation": {
+            "code_regex": null,
+            "code_format": null
+        },
+        "rows": []
+    }
+]
