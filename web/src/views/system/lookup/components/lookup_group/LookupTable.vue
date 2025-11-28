@@ -579,7 +579,7 @@ async function openEdit(item: any) {
   editingLookupItem.value = item;
   let initialData = item;
   let submissionId: string | undefined;
-  
+
   if (item.columns && item.columns.submissionId) {
     submissionId = item.columns.submissionId;
     try {
@@ -594,7 +594,10 @@ async function openEdit(item: any) {
   }
 
   if (props.addForm) {
-    genericFormModalRef.value?.open(props.addForm, { initialData, submissionId });
+    genericFormModalRef.value?.open(props.addForm, {
+      initialData,
+      submissionId,
+    });
   } else {
     lookupItemFormRef.value?.open({
       initial: item,
@@ -609,15 +612,15 @@ function handleGenericSave(payload: any) {
   // payload is { data, submissionId } from GenericFormModal
   const data = payload.data || payload;
   const submissionId = payload.submissionId;
-  
+
   handleCreateOrUpdate({
     columns: data,
     id: editingLookupItem.value?.id,
-    submissionId: submissionId,
+    submissionId,
     isGenericSubmission: true,
     skipSubmissionSave: true,
   });
-  
+
   editingLookupItem.value = null;
 }
 
@@ -628,7 +631,11 @@ async function handleCreateOrUpdate(payload: any) {
   let columnsToSave = payload.columns;
   let submissionId = payload.submissionId;
 
-  if (payload.isGenericSubmission && props.addForm && !payload.skipSubmissionSave) {
+  if (
+    payload.isGenericSubmission &&
+    props.addForm &&
+    !payload.skipSubmissionSave
+  ) {
     // 1. Save the full submission (only if not already saved)
     try {
       const submission = {

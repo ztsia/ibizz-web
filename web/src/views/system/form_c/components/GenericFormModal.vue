@@ -196,7 +196,10 @@ const load = async (formId: string) => {
   }
 };
 
-const open = async (formId: string, options?: { initialData?: any; submissionId?: string }) => {
+const open = async (
+  formId: string,
+  options?: { initialData?: any; submissionId?: string },
+) => {
   currentFormId.value = formId;
   currentSubmissionId.value = options?.submissionId || null;
   await load(formId);
@@ -245,7 +248,10 @@ const onSave = async () => {
     originalFormData.value = JSON.parse(JSON.stringify(savedSubmission.data));
 
     message.success('Form saved successfully!');
-    emit('save', { data: savedSubmission.data, submissionId: savedSubmission.submissionId });
+    emit('save', {
+      data: savedSubmission.data,
+      submissionId: savedSubmission.submissionId,
+    });
     modalApi.close();
   } catch (error_: any) {
     message.error(error_.message || 'Failed to save form.');
